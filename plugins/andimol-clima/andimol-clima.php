@@ -36,8 +36,8 @@ class Andimol_Clima extends WP_Widget {
 			//date_default_timezone_set("America/Argentina/Buenos_Aires");
 			setlocale(LC_ALL,"es_ES");
 			
-			/* ID de ciudad */
-			$openweathermap_id 		= $instance['ac_id'];
+			
+			$openweathermap_id 		= $instance['ac_id']; // ID de ciudad
 			$openweathermap_lang 	= 'es';
 			$openweathermap_api_id 	= $instance['ac_appid'];
 			$openweathermap_lat 	= $instance['ac_lat'];
@@ -47,7 +47,14 @@ class Andimol_Clima extends WP_Widget {
 			
 			// CONSULTAMOS CLIMA
 			//$json_file = file_get_contents('http://api.openweathermap.org/data/2.5/weather?lat='.$openweathermap_lat.'&lon='.$openweathermap_long.'&lang='.$openweathermap_lang.'&appid='.$openweathermap_api_id.'&units=metric');
-			$url_ws = 'http://api.openweathermap.org/data/2.5/weather?lat='.$openweathermap_lat.'&lon='.$openweathermap_long.'&appid='.$openweathermap_api_id.'&';
+			
+			//FIXED: segun documentacion (https://openweathermap.org/appid) es mas preciso llamar por cityID que por geocoord
+
+			$url_ws = 'http://api.openweathermap.org/data/2.5/weather?';
+			$url_ws .= ( isset( $openweathermap_id ) ) ? 'id='.$openweathermap_id : 'lat='.$openweathermap_lat.'&lon='.$openweathermap_long;
+			$url_ws .= '&appid='.$openweathermap_api_id.'&';
+
+
 
 			# JSON DE CLIMA FISICO LOCAL
 			$name_file 	= dirname(__FILE__).'/json/data_clima.json';
@@ -71,7 +78,8 @@ class Andimol_Clima extends WP_Widget {
 				//echo normaliceFecha($hora_actual).'-'.normaliceFecha($hora_archivo).'<br>'."\r";
 				//echo $horas_resta.'<='.$segundos_validos.'<br>'."\r";
 				
-				if($horas_resta<=$segundos_validos){
+				if($horas_resta >=0 && $horas_resta<=$segundos_validos){
+					//FIXED: added $horas_resta >=0 otherwise doesn't update on the next day
 					$vars = json_decode(file_get_contents($name_file));
 					$status = 'On time';
 					//echo $horas_resta.'<='.$segundos_validos.'<br>'."\r";
