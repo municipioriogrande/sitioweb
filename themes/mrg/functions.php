@@ -886,6 +886,15 @@ function pp_enqueue_front_page_scripts() {
 	//Add custom colors and fonts
 	wp_enqueue_style("custom_css", get_template_directory_uri()."/templates/custom-css.php", false, THEMEVERSION, "all");
 	
+
+
+
+
+	wp_enqueue_style("main", get_template_directory_uri()."/css/fixes.css", false, THEMEVERSION);
+
+
+
+
 	//Get all Google Web font CSS
 	global $gg_fonts;
 	

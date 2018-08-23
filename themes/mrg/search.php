@@ -11,7 +11,7 @@ get_header();
 <br class="clear"/>
 <div id="page_caption">
 	<div class="page_title_wrapper">
-		<h1><?php printf( __( 'Search Results for &quot;%s&quot;', '' ), '' . get_search_query() . '' ); ?></h1>
+		<h1><?php printf( __( 'Search Results for &quot;%s&quot;', THEMEDOMAIN ), '' . get_search_query() . '' ); ?></h1>
 	</div>
 </div>
 <br class="clear"/>
@@ -89,24 +89,7 @@ if (have_posts()) : while (have_posts()) : the_post();
 					</a>
 				</div>
 			    <div class="post_header">
-			    	<h6><a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a></h6>
-			    	<div class="post_detail">
-					    <?php echo _e( 'Posted On', THEMEDOMAIN ); ?>&nbsp;<?php echo get_the_time(THEMEDATEFORMAT); ?>&nbsp;
-					    <?php
-					    	$author_ID = get_the_author_meta('ID');
-					    	$author_name = get_the_author();
-					    	$author_url = get_author_posts_url($author_ID);
-					    	
-					    	if(!empty($author_name))
-					    	{
-					    ?>
-					    	<?php echo _e( 'By', THEMEDOMAIN ); ?>&nbsp;<a href="<?php echo $author_url; ?>"><?php echo $author_name; ?></a>&nbsp;
-					    <?php
-					    	}
-					    ?>
-					    <?php echo _e( 'And has', THEMEDOMAIN ); ?>&nbsp;<a href="<?php comments_link(); ?>"><?php comments_number(__('No Comment', THEMEDOMAIN), __('1 Comment', THEMEDOMAIN), __('% Comments', THEMEDOMAIN)); ?></a>
-					</div>
-				    
+			    	<h6><a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>" style="text-decoration:underline"><?php the_title(); ?></a></h6>				    
 				    <?php
 				    	the_excerpt();
 				    ?>

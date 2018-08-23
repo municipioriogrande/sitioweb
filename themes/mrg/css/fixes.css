@@ -1,0 +1,29 @@
+.top_bar #searchform {
+    margin-right: 2em;
+}
+
+.top_bar #searchform input {
+	margin-left: 6px;
+	width: 200px;
+}
+
+.top_bar #searchform label {
+    margin-bottom: 8px;
+}
+
+#page_content_wrapper .search_form_wrapper {
+	float: none;
+	width: auto;
+	max-width: 600px;
+	margin: 0 auto;
+	margin-bottom: 4em;
+}
+
+#page_content_wrapper .inner .sidebar_content {
+	float: none;
+	margin: 0 auto;
+	width: 1080px;
+}
+#page_content_wrapper .inner .sidebar_content .searchform .searchform-s {
+	width: 76% !important;
+}
