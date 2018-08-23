@@ -1,0 +1,726 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minos Theme\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-10-12 17:52-0300\n"
+"PO-Revision-Date: 2017-10-12 17:53-0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;gettext;gettext_noop;_e;_n\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 2.0.4\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../author.php:31
+msgid "Entries By"
+msgstr ""
+
+#: ../author.php:61
+msgid "About"
+msgstr ""
+
+#: ../author.php:158 ../author.php:188 ../author.php:223 ../search.php:94
+#: ../single-post-f.php:218 ../single-post-l.php:222 ../single-post-r.php:220
+msgid "Posted On"
+msgstr ""
+
+#: ../author.php:167 ../author.php:197 ../author.php:232 ../blog_f.php:198
+#: ../blog_f.php:246 ../blog_l.php:237 ../blog_l.php:285 ../blog_r.php:215
+#: ../blog_r.php:263 ../index.php:158 ../index.php:206 ../search.php:103
+#: ../single-post-f.php:60 ../single-post-f.php:187 ../single-post-f.php:227
+#: ../single-post-l.php:60 ../single-post-l.php:191 ../single-post-l.php:231
+#: ../single-post-r.php:59 ../single-post-r.php:189 ../single-post-r.php:229
+msgid "By"
+msgstr ""
+
+#: ../author.php:171 ../author.php:201 ../author.php:236 ../search.php:107
+#: ../single-post-f.php:231 ../single-post-l.php:235 ../single-post-r.php:233
+msgid "And has"
+msgstr ""
+
+#: ../author.php:171 ../author.php:201 ../author.php:236 ../search.php:107
+#: ../single-post-f.php:231 ../single-post-l.php:235 ../single-post-r.php:233
+msgid "No Comment"
+msgstr ""
+
+#: ../author.php:171 ../author.php:201 ../author.php:236 ../search.php:107
+#: ../single-post-f.php:231 ../single-post-l.php:235 ../single-post-r.php:233
+msgid "1 Comment"
+msgstr ""
+
+#: ../author.php:171 ../author.php:201 ../author.php:236 ../search.php:107
+#: ../single-post-f.php:231 ../single-post-l.php:235 ../single-post-r.php:233
+msgid "% Comments"
+msgstr ""
+
+#: ../author.php:252 ../blog_f.php:175 ../blog_f.php:225 ../blog_f.php:286
+#: ../blog_g.php:167 ../blog_gf.php:187 ../blog_l.php:214 ../blog_l.php:264
+#: ../blog_l.php:325 ../blog_r.php:192 ../blog_r.php:242 ../blog_r.php:303
+#: ../blog_r2.php:197 ../index.php:137 ../index.php:185 ../index.php:246
+#: ../single-post-f.php:513
+msgid "Read More"
+msgstr ""
+
+#: ../author.php:290 ../blog_f.php:322 ../blog_g.php:208 ../blog_gf.php:228
+#: ../blog_l.php:363 ../blog_r.php:341 ../blog_r2.php:238 ../functions.php:401
+#: ../index.php:279 ../lib/custom.lib.php:254 ../search.php:75
+#: ../search.php:146
+msgid "Page"
+msgstr ""
+
+#: ../author.php:290 ../blog_f.php:322 ../blog_g.php:208 ../blog_gf.php:228
+#: ../blog_l.php:363 ../blog_r.php:341 ../blog_r2.php:238 ../index.php:279
+#: ../search.php:146
+msgid "of"
+msgstr ""
+
+#: ../comments.php:4
+msgid "This post is password protected. Enter the password to view comments."
+msgstr ""
+
+#: ../comments.php:13 ../lib/contentbuilder.lib.php:411
+msgid "On"
+msgstr ""
+
+#: ../contact-f.php:87 ../contact-map.php:96 ../contact.php:100
+#: ../lib/contentbuilder.lib.php:703
+msgid "Name *"
+msgstr ""
+
+#: ../contact-f.php:96 ../contact-map.php:105 ../contact.php:109
+#: ../lib/contentbuilder.lib.php:710
+msgid "Email *"
+msgstr ""
+
+#: ../contact-f.php:105 ../contact-map.php:114 ../contact.php:118
+#: ../lib/contentbuilder.lib.php:717
+msgid "Message *"
+msgstr ""
+
+#: ../contact-f.php:114 ../contact-map-icon.php:50 ../contact-map.php:54
+#: ../contact-map.php:123 ../contact.php:58 ../contact.php:127
+#: ../lib/contentbuilder.lib.php:724
+msgid "Address"
+msgstr ""
+
+#: ../contact-f.php:123 ../contact-map-icon.php:54 ../contact-map.php:132
+#: ../contact.php:136 ../lib/contentbuilder.lib.php:731
+#: ../single-habitacion-f.php:376
+msgid "Phone"
+msgstr ""
+
+#: ../contact-f.php:132 ../contact-map.php:141 ../contact.php:145
+#: ../lib/contentbuilder.lib.php:738
+msgid "Mobile"
+msgstr ""
+
+#: ../contact-f.php:141 ../contact-map.php:150 ../contact.php:154
+#: ../lib/contentbuilder.lib.php:745
+msgid "Company Name"
+msgstr ""
+
+#: ../contact-f.php:150 ../contact-map.php:159 ../contact.php:163
+#: ../lib/contentbuilder.lib.php:752
+msgid "Country"
+msgstr ""
+
+#: ../contact-f.php:186 ../contact-map.php:195 ../contact.php:199
+msgid "Submit Form"
+msgstr ""
+
+#: ../contact-map-icon.php:58 ../single-habitacion-f.php:371
+msgid "Email"
+msgstr ""
+
+#: ../contact-map.php:68 ../contact.php:72
+msgid "Leave a message"
+msgstr ""
+
+#: ../fields/gallery/tg-gallery.php:58
+msgid "Gallery Images"
+msgstr ""
+
+#: ../fields/gallery/tg-gallery.php:100
+msgid "Allowed Files"
+msgstr ""
+
+#: ../fields/gallery/tg-gallery.php:123
+msgid "Upload Image"
+msgstr ""
+
+#: ../fields/gallery/tg-gallery.php:124
+msgid "Delete All Images"
+msgstr ""
+
+#: ../fields/gallery/tg-gallery.php:133
+msgid "Remove"
+msgstr ""
+
+#: ../fields/post.fields.php:8
+msgid "Add New Gallery"
+msgstr ""
+
+#: ../fields/post.fields.php:9
+msgid "Edit Gallery"
+msgstr ""
+
+#: ../fields/post.fields.php:10
+msgid "New Gallery"
+msgstr ""
+
+#: ../fields/post.fields.php:11 ../gallery-fullscreen.php:84
+msgid "View Gallery"
+msgstr ""
+
+#: ../fields/post.fields.php:12
+msgid "Search Gallery"
+msgstr ""
+
+#: ../fields/post.fields.php:13
+msgid "No Gallery found"
+msgstr ""
+
+#: ../fields/post.fields.php:14
+msgid "No Gallery found in Trash"
+msgstr ""
+
+#: ../fields/post.fields.php:68
+msgid "Add New Room"
+msgstr ""
+
+#: ../fields/post.fields.php:69
+msgid "Edit Room"
+msgstr ""
+
+#: ../fields/post.fields.php:70
+msgid "New Room"
+msgstr ""
+
+#: ../fields/post.fields.php:71
+msgid "View Room"
+msgstr ""
+
+#: ../fields/post.fields.php:72
+msgid "Search Room"
+msgstr ""
+
+#: ../fields/post.fields.php:73
+msgid "No Room found"
+msgstr ""
+
+#: ../fields/post.fields.php:74
+msgid "No Room found in Trash"
+msgstr ""
+
+#: ../fields/post.fields.php:96
+msgid "Search Room Categories"
+msgstr ""
+
+#: ../fields/post.fields.php:97
+msgid "All Room Categories"
+msgstr ""
+
+#: ../fields/post.fields.php:98
+msgid "Parent Room Category"
+msgstr ""
+
+#: ../fields/post.fields.php:99
+msgid "Parent Room Category:"
+msgstr ""
+
+#: ../fields/post.fields.php:100
+msgid "Edit Room Category"
+msgstr ""
+
+#: ../fields/post.fields.php:101
+msgid "Update Room Category"
+msgstr ""
+
+#: ../fields/post.fields.php:102
+msgid "Add New Room Category"
+msgstr ""
+
+#: ../fields/post.fields.php:103
+msgid "New Room Category Name"
+msgstr ""
+
+#: ../fields/post.fields.php:184
+msgid "Thumbnail"
+msgstr ""
+
+#: ../footer.php:105
+msgid "FOLLOW US"
+msgstr ""
+
+#: ../functions.php:395 ../search.php:69
+msgid "Gallery"
+msgstr ""
+
+#: ../functions.php:416
+msgid "View all results"
+msgstr ""
+
+#: ../functions.php:446
+msgid "Thank you! We will get back to you as soon as possible"
+msgstr ""
+
+#: ../functions.php:460
+msgid "Email from contact form"
+msgstr ""
+
+#: ../functions.php:535
+msgid "Thank you for booking! We will get back to you as soon as possible"
+msgstr ""
+
+#: ../functions.php:536
+msgid "Close"
+msgstr ""
+
+#: ../functions.php:563
+msgid "Booking form"
+msgstr ""
+
+#: ../functions.php:574
+msgid "Booking for"
+msgstr ""
+
+#: ../functions.php:998
+msgid "Updating..."
+msgstr ""
+
+#: ../functions.php:999
+msgid "Successfully<br/>Update"
+msgstr ""
+
+#: ../functions.php:1021
+msgid "Theme Setting"
+msgstr ""
+
+#: ../functions.php:1022
+msgid "Online Documentation"
+msgstr ""
+
+#: ../functions.php:1022
+msgid "Theme Support"
+msgstr ""
+
+#: ../functions.php:1026
+msgid "Save All Changes"
+msgstr ""
+
+#: ../functions.php:1257
+msgid "Below are fonts that already installed."
+msgstr ""
+
+#: ../get_captcha.php:16
+msgid "Please enter correct captcha text"
+msgstr ""
+
+#: ../header.php:248
+msgid "Find our Address"
+msgstr ""
+
+#: ../header.php:620
+msgid "To Search, type and hit enter"
+msgstr ""
+
+#: ../index.php:19
+msgid "The Blog"
+msgstr ""
+
+#: ../js/social/social.php:42
+msgid "FOLLOW"
+msgstr ""
+
+#: ../lib/contentbuilder.lib.php:519
+msgid "SCROLL FOR MORE"
+msgstr ""
+
+#: ../lib/contentbuilder.lib.php:779
+msgid "Send"
+msgstr ""
+
+#: ../lib/contentbuilder.lib.php:949 ../lib/contentbuilder.lib.php:1180
+msgid "Days"
+msgstr ""
+
+#: ../lib/contentbuilder.lib.php:951 ../lib/contentbuilder.lib.php:1182
+msgid "Day"
+msgstr ""
+
+#: ../lib/contentbuilder.lib.php:972 ../lib/contentbuilder.lib.php:1203
+msgid "Best Deal"
+msgstr ""
+
+#: ../lib/contentbuilder.lib.php:973 ../lib/contentbuilder.lib.php:1204
+msgid "Off"
+msgstr ""
+
+#: ../lib/contentbuilder.lib.php:1329 ../single-habitacion-f.php:135
+msgid "Date"
+msgstr ""
+
+#: ../lib/contentbuilder.lib.php:1331 ../single-habitacion-f.php:145
+msgid "Departure"
+msgstr ""
+
+#: ../lib/contentbuilder.lib.php:1340 ../single-habitacion-f.php:139
+msgid "Arrival"
+msgstr ""
+
+#: ../lib/contentbuilder.lib.php:1347
+msgid "PROMO CODE"
+msgstr ""
+
+#: ../lib/contentbuilder.lib.php:1348 ../single-habitacion-f.php:152
+msgid "Enter your coupon"
+msgstr ""
+
+#: ../lib/contentbuilder.lib.php:1353
+msgid "CHECK AVAILABILITY"
+msgstr ""
+
+#: ../lib/contentbuilder.lib.php:1631
+msgid "SHARE"
+msgstr ""
+
+#: ../lib/contentbuilder.lib.php:1644
+msgid "FOLLOWERS"
+msgstr ""
+
+#: ../lib/custom.lib.php:278
+msgid "(Your comment is awaiting moderation.)"
+msgstr ""
+
+#: ../lib/custom.lib.php:297
+msgid "at"
+msgstr ""
+
+#: ../lib/custom.lib.php:303
+msgid "Reply"
+msgstr ""
+
+#: ../lib/custom.lib.php:303
+msgid "Login to Reply"
+msgstr ""
+
+#: ../lib/custom.lib.php:376
+msgid "Recent Posts"
+msgstr ""
+
+#: ../lib/custom.lib.php:384
+msgid "Popular Posts"
+msgstr ""
+
+#: ../lib/menu.lib.php:7
+msgid "Primary Menu"
+msgstr ""
+
+#: ../lib/shortcode.lib.php:550
+msgid "Comment & share"
+msgstr ""
+
+#: ../lib/shortcode.lib.php:865
+msgid "Go to top"
+msgstr ""
+
+#: ../modules/envato-wordpress-toolkit-library/class-envato-protected-api.php:67
+msgid "Please enter your Envato Marketplace Username."
+msgstr ""
+
+#: ../modules/envato-wordpress-toolkit-library/class-envato-protected-api.php:71
+msgid "Please enter your Envato Marketplace API Key."
+msgstr ""
+
+#: ../modules/envato-wordpress-toolkit-library/class-envato-protected-api.php:96
+msgid "The API \"set\" is a required parameter."
+msgstr ""
+
+#: ../modules/envato-wordpress-toolkit-library/class-envato-protected-api.php:167
+msgid "The Envato Marketplace \"item ID\" is a required parameter."
+msgstr ""
+
+#: ../modules/envato-wordpress-toolkit-library/class-envato-wordpress-theme-upgrader.php:291
+msgid "Downloading upgrade package from the Envato API&#8230;"
+msgstr ""
+
+#: ../modules/envato-wordpress-toolkit-library/class-envato-wordpress-theme-upgrader.php:302
+msgid "Downloading install package from the Envato API&#8230;"
+msgstr ""
+
+#: ../modules/twitteroauth.php:1175
+msgid "right now"
+msgstr ""
+
+#: ../modules/twitteroauth.php:1177
+msgid "seconds ago"
+msgstr ""
+
+#: ../modules/twitteroauth.php:1179
+msgid "about 1 minute ago"
+msgstr ""
+
+#: ../modules/twitteroauth.php:1181
+msgid "minutes ago"
+msgstr ""
+
+#: ../modules/twitteroauth.php:1183
+msgid "about 1 hour ago"
+msgstr ""
+
+#: ../modules/twitteroauth.php:1185
+msgid "hours ago"
+msgstr ""
+
+#: ../modules/twitteroauth.php:1187
+msgid "yesterday"
+msgstr ""
+
+#: ../modules/twitteroauth.php:1189
+msgid "days ago"
+msgstr ""
+
+#: ../modules/twitteroauth.php:1191
+msgid "over a year ago"
+msgstr ""
+
+#: ../modules/woocommerce.php:7
+msgid "Shop"
+msgstr ""
+
+#: ../page-thank-you-page.php:60
+msgid "FOLLOW ME"
+msgstr ""
+
+#: ../page_habitaciones_listing.php:215 ../page_habitaciones_listing.php:231
+#: ../page_habitaciones_listing.php:298
+msgid "See Detail"
+msgstr ""
+
+#: ../page_landing_page.php:30 ../page_landing_page_galerista.php:30
+msgid "LANDING PAGE"
+msgstr ""
+
+#: ../page_landing_page.php:91 ../page_landing_page2.php:94
+#: ../page_landing_page_galerista.php:91
+msgid "FORM"
+msgstr ""
+
+#: ../page_legal.php:30
+msgid "LEGAL"
+msgstr ""
+
+#: ../search.php:14
+#, php-format
+msgid "Search Results for &quot;%s&quot;"
+msgstr ""
+
+#: ../search.php:37
+msgid "New Search"
+msgstr ""
+
+#: ../search.php:38
+msgid "If you didn't find what you were looking for, try a new search."
+msgstr ""
+
+#: ../search.php:41
+msgid "Type and hit enter"
+msgstr ""
+
+#: ../search.php:81
+msgid "--Room"
+msgstr ""
+
+#: ../single-habitacion-f.php:132
+msgid "BOOK NOW ROOM"
+msgstr ""
+
+#: ../single-habitacion-f.php:138
+msgid "Arrival date"
+msgstr ""
+
+#: ../single-habitacion-f.php:144
+msgid "Departure date"
+msgstr ""
+
+#: ../single-habitacion-f.php:155 ../single-habitacion-f.php:260
+#: ../templates/template-header-habitacion.php:82
+msgid "BOOK NOW"
+msgstr ""
+
+#: ../single-habitacion-f.php:187
+msgid "SEE FLOOR PLAN"
+msgstr ""
+
+#: ../single-habitacion-f.php:258
+msgid "STARTING PRICE"
+msgstr ""
+
+#: ../single-habitacion-f.php:259
+msgid "RESERVE BY EMAIL"
+msgstr ""
+
+#: ../single-habitacion-f.php:289
+msgid "Previous Room"
+msgstr ""
+
+#: ../single-habitacion-f.php:307
+msgid "Next Room"
+msgstr ""
+
+#: ../single-habitacion-f.php:350
+msgid "Book Now"
+msgstr ""
+
+#: ../single-habitacion-f.php:359
+msgid "Name"
+msgstr ""
+
+#: ../single-habitacion-f.php:364
+msgid "Last Name"
+msgstr ""
+
+#: ../single-habitacion-f.php:383 ../templates/comments-form.php:33
+msgid "Message"
+msgstr ""
+
+#: ../single-habitacion-f.php:391
+msgid "Book by email"
+msgstr ""
+
+#: ../single-post-f.php:329 ../single-post-l.php:346 ../single-post-l.php:405
+#: ../single-post-r.php:331
+msgid "Previous Article"
+msgstr ""
+
+#: ../single-post-f.php:347 ../single-post-l.php:364 ../single-post-l.php:423
+#: ../single-post-r.php:349
+msgid "Next Article"
+msgstr ""
+
+#: ../single-post-f.php:402 ../single-post-l.php:478 ../single-post-r.php:404
+msgid "You might also like"
+msgstr ""
+
+#: ../single-post-f.php:485 ../single-post-l.php:583 ../single-post-r.php:509
+msgid "More Story"
+msgstr ""
+
+#: ../single-post-l.php:311
+msgid "Pages:"
+msgstr ""
+
+#: ../single-post-l.php:316
+msgid "Next page"
+msgstr ""
+
+#: ../single-post-l.php:317
+msgid "Previous page"
+msgstr ""
+
+#: ../templates/comments-form.php:13
+msgid "Leave A Reply"
+msgstr "Leave A Reply"
+
+#: ../templates/comments-form.php:21
+msgid "Name (required)"
+msgstr ""
+
+#: ../templates/comments-form.php:24
+msgid "Email (required)"
+msgstr ""
+
+#: ../templates/comments-form.php:27
+msgid "Website"
+msgstr ""
+
+#: ../templates/comments-form.php:37
+msgid "Submit"
+msgstr ""
+
+#: ../templates/script-booking-form.php:25
+#: ../templates/script-contact-form.php:48
+#: ../templates/script-search-habitaciones-form.php:29
+msgid "Please enter"
+msgstr ""
+
+#: ../templates/script-booking-form.php:31
+#: ../templates/script-contact-form.php:54
+msgid "Please enter valid"
+msgstr ""
+
+#: ../templates/script-search-habitaciones-detail-form.php:32
+msgid "Por favor ingrese "
+msgstr ""
+
+#: ../templates/template-header-blog-listing.php:75
+#: ../templates/template-header-category.php:76
+#: ../templates/template-header-contact.php:75
+#: ../templates/template-header.php:75
+#, php-format
+msgid "Results for &quot;%s&quot;"
+msgstr ""
+
+#: ../templates/template-header-blog-listing.php:104
+#: ../templates/template-header-category.php:105
+#: ../templates/template-header-contact.php:104
+#: ../templates/template-header.php:104
+msgid "Blog Archives"
+msgstr ""
+
+#: ../templates/template-header-habitacion.php:75
+msgid "RATE FROM"
+msgstr ""
+
+#: ../templates/template-header-habitacion.php:77
+msgid "since"
+msgstr ""
+
+#: ../templates/template-header-habitacion.php:80
+msgid "per nigth"
+msgstr ""
+
+#: ../templates/template-password.php:35
+msgid "ERROR Invalid password"
+msgstr ""
+
+#: ../templates/template-password.php:72
+msgid "Private Gallery"
+msgstr ""
+
+#: ../templates/template-password.php:73
+msgid ""
+"This gallery is password protected. Please enter password. To view it please "
+"enter your password below"
+msgstr ""
+
+#: ../templates/template-share.php:30
+msgid "Share On Facebook"
+msgstr ""
+
+#: ../templates/template-share.php:31
+msgid "Share On Twitter"
+msgstr ""
+
+#: ../templates/template-share.php:32
+msgid "Share On Pinterest"
+msgstr ""
+
+#: ../templates/template-share.php:33
+msgid "Share On Google+"
+msgstr ""
+
+#~ msgid "(OPTIONAL)"
+#~ msgstr "Enter your coupon"
+
+#, fuzzy
+#~ msgid "Cancel"
+#~ msgstr "Leave a Reply"
+
+#, fuzzy
+#~ msgid "Cancel Reply"
+#~ msgstr "Leave a Reply"

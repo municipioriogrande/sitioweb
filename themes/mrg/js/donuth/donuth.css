@@ -1,0 +1,17 @@
+#ss_donuth_chart {
+    height: 160px;
+    width: 100%;
+    display: inline-block;
+}
+#ss_donuth_chart svg{
+	position: absolute;
+    /*left: 57%;
+    right: 10%;*/
+    width: 195px;
+    height: 210px;
+	margin:7px 0 0 0;
+}
+#ss_donuth_chart svg .timer{
+	font-size:30px !important;
+	line-height: 20px !important;
+}

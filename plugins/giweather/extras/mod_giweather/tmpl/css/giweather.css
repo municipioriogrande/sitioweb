@@ -1,0 +1,862 @@
+/**
+ * @author     Garda Informatica <info@gardainformatica.it>
+ * @copyright  Copyright (C) 2015 Garda Informatica. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-3.0.html  GNU General Public License version 3
+ * @package    giWeather Wordpress Widget
+ * @link       http://www.gardainformatica.it
+ */
+
+
+/*
+.giweather{
+	width: 38%;
+}
+*/
+
+/* reset */
+
+.giweather div, .giweather span, .giweather a, .giweather img{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+	line-height: 1;
+    outline:0;
+    background:transparent;	
+	max-width: none;
+	max-height: none;
+}
+
+/* end reset */
+
+
+.giweather .giw-fc-full-img,.giweather .giw-fc-thumb-humidity-val,.giweather .giw-fc-thumb-pressure-val,.giweather .giw-fc-thumb-wind-val{
+	display:none;
+}
+
+.giweather .giw-loading{
+	background: url("../../../lib_giweather/media/images/ajax-loader.gif") no-repeat scroll 50% 50%; 
+	min-height: 66px;
+}
+
+
+.giweather .giw-fc-current-city{
+	font-size:x-large;
+	font-weight:lighter;
+	text-align: left;
+}
+
+
+
+.giweather .giw-fc-current-date, .giweather .giw-fc-current-desc{
+	font-size:medium;
+	font-weight:lighter;
+	text-align: left;
+	
+}
+
+
+.giweather .giw-fc-current-right{
+	float: right;
+	/*min-width: 50%;*/
+	padding-left: 5px;
+	line-height: 22px;
+	padding-top: 2px;
+	width: 120px;
+}
+
+.giweather .giw-fc-current-text{
+	font-size: medium;
+	font-weight: lighter;
+	line-height: 22px;	
+	text-align: left;
+}
+
+
+.giweather .giweather-widget{
+	font-family: arial,sans-serif;
+	
+	/*padding: 20px 20px 24px;*/
+	padding: 14px 10px;
+	position: relative;
+	font-size: small;
+	font-family: arial,sans-serif;
+	
+	
+}
+
+
+
+.giweather .giw-fc-current-icon{
+	float:left;
+	height:64px;
+	width:64px;
+	font-size: 12px;
+	position: relative;
+	max-width:none;
+	max-height:none;
+	
+}
+.giweather .giw-fc-current-icon > span{
+	position: absolute;
+	left: 0;
+	top: -5px;
+}
+
+.giweather .giw-fc-current-temp{
+	/*float:left;
+	padding-left:25px;*/
+	float: right;
+	/*min-width: 55%;*/
+	padding-left: 5px;
+	line-height: 22px;
+	padding-top: 3px;
+	width: 120px;
+}
+
+.giweather .giw-btn {
+	display:inline-block;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	cursor: default;
+	font-family: arial,sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	height: 27px;
+	line-height: 27px;
+	min-width: 67px;
+	padding: 0 8px;
+	text-align: center;
+	-webkit-transition: all 0.218s,visibility 0s;
+	transition: all 0.218s,visibility 0s;
+	-webkit-user-select: none;
+	margin: 0 0 2px 0;
+}
+
+.giweather .giw-btns{
+	padding: 15px 0 0px;
+	text-align: left;
+}
+
+
+
+.giweather .giw-ts-btns{
+	float: left;
+	font-size: 16px;
+	margin-top: 0px;
+	cursor: default;
+}
+
+.giweather  .giw-ts-btn{
+	cursor: pointer; 
+	cursor: hand;
+	vertical-align: middle;	
+}
+
+.giweather .giw-ts-btn-active{
+	cursor: default;
+}
+
+.giweather .giw-fc-thumb{
+	display: inline-block;
+	line-height: 1;
+	text-align: center;
+	-webkit-transition-duration: 200ms,200ms,200ms;
+	-webkit-transition-property: background-image,border,font-weight;
+	/*font-weight: 13px;*/
+	/*height: 158px;*/
+	width: 61px;
+	padding-bottom:5px;
+	vertical-align: middle;
+	border: 1px solid transparent;
+}
+
+
+.giweather .giw-fc-thumb-current {
+	-webkit-border-radius: 1px;
+	margin: 0;
+}
+
+
+.giweather .giw-fc-thumb-day{
+	padding-top: 7px;
+	padding-bottom: 3px;
+	line-height: 15px;
+	font-size: small;
+}
+
+.giweather .giw-fc-thumb-temp, .giweather .giw-fc-thumb-wind-speed{
+	font-weight: normal;
+	line-height: 15px;
+	font-size: 13px;
+}
+
+.giweather .giw-fc-thumb-list{
+	font-family: arial,sans-serif;
+	cursor: pointer; 
+	cursor: hand; 
+	position: absolute; 
+	left: 0px; 
+	top: 0px; 
+	width: 600px; 
+	overflow: hidden;
+}
+
+
+
+.giweather .giw-fc-thumb-img,.giweather .giw-fc-thumb-windimg{
+	margin:1px 6px 0;
+	height:48px;
+	width:48px;
+	max-width:none;
+	max-height:none;
+
+
+	-webkit-user-select: none;
+	-webkit-user-drag: none;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	touch-action: none;
+
+	position: relative;
+	font-size: 8px;
+	display:block;
+	
+}
+
+.giweather .giw-fc-thumb-img > span,.giweather .giw-fc-thumb-windimg > span{
+	position: absolute;
+	left:0;
+	top:0;
+}
+
+
+
+.giweather .giw-fc-wind{
+	width:66px;
+
+	-webkit-box-orient: vertical;
+	-webkit-box-pack: justify;
+	-webkit-flex-pack: justify;
+	align-items: center;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	justify-content: space-between;
+	display: -ms-flexbox;
+	display: -webkit-box;
+	display: flex;
+	text-align: center;
+	
+
+}
+
+.giweather .giw-fc-thumb-temp-hist{
+	height:67px;position:relative;
+}
+.giweather .giw-fc-thumb-temp-hist-bar{
+	position:absolute; 
+	bottom:0; 
+	left:0; 
+	right:0;
+}
+
+
+.giweather .giw-fc-thumb-list.animate {
+  -webkit-transition: all .3s;
+  -moz-transition: all .3s;
+  -o-transition: all .3s;
+  transition: all .3s;
+}
+
+.giweather .giw-fc-current-temp-val{
+	font-size:14px;
+	float: left;
+}
+
+.giweather .giw-fc-current-main{
+	font: 16px arial,helvetica,sans-serif;
+	padding: 20px 0 0;
+}
+
+.giweather .giw-fc-thumb-list-pane{
+	position: relative;
+	width: 100%;
+	height: 170px;
+	margin-top: 9px;
+}
+
+.giweather .giw-fc-thumb-list-container{
+	position: absolute;
+	left:28px;
+	right:28px;
+	top:0px;
+	bottom:0px;
+	overflow: hidden;
+}
+
+.giweather .giw-copyright{
+	padding: 6px 20px 0;
+	font-size: 9px;
+	font-family: arial,sans-serif;
+	display:none;
+}
+
+.giweather.dark .giweather-widget{
+	text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+
+	/*-webkit-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.2);
+	box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.2);*/
+}
+.giweather.light .giweather-widget{
+	color: #222;
+	/*-webkit-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.2);
+	box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.2);*/
+}
+
+
+.giweather.dark .giw-fc-current-date, .giweather.dark .giw-fc-current-desc, .giweather.dark .giw-fc-current-city, .giweather.dark .giw-fc-current-text, .giweather.dark .giw-fc-thumb-temp, .giweather.dark .giw-fc-thumb-wind-speed, .giweather.dark .giw-fc-thumb-perc-temp{
+	color: #f5f5f5;
+}
+
+.giweather.light .giw-fc-current-date, .giweather.light .giw-fc-current-desc, .giweather.light .giw-fc-current-city, .giweather.light .giw-fc-current-text, .giweather.light .giw-fc-thumb-temp, .giweather.light .giw-fc-thumb-wind-speed, .giweather.light .giw-fc-thumb-perc-temp{
+	color: #878787;
+}
+
+.giweather  .giw-ts-btn, .giweather .giw-ts-btns{
+	color: rgba(0,0,0,0.2);/* va bene sia per chiaro che per scuro*/
+}
+
+.giweather.dark .giw-ts-btn-active{
+	color: #f5f5f5;
+}
+
+.giweather.light .giw-ts-btn-active{
+	color: #878787;
+}
+
+.giweather.dark .giw-fc-thumb-day, .giweather.dark .giw-fc-thumb-act-temp, .giweather.dark .giw-copyright{
+	color: #dcdcdc;
+}
+
+.giweather.light .giw-fc-thumb-day, .giweather.light .giw-fc-thumb-act-temp, .giweather.light .giw-copyright{
+	color: #aaaaaa;
+}
+
+.giweather.dark .giw-fc-current-temp-val{
+	color: #ffffff;
+}
+
+.giweather.light .giw-fc-current-temp-val{
+	color: #6d6e71;
+}
+
+.giweather.dark .giw-fc-thumb-current {
+	background-color: rgba(0,0,0,0.03);
+	border: 1px solid #e9e9e9;
+}
+
+.giweather.light .giw-fc-thumb-current {
+	background-color: rgba(0,0,0,0.01);
+	border: 1px solid #e9e9e9;
+}
+
+.giweather.dark .giw-btn-clicked, .giweather.dark .giw-btn-notclicked:hover{
+	color: #eee;
+}
+.giweather.dark .giw-btn-notclicked {
+	color: #bbb;
+}
+
+.giweather.light .giw-btn-clicked, .giweather.light .giw-btn-notclicked:hover{
+	color: #222;
+}
+.giweather.light .giw-btn-notclicked {
+	color: #444;
+}
+
+.giweather.light i[class^="meteocons-"]{
+	color: #6d6e71;
+}
+.giweather.dark i[class^="meteocons-"]{
+	color: #eee;
+}
+
+
+.giweather.dark .giw-btn-clicked{
+	background-color: rgba(17,17,17,0.1);
+	background-image: -webkit-gradient(linear,left top,left bottom,from(rgba(17,17,17,0.1)),to(rgba(31,31,31,0.1)));
+	background-image: -webkit-linear-gradient(top,rgba(17,17,17,0.1),rgba(31,31,31,0.1));
+	background-image: linear-gradient(top,rgba(17,17,17,0.1),rgba(31,31,31,0.1));
+	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+	box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+	border: 1px solid rgba(0,0,0,0.2);
+}
+
+.giweather.light .giw-btn-clicked{
+	background-color: #eee;
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#eee),to(#e0e0e0));
+	background-image: -webkit-linear-gradient(top,#eee,#e0e0e0);
+	background-image: linear-gradient(top,#eee,#e0e0e0);
+	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+	box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+	border: 1px solid #ccc;
+}
+
+
+.giweather.dark .giw-btn-notclicked:hover {
+	background-color: rgba(7,7,7,0.1);
+	background-image: -webkit-gradient(linear,left top,left bottom,from(rgba(7,7,7,0.1)),to(rgba(14,14,14,0.1)));
+	background-image: -webkit-linear-gradient(top,rgba(7,7,7,0.1),rgba(14,14,14,0.1));
+	background-image: linear-gradient(top,rgba(7,7,7,0.1),rgba(14,14,14,0.1));
+	border: 1px solid rgba(0,0,0,0.22);
+}
+
+.giweather.light .giw-btn-notclicked:hover {
+	background-color: #f8f8f8;
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#f8f8f8),to(#f1f1f1));
+	background-image: -webkit-linear-gradient(top,#f8f8f8,#f1f1f1);
+	background-image: linear-gradient(top,#f8f8f8,#f1f1f1);
+	border: 1px solid #c6c6c6;
+}
+
+
+.giweather.dark .giw-btn-notclicked {
+	background-color: rgba(10,10,10,0.1);
+	background-image: -webkit-gradient(linear,left top,left bottom,from(rgba(10,10,10,0.1)),to(rgba(14,14,14,0.1)));
+	background-image: -webkit-linear-gradient(top,rgba(10,10,10,0.1),rgba(14,14,14,0.1));
+	background-image: linear-gradient(top,rgba(10,10,10,0.1),rgba(14,14,14,0.1));
+	border: 1px solid rgba(0,0,0,0.1);
+}
+
+.giweather.light .giw-btn-notclicked {
+	background-color: #f5f5f5;
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#f5f5f5),to(#f1f1f1));
+	background-image: -webkit-linear-gradient(top,#f5f5f5,#f1f1f1);
+	background-image: linear-gradient(top,#f5f5f5,#f1f1f1);
+	border: 1px solid rgba(0,0,0,0.1);
+}
+
+
+.giweather.dark .giw-fc-thumb-temp-hist-bar{
+	border-top: 2px solid rgba(255, 199, 0, 0.9); 
+	background-color: rgba(255, 219, 85, 0.3); 
+}
+
+.giweather.light .giw-fc-thumb-temp-hist-bar{
+	border-top: 2px solid rgba(255, 204, 0, 1); 
+	background-color: rgba(255, 204, 0, 0.2); 
+}
+
+
+
+/* skin */
+
+/* jssor slider arrow Navigator Skin 04 css */
+/*
+.giweather .jssora04l              (normal)
+.giweather .jssora04r              (normal)
+.giweather .jssora04l:hover        (normal mouseover)
+.giweather .jssora04r:hover        (normal mouseover)
+.giweather .jssora04ldn            (mousedown)
+.giweather .jssora04rdn            (mousedown)
+*/
+.giweather .jssora04l, .giweather .jssora04r, .giweather .jssora04ldn, .giweather .jssora04rdn
+{
+	position: absolute;
+	cursor: pointer;
+	display: block;
+	background: url(../../../lib_giweather/media/images/a04.png) no-repeat;
+	overflow:hidden;
+}
+.giweather .jssora04l { background-position: -16px -39px; }
+.giweather .jssora04r { background-position: -76px -39px; }
+.giweather .jssora04l:hover { background-position: -136px -39px; }
+.giweather .jssora04r:hover { background-position: -196px -39px; }
+.giweather .jssora04ldn { background-position: -256px -39px; }
+.giweather .jssora04rdn { background-position: -316px -39px; }
+
+
+
+/* icon font */
+@font-face {
+  font-family: "iconvault";
+  src: url("iconvault_forecastfont.eot");
+  src: url("iconvault_forecastfont.eot?#iefix") format("embedded-opentype"),
+       url("iconvault_forecastfont.woff") format("woff"),
+       url("iconvault_forecastfont.ttf") format("truetype"),
+       url("iconvault_forecastfont.svg#iconvault") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}	
+	
+	
+	
+
+.giweather [class^="giw-icon-"],
+.giweather [class*=" giw-icon-"] {
+  font-family: 'iconvault';
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: inherit;
+  -webkit-font-smoothing: antialiased;
+  font-size: 6em;
+
+}
+
+
+/* -----BaseCloud----- */
+
+	.giweather .giw-basecloud:before  {
+	font-family: 'iconvault';
+	font-size:6em;
+	content: '\f105';
+	position:absolute;
+	color:rgb(204, 204, 204);
+	}
+
+	.giweather .giw-basecloudy:before  {
+	font-family: 'iconvault';
+	font-size:6em;
+	content: '\f106';
+	position:absolute;
+	color:rgb(204, 204, 204);
+	}
+	
+
+	
+/* -----windyraincloud----- */
+
+	.giweather .giw-windyraincloud:before  {
+	font-family: 'iconvault';
+	font-size:6em;
+	content: '\f111';
+	position:absolute;
+	color:rgb(204, 204, 204);
+	}
+	
+/* -----Windysnowcloud----- */
+
+	.giweather .giw-windysnowcloud:before  {
+	font-family: 'iconvault';
+	font-size:6em;
+	content: '\f109';
+	position:absolute;
+	color:rgb(204, 204, 204);
+	}
+
+/* -----Basethundercloud----- */
+
+	.giweather .giw-basethundercloud:before  {
+	font-family: 'iconvault';
+	font-size:6em;
+	content: '\f105';
+	position:absolute;
+	color:#000;
+
+	}
+
+
+/* -----Thunder----- */
+
+	.giweather .giw-icon-thunder::before  {
+	content: "\f114";
+	position:absolute;
+	color:rgb(255, 165, 0);
+	}
+
+/* -----Sunny----- */
+
+	.giweather .giw-icon-sunny::after {
+	content: "\f101";
+	color:rgb(255, 165, 0);
+	position: absolute;
+	}
+
+
+/* -----Drizzle----- */
+
+	.giweather .giw-icon-drizzle::before  {
+	content: "\f10a";
+	color: #82b2e4;
+	position: absolute;
+}
+
+/* -----Hail----- */
+
+	.giweather .giw-icon-hail::before {
+	content: "\f10f";
+	position:absolute;
+	color:rgb(204, 204, 204);}
+
+/* -----Showers----- */
+
+	.giweather .giw-icon-showers::before  {
+	content: "\f104";
+	position:absolute;
+	color:#82b2e4;
+}
+
+/* -----Rainy----- */
+
+	.giweather .giw-icon-rainy::before {
+	content: "\f107";
+	position:absolute;
+	color:#4681c3;
+	}
+
+/* -----Snowy----- */
+
+	.giweather .giw-icon-snowy::before  {
+	content: "\f10b";
+	position:absolute;
+	color:#acd3f3;
+	}
+
+/* -----Frosty----- */
+
+	.giweather .giw-icon-frosty::before {
+	content: "\f102";
+	position:absolute;
+	color:#85d8f7;
+	}
+
+/* -----Windy----- */
+
+	.giweather .giw-icon-windy::before  {
+	content: "\f115";
+	position:absolute;
+	color:rgb(204, 204, 204);
+	}
+
+/* -----WindyRain----- */
+
+	.giweather .giw-icon-windyrain::before {
+	content: "\f10e";
+	position:absolute;
+	color:#acd3f3;
+	}
+
+/* -----WindySnow----- */
+
+	.giweather .giw-icon-windysnow::before {
+	content: "\f103";
+	position:absolute;
+	color:#acd3f3;
+	}
+
+/* -----Sleet----- */
+
+	.giweather .giw-icon-sleet::before  {
+	content: "\f10c";
+	position:absolute;
+	color:#acd3f3;
+	}
+
+/* -----Moon----- */
+
+	.giweather .giw-icon-moon::after {
+	content: "\f10d";
+	color:rgb(255, 165, 0);
+	position: absolute;
+	}
+
+/* -----Night----- */
+
+	.giweather .giw-icon-night::after {
+	content: "\f100";
+	position:absolute;
+	color:rgb(255, 165, 0);
+	}
+
+
+/* -----Sun----- */
+
+	.giweather .giw-icon-sun::after {
+	content: "\f113";
+	color:rgb(255, 165, 0);
+	position: absolute;
+	}
+
+/* -----Cloud----- */
+
+	.giweather .giw-icon-cloud::after {
+	content: "\f106";
+	color:rgb(204, 204, 204);
+	position: absolute;
+	}
+
+
+/* -----Sunrise----- */
+
+	.giweather .giw-icon-sunrise:before  {
+	content: '\f112';
+	color:rgb(255, 165, 0);
+	position: absolute;
+	}
+
+/* -----Sunset----- */
+
+	.giweather .giw-icon-sunset:before  {
+	content: '\f110';
+	color:#f96f23;
+	position: absolute;
+	}
+
+/* -----Mist----- */
+
+	.giweather .giw-icon-mist:before  {
+	content: '\f108';
+	color:rgb(204, 204, 204);
+	position: absolute;
+	}
+	
+	
+/* --- Yahoo --- */
+
+.giweather .giw-fc-thumb-img.giw-is-yahoo{
+	height:48px;
+	width:67px;
+	margin-top:0px;
+	margin-left:11px;
+}
+
+.giweather .giw-fc-current-icon.giw-is-yahoo{
+	height:90px;
+	width:125px;
+	margin-right:-46px;
+	margin-bottom:-27px;
+}
+
+
+/*===================== font size ================ */
+
+/* === small === */
+
+/*London GB*/
+.giweather.giw-small .giw-fc-current-city{
+	font-size:large;
+}
+/*Lu, 28 3:00, few clouds*/
+.giweather.giw-small .giw-fc-current-date, .giweather.giw-small .giw-fc-current-desc{
+	font-size:small;
+}
+/*Umidità pressione vendto*/
+.giweather.giw-small .giw-fc-current-text{
+	line-height: 11px;
+	font-size: 10px;
+}
+
+/* icona principale (influisce se è un font? ) */
+.giweather.giw-small .giw-fc-current-icon{
+	font-size: 8px;
+}
+/* temperatura in grande */
+.giweather.giw-small .giw-fc-current-temp-val{
+	font-size:20px;
+}
+
+/* Bottone temperatura, vento */
+/*
+.giweather.giw-small .giw-btn {
+	font-size: 7px;
+}
+*/
+
+/* Bottoni °C e °F */
+/*
+.giweather.giw-small .giw-ts-btns{
+	font-size: 16px;
+}
+*/
+
+/* date sui thumb */
+.giweather.giw-small .giw-fc-thumb-day{
+	line-height: 12px;
+	font-size: x-small;
+}
+/* temp e wind sui thumb */
+.giweather.giw-small .giw-fc-thumb-temp, .giweather.giw-small .giw-fc-thumb-wind-speed{
+	line-height: 12px;
+	font-size: 10px;
+}
+/* icona sui thumb, forse ha senso solo se è un font */
+.giweather.giw-small .giw-fc-thumb-img,.giweather.giw-small .giw-fc-thumb-windimg{
+	font-size: 6px;
+	margin: 1px 6px 0;
+	height: 40px;
+	width: 40px;
+}
+
+.giweather.giw-small .giw-fc-current-icon{
+	height:45px;
+	width:45px;
+}
+.giweather.giw-small .giw-fc-thumb {
+	width: 51px;
+}
+
+
+/* === large === */
+
+
+/*London GB*/
+.giweather.giw-large .giw-fc-current-city{
+	font-size:xx-large;
+}
+/*Lu, 28 3:00, few clouds*/
+.giweather.giw-large .giw-fc-current-date, .giweather.giw-large .giw-fc-current-desc{
+	font-size:large;
+}
+/*Umidità pressione vendto*/
+.giweather.giw-large .giw-fc-current-text{
+	font-size: large;
+	line-height: 26px;	
+}
+
+/* icona principale (influisce se è un font? ) */
+.giweather.giw-large .giw-fc-current-icon{
+	font-size: 16px;
+}
+/* temperatura in grande */
+.giweather.giw-large .giw-fc-current-temp-val{
+	font-size:80px;
+}
+
+/* Bottone temperatura, vento */
+
+.giweather.giw-large .giw-btn {
+	font-size: 16px;
+}
+
+
+/* Bottoni °C e °F */
+.giweather.giw-large .giw-ts-btns{
+	font-size: 24px;
+}
+
+/* date sui thumb */
+.giweather.giw-large .giw-fc-thumb-day{
+	line-height: 22px;
+	font-size: medium;
+}
+/* temp e wind sui thumb */
+.giweather.giw-large .giw-fc-thumb-temp, .giweather.giw-large .giw-fc-thumb-wind-speed{
+	line-height: 22px;
+	font-size: 20px;
+}
+/* icona sui thumb, forse ha senso solo se è un font */
+.giweather.giw-large .giw-fc-thumb-img,.giweather.giw-large .giw-fc-thumb-windimg{
+	font-size: 10px;
+	margin: 1px 14px 0;
+	height: 60px;
+	width: 60px;
+}
+
+.giweather.giw-large .giw-fc-current-icon{
+	height:90px;
+	width:90px;
+}
+.giweather.giw-large .giw-fc-thumb {
+	width: 90px;
+}

@@ -1,0 +1,57 @@
+.anndimol-temp {
+    padding: 13px 0 0 0;
+    display: inline-block;
+    width: 193px;
+}
+
+.anndimol-temp .icon {
+    width: 35%;
+    float: left;
+}
+
+.current-temp{
+	float: right;
+	line-height: 22px;
+	padding-top: 3px;
+	padding-left: 5%;
+	width: 60%;
+}
+.current-temp-val {
+    font-size: 20px;
+    color: #6d6e71;
+    float: left;
+    line-height: 1;
+}
+.current-temp-val span {
+    line-height: 1;
+}
+.current-temp-metric {
+    color: rgba(0,0,0,0.2);
+    float: left;
+    font-size: 16px;
+    margin-top: 0px;
+    line-height: 1;
+}
+.current-temp-metric span {
+    color: #878787;
+    color: rgba(0,0,0,0.2);
+    vertical-align: middle;
+    line-height: 1;
+}
+.current-right {
+    float: right;
+    line-height: 22px;
+    padding-top: 2px;
+    padding-left: 5%;
+	width: 60%;
+}
+.current-text {
+    line-height: 11px;
+    font-size: 10px;
+    color: #878787;
+    font-weight: lighter;
+    text-align: left;
+}
+.current-text span {
+}
+

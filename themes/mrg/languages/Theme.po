@@ -1,0 +1,967 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minos Theme\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-10-26 17:15+0700\n"
+"PO-Revision-Date: 2014-10-26 17:15+0700\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;gettext;gettext_noop;_e;_n\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../404.php:16
+msgid "Page Not Found"
+msgstr ""
+
+#: ../404.php:31 ../search.php:37
+msgid "New Search"
+msgstr ""
+
+#: ../404.php:32
+msgid "Oops, This Page Could Not Be Found. Try a new search."
+msgstr ""
+
+#: ../404.php:35 ../search.php:41
+msgid "Type and hit enter"
+msgstr ""
+
+#: ../404.php:40
+msgid "Or try to browse our latest posts instead?"
+msgstr ""
+
+#: ../404.php:162 ../author.php:252 ../blog_f.php:177 ../blog_f.php:225
+#: ../blog_f.php:286 ../blog_g.php:164 ../blog_gf.php:166 ../blog_l.php:214
+#: ../blog_l.php:262 ../blog_l.php:323 ../blog_r.php:192 ../blog_r.php:240
+#: ../blog_r.php:301 ../index.php:137 ../index.php:185 ../index.php:246
+#: ../single-post-f.php:511
+msgid "Read More"
+msgstr ""
+
+#: ../author.php:31
+msgid "Entries By"
+msgstr ""
+
+#: ../author.php:61
+msgid "About"
+msgstr ""
+
+#: ../author.php:158 ../author.php:188 ../author.php:223 ../search.php:92
+#: ../single-post-f.php:216 ../single-post-l.php:220 ../single-post-r.php:218
+msgid "Posted On"
+msgstr ""
+
+#: ../author.php:167 ../author.php:197 ../author.php:232 ../blog_f.php:198
+#: ../blog_f.php:246 ../blog_l.php:235 ../blog_l.php:283 ../blog_r.php:213
+#: ../blog_r.php:261 ../index.php:158 ../index.php:206 ../search.php:101
+#: ../single-post-f.php:60 ../single-post-f.php:187 ../single-post-f.php:225
+#: ../single-post-l.php:60 ../single-post-l.php:191 ../single-post-l.php:229
+#: ../single-post-r.php:60 ../single-post-r.php:189 ../single-post-r.php:227
+msgid "By"
+msgstr ""
+
+#: ../author.php:171 ../author.php:201 ../author.php:236 ../search.php:105
+#: ../single-post-f.php:229 ../single-post-l.php:233 ../single-post-r.php:231
+msgid "And has"
+msgstr ""
+
+#: ../author.php:171 ../author.php:201 ../author.php:236 ../search.php:105
+#: ../single-post-f.php:229 ../single-post-l.php:233 ../single-post-r.php:231
+msgid "No Comment"
+msgstr ""
+
+#: ../author.php:171 ../author.php:201 ../author.php:236 ../search.php:105
+#: ../single-post-f.php:229 ../single-post-l.php:233 ../single-post-r.php:231
+msgid "1 Comment"
+msgstr ""
+
+#: ../author.php:171 ../author.php:201 ../author.php:236 ../search.php:105
+#: ../single-post-f.php:229 ../single-post-l.php:233 ../single-post-r.php:231
+msgid "% Comments"
+msgstr ""
+
+#: ../author.php:290 ../blog_f.php:322 ../blog_g.php:205 ../blog_gf.php:207
+#: ../blog_l.php:361 ../blog_r.php:339 ../functions.php:290 ../index.php:279
+#: ../search.php:75 ../search.php:144 ../tour-classic-contain.php:214
+#: ../tour-classic-fullwidth.php:222 ../tour-grid-contain.php:205
+#: ../tour-grid-fullwidth.php:216 ../tour-list-image.php:223
+#: ../tour-list.php:228 ../lib/custom.lib.php:254
+msgid "Page"
+msgstr ""
+
+#: ../author.php:290 ../blog_f.php:322 ../blog_g.php:205 ../blog_gf.php:207
+#: ../blog_l.php:361 ../blog_r.php:339 ../index.php:279 ../search.php:144
+#: ../tour-classic-contain.php:214 ../tour-classic-fullwidth.php:222
+#: ../tour-grid-contain.php:205 ../tour-grid-fullwidth.php:216
+#: ../tour-list-image.php:223 ../tour-list.php:228
+msgid "of"
+msgstr ""
+
+#: ../comments.php:5
+msgid "This post is password protected. Enter the password to view comments."
+msgstr ""
+
+#: ../comments.php:15 ../lib/contentbuilder.lib.php:1003
+msgid "On"
+msgstr ""
+
+#: ../contact-f.php:81 ../contact-map.php:90 ../contact.php:94
+#: ../lib/contentbuilder.lib.php:1986 ../lib/contentbuilder.lib.php:1987
+msgid "Name *"
+msgstr ""
+
+#: ../contact-f.php:90 ../contact-map.php:99 ../contact.php:103
+#: ../lib/contentbuilder.lib.php:1994 ../lib/contentbuilder.lib.php:1995
+msgid "Email *"
+msgstr ""
+
+#: ../contact-f.php:99 ../contact-map.php:108 ../contact.php:112
+#: ../lib/contentbuilder.lib.php:2002 ../lib/contentbuilder.lib.php:2003
+msgid "Message *"
+msgstr ""
+
+#: ../contact-f.php:108 ../contact-map.php:54 ../contact-map.php:117
+#: ../contact.php:58 ../contact.php:121 ../lib/contentbuilder.lib.php:2010
+#: ../lib/contentbuilder.lib.php:2011
+msgid "Address"
+msgstr ""
+
+#: ../contact-f.php:117 ../contact-map.php:126 ../contact.php:130
+#: ../single-tour-f.php:296 ../lib/contentbuilder.lib.php:2018
+#: ../lib/contentbuilder.lib.php:2019
+msgid "Phone"
+msgstr ""
+
+#: ../contact-f.php:126 ../contact-map.php:135 ../contact.php:139
+#: ../lib/contentbuilder.lib.php:2026 ../lib/contentbuilder.lib.php:2027
+msgid "Mobile"
+msgstr ""
+
+#: ../contact-f.php:135 ../contact-map.php:144 ../contact.php:148
+#: ../lib/contentbuilder.lib.php:2034 ../lib/contentbuilder.lib.php:2035
+msgid "Company Name"
+msgstr ""
+
+#: ../contact-f.php:144 ../contact-map.php:153 ../contact.php:157
+#: ../lib/contentbuilder.lib.php:2042 ../lib/contentbuilder.lib.php:2043
+msgid "Country"
+msgstr ""
+
+#: ../contact-f.php:180 ../contact-map.php:189 ../contact.php:193
+msgid "Submit Form"
+msgstr ""
+
+#: ../contact-map.php:68 ../contact.php:72
+msgid "Leave a message"
+msgstr ""
+
+#: ../functions.php:284 ../search.php:69
+msgid "Gallery"
+msgstr ""
+
+#: ../functions.php:295 ../search.php:80
+msgid "Tour"
+msgstr ""
+
+#: ../functions.php:310
+msgid "View all results"
+msgstr ""
+
+#: ../functions.php:335
+msgid "Thank you! We will get back to you as soon as possible"
+msgstr ""
+
+#: ../functions.php:354
+msgid "Email from contact form"
+msgstr ""
+
+#: ../functions.php:430
+msgid "Thank you for booking! We will get back to you as soon as possible"
+msgstr ""
+
+#: ../functions.php:431
+msgid "Close"
+msgstr ""
+
+#: ../functions.php:458
+msgid "Booking form"
+msgstr ""
+
+#: ../functions.php:470
+msgid "Booking for"
+msgstr ""
+
+#: ../functions.php:853
+msgid "Updating..."
+msgstr ""
+
+#: ../functions.php:854
+msgid "Successfully<br/>Update"
+msgstr ""
+
+#: ../functions.php:876
+msgid "Theme Setting"
+msgstr ""
+
+#: ../functions.php:881
+msgid "Save All Changes"
+msgstr ""
+
+#: ../functions.php:1093
+msgid "Below are fonts that already installed."
+msgstr ""
+
+#: ../functions.php:1557
+msgid "Tour Category Page Template"
+msgstr ""
+
+#: ../functions.php:1569
+msgid "Select page template for this tour category"
+msgstr ""
+
+#: ../gallery-fullscreen.php:85 ../fields/post.fields.php:10
+msgid "View Gallery"
+msgstr ""
+
+#: ../get_captcha.php:16
+msgid "Please enter correct captcha text"
+msgstr ""
+
+#: ../header.php:243
+msgid "Find our Address"
+msgstr ""
+
+#: ../header.php:569
+msgid "To Search, type and hit enter"
+msgstr ""
+
+#: ../index.php:19
+msgid "The Blog"
+msgstr ""
+
+#: ../search.php:14
+#, php-format
+msgid "Search Results for &quot;%s&quot;"
+msgstr ""
+
+#: ../search.php:38
+msgid "If you didn't find what you were looking for, try a new search."
+msgstr ""
+
+#: ../single-post-f.php:327 ../single-post-l.php:344 ../single-post-l.php:403
+#: ../single-post-r.php:329
+msgid "Previous Article"
+msgstr ""
+
+#: ../single-post-f.php:345 ../single-post-l.php:362 ../single-post-l.php:421
+#: ../single-post-r.php:347
+msgid "Next Article"
+msgstr ""
+
+#: ../single-post-f.php:400 ../single-post-l.php:476 ../single-post-r.php:402
+msgid "You might also like"
+msgstr ""
+
+#: ../single-post-f.php:483 ../single-post-l.php:581 ../single-post-r.php:507
+msgid "More Story"
+msgstr ""
+
+#: ../single-post-l.php:309
+msgid "Pages:"
+msgstr ""
+
+#: ../single-post-l.php:314
+msgid "Next page"
+msgstr ""
+
+#: ../single-post-l.php:315
+msgid "Previous page"
+msgstr ""
+
+#: ../single-tour-f.php:48 ../tour-classic-contain.php:95
+#: ../tour-classic-fullwidth.php:100 ../tour-grid-contain.php:96
+#: ../tour-grid-fullwidth.php:104 ../tour-list-image.php:109
+#: ../tour-list.php:106 ../lib/contentbuilder.lib.php:316
+#: ../lib/contentbuilder.lib.php:556
+msgid "Days"
+msgstr ""
+
+#: ../single-tour-f.php:52 ../tour-classic-contain.php:99
+#: ../tour-classic-fullwidth.php:104 ../tour-grid-contain.php:100
+#: ../tour-grid-fullwidth.php:108 ../tour-list-image.php:113
+#: ../tour-list.php:110 ../lib/contentbuilder.lib.php:320
+#: ../lib/contentbuilder.lib.php:560
+msgid "Day"
+msgstr ""
+
+#: ../single-tour-f.php:69 ../single-tour-f.php:176
+#: ../lib/contentbuilder.lib.php:132 ../templates/template-tour-search.php:83
+msgid "Date"
+msgstr ""
+
+#: ../single-tour-f.php:73 ../single-tour-f.php:180
+msgid "Duration"
+msgstr ""
+
+#: ../single-tour-f.php:77 ../single-tour-f.php:184
+msgid "Price"
+msgstr ""
+
+#: ../single-tour-f.php:81 ../single-tour-f.php:188
+msgid "Availability"
+msgstr ""
+
+#: ../single-tour-f.php:85 ../single-tour-f.php:166
+msgid "Book Now"
+msgstr ""
+
+#: ../single-tour-f.php:164
+msgid "Starting Price"
+msgstr ""
+
+#: ../single-tour-f.php:165
+msgid "Book This Tour"
+msgstr ""
+
+#: ../single-tour-f.php:216
+msgid "Previous Tour"
+msgstr ""
+
+#: ../single-tour-f.php:234
+msgid "Next Tour"
+msgstr ""
+
+#: ../single-tour-f.php:270
+msgid "Booking for "
+msgstr ""
+
+#: ../single-tour-f.php:279
+msgid "First Name"
+msgstr ""
+
+#: ../single-tour-f.php:284
+msgid "Last Name"
+msgstr ""
+
+#: ../single-tour-f.php:291
+msgid "Email"
+msgstr ""
+
+#: ../single-tour-f.php:303
+msgid "Additional Message"
+msgstr ""
+
+#: ../single-tour-f.php:311
+msgid "Book By Email"
+msgstr ""
+
+#: ../tour-classic-contain.php:137 ../tour-classic-fullwidth.php:142
+#: ../tour-grid-contain.php:135 ../tour-grid-fullwidth.php:143
+#: ../tour-list-image.php:147 ../tour-list.php:148
+#: ../lib/contentbuilder.lib.php:350 ../lib/contentbuilder.lib.php:590
+msgid "Best Deal"
+msgstr ""
+
+#: ../tour-classic-contain.php:138 ../tour-classic-fullwidth.php:143
+#: ../tour-grid-contain.php:136 ../tour-grid-fullwidth.php:144
+#: ../tour-list-image.php:148 ../tour-list.php:149
+#: ../lib/contentbuilder.lib.php:351 ../lib/contentbuilder.lib.php:591
+msgid "Off"
+msgstr ""
+
+#: ../fields/post.fields.php:7
+msgid "Add New Gallery"
+msgstr ""
+
+#: ../fields/post.fields.php:8
+msgid "Edit Gallery"
+msgstr ""
+
+#: ../fields/post.fields.php:9
+msgid "New Gallery"
+msgstr ""
+
+#: ../fields/post.fields.php:11
+msgid "Search Gallery"
+msgstr ""
+
+#: ../fields/post.fields.php:12
+msgid "No Gallery found"
+msgstr ""
+
+#: ../fields/post.fields.php:13
+msgid "No Gallery found in Trash"
+msgstr ""
+
+#: ../fields/post.fields.php:67
+msgid "Add New Tour"
+msgstr ""
+
+#: ../fields/post.fields.php:68
+msgid "Edit Tour"
+msgstr ""
+
+#: ../fields/post.fields.php:69
+msgid "New Tour"
+msgstr ""
+
+#: ../fields/post.fields.php:70
+msgid "View Tour"
+msgstr ""
+
+#: ../fields/post.fields.php:71
+msgid "Search Tour"
+msgstr ""
+
+#: ../fields/post.fields.php:72
+msgid "No Tour found"
+msgstr ""
+
+#: ../fields/post.fields.php:73
+msgid "No Tour found in Trash"
+msgstr ""
+
+#: ../fields/post.fields.php:95
+msgid "Search Tour Categories"
+msgstr ""
+
+#: ../fields/post.fields.php:96
+msgid "All Tour Categories"
+msgstr ""
+
+#: ../fields/post.fields.php:97
+msgid "Parent Tour Category"
+msgstr ""
+
+#: ../fields/post.fields.php:98
+msgid "Parent Tour Category:"
+msgstr ""
+
+#: ../fields/post.fields.php:99
+msgid "Edit Tour Category"
+msgstr ""
+
+#: ../fields/post.fields.php:100
+msgid "Update Tour Category"
+msgstr ""
+
+#: ../fields/post.fields.php:101
+msgid "Add New Tour Category"
+msgstr ""
+
+#: ../fields/post.fields.php:102
+msgid "New Tour Category Name"
+msgstr ""
+
+#: ../fields/post.fields.php:127
+msgid "Add New Service"
+msgstr ""
+
+#: ../fields/post.fields.php:128
+msgid "Edit Service"
+msgstr ""
+
+#: ../fields/post.fields.php:129
+msgid "New Service"
+msgstr ""
+
+#: ../fields/post.fields.php:130
+msgid "View Service"
+msgstr ""
+
+#: ../fields/post.fields.php:131
+msgid "Search Services"
+msgstr ""
+
+#: ../fields/post.fields.php:132
+msgid "No Service found"
+msgstr ""
+
+#: ../fields/post.fields.php:133
+msgid "No Service found in Trash"
+msgstr ""
+
+#: ../fields/post.fields.php:155
+msgid "Search Service Categories"
+msgstr ""
+
+#: ../fields/post.fields.php:156
+msgid "All Service Categories"
+msgstr ""
+
+#: ../fields/post.fields.php:157
+msgid "Parent Service Category"
+msgstr ""
+
+#: ../fields/post.fields.php:158
+msgid "Parent Service Category:"
+msgstr ""
+
+#: ../fields/post.fields.php:159
+msgid "Edit Service Category"
+msgstr ""
+
+#: ../fields/post.fields.php:160
+msgid "Update Service Category"
+msgstr ""
+
+#: ../fields/post.fields.php:161
+msgid "Add New Service Category"
+msgstr ""
+
+#: ../fields/post.fields.php:162
+msgid "New Service Category Name"
+msgstr ""
+
+#: ../fields/post.fields.php:187
+msgid "Add New Testimonial"
+msgstr ""
+
+#: ../fields/post.fields.php:188
+msgid "Edit Testimonial"
+msgstr ""
+
+#: ../fields/post.fields.php:189
+msgid "New Testimonial"
+msgstr ""
+
+#: ../fields/post.fields.php:190
+msgid "View Testimonial"
+msgstr ""
+
+#: ../fields/post.fields.php:191
+msgid "Search Testimonial"
+msgstr ""
+
+#: ../fields/post.fields.php:192
+msgid "No Testimonial found"
+msgstr ""
+
+#: ../fields/post.fields.php:193
+msgid "No Testimonial found in Trash"
+msgstr ""
+
+#: ../fields/post.fields.php:215
+msgid "Search Testimonial Categories"
+msgstr ""
+
+#: ../fields/post.fields.php:216
+msgid "All Testimonial Categories"
+msgstr ""
+
+#: ../fields/post.fields.php:217
+msgid "Parent Testimonial Category"
+msgstr ""
+
+#: ../fields/post.fields.php:218
+msgid "Parent Testimonial Category:"
+msgstr ""
+
+#: ../fields/post.fields.php:219
+msgid "Edit Testimonial Category"
+msgstr ""
+
+#: ../fields/post.fields.php:220
+msgid "Update Testimonial Category"
+msgstr ""
+
+#: ../fields/post.fields.php:221
+msgid "Add New Testimonial Category"
+msgstr ""
+
+#: ../fields/post.fields.php:222
+msgid "New Testimonial Category Name"
+msgstr ""
+
+#: ../fields/post.fields.php:247
+msgid "Add New Client"
+msgstr ""
+
+#: ../fields/post.fields.php:248
+msgid "Edit Client"
+msgstr ""
+
+#: ../fields/post.fields.php:249
+msgid "New Client"
+msgstr ""
+
+#: ../fields/post.fields.php:250
+msgid "View Client"
+msgstr ""
+
+#: ../fields/post.fields.php:251
+msgid "Search Client"
+msgstr ""
+
+#: ../fields/post.fields.php:252
+msgid "No Client found"
+msgstr ""
+
+#: ../fields/post.fields.php:253
+msgid "No Client found in Trash"
+msgstr ""
+
+#: ../fields/post.fields.php:275
+msgid "Search Client Categories"
+msgstr ""
+
+#: ../fields/post.fields.php:276
+msgid "All Client Categories"
+msgstr ""
+
+#: ../fields/post.fields.php:277
+msgid "Parent Client Category"
+msgstr ""
+
+#: ../fields/post.fields.php:278
+msgid "Parent Client Category:"
+msgstr ""
+
+#: ../fields/post.fields.php:279
+msgid "Edit Client Category"
+msgstr ""
+
+#: ../fields/post.fields.php:280
+msgid "Update Client Category"
+msgstr ""
+
+#: ../fields/post.fields.php:281
+msgid "Add New Client Category"
+msgstr ""
+
+#: ../fields/post.fields.php:282
+msgid "New Client Category Name"
+msgstr ""
+
+#: ../fields/post.fields.php:306
+msgid "Add New Team Member"
+msgstr ""
+
+#: ../fields/post.fields.php:307
+msgid "Edit Team Member"
+msgstr ""
+
+#: ../fields/post.fields.php:308
+msgid "New Team Member"
+msgstr ""
+
+#: ../fields/post.fields.php:309
+msgid "View Team Member"
+msgstr ""
+
+#: ../fields/post.fields.php:310
+msgid "Search Team Members"
+msgstr ""
+
+#: ../fields/post.fields.php:311
+msgid "No Team Member found"
+msgstr ""
+
+#: ../fields/post.fields.php:312
+msgid "No Team Member found in Trash"
+msgstr ""
+
+#: ../fields/post.fields.php:334
+msgid "Team Service Categories"
+msgstr ""
+
+#: ../fields/post.fields.php:335
+msgid "All Team Categories"
+msgstr ""
+
+#: ../fields/post.fields.php:336
+msgid "Parent Team Category"
+msgstr ""
+
+#: ../fields/post.fields.php:337
+msgid "Parent Team Category:"
+msgstr ""
+
+#: ../fields/post.fields.php:338
+msgid "Edit Team Category"
+msgstr ""
+
+#: ../fields/post.fields.php:339
+msgid "Update Team Category"
+msgstr ""
+
+#: ../fields/post.fields.php:340
+msgid "Add New Team Category"
+msgstr ""
+
+#: ../fields/post.fields.php:341
+msgid "New Team Category Name"
+msgstr ""
+
+#: ../fields/post.fields.php:365
+msgid "Add New Pricing"
+msgstr ""
+
+#: ../fields/post.fields.php:366
+msgid "Edit Pricing"
+msgstr ""
+
+#: ../fields/post.fields.php:367
+msgid "New Pricing"
+msgstr ""
+
+#: ../fields/post.fields.php:368
+msgid "View Pricing"
+msgstr ""
+
+#: ../fields/post.fields.php:369
+msgid "Search Pricings"
+msgstr ""
+
+#: ../fields/post.fields.php:370
+msgid "No Pricing found"
+msgstr ""
+
+#: ../fields/post.fields.php:371
+msgid "No Pricing found in Trash"
+msgstr ""
+
+#: ../fields/post.fields.php:393
+msgid "Pricing Service Categories"
+msgstr ""
+
+#: ../fields/post.fields.php:394
+msgid "All Pricing Categories"
+msgstr ""
+
+#: ../fields/post.fields.php:395
+msgid "Parent Pricing Category"
+msgstr ""
+
+#: ../fields/post.fields.php:396
+msgid "Parent Pricing Category:"
+msgstr ""
+
+#: ../fields/post.fields.php:397
+msgid "Edit Pricing Category"
+msgstr ""
+
+#: ../fields/post.fields.php:398
+msgid "Update Pricing Category"
+msgstr ""
+
+#: ../fields/post.fields.php:399
+msgid "Add New Pricing Category"
+msgstr ""
+
+#: ../fields/post.fields.php:400
+msgid "New Pricing Category Name"
+msgstr ""
+
+#: ../fields/post.fields.php:421
+msgid "Thumbnail"
+msgstr ""
+
+#: ../fields/gallery/tg-gallery.php:58
+msgid "Gallery Images"
+msgstr ""
+
+#: ../fields/gallery/tg-gallery.php:100
+msgid "Allowed Files"
+msgstr ""
+
+#: ../fields/gallery/tg-gallery.php:123
+msgid "Upload Image"
+msgstr ""
+
+#: ../fields/gallery/tg-gallery.php:124
+msgid "Delete All Images"
+msgstr ""
+
+#: ../fields/gallery/tg-gallery.php:131
+msgid "Remove"
+msgstr ""
+
+#: ../lib/contentbuilder.lib.php:127 ../templates/template-tour-search.php:79
+msgid "Destination"
+msgstr ""
+
+#: ../lib/contentbuilder.lib.php:128 ../templates/template-tour-search.php:80
+msgid "City, region or keywords"
+msgstr ""
+
+#: ../lib/contentbuilder.lib.php:134 ../templates/template-tour-search.php:85
+msgid "Departure"
+msgstr ""
+
+#: ../lib/contentbuilder.lib.php:139 ../templates/template-tour-search.php:90
+msgid "Arrival"
+msgstr ""
+
+#: ../lib/contentbuilder.lib.php:146 ../templates/template-tour-search.php:96
+msgid "Max Budgets"
+msgstr ""
+
+#: ../lib/contentbuilder.lib.php:147 ../templates/template-tour-search.php:97
+msgid "USD EX. 100"
+msgstr ""
+
+#: ../lib/contentbuilder.lib.php:151 ../templates/template-tour-search.php:100
+msgid "Search"
+msgstr ""
+
+#: ../lib/contentbuilder.lib.php:2072
+msgid "Send"
+msgstr ""
+
+#: ../lib/custom.lib.php:278
+msgid "(Your comment is awaiting moderation.)"
+msgstr ""
+
+#: ../lib/custom.lib.php:297
+msgid "at"
+msgstr ""
+
+#: ../lib/custom.lib.php:303
+msgid "Reply"
+msgstr ""
+
+#: ../lib/custom.lib.php:303
+msgid "Login to Reply"
+msgstr ""
+
+#: ../lib/custom.lib.php:377
+msgid "Recent Posts"
+msgstr ""
+
+#: ../lib/custom.lib.php:385
+msgid "Popular Posts"
+msgstr ""
+
+#: ../lib/menu.lib.php:7
+msgid "Primary Menu"
+msgstr ""
+
+#: ../lib/shortcode.lib.php:574
+msgid "Comment & share"
+msgstr ""
+
+#: ../lib/shortcode.lib.php:904
+msgid "Go to top"
+msgstr ""
+
+#: ../modules/twitteroauth.php:1175
+msgid "right now"
+msgstr ""
+
+#: ../modules/twitteroauth.php:1177
+msgid "seconds ago"
+msgstr ""
+
+#: ../modules/twitteroauth.php:1179
+msgid "about 1 minute ago"
+msgstr ""
+
+#: ../modules/twitteroauth.php:1181
+msgid "minutes ago"
+msgstr ""
+
+#: ../modules/twitteroauth.php:1183
+msgid "about 1 hour ago"
+msgstr ""
+
+#: ../modules/twitteroauth.php:1185
+msgid "hours ago"
+msgstr ""
+
+#: ../modules/twitteroauth.php:1187
+msgid "yesterday"
+msgstr ""
+
+#: ../modules/twitteroauth.php:1189
+msgid "days ago"
+msgstr ""
+
+#: ../modules/twitteroauth.php:1191
+msgid "over a year ago"
+msgstr ""
+
+#: ../templates/comments-form.php:13
+#, fuzzy
+msgid "Leave A Reply"
+msgstr "Leave a Reply"
+
+#: ../templates/comments-form.php:21
+msgid "Name (required)"
+msgstr ""
+
+#: ../templates/comments-form.php:24
+msgid "Email (required)"
+msgstr ""
+
+#: ../templates/comments-form.php:27
+msgid "Website"
+msgstr ""
+
+#: ../templates/comments-form.php:33
+msgid "Message"
+msgstr ""
+
+#: ../templates/comments-form.php:37
+msgid "Submit"
+msgstr ""
+
+#: ../templates/script-booking-form.php:25
+#: ../templates/script-contact-form.php:48
+msgid "Please enter"
+msgstr ""
+
+#: ../templates/script-booking-form.php:31
+#: ../templates/script-contact-form.php:54
+msgid "Please enter valid"
+msgstr ""
+
+#: ../templates/template-header.php:74
+#, php-format
+msgid "Results for &quot;%s&quot;"
+msgstr ""
+
+#: ../templates/template-header.php:103
+msgid "Blog Archives"
+msgstr ""
+
+#: ../templates/template-password.php:35
+msgid "ERROR Invalid password"
+msgstr ""
+
+#: ../templates/template-password.php:72
+msgid "Private Gallery"
+msgstr ""
+
+#: ../templates/template-password.php:73
+msgid ""
+"This gallery is password protected. Please enter password. To view it please "
+"enter your password below"
+msgstr ""
+
+#: ../templates/template-share.php:30
+msgid "Share On Facebook"
+msgstr ""
+
+#: ../templates/template-share.php:31
+msgid "Share On Twitter"
+msgstr ""
+
+#: ../templates/template-share.php:32
+msgid "Share On Pinterest"
+msgstr ""
+
+#: ../templates/template-share.php:33
+msgid "Share On Google+"
+msgstr ""
+
+#, fuzzy
+#~ msgid "Cancel"
+#~ msgstr "Leave a Reply"
+
+#, fuzzy
+#~ msgid "Cancel Reply"
+#~ msgstr "Leave a Reply"

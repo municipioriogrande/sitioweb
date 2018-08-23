@@ -1,0 +1,1363 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minos Theme\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-12-19 17:58-0300\n"
+"PO-Revision-Date: 2017-12-19 17:59-0300\n"
+"Last-Translator: alfonso <guerreroalfonso@me.com>\n"
+"Language-Team: \n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
+"_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
+"esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
+"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 2.0.4\n"
+"X-Loco-Target-Locale: es_ES\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../andimol-clima.php:27
+msgid "Title"
+msgstr "Andimol Clima"
+
+#: ../andimol-clima.php:29
+msgid "AC_GIWEATHER_OWM_APPID_LBL"
+msgstr "OpenWeatherMap App ID"
+
+#: ../andimol-clima.php:29
+msgid "AC_GIWEATHER_OWM_APPID_DSC"
+msgstr ""
+"OpenWeatherMap requiere un APPID válido para el acceso. Registre una cuenta "
+"para recibir una clave gratuita siguiendo esta url: http://home."
+"openweathermap.org/users/sign_in"
+
+#: ../andimol-clima.php:31
+msgid "AC_GIWEATHER_OWM_ID_LBL"
+msgstr "OpenWeatherMap Localidad ID (3833367 - America/Argentina/Ushuaia)"
+
+#: ../andimol-clima.php:31
+msgid "AC_GIWEATHER_OWM_ID_DSC"
+msgstr ""
+"La identificación de la localidad para la que desea mostrar el pronóstico "
+"del tiempo. La identificación es la última parte de la url. P.ej. Si la URL "
+"es http://openweathermap.org/city/3833367, entonces la ID correspondiente es "
+"3833367"
+
+#: ../andimol-clima.php:31
+msgid "AC_GIWEATHER_FINDID"
+msgstr "Encuentra la identificación de localidad"
+
+#~ msgid "Entries By"
+#~ msgstr "Entradas por"
+
+#~ msgid "About"
+#~ msgstr "Acerca"
+
+#~ msgid "Posted On"
+#~ msgstr "Publicado en"
+
+#~ msgid "By"
+#~ msgstr "Por"
+
+#~ msgid "And has"
+#~ msgstr "Y tiene"
+
+#~ msgid "No Comment"
+#~ msgstr "Sin Comentarios"
+
+#~ msgid "1 Comment"
+#~ msgstr "1 Comentario"
+
+#~ msgid "% Comments"
+#~ msgstr "% Comentarios"
+
+#~ msgid "Read More"
+#~ msgstr "Leer Más"
+
+#~ msgid "Page"
+#~ msgstr "Página"
+
+#~ msgid "of"
+#~ msgstr "de"
+
+#~ msgid ""
+#~ "This post is password protected. Enter the password to view comments."
+#~ msgstr ""
+#~ "Este mensaje está protegido con contraseña. Introduzca la contraseña para "
+#~ "ver los comentarios."
+
+#~ msgid "On"
+#~ msgstr "En"
+
+#~ msgid "Name *"
+#~ msgstr "Nombre *"
+
+#~ msgid "Email *"
+#~ msgstr "Correo Electrónico *"
+
+#~ msgid "Message *"
+#~ msgstr "Mensaje *"
+
+#~ msgid "Address"
+#~ msgstr "Dirección"
+
+#~ msgid "Phone"
+#~ msgstr "Teléfono"
+
+#~ msgid "Mobile"
+#~ msgstr "Movil"
+
+#~ msgid "Company Name"
+#~ msgstr "Nombre de tu Empresa"
+
+#~ msgid "Country"
+#~ msgstr "País"
+
+#~ msgid "Submit Form"
+#~ msgstr "Enviar"
+
+#~ msgid "Email"
+#~ msgstr "Correo Electrónico"
+
+#~ msgid "Leave a message"
+#~ msgstr "Déjanos un mensaje"
+
+#~ msgid "Gallery Images"
+#~ msgstr "Galería de Imágenes"
+
+#~ msgid "Allowed Files"
+#~ msgstr "Archivos permitidos"
+
+#~ msgid "Upload Image"
+#~ msgstr "Cargar imagen"
+
+#~ msgid "Delete All Images"
+#~ msgstr "Eliminar todas las imágenes"
+
+#~ msgid "Remove"
+#~ msgstr "Eliminar"
+
+#~ msgctxt "post type general name"
+#~ msgid "Galleries"
+#~ msgstr "Galerías"
+
+#~ msgctxt "post type singular name"
+#~ msgid "Gallery"
+#~ msgstr "Galería"
+
+#~ msgctxt "book"
+#~ msgid "Add New Gallery"
+#~ msgstr "Añadir nueva galería"
+
+#~ msgid "Add New Gallery"
+#~ msgstr "Añadir nueva galería"
+
+#~ msgid "Edit Gallery"
+#~ msgstr "Editar Galería"
+
+#~ msgid "New Gallery"
+#~ msgstr "Nueva Galería"
+
+#~ msgid "View Gallery"
+#~ msgstr "Ver galería"
+
+#~ msgid "Search Gallery"
+#~ msgstr "Buscar Galería"
+
+#~ msgid "No Gallery found"
+#~ msgstr "No se ha encontrado ninguna galería"
+
+#~ msgid "No Gallery found in Trash"
+#~ msgstr "No se ha encontrado ninguna Galería en la Papelera"
+
+#~ msgctxt "post type general name"
+#~ msgid "Rooms"
+#~ msgstr "Habitaciones"
+
+#~ msgctxt "post type singular name"
+#~ msgid "Room"
+#~ msgstr "Habitación"
+
+#~ msgctxt "book"
+#~ msgid "Add New Room"
+#~ msgstr "Agregar nueva Habitación"
+
+#~ msgid "Add New Room"
+#~ msgstr "Agregar nueva Habitación"
+
+#~ msgid "Edit Room"
+#~ msgstr "Editar Habitación"
+
+#~ msgid "New Room"
+#~ msgstr "Nueva Habitación"
+
+#~ msgid "View Room"
+#~ msgstr "Ver Habitación"
+
+#~ msgid "Search Room"
+#~ msgstr "Buscar Habitación"
+
+#~ msgid "No Room found"
+#~ msgstr "No se encontraron Habitaciones"
+
+#~ msgid "No Room found in Trash"
+#~ msgstr "No se encontraron Habitaciones en la papelera"
+
+#~ msgctxt "taxonomy general name"
+#~ msgid "Room Categories"
+#~ msgstr "Habitación Categorías"
+
+#~ msgctxt "taxonomy singular name"
+#~ msgid "Room Category"
+#~ msgstr "Habitación Categoría"
+
+#~ msgid "Search Room Categories"
+#~ msgstr "Buscar Categoría de Habitación"
+
+#~ msgid "All Room Categories"
+#~ msgstr "Todas las Categorías de Habitaciones"
+
+#~ msgid "Parent Room Category"
+#~ msgstr "Categoría Habitación Padre"
+
+#~ msgid "Parent Room Category:"
+#~ msgstr "Categoría Habitación Padre:"
+
+#~ msgid "Edit Room Category"
+#~ msgstr "Editar Categoría Habitación"
+
+#~ msgid "Update Room Category"
+#~ msgstr "Actualizar Categoría Habitación"
+
+#~ msgid "Add New Room Category"
+#~ msgstr "Agregar Categoría Habitación"
+
+#~ msgid "New Room Category Name"
+#~ msgstr "Nuevo Categoría Habitación Nombre"
+
+#~ msgid "Thumbnail"
+#~ msgstr "Miniatura"
+
+#~ msgid "FOLLOW US"
+#~ msgstr "SEGUINOS"
+
+#~ msgid "Gallery"
+#~ msgstr "Galería"
+
+#~ msgid "View all results"
+#~ msgstr "Ver todos los resultados"
+
+#~ msgid "Thank you! We will get back to you as soon as possible"
+#~ msgstr "¡Gracias! Nos comunicaremos contigo lo antes posible"
+
+#~ msgid "Email from contact form"
+#~ msgstr "Correo Electrónico del formulario de contacto"
+
+#~ msgid "Thank you for booking! We will get back to you as soon as possible"
+#~ msgstr "¡Gracias por reservar! Nos comunicaremos contigo lo antes posible"
+
+#~ msgid "Close"
+#~ msgstr "Cerrar"
+
+#~ msgid "Booking form"
+#~ msgstr "Formulario de reservación"
+
+#~ msgid "Booking for"
+#~ msgstr "Reservación para"
+
+#~ msgid "Updating..."
+#~ msgstr "Actualizando..."
+
+#~ msgid "Successfully<br/>Update"
+#~ msgstr "Actualización<br/>Exitosa"
+
+#~ msgid "Theme Setting"
+#~ msgstr "Tema de configuración"
+
+#~ msgid "Online Documentation"
+#~ msgstr "Documentación en línea"
+
+#~ msgid "Theme Support"
+#~ msgstr "Soporte Temático"
+
+#~ msgid "Save All Changes"
+#~ msgstr "Guardar todos los cambios"
+
+#~ msgid "Please enter correct captcha text"
+#~ msgstr "Por favor ingresa el texto captcha correcto"
+
+#~ msgid "Find our Address"
+#~ msgstr "Encuentra nuestra Dirección"
+
+#~ msgid "To Search, type and hit enter"
+#~ msgstr "Para buscar, escribe y presiona enter"
+
+#~ msgid "The Blog"
+#~ msgstr "El Blog"
+
+#~ msgid "FOLLOW"
+#~ msgstr "SEGUIR"
+
+#~ msgid "SCROLL FOR MORE"
+#~ msgstr "VER PLANO"
+
+#~ msgid "Send"
+#~ msgstr "Enviar"
+
+#~ msgid "Days"
+#~ msgstr "Días"
+
+#~ msgid "Day"
+#~ msgstr "Día"
+
+#~ msgid "Best Deal"
+#~ msgstr "Mejor Oferta"
+
+#~ msgid "Off"
+#~ msgstr "Apagado"
+
+#~ msgid "Date"
+#~ msgstr "Fecha"
+
+#~ msgid "Departure"
+#~ msgstr "Salida"
+
+#~ msgid "Arrival"
+#~ msgstr "Llegada"
+
+#~ msgid "PROMO CODE"
+#~ msgstr "CÓDIGO PROMOCIONA"
+
+#~ msgid "Enter your coupon"
+#~ msgstr "Ingrese su cupon"
+
+#~ msgid "CHECK AVAILABILITY"
+#~ msgstr "VERIFICAR DISPONIBILIDAD"
+
+#~ msgid "SHARE"
+#~ msgstr "COMPARTIR"
+
+#~ msgid "FOLLOWERS"
+#~ msgstr "SEGUIDORES"
+
+#~ msgid "(Your comment is awaiting moderation.)"
+#~ msgstr "(Tu comentario está esperando ser moderado.)"
+
+#~ msgid "at"
+#~ msgstr "a"
+
+#~ msgid "Reply"
+#~ msgstr "Respuesta"
+
+#~ msgid "Login to Reply"
+#~ msgstr "Inicia sesión para responder"
+
+#~ msgid "Recent Posts"
+#~ msgstr "Post recientes"
+
+#~ msgid "Popular Posts"
+#~ msgstr "Entradas Populares"
+
+#~ msgid "Primary Menu"
+#~ msgstr "Menú Primario"
+
+#~ msgid "Comment & share"
+#~ msgstr "Comentar & compartir"
+
+#~ msgid "Go to top"
+#~ msgstr "Ir arriba"
+
+#~ msgid "The API \"set\" is a required parameter."
+#~ msgstr "El API \"set\" es un parámetro necesario."
+
+#~ msgid "right now"
+#~ msgstr "ahora mismo"
+
+#~ msgid "seconds ago"
+#~ msgstr "hace segundos"
+
+#~ msgid "about 1 minute ago"
+#~ msgstr "aace alrededor de 1 minuto"
+
+#~ msgid "minutes ago"
+#~ msgstr "hace minutos"
+
+#~ msgid "about 1 hour ago"
+#~ msgstr "aace aproximadamente 1 hora"
+
+#~ msgid "hours ago"
+#~ msgstr "horas atras"
+
+#~ msgid "yesterday"
+#~ msgstr "ayer"
+
+#~ msgid "days ago"
+#~ msgstr "hace días"
+
+#~ msgid "over a year ago"
+#~ msgstr "hace más de un año"
+
+#~ msgid "Shop"
+#~ msgstr "Tienda"
+
+#~ msgid "FOLLOW ME"
+#~ msgstr "SÍGUEME"
+
+#~ msgid "See Detail"
+#~ msgstr "Ver detalle"
+
+#~ msgid "LANDING PAGE"
+#~ msgstr "PÁGINA DE DESTINO"
+
+#~ msgid "FORM"
+#~ msgstr "FORMULARIO"
+
+#~ msgid "LEGAL"
+#~ msgstr "LEGALES"
+
+#~ msgid "Search Results for &quot;%s&quot;"
+#~ msgstr "Resultados de la búsqueda de &quot;%s&quot;"
+
+#~ msgid "New Search"
+#~ msgstr "Nueva Búsqueda"
+
+#~ msgid "If you didn't find what you were looking for, try a new search."
+#~ msgstr "Si no encontraste lo que buscabas, prueba una nueva búsqueda."
+
+#~ msgid "Type and hit enter"
+#~ msgstr "Escribe y presiona enter"
+
+#~ msgid "--Room"
+#~ msgstr "--Habitación"
+
+#~ msgid "BOOK NOW ROOM"
+#~ msgstr "RESERVAR HABITACIÓN"
+
+#~ msgid "Arrival date"
+#~ msgstr "Fecha de llegada"
+
+#~ msgid "Departure date"
+#~ msgstr "Fecha de Salida"
+
+#~ msgid "BOOK NOW"
+#~ msgstr "RESERVAR"
+
+#~ msgid "SEE FLOOR PLAN"
+#~ msgstr "VER PLANO"
+
+#~ msgid "STARTING PRICE"
+#~ msgstr "PRECIO INICIAL"
+
+#~ msgid "RESERVE BY EMAIL"
+#~ msgstr "RESERVA POR EMAIL"
+
+#~ msgid "Previous Room"
+#~ msgstr "Habitación anterior"
+
+#~ msgid "Next Room"
+#~ msgstr "Habitación Siguiente"
+
+#~ msgid "Book Now"
+#~ msgstr "Reservar"
+
+#~ msgid "Name"
+#~ msgstr "Nombre"
+
+#~ msgid "Last Name"
+#~ msgstr "Apellido"
+
+#~ msgid "Message"
+#~ msgstr "Mensaje"
+
+#~ msgid "Book by email"
+#~ msgstr "Reservar por email"
+
+#~ msgid "Previous Article"
+#~ msgstr "Artículo anterior"
+
+#~ msgid "Next Article"
+#~ msgstr "Siguiente artículo"
+
+#~ msgid "You might also like"
+#~ msgstr "También podría gustarte"
+
+#~ msgid "More Story"
+#~ msgstr "Más historia"
+
+#~ msgid "Pages:"
+#~ msgstr "Páginas:"
+
+#~ msgid "Next page"
+#~ msgstr "Siguiente Página"
+
+#~ msgid "Previous page"
+#~ msgstr "Página Anterior"
+
+#~ msgid "Leave A Reply"
+#~ msgstr "Deja Una Respuesta"
+
+#~ msgid "Name (required)"
+#~ msgstr "Nombre (requerido)"
+
+#~ msgid "Email (required)"
+#~ msgstr "Correo Electrónico (requerido)"
+
+#~ msgid "Website"
+#~ msgstr "Sitio Web"
+
+#~ msgid "Submit"
+#~ msgstr "Enviar"
+
+#~ msgid "Please enter"
+#~ msgstr "Por favor ingresa"
+
+#~ msgid "Please enter valid"
+#~ msgstr "Por favor valida"
+
+#~ msgid "Por favor ingrese "
+#~ msgstr "Por favor ingrese "
+
+#~ msgid "Results for &quot;%s&quot;"
+#~ msgstr "Los resultados para &quot;%s&quot;"
+
+#~ msgid "Blog Archives"
+#~ msgstr "Archivos del blog"
+
+#~ msgid "RATE FROM"
+#~ msgstr "TASA DE"
+
+#~ msgid "since"
+#~ msgstr "ya que"
+
+#~ msgid "per nigth"
+#~ msgstr "la noche"
+
+#~ msgid "ERROR Invalid password"
+#~ msgstr "ERROR Contraseña no válida"
+
+#~ msgid "Private Gallery"
+#~ msgstr "Galería Privada"
+
+#~ msgid ""
+#~ "This gallery is password protected. Please enter password. To view it "
+#~ "please enter your password below"
+#~ msgstr ""
+#~ "Esta galería está protegida con contraseña. Por favor, ingrese "
+#~ "contraseña. Para verlo, ingrese su contraseña a continuación"
+
+#~ msgid "Share On Facebook"
+#~ msgstr "Compartir en Facebook"
+
+#~ msgid "Share On Twitter"
+#~ msgstr "Compartir en Twitter"
+
+#~ msgid "Share On Pinterest"
+#~ msgstr "Compartir en Pinterest"
+
+#~ msgid "Share On Google+"
+#~ msgstr "Compartir en Google+"
+
+#~ msgctxt "post type general name"
+#~ msgid "-> Rooms"
+#~ msgstr "-> Habitaciones"
+
+#~ msgctxt "post type general name"
+#~ msgid "-> Destacados"
+#~ msgstr "-> Destacados"
+
+#~ msgctxt "post type singular name"
+#~ msgid "--Destacado"
+#~ msgstr "--Destacado"
+
+#~ msgctxt "book"
+#~ msgid "Add Destacado"
+#~ msgstr "Agregar Destacado"
+
+#~ msgid "Add Destacado"
+#~ msgstr "Agregar Destacado"
+
+#~ msgid "Edit Destacado"
+#~ msgstr "Editar Destacado"
+
+#~ msgid "New Destacado"
+#~ msgstr "Nueva Destacado"
+
+#~ msgid "View Destacado"
+#~ msgstr "Ver Destacado"
+
+#~ msgid "Search Destacado"
+#~ msgstr "Buscar Destacado"
+
+#~ msgid "No found Destacados"
+#~ msgstr "No se encontraron Destacado"
+
+#~ msgid "No found Destacados en la Papelera"
+#~ msgstr "No se encontraron Destacado en la papelera"
+
+#~ msgctxt "post type general name"
+#~ msgid "-> Obras"
+#~ msgstr "-> Obras"
+
+#~ msgctxt "post type singular name"
+#~ msgid "Obra"
+#~ msgstr "Obra"
+
+#~ msgctxt "book"
+#~ msgid "Add New Obra"
+#~ msgstr "Agregar nuevo Obra"
+
+#~ msgid "Add New Obra"
+#~ msgstr "Agregar nuevo Obra"
+
+#~ msgid "Edit Obra"
+#~ msgstr "Editar Obra"
+
+#~ msgid "New Obra"
+#~ msgstr "Nueva Obra"
+
+#~ msgid "View Obra"
+#~ msgstr "Ver Obra"
+
+#~ msgid "Search Obra"
+#~ msgstr "Buscar Obra"
+
+#~ msgid "No Obra found"
+#~ msgstr "No se encontró ningún Obra"
+
+#~ msgid "No Obra found in Trash"
+#~ msgstr "No se encontró ningún Obra en la papelera"
+
+#~ msgctxt "taxonomy general name"
+#~ msgid "Obra Categories"
+#~ msgstr "Categorías de Obra"
+
+#~ msgctxt "taxonomy singular name"
+#~ msgid "Obra Category"
+#~ msgstr "Categoría de Obra"
+
+#~ msgid "Search Obra Categories"
+#~ msgstr "Buscar Categorías de Obra"
+
+#~ msgid "All Obra Categories"
+#~ msgstr "Todas las Categoría de Obra"
+
+#~ msgid "Parent Obra Category"
+#~ msgstr "Categoría Padre de Obra"
+
+#~ msgid "Parent Obra Category:"
+#~ msgstr "Categoría de Obra para Padres:"
+
+#~ msgid "Edit Obra Category"
+#~ msgstr "Editar Categoría de Obra"
+
+#~ msgid "Update Obra Category"
+#~ msgstr "Actualizar Categoría de Obra"
+
+#~ msgid "Add New Obra Category"
+#~ msgstr "Agregar nueva Categoría de Obra"
+
+#~ msgid "New Obra Category Name"
+#~ msgstr "Nueva Categoría de Obra Nombre"
+
+#~ msgid "Tour"
+#~ msgstr "Tour"
+
+#~ msgid "-- Room"
+#~ msgstr "--Habitación"
+
+#~ msgid "-- Obras"
+#~ msgstr "-- Obras"
+
+#~ msgid "Destination"
+#~ msgstr "Destino"
+
+#~ msgid "City, region or keywords"
+#~ msgstr "Ciudad, región o palabras clave"
+
+#~ msgid "Max Budgets"
+#~ msgstr "Presupuesto Máximo"
+
+#~ msgid "USD EX. 100"
+#~ msgstr "USD EJ. 100"
+
+#~ msgid "Search"
+#~ msgstr "Buscar"
+
+#~ msgid "SEE MORE"
+#~ msgstr "VER MÁS"
+
+#~ msgid "SEE WORKS"
+#~ msgstr "VER OBRAS"
+
+#~ msgid "Share on"
+#~ msgstr "Compartir en"
+
+#~ msgid "Share content"
+#~ msgstr "Compartir en"
+
+#~ msgid "VIEW MORE WORKS"
+#~ msgstr "VER MÁS OBRAS"
+
+#~ msgid "WORKS OF ART"
+#~ msgstr "OBRAS"
+
+#~ msgid "All techniques"
+#~ msgstr "Todas las Técnicas"
+
+#~ msgid "Chronological order"
+#~ msgstr "Orden cronológico"
+
+#~ msgid "Most Recent"
+#~ msgstr "Más reciente"
+
+#~ msgid "First works"
+#~ msgstr "Primeras obras"
+
+#~ msgid "Randomness"
+#~ msgstr "Aleatorio"
+
+#~ msgid "--Obras"
+#~ msgstr "--Obras"
+
+#~ msgid "CONTACT"
+#~ msgstr "CONTACTOS"
+
+#~ msgid "RELATED WORKS"
+#~ msgstr "OBRAS RELACIONADAS"
+
+#~ msgid "Next Work"
+#~ msgstr "Siguiente Trabajo"
+
+#~ msgid "Duration"
+#~ msgstr "Duración"
+
+#~ msgid "Price"
+#~ msgstr "Precio"
+
+#~ msgid "Availability"
+#~ msgstr "Disponibilidad"
+
+#~ msgid "Starting Price"
+#~ msgstr "Precio Inicial"
+
+#~ msgid "Book This Tour"
+#~ msgstr "Reservar Este Tour"
+
+#~ msgid "Previous Tour"
+#~ msgstr "Tour Previo"
+
+#~ msgid "Next Tour"
+#~ msgstr "Tour Siguiente"
+
+#~ msgid "Booking for "
+#~ msgstr "Reservación para"
+
+#~ msgid "First Name"
+#~ msgstr "Nombre"
+
+#~ msgid "Additional Message"
+#~ msgstr "Mensaje Adicional"
+
+#~ msgid "Book By Email"
+#~ msgstr "Reservar"
+
+#~ msgid "Promotion Code"
+#~ msgstr "Código de promoción"
+
+#~ msgid "Page Not Found"
+#~ msgstr "Página No Encontrada"
+
+#~ msgid "Oops, This Page Could Not Be Found. Try a new search."
+#~ msgstr "Vaya, Esta Página No Se Pudo Encontrar. Intenta una nueva búsqueda."
+
+#~ msgid "Or try to browse our latest posts instead?"
+#~ msgstr "¿O intentar ver nuestros últimos posts en su lugar?"
+
+#~ msgid "WORKS"
+#~ msgstr "OBRAS"
+
+#~ msgctxt "post type general name"
+#~ msgid "Tours"
+#~ msgstr "Tours"
+
+#~ msgctxt "post type singular name"
+#~ msgid "Tour"
+#~ msgstr "Tour"
+
+#~ msgid "Edit Tour"
+#~ msgstr "Editar Tour"
+
+#~ msgid "New Tour"
+#~ msgstr "Nuevo Tour"
+
+#~ msgid "View Tour"
+#~ msgstr "Ver Tour"
+
+#~ msgid "Search Tour"
+#~ msgstr "Buscar Tour"
+
+#~ msgctxt "taxonomy general name"
+#~ msgid "Tour Categories"
+#~ msgstr "Tour Categorías"
+
+#~ msgctxt "taxonomy singular name"
+#~ msgid "Tour Category"
+#~ msgstr "Tour Categoría"
+
+#~ msgid "All Tour Categories"
+#~ msgstr "Todas las Categorías de Tour"
+
+#~ msgctxt "post type general name"
+#~ msgid "-> Facilities & Services"
+#~ msgstr "-> Instalaciones & Servicios"
+
+#~ msgctxt "post type singular name"
+#~ msgid "Facility & Service"
+#~ msgstr "Instalación & Servicio"
+
+#~ msgctxt "book"
+#~ msgid "Add New Facility & Service"
+#~ msgstr "Agregar nueva Instalación & Servicio"
+
+#~ msgid "Add New Facility & Service"
+#~ msgstr "Agregar nueva Instalación & Servicio"
+
+#~ msgid "Edit Facility & Service"
+#~ msgstr "Editar Instalación & Servicio"
+
+#~ msgid "New Facility & Service"
+#~ msgstr "Nueva Instalación & Servicio"
+
+#~ msgid "View Facility & Service"
+#~ msgstr "ver Instalación & Servicio"
+
+#~ msgid "Search Facility & Service"
+#~ msgstr "Buscar Instalación & Servicio"
+
+#~ msgid "No Facility & Service found"
+#~ msgstr "No se encontraron Instalación & Servicio "
+
+#~ msgid "No Facility & Service found in Trash"
+#~ msgstr "No se encontraron Instalación & Servicio en la papelera"
+
+#~ msgctxt "taxonomy general name"
+#~ msgid "Facility & Service Categories"
+#~ msgstr "Categorías de Instalaciones & Servicios"
+
+#~ msgctxt "taxonomy singular name"
+#~ msgid "Facility & Service Category"
+#~ msgstr "Categoría de Instalación & Servicio"
+
+#~ msgid "Search Facility & Service Categories"
+#~ msgstr "Buscar Categoría de Instalación & Servicio"
+
+#~ msgid "All Facility & Service Categories"
+#~ msgstr "Todas las Categoría de Instalación & Servicio"
+
+#~ msgid "Parent Facility & Service Category"
+#~ msgstr "Categoría de Instalación & Servicio padre"
+
+#~ msgid "Parent Facility & Service Category:"
+#~ msgstr "Categoría de Instalación & Servicio padre"
+
+#~ msgid "Edit Facility & Service Category"
+#~ msgstr "Editar Categoría de Instalación & Servicio"
+
+#~ msgid "Update Facility & Service Category"
+#~ msgstr "Actualizar Categoría de Instalación & Servicio"
+
+#~ msgid "Add New Facility & Service Category"
+#~ msgstr "Agregar nueva Categoría de Instalación & Servicio"
+
+#~ msgid "New Facility & Service Category Name"
+#~ msgstr "Nueva Categoría de Instalación & Servicio Nombre"
+
+#~ msgctxt "post type general name"
+#~ msgid "Services"
+#~ msgstr "Servicios"
+
+#~ msgctxt "post type singular name"
+#~ msgid "Service"
+#~ msgstr "Servicio"
+
+#~ msgctxt "book"
+#~ msgid "Add New Service"
+#~ msgstr "Agregar nuevo Servicio"
+
+#~ msgid "Add New Service"
+#~ msgstr "Agregar nuevo Servicio"
+
+#~ msgid "Edit Service"
+#~ msgstr "Editar Servicio"
+
+#~ msgid "New Service"
+#~ msgstr "Nuevo Servicio"
+
+#~ msgid "View Service"
+#~ msgstr "Ver Servicio"
+
+#~ msgid "Search Services"
+#~ msgstr "Buscar Servicio"
+
+#~ msgid "No Service found"
+#~ msgstr "No se encontraron Servicios"
+
+#~ msgid "No Service found in Trash"
+#~ msgstr "No se encontraron Servicios en la papelera"
+
+#~ msgctxt "taxonomy general name"
+#~ msgid "Service Categories"
+#~ msgstr "Categorías de Servicios"
+
+#~ msgctxt "taxonomy singular name"
+#~ msgid "Service Category"
+#~ msgstr "Categoría de Servicio"
+
+#~ msgid "Search Service Categories"
+#~ msgstr "Buscar Categoría de Servicio"
+
+#~ msgid "All Service Categories"
+#~ msgstr "Todas las Categoría de Servicio"
+
+#~ msgid "Parent Service Category"
+#~ msgstr "Categoría de Servicio Padre"
+
+#~ msgid "Parent Service Category:"
+#~ msgstr "Categoría de Servicio Padre:"
+
+#~ msgid "Edit Service Category"
+#~ msgstr "Editar Categoría de Servicio"
+
+#~ msgid "Update Service Category"
+#~ msgstr "Actualizar Categoría de Servicio"
+
+#~ msgid "Add New Service Category"
+#~ msgstr "Agregar nueva Categoría de Servicio"
+
+#~ msgid "New Service Category Name"
+#~ msgstr "Nueva Categoría de Servicio"
+
+#~ msgctxt "post type general name"
+#~ msgid "-> Experiences"
+#~ msgstr "-> Experiencias"
+
+#~ msgctxt "post type singular name"
+#~ msgid "Experience"
+#~ msgstr "Experiencia"
+
+#~ msgctxt "book"
+#~ msgid "Add New Experience"
+#~ msgstr "Agregar nueva Experiencia"
+
+#~ msgid "Add New Experience"
+#~ msgstr "Agregar nueva Experiencia"
+
+#~ msgid "Edit Experience"
+#~ msgstr "Editar Experiencia"
+
+#~ msgid "New Experience"
+#~ msgstr "Nueva Experiencia"
+
+#~ msgid "View Experience"
+#~ msgstr "Ver Experiencia"
+
+#~ msgid "Search Experiences"
+#~ msgstr "Buscar Experiencia"
+
+#~ msgid "No Experience found"
+#~ msgstr "No se encontraron Experiencias"
+
+#~ msgid "No Experience found in Trash"
+#~ msgstr "No se encontraron Experiencias en la papelera"
+
+#~ msgctxt "taxonomy general name"
+#~ msgid "Experience Categories"
+#~ msgstr "Categorías de Experiencias"
+
+#~ msgctxt "taxonomy singular name"
+#~ msgid "Experience Category"
+#~ msgstr "Categoría de Experiencia"
+
+#~ msgid "Search Experience Categories"
+#~ msgstr "Buscar Categoría de Experiencia"
+
+#~ msgid "All Experience Categories"
+#~ msgstr "Todas las Categoría de Experiencia"
+
+#~ msgid "Parent Experience Category"
+#~ msgstr "Categoría de Experiencia Padre"
+
+#~ msgid "Parent Experience Category:"
+#~ msgstr "Categoría de Experiencia Padre:"
+
+#~ msgid "Edit Experience Category"
+#~ msgstr "Editar Categoría de Experiencia"
+
+#~ msgid "Update Experience Category"
+#~ msgstr "Actualizar Categoría de Experiencia"
+
+#~ msgid "Add New Experience Category"
+#~ msgstr "Agregar nueva Categoría de Experiencia"
+
+#~ msgid "New Experience Category Name"
+#~ msgstr "Nueva Categoría de Experiencia"
+
+#~ msgctxt "post type general name"
+#~ msgid "-> Featured Articles"
+#~ msgstr "-> Artículos Destacados"
+
+#~ msgctxt "post type singular name"
+#~ msgid "--Featured Articles"
+#~ msgstr "Artículo Destacado"
+
+#~ msgctxt "book"
+#~ msgid "Add Featured Articles"
+#~ msgstr "Agregar Artículos Destacados"
+
+#~ msgid "Add Featured Articles"
+#~ msgstr "Agregar Artículo Destacado"
+
+#~ msgid "Edit Featured Articles"
+#~ msgstr "Editar Artículo Destacado"
+
+#~ msgid "New Featured Articles"
+#~ msgstr "Nueveo Artículo Destacado"
+
+#~ msgid "View Featured Articles"
+#~ msgstr "Ver Artículo Destacado"
+
+#~ msgid "Search Featured Articles"
+#~ msgstr "Buscar Artículo Destacado"
+
+#~ msgid "No Tour found Featured Articles"
+#~ msgstr "No se encontraron Artículo Destacado"
+
+#~ msgid "No Tour found Featured Articles en la Papelera"
+#~ msgstr "No se encontraron Artículo Destacado en la papelera"
+
+#~ msgctxt "taxonomy general name"
+#~ msgid "Featured Articles Categories"
+#~ msgstr "Categoría de Artículos Destacados"
+
+#~ msgctxt "taxonomy singular name"
+#~ msgid "Featured Articles Category"
+#~ msgstr "Categoría de Artículos Destacados"
+
+#~ msgid "Search Featured Articles Category"
+#~ msgstr "Buscar Categoría de Artículos Destacados"
+
+#~ msgid "All Categories Featured Articles"
+#~ msgstr "Todas las Categoría de Artículos Destacados"
+
+#~ msgid "Parent Featured Articles Categories"
+#~ msgstr "Categoría de Artículos Destacados Padre"
+
+#~ msgid "Parent Featured Articles Categories:"
+#~ msgstr "Categoría de Artículos Destacados Padre:"
+
+#~ msgid "Edit Featured Articles Categories"
+#~ msgstr "Editar Categoría de Artículos Destacados"
+
+#~ msgid "Update Featured Articles Categories"
+#~ msgstr "Actualizar Categoría de Artículos Destacados"
+
+#~ msgid "Add new Featured Articles Categories"
+#~ msgstr "Agregar nueva Categoría de Artículos Destacados"
+
+#~ msgid "Add new Featured Articles Categories Name"
+#~ msgstr "Agregar nueva Categoría de Artículos Destacados Nombre"
+
+#~ msgctxt "post type singular name"
+#~ msgid "--Offer"
+#~ msgstr "--Oferta"
+
+#~ msgctxt "book"
+#~ msgid "Add Offer"
+#~ msgstr "Agregar Oferta"
+
+#~ msgid "Add Offer"
+#~ msgstr "Agregar Oferta"
+
+#~ msgid "Search Offer Category"
+#~ msgstr "Buscar Categoría de Oferta"
+
+#~ msgid "Parent Offers Categories"
+#~ msgstr "Categoría de Oferta Padre"
+
+#~ msgid "Parent Offers Categories:"
+#~ msgstr "Categoría de Oferta Padre:"
+
+#~ msgid "Edit Offers Categories"
+#~ msgstr "Editar Categoría de Oferta"
+
+#~ msgid "Update Offers Categories"
+#~ msgstr "Actualizar Categoría de Oferta"
+
+#~ msgid "Add new Offers Categories "
+#~ msgstr "Agregar nueva Categoría de Oferta"
+
+#~ msgid "Add new Offers Name Categories"
+#~ msgstr "Agregar nueva Categoría de Oferta"
+
+#~ msgctxt "post type general name"
+#~ msgid "Testimonials"
+#~ msgstr "Testimonios"
+
+#~ msgctxt "post type singular name"
+#~ msgid "Testimonial"
+#~ msgstr "Testimonio"
+
+#~ msgctxt "book"
+#~ msgid "Add New Testimonial"
+#~ msgstr "Agregar nuevo Testimonio"
+
+#~ msgid "Add New Testimonial"
+#~ msgstr "Agregar nuevo Testimonio"
+
+#~ msgid "New Testimonial"
+#~ msgstr "Nuevo Testimonio"
+
+#~ msgid "No Testimonial found"
+#~ msgstr "No se encontraron Testimonios"
+
+#~ msgid "No Testimonial found in Trash"
+#~ msgstr "No se encontraron Testimonios en la papelera"
+
+#~ msgctxt "taxonomy general name"
+#~ msgid "Testimonial Categories"
+#~ msgstr "Categorías de Testimonios"
+
+#~ msgctxt "taxonomy singular name"
+#~ msgid "Testimonial Category"
+#~ msgstr "Categoría de Testimonio"
+
+#~ msgid "Search Testimonial Categories"
+#~ msgstr "Buscar Categoría de Testimonio"
+
+#~ msgid "All Testimonial Categories"
+#~ msgstr "Todas las Categoría de Testimonio"
+
+#~ msgid "Parent Testimonial Category"
+#~ msgstr "Categoría de Testimonio Padre"
+
+#~ msgid "Parent Testimonial Category:"
+#~ msgstr "Categoría de Testimonio Padre:"
+
+#~ msgid "Edit Testimonial Category"
+#~ msgstr "Editar Categoría de Testimonio"
+
+#~ msgid "Update Testimonial Category"
+#~ msgstr "Actualizar Categoría de Testimonio"
+
+#~ msgid "Add New Testimonial Category"
+#~ msgstr "Agregar nueva Categoría de Testimonio"
+
+#~ msgid "New Testimonial Category Name"
+#~ msgstr "Nueva Categoría de Testimonio Nombre"
+
+#~ msgctxt "post type general name"
+#~ msgid "Clients"
+#~ msgstr "Clientes"
+
+#~ msgctxt "post type singular name"
+#~ msgid "Client"
+#~ msgstr "Cliente"
+
+#~ msgctxt "book"
+#~ msgid "Add Client"
+#~ msgstr "Agregar Cliente"
+
+#~ msgid "Add New Client"
+#~ msgstr "Agregar nuevo Cliente"
+
+#~ msgid "Edit Client"
+#~ msgstr "Editar Cliente"
+
+#~ msgid "New Client"
+#~ msgstr "Nuevo Cliente"
+
+#~ msgid "View Client"
+#~ msgstr "ver Cliente"
+
+#~ msgid "Search Client"
+#~ msgstr "Buscar Cliente"
+
+#~ msgid "No Client found"
+#~ msgstr "No se encontró Cliente"
+
+#~ msgid "No Client found in Trash"
+#~ msgstr "No se encontró Cliente en la papelera"
+
+#~ msgctxt "taxonomy general name"
+#~ msgid "Client Categories"
+#~ msgstr "Categorías de Clientes"
+
+#~ msgctxt "taxonomy singular name"
+#~ msgid "Client Category"
+#~ msgstr "Categoría de Cliente"
+
+#~ msgid "Search Client Categories"
+#~ msgstr "Buscar Categorías de Clientes"
+
+#~ msgid "All Client Categories"
+#~ msgstr "Todas las Categorías de Clientes"
+
+#~ msgid "Parent Client Category"
+#~ msgstr "Categorías de Clientes Padre"
+
+#~ msgid "Parent Client Category:"
+#~ msgstr "Categorías de Clientes Padre:"
+
+#~ msgid "Edit Client Category"
+#~ msgstr "Editar Categorías de Clientes"
+
+#~ msgid "Update Client Category"
+#~ msgstr "Actualizar Categorías de Clientes"
+
+#~ msgid "Add New Client Category"
+#~ msgstr "Agregar nueva Categorías de Clientes"
+
+#~ msgid "New Client Category Name"
+#~ msgstr "Nueva Categorías de Clientes"
+
+#~ msgctxt "post type general name"
+#~ msgid "Team Members"
+#~ msgstr "Miembros del Equipo"
+
+#~ msgctxt "post type singular name"
+#~ msgid "Team Member"
+#~ msgstr "Miembro del Equipo"
+
+#~ msgctxt "book"
+#~ msgid "Add New Team Member"
+#~ msgstr "Agregar nuevo Miembro del Equipo"
+
+#~ msgid "Add New Team Member"
+#~ msgstr "Agregar nuevo Miembro del Equipo"
+
+#~ msgid "Edit Team Member"
+#~ msgstr "Editar Miembro del Equipo"
+
+#~ msgid "New Team Member"
+#~ msgstr "Nuevo Miembro del Equipo"
+
+#~ msgid "View Team Member"
+#~ msgstr "Ver Miembro del Equipo"
+
+#~ msgid "Search Team Members"
+#~ msgstr "Buscar Miembro del Equipo"
+
+#~ msgid "No Team Member found"
+#~ msgstr "No se encontró Miembro del Equipo"
+
+#~ msgid "No Team Member found in Trash"
+#~ msgstr "No se encontró Miembro del Equipo en la Papelera"
+
+#~ msgctxt "taxonomy general name"
+#~ msgid "Team Categories"
+#~ msgstr "Categorías de Equipos"
+
+#~ msgctxt "taxonomy singular name"
+#~ msgid "Team Category"
+#~ msgstr "Categoría de Equipo"
+
+#~ msgid "Search Team Categories"
+#~ msgstr "Buscar Categorías de Equipos"
+
+#~ msgid "All Team Categories"
+#~ msgstr "Todas las Categorías de Equipos"
+
+#~ msgid "Parent Team Category"
+#~ msgstr "Categorías de Equipos Padre"
+
+#~ msgid "Parent Team Category:"
+#~ msgstr "Categorías de Equipos Padre: "
+
+#~ msgid "Edit Team Category"
+#~ msgstr "Editar Categorías de Equipos"
+
+#~ msgid "Update Team Category"
+#~ msgstr "Actualizar Categorías de Equipos"
+
+#~ msgid "Add New Team Category"
+#~ msgstr "Agregar nueva Categorías de Equipos"
+
+#~ msgid "New Team Category Name"
+#~ msgstr "Nueva Categorías de Equipos Nombre"
+
+#~ msgctxt "post type general name"
+#~ msgid "Pricing"
+#~ msgstr "Precio"
+
+#~ msgctxt "post type singular name"
+#~ msgid "Pricing"
+#~ msgstr "Precio"
+
+#~ msgctxt "book"
+#~ msgid "Add New Pricing"
+#~ msgstr "Agregar nuevo Precio"
+
+#~ msgid "Add New Pricing"
+#~ msgstr "Agregar nuevo Precio"
+
+#~ msgid "Edit Pricing"
+#~ msgstr "Editar Precio"
+
+#~ msgid "New Pricing"
+#~ msgstr "Nuevo Precio"
+
+#~ msgid "View Pricing"
+#~ msgstr "Ver Precio"
+
+#~ msgid "Search Pricings"
+#~ msgstr "Buscar Precio"
+
+#~ msgid "No Pricing found"
+#~ msgstr "No se encontró Precio"
+
+#~ msgid "No Pricing found in Trash"
+#~ msgstr "No se encontró Precio en la Papelera"
+
+#~ msgctxt "taxonomy general name"
+#~ msgid "Pricing Categories"
+#~ msgstr "Categorías de Precios"
+
+#~ msgctxt "taxonomy singular name"
+#~ msgid "Pricing Category"
+#~ msgstr "Categoría de Precio"
+
+#~ msgid "Pricing Search Categories"
+#~ msgstr "Buscar Categoría de Precio"
+
+#~ msgid "All Pricing Categories"
+#~ msgstr "Todos las Categorías de Precios"
+
+#~ msgid "Parent Pricing Category"
+#~ msgstr "Categoría de Precio Padre"
+
+#~ msgid "Parent Pricing Category:"
+#~ msgstr "Categoría de Precio Padre:"
+
+#~ msgid "Edit Pricing Category"
+#~ msgstr "Editar Categoría de Precio"
+
+#~ msgid "Update Pricing Category"
+#~ msgstr "Actualizar Categoría de Precio"
+
+#~ msgid "Add New Pricing Category"
+#~ msgstr "Agregar nueva Categoría de Precio"
+
+#~ msgid "New Pricing Category Name"
+#~ msgstr "Nuevo Categoría de Precio"
+
+#~ msgid "(OPTIONAL)"
+#~ msgstr "(OPCIONAL)"
+
+#~ msgid "Book Now "
+#~ msgstr "Reservar"

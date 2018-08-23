@@ -1,0 +1,54 @@
+
+#map{
+	width: 100%;
+	position: relative;
+	float: left;
+}
+#main_content_google { 
+	position:relative; 
+	width:100%; 
+	margin:0 auto; 
+	overflow:hidden; 
+	text-align:left; 
+	padding:28px 0px 28px 0px;
+	height:500px; 
+	color:#000;
+}
+#main_content_google_lista a {
+	font-size: 11px;
+	color: #000000;
+	text-decoration: none;
+	float: left;
+	padding: 10px;
+	font-size: "Roboto", Arial,sans-serif;
+	line-height: 14px;
+}
+#main_content_google_lista a:hover { 
+	background-color:#ebebeb;
+	border-radius: 2px;
+}
+#main_content_google_lista {
+	position: absolute;
+	right: 0px;
+	background-color: #fff;
+	z-index: 2;
+	margin: 8px;
+	font-size: 15px;
+	border-radius: 2px;
+}
+#main_content_google_lista .map_bt_close {
+	font-size: 11px;
+	float: left;
+	padding: 10px;
+	font-size: "Roboto", Arial,sans-serif;
+	line-height: 14px;
+	
+	height: 14px;
+	width: 14px;
+	background-image: url('img/equis.png');
+	background-repeat: no-repeat;
+	background-position: 9px 10px;
+}
+#main_content_google_lista .map_bt_close:hover {
+	background-position: -15px 10px;
+}

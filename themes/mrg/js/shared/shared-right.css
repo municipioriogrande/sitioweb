@@ -1,0 +1,63 @@
+.sprite_social {
+	background: url("sprite_social.png") no-repeat;
+}
+	.social {
+		bottom: 0;
+		float: right;
+		position: relative;
+		right: 0;
+		z-index: 999;
+	}
+	
+	.social-buttons {
+		overflow: hidden;
+		position: absolute;
+		right: 55px;
+		transition: all 0.3s ease 0s;
+		width: 0;
+		/*left: 55px;*/
+	}
+	.open{
+		width: 275px !important;
+	}
+	.social-buttons-inner {
+		width: 532px;
+	}
+	
+	.button-square {
+		color: #fff;
+		cursor: pointer;
+		display: block;
+		float: left;
+		height: 54px;
+		width: 54px;
+		margin-left: 1px;
+		text-align: center;
+		text-decoration: none;
+		transition: all 0.2s ease 0s;
+	}
+	.social-buttons-inner #email{ 		background-position: -55px 0px; }
+	.social-buttons-inner #email:hover{ 	background-position: -55px -55px !important; }
+	
+	.social-buttons-inner #instagram{ 		background-position: -110px 0px; }
+	.social-buttons-inner #instagram:hover{ 	background-position: -110px -55px !important; }
+	
+	.social-buttons-inner #behance{ 		background-position: -165px 0px; }
+	.social-buttons-inner #behance:hover{ background-position: -165px -55px !important; }
+	
+	.social-buttons-inner #linkedin{ 		background-position: -220px 0px; }
+	.social-buttons-inner #linkedin:hover{ 	background-position: -220px -55px !important; }
+	
+	.social-buttons-inner #pinterest{ 		background-position: -275px 0px; }
+	.social-buttons-inner #pinterest:hover{ 	background-position: -275px -55px !important; }
+	
+	.social-buttons-inner #twitter{ 		background-position: -330px 0px; }
+	.social-buttons-inner #twitter:hover{ background-position: -330px -55px !important; }
+	
+	.social-buttons-inner #facebook{ 			background-position: -385px 0px; }
+	.social-buttons-inner #facebook:hover{ 	background-position: -385px -55px !important; }
+	
+	.social-toggle{ background-position: 0px 0px; }
+	.social-toggle:hover{ background-position: 0px -55px !important; }
+	
+	

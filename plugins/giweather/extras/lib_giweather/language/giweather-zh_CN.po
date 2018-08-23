@@ -1,0 +1,362 @@
+# Copyright (C) 2016 giWeather
+# This file is distributed under the same license as the giWeather package.
+msgid ""
+msgstr ""
+"Project-Id-Version: giWeather 1.5.0\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/giweather\n"
+"POT-Creation-Date: 2016-08-31 14:27:04+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2016-08-31 16:27+0200\n"
+"Last-Translator: Garda Informatica <info@gardainformatica.it>\n"
+"Language-Team: Garda Informatica <info@gardainformatica.it>\n"
+
+#: extras/lib_giweather/json/giweather.php:70
+msgid "GIWEATHER_HUMIDITY"
+msgstr "湿度"
+
+#: extras/lib_giweather/json/giweather.php:71
+msgid "GIWEATHER_PRESSURE"
+msgstr "压力"
+
+#: extras/lib_giweather/json/giweather.php:72
+#: extras/lib_giweather/json/giweather.php:76
+msgid "GIWEATHER_WIND"
+msgstr "风"
+
+#: extras/lib_giweather/json/giweather.php:75
+msgid "GIWEATHER_TEMPERATURE"
+msgstr "温度"
+
+#: extras/mod_giweather/mod_giweather.php:77
+msgid "Connection error"
+msgstr ""
+
+#: extras/mod_giweather/tmpl/default.php:88
+msgid "GIWEATHER_JAVASCRIPT_REQUIRED"
+msgstr ""
+
+#: giweather.php:61
+msgid "COM_GIWEATHER"
+msgstr ""
+
+#: giweather.php:62
+msgid "COM_GIWEATHER_DESCRIPTION"
+msgstr ""
+
+#: giweather.php:116
+msgid "Title:"
+msgstr ""
+
+#: giweather.php:121
+msgid "GIWEATHER_SOURCE_LBL"
+msgstr ""
+
+#: giweather.php:121
+msgid "GIWEATHER_SOURCE_DSC"
+msgstr ""
+
+#: giweather.php:127
+msgid "GIWEATHER_METEOAM_ID_LBL"
+msgstr ""
+
+#: giweather.php:127
+msgid "GIWEATHER_METEOAM_ID_DSC"
+msgstr ""
+
+#: giweather.php:127 giweather.php:135
+msgid "GIWEATHER_FINDID"
+msgstr ""
+
+#: giweather.php:129
+msgid "GIWEATHER_NWS_LAT_LBL"
+msgstr ""
+
+#: giweather.php:129
+msgid "GIWEATHER_NWS_LAT_DSC"
+msgstr ""
+
+#: giweather.php:129
+msgid "GIWEATHER_LATFINDER"
+msgstr ""
+
+#: giweather.php:131
+msgid "GIWEATHER_NWS_LON_LBL"
+msgstr ""
+
+#: giweather.php:131
+msgid "GIWEATHER_NWS_LON_DSC"
+msgstr ""
+
+#: giweather.php:133
+msgid "GIWEATHER_OWM_APPID_LBL"
+msgstr ""
+
+#: giweather.php:133
+msgid "GIWEATHER_OWM_APPID_DSC"
+msgstr ""
+
+#: giweather.php:135
+msgid "GIWEATHER_OWM_ID_LBL"
+msgstr ""
+
+#: giweather.php:135
+msgid "GIWEATHER_OWM_ID_DSC"
+msgstr ""
+
+#: giweather.php:137
+msgid "GIWEATHER_OWM_LANG_LBL"
+msgstr ""
+
+#: giweather.php:137
+msgid "GIWEATHER_OWM_LANG_DSC"
+msgstr ""
+
+#: giweather.php:160
+msgid "GIWEATHER_UNIT_OF_MEASURE_LBL"
+msgstr ""
+
+#: giweather.php:160
+msgid "GIWEATHER_UNIT_OF_MEASURE_DSC"
+msgstr ""
+
+#: giweather.php:161
+msgid "GIWEATHER_UNIT_OF_MEASURE_METRIC"
+msgstr ""
+
+#: giweather.php:162
+msgid "GIWEATHER_UNIT_OF_MEASURE_IMPERIAL"
+msgstr ""
+
+#: giweather.php:167
+msgid "JOPTION_USE_DEFAULT"
+msgstr ""
+
+#: giweather.php:173
+msgid "GIWEATHER_TIMEZONE_LBL"
+msgstr ""
+
+#: giweather.php:173
+msgid "GIWEATHER_TIMEZONE_DSC"
+msgstr ""
+
+#: giweather.php:175
+msgid "GIWEATHER_BG_COLOR_LBL"
+msgstr ""
+
+#: giweather.php:175
+msgid "GIWEATHER_BG_COLOR_DSC"
+msgstr ""
+
+#: giweather.php:177
+msgid "GIWEATHER_FONT_SIZE_LBL"
+msgstr ""
+
+#: giweather.php:177
+msgid "GIWEATHER_FONT_SIZE_DSC"
+msgstr ""
+
+#: giweather.php:178
+msgid "GIWEATHER_FONT_SIZE_SMALL"
+msgstr ""
+
+#: giweather.php:179
+msgid "GIWEATHER_FONT_SIZE_MEDIUM"
+msgstr ""
+
+#: giweather.php:180
+msgid "GIWEATHER_FONT_SIZE_LARGE"
+msgstr ""
+
+#: giweather.php:183
+msgid "GIWEATHER_SHOW_HEAD_DETAILS_LBL"
+msgstr ""
+
+#: giweather.php:183
+msgid "GIWEATHER_SHOW_HEAD_DETAILS_DSC"
+msgstr ""
+
+#: giweather.php:183 giweather.php:184 giweather.php:185 giweather.php:186
+#: giweather.php:236
+msgid "JSHOW"
+msgstr ""
+
+#: giweather.php:183 giweather.php:184 giweather.php:185 giweather.php:186
+#: giweather.php:237
+msgid "JHIDE"
+msgstr ""
+
+#: giweather.php:184
+msgid "GIWEATHER_SHOW_RIGHT_DETAILS_LBL"
+msgstr ""
+
+#: giweather.php:184
+msgid "GIWEATHER_SHOW_RIGHT_DETAILS_DSC"
+msgstr ""
+
+#: giweather.php:185
+msgid "GIWEATHER_SHOW_FORECASTS_LBL"
+msgstr ""
+
+#: giweather.php:185
+msgid "GIWEATHER_SHOW_FORECASTS_DSC"
+msgstr ""
+
+#: giweather.php:186
+msgid "GIWEATHER_SHOW_FORECASTS_TEMPWIND_LBL"
+msgstr ""
+
+#: giweather.php:186
+msgid "GIWEATHER_SHOW_FORECASTS_TEMPWIND_DSC"
+msgstr ""
+
+#: giweather.php:188
+msgid "GIWEATHER_WIDGET_MAX_WIDTH_LBL"
+msgstr ""
+
+#: giweather.php:188
+msgid "GIWEATHER_WIDGET_MAX_WIDTH_DSC"
+msgstr ""
+
+#: giweather.php:190
+msgid "GIWEATHER_WIDGET_MAX_WIDTH_MU_LBL"
+msgstr ""
+
+#: giweather.php:190
+msgid "GIWEATHER_WIDGET_MAX_WIDTH_MU_DSC"
+msgstr ""
+
+#: giweather.php:194
+msgid "GIWEATHER_WIDGET_ALIGN_LBL"
+msgstr ""
+
+#: giweather.php:194
+msgid "GIWEATHER_WIDGET_ALIGN_DSC"
+msgstr ""
+
+#: giweather.php:195
+msgid "GIWEATHER_WIDGET_ALIGN_CENTER"
+msgstr ""
+
+#: giweather.php:196
+msgid "GIWEATHER_WIDGET_ALIGN_LEFT"
+msgstr ""
+
+#: giweather.php:197
+msgid "GIWEATHER_WIDGET_ALIGN_RIGHT"
+msgstr ""
+
+#: giweather.php:200
+msgid "GIWEATHER_CITY_NAME_LBL"
+msgstr ""
+
+#: giweather.php:200
+msgid "GIWEATHER_CITY_NAME_DSC"
+msgstr ""
+
+#: giweather.php:201
+msgid "GIWEATHER_CACHE_LIFETIME_LBL"
+msgstr ""
+
+#: giweather.php:201
+msgid "GIWEATHER_CACHE_LIFETIME_DSC"
+msgstr ""
+
+#: giweather.php:204
+msgid "GIWEATHER_ICONSET_LBL"
+msgstr ""
+
+#: giweather.php:204
+msgid "GIWEATHER_ICONSET_DSC"
+msgstr ""
+
+#: giweather.php:216
+msgid "GIWEATHER_WIND_ICONSET_LBL"
+msgstr ""
+
+#: giweather.php:216
+msgid "GIWEATHER_WIND_ICONSET_DSC"
+msgstr ""
+
+#: giweather.php:222
+msgid "GIWEATHER_NUM_FORECAST_LBL"
+msgstr ""
+
+#: giweather.php:222
+msgid "GIWEATHER_NUM_FORECAST_DSC"
+msgstr ""
+
+#: giweather.php:228
+msgid "GIWEATHER_CUSTOM_CSS_LBL"
+msgstr ""
+
+#: giweather.php:228
+msgid "GIWEATHER_CUSTOM_CSS_DSC"
+msgstr ""
+
+#: giweather.php:229
+msgid "COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+msgstr ""
+
+#: giweather.php:229
+msgid "COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+msgstr ""
+
+#: giweather.php:235
+msgid "GIWEATHER_SHOWCREDITS_LBL"
+msgstr ""
+
+#: giweather.php:235
+msgid "GIWEATHER_SHOWCREDITS_DSC"
+msgstr ""
+
+#: install.php:84
+msgid "GIWEATHER_COMPONENT"
+msgstr ""
+
+#: install.php:85
+msgid "GIWEATHER_INSTALLED"
+msgstr ""
+
+#: install.php:86
+msgid "GIWEATHER_NOT_INSTALLED"
+msgstr ""
+
+#: install.php:87
+msgid "GIWEATHER_LIBRARY"
+msgstr ""
+
+#: install.php:88
+msgid "GIWEATHER_MODULE"
+msgstr ""
+
+#: install.php:89
+msgid "GIWEATHER_LANGUAGES"
+msgstr ""
+
+#: install.php:90
+msgid "GIWEATHER_PLUGIN"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "giWeather"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "htto://giweather.gardainformatica.it"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"giWeather is a Wordpress widget that shows the weather forecast with a "
+"clean, clear and responsive style inspired by Google."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Garda Informatica"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.gardainformatica.it"
+msgstr ""
