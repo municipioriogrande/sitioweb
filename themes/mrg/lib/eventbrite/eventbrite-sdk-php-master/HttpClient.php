@@ -48,8 +48,8 @@ class HttpClient extends AccessMethods
     public function delete($path, array $data = array())
     {
         return $this->request($path, $data, array(), $httpMethod = 'DELETE');
-    }
-    public function request($path, $body, $expand, $httpMethod = 'GET')
+    }	 
+	 public function request($path, $body, $expand, $httpMethod = 'GET')
     {
         $data = json_encode($body);
         // I think this is the only header we need.  If there is a need
@@ -87,15 +87,14 @@ class HttpClient extends AccessMethods
 				$add_file_name = '_' . $key . '_' . $value ;
 			}
 		}
-
         $url = self::EVENTBRITE_APIv3_BASE . $path . '?'.$pre_vars.'token=' . $this->token;
-		
-		//echo $url;
+		  
 
         if (!empty($expand)) {
             $expand_str = join(',', $expand);
             $url = $url . '&expand=' . $expand_str;
         }
+		
 		//echo 'ZZZZZ|'.$path.'|ZZZZZ';
 		$file_name = str_replace('/','_',$path);
 		$file_name = $file_name . $add_file_name;
@@ -103,11 +102,13 @@ class HttpClient extends AccessMethods
 		# JSON DE HUBSPOT
 		$name_file 	= dirname(__FILE__).'/json/data_eventbrite'.$file_name.'.json';
 		$context  = stream_context_create($options);
-		
-		
+
+
 		if(empty($this->seconds_expire))
 		{
-			$response = $this->MRG_make_file_hubspot_blog($url,$name_file,$context);
+			//$response = $this->MRG_make_file_hubspot_blog($url,$name_file,$context);
+			$response = $this->MRG_make_file_hubspot_blog($url,$name_file,false);
+			//$response = $this->getfile_quickfix($url,$name_file);
 			$this->status = 'Instantly '.$hora_actual .'|'.$hora_archivo;
 		}
 		else
@@ -116,7 +117,9 @@ class HttpClient extends AccessMethods
 			if(!file_exists($name_file))
 			{
 				//echo '|1|'.'<br>'."\r";
-				$response = $this->MRG_make_file_hubspot_blog($url,$name_file,$context);
+				//$response = $this->MRG_make_file_hubspot_blog($url,$name_file,$context);
+				$response = $this->MRG_make_file_hubspot_blog($url,$name_file,false);
+				//$response = $this->getfile_quickfix($url,$name_file);
 				//$status = 'Init';
 			}
 			else
@@ -144,7 +147,9 @@ class HttpClient extends AccessMethods
 				}
 				else
 				{
-					$response = $this->MRG_make_file_hubspot_blog($url,$name_file,$context);
+					//$response = $this->MRG_make_file_hubspot_blog($url,$name_file,$context);
+					$response = $this->MRG_make_file_hubspot_blog($url,$name_file,false);
+					//$response = $this->getfile_quickfix($url,$name_file);
 					$this->status = 'Off time '.$hora_actual .'|'.$hora_archivo;
 				}
 				//echo $status.'<br>'."\r";
@@ -170,15 +175,19 @@ class HttpClient extends AccessMethods
 		echo $context.'<br>'."\r";
 		*/
 		$name_file 	= $namefile;
-
-		$result = file_get_contents($url_post, false, $context);
+	
+		//sometimes with $context doesn't bring new classes
+		//  this is a quick bug fix
+		$result = ( $context ) ? file_get_contents($url_post, false, $context) : file_get_contents($url_post, false) ;
 		
 		$response = json_decode($result, true);
+
         if ($response == NULL) {
             $response = array();
         }
         //$response['response_headers'] = $http_response_header;
 		
+
 		if(is_array($response))
 		{
 			# Eliminamos archivo
@@ -196,4 +205,6 @@ class HttpClient extends AccessMethods
 			return $response;
 		}
 	}
+	
+	
 }
