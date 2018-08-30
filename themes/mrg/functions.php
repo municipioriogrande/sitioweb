@@ -2049,4 +2049,34 @@ add_filter('query_vars', 'add_query_vars');
 
 
 
+
+
+
+
+
+
+//Page Slug Body Class
+add_filter( 'body_class', 'add_slug_body_class' );
+function add_slug_body_class( $classes ) {
+	global $post;
+	if ( isset( $post ) ) {
+		$classes[] = $post->post_type . '-' . $post->post_name;
+	}
+	return $classes;
+}
+
+
+add_action( 'wp_enqueue_scripts', 'enqueue_styles_scripts',12 );
+function enqueue_styles_scripts() {
+
+	wp_enqueue_script("flexslider-js", get_template_directory_uri()."/js/flexslider/jquery.flexslider-min.js", false, '20180815', true);
+	
+	wp_enqueue_script( "sitio", get_stylesheet_directory_uri() . "/js/sitio.js", array(), '20180815', true );
+	
+}
+
+
+
+
+
 ?>
