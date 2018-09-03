@@ -890,7 +890,7 @@ function pp_enqueue_front_page_scripts() {
 
 
 
-	wp_enqueue_style("main", get_template_directory_uri()."/css/fixes.css", false, THEMEVERSION);
+	wp_enqueue_style("main", get_template_directory_uri()."/css/fixes.min.css", false, THEMEVERSION);
 
 
 
@@ -2070,11 +2070,68 @@ add_action( 'wp_enqueue_scripts', 'enqueue_styles_scripts',12 );
 function enqueue_styles_scripts() {
 
 	wp_enqueue_script("flexslider-js", get_template_directory_uri()."/js/flexslider/jquery.flexslider-min.js", false, '20180815', true);
-	
 	wp_enqueue_script( "sitio", get_stylesheet_directory_uri() . "/js/sitio.js", array(), '20180815', true );
 	
 }
 
+
+
+
+add_shortcode('ppb_add_shortcode', 'ppb_add_shortcode_func');
+function ppb_add_shortcode_func($atts, $content) {
+
+    //extract short code attr
+    extract(shortcode_atts(array(
+		'layout' => 'fixedwidth',
+		'titulo' => '',
+		'ancla' 	=> '',
+		'contenido' => '',
+		'shortcode' => '',
+		
+    ), $atts));
+
+	$return_html = '<div class="module_add_shortcode ';
+
+    if (!empty($layout) && $layout == 'fullwidth') {
+        $return_html .= 'fullwidth ';
+    }
+   $return_html .= '" ';
+	
+	$return_html .= ( $ancla ) ? ' id="'.$ancla.'" ' : '';
+
+   $return_html .= '><div class="page_content_wrapper">';
+
+
+	 if( !empty($titulo) ) {
+		$return_html .= '<div class="row">';
+		$return_html .= '	<div class="col col-md col-md-12">';
+		
+		if( !empty($titulo) ) {
+			$return_html .= '			<h2 class="section-title">'.html_entity_decode($atts['titulo']).'</h2>'; 
+		}
+		if(!empty($contenido))
+		{		
+			$return_html .= '			<div class="text">' . html_entity_decode($atts['contenido']) . '</div>';
+			
+		}
+		if(!empty($shortcode))
+		{		
+			//$contenido = str_replace("&quot;",'"',$contenido);
+			$contenido = "[" . htmlspecialchars_decode($atts['shortcode']) . "]";
+			$return_html .= '			<div class="content">' . do_shortcode($contenido) . '</div>';
+			
+		}		
+		
+		
+		$return_html .= '	</div>'."\r";
+		$return_html .= '</div>'; // close row
+	}
+	
+	$return_html .= '</div>'; // close page_content_wrapper
+	$return_html .= '</div>'; // close bilder_modul
+	
+    return $return_html;
+}
 
 
 

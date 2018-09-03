@@ -189,6 +189,45 @@ function content_new_meta_box() {
 			<br/><br/>
 			<?php
 					}
+
+
+
+
+
+
+
+		if($attr_item['type']=='textarea_wysiwyg')
+					{
+			?>
+			<label for="<?php echo $key; ?>_<?php echo $attr_name; ?>"><?php echo $attr_title; ?></label><span class="label_desc"><?php echo $attr_item['desc']; ?></span><br/>
+            <?php
+			$quicktags_settings = array( 'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code' );
+			$settings = array(
+				'wpautop' => false,
+				'media_buttons' => true,
+				'textarea_name' => $key."_".$attr_name,
+				'textarea_rows' => 7,
+				'teeny' => false,
+				'dfw' => false,
+				'tinymce' => false,
+				'quicktags' => $quicktags_settings
+			);
+			wp_editor( '', $key."_".$attr_name, $settings );
+			?>
+            
+			<br/><br/>
+			<?php
+					}
+
+
+
+
+
+
+
+
+
+
 				}
 			?>
 			

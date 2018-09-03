@@ -2994,5 +2994,103 @@ if($pp_revslider_activated)
     );
 }
 
+
+
+
+
+
+
+$ppb_shortcodes['ppb_lista_cursos_edlt'] = array(
+	'title' =>  'Titular y lista cursos EDLT',
+    	'attr' => array(
+			'titulo' => array(
+    			'title' => 'Titulo',
+    			'type' => 'text',
+    			'desc' => 'Ingrese el texto para mostrar como Titulo',
+    		)			
+			
+    	),
+    	'desc' => array(),
+    	'content' => false
+    
+
+    );
+
+
+
+
+$ppb_shortcodes['ppb_free_text'] = array(
+	'title' =>  'Titular y texto libre',
+    	'attr' => array(
+			'titulo' => array(
+    			'title' => 'Titulo',
+    			'type' => 'text',
+    			'desc' => 'Ingrese el texto para mostrar como Titulo',
+    		),
+			'ancla' => array(
+    			'title' => 'Ancla',
+    			'type' => 'text',
+    			'desc' => 'Ingrese el texto del ancla',
+    		),			
+			'contenido' => array(
+    			'title' => 'Contenido',
+				'type' => 'textarea_wysiwyg',
+    			'desc' => 'Ingrese contenido',
+    		),						
+    	),
+    	'desc' => array(),
+    	'content' => false
+    
+
+    );
+	 
+	 
+	 
+	 
+	 
+$ppb_shortcodes['ppb_add_shortcode'] = array(
+	'title' =>  'Titular y shortcode',
+    	'attr' => array(
+			'titulo' => array(
+    			'title' => 'Titulo',
+    			'type' => 'text',
+    			'desc' => 'Ingrese el texto para mostrar como Titulo',
+    		),
+			'ancla' => array(
+    			'title' => 'Ancla',
+    			'type' => 'text',
+    			'desc' => 'Ingrese el texto del ancla',
+    		),			
+			'contenido' => array(
+    			'title' => 'Texto',
+				'type' => 'textarea',
+    			'desc' => 'Ingrese contenido (irá antes de shortcode)',
+    		),	
+			'shortcode' => array(
+    			'title' => 'Contenido',
+				'type' => 'text',
+    			'desc' => 'Ingrese shortcode sin los [ ]',
+    		),						
+    	),
+    	'desc' => array(),
+    	'content' => false
+    
+
+    );	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+
 ksort($ppb_shortcodes);
 ?>
