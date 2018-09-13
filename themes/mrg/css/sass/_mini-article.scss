@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css?family=Muli:300,400,600,700,800');
+
+
+$deep-blue: #002855;
+$orange:  #ff6a00;
+$light-grey: #f0f0f0;
+$mobile-width: 400px;
+$main-font: 'Muli', Arial, sans-serif;
+$font-awesome-normal: "Font Awesome 5 Free";
+$font-awesome-brands: "Font Awesome 5 Brands";
+
+@mixin border-radius($size) {
+	-webkit-border-radius: $size;
+		-moz-border-radius: $size;
+		 -ms-border-radius: $size;
+		  -o-border-radius: $size;
+			  border-radius: $size;
+}
+
+@mixin transform($property) {
+  -webkit-transform: $property;
+		-ms-transform: $property;
+			 transform: $property;
+}
+
+@mixin box-shadow($property) {
+	-webkit-box-shadow: $property;
+		-moz-box-shadow: $property;
+		 -ms-box-shadow: $property;
+		  -o-box-shadow: $property;
+			  box-shadow: $property;
+}
+
+@mixin transition($property) {
+	-webkit-transition: $property;
+		 -moz-transition: $property;
+		  -ms-transition: $property;
+			-o-transition: $property;
+				transition: $property;
+}
+
+
+
+.effect-enlarge-shadow:hover{
+	@include transform(scale(1.015));
+	@include box-shadow(0 10px 50px -5px rgba(0,0,0,.30));
+	@include transition(.3s ease-in-out);
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+.mini-article {
+	background-color: $light-grey;
+	overflow: hidden;
+	margin: 0.5em;
+	@include border-radius(10px);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width:  100%;
+
+	
+
+	@media screen and (max-width: $mobile-width) {
+		width: 100%;
+		margin: 0;
+		margin-bottom: 1em;
+	}
+	a {
+		color: $deep-blue;
+	}
+	.title{
+		order: 2;
+		font-size: 1.6em;
+		margin-top: 1.3em;
+		padding: 0 0.7em;
+
+		margin-top: 0.8em;
+		font-weight: 700;
+		font-family: Muli;
+	}
+
+	.image{
+		order: 1;
+
+		height: 240px;
+		width: 100%;
+		min-width: 400px;
+		overflow: hidden;
+
+		background-size: cover;
+		background-position: center;
+	 }
+
+	.category{
+		order: 3;
+		padding: 0 0.7em;
+		padding: 1em;
+
+		text-transform: uppercase;
+	}
+	
+}
+
+
+
+.mini-posts-container {
+	.row {
+		display:  flex;
+		margin:  1em 0;
+		flex-wrap:  wrap;
+
+		@media screen and (max-width: $mobile-width) {
+			flex-direction: column;
+			align-items: center;
+	  }
+	}
+
+	.column {
+		width: 32%;
+		display: flex; //same height
+	}
+}
+
+
+
+
+.mini-posts-container .column-bigger .mini-article {
+	.image {
+		min-height: 440px;
+		height: 70%;
+
+	}
+	.title {
+		margin-top: 0.4em;
+	}
+}
+
+.mini-posts-container .column-bigger {
+
+	.bigger {
+		width:  64%;
+	}
+
+}
