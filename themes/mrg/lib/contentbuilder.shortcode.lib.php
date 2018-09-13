@@ -86,7 +86,9 @@ curl_setopt($ch_topics, CURLOPT_CUSTOMREQUEST, "GET");
 curl_setopt($ch_topics, CURLOPT_RETURNTRANSFER, true);                                                                      
 $result_topics 		= curl_exec($ch_topics);
 
-$return_data_topics = json_decode($result_topics, true);
+//$return_data_topics = json_decode($result_topics, true);
+//Quick fix below to get result
+$return_data_topics = json_decode(file_get_contents( $url_topics, true ), true);
 $data_topics 		= $return_data_topics['objects'];
 $data_topics_length = count($data_topics)-1;
 

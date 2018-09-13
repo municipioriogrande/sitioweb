@@ -1631,7 +1631,10 @@ function MRG_make_file_hubspot_blog_filter($url_post,$namefile,$hubspot_topics)
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
 	$result = curl_exec($ch);
 	
-	$return_data = json_decode($result, true);
+	//$return_data = json_decode($result, true);
+	//Quick fix below to get result
+	$return_data = json_decode(file_get_contents( $url_post, true ), true);
+	
 	$data = $return_data['objects'];
 	
 	if(is_array($data))
