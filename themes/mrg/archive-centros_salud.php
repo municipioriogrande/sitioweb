@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Archivo licitaciones, taken from "Template Name: MODULE - Page Full Width"
+ * Archivo licitaciones, taken from Template Name: MODULE - Page Full Width
  * The main template file for display page.
  *
  * @package WordPress
