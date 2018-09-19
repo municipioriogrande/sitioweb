@@ -3003,24 +3003,6 @@ if($pp_revslider_activated)
 
 
 
-$ppb_shortcodes['ppb_lista_cursos_edlt'] = array(
-	'title' =>  'Titular y lista cursos EDLT',
-    	'attr' => array(
-			'titulo' => array(
-    			'title' => 'Titulo',
-    			'type' => 'text',
-    			'desc' => 'Ingrese el texto para mostrar como Titulo',
-    		)			
-			
-    	),
-    	'desc' => array(),
-    	'content' => false
-    
-
-    );
-
-
-
 
 $ppb_shortcodes['ppb_free_text'] = array(
 	'title' =>  'Titular y texto libre',
