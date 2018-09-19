@@ -11,6 +11,18 @@
   margin-bottom: 8px;
 }
 
+.andimol_clima .anndimol-temp {
+  padding-top: 0;
+}
+.andimol_clima .icon {
+  max-width: 70px;
+  float: none;
+  line-height: 0px;
+}
+.andimol_clima i[class^=meteocons-] {
+  margin-right: 0;
+}
+
 #page_content_wrapper .search_form_wrapper {
   float: none;
   width: auto;
