@@ -13,6 +13,35 @@
 
 
 
+
+.andimol_clima {
+	.anndimol-temp {
+		padding-top: 0;
+	}
+	
+	.icon {
+		max-width: 70px;
+		float: none;
+		line-height: 0px;
+	}
+	
+	i[class^="meteocons-"] {
+		margin-right: 0;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 #page_content_wrapper .search_form_wrapper {
 	float: none;
 	width: auto;
@@ -257,6 +286,8 @@ form.form-subscribe {
 	.inline {
 		display: flex;
 		padding-right: 3em;
+		font-size: 0.9em;
+		width: 100%;
 	}	
 	
 	.inline label,
@@ -293,8 +324,9 @@ form.form-subscribe {
 		border: 1px solid #fff;
 		background-color: $orange;
 		color: #fff;	
+		width: auto;
 		
-		&::hover {
+		&:hover {
 			color: #000;
 			background: #ffffff !important;
 		}
@@ -306,6 +338,17 @@ form.form-subscribe {
 		flex-wrap: wrap;
 		align-items: center;
 		margin: 0.5em 0;
+	}
+	
+	.row.inline {
+		.inline {
+			width: 47%;
+			padding-right: 1em !important;
+			
+			input {
+				width: 100%;
+			}
+		}
 	}
 	
 
@@ -345,6 +388,16 @@ form.form-subscribe {
 	div.wpcf7-mail-sent-ok {
 		border: 0;
 	}
+	
+	.wpcf7-form-control-wrap {
+		width: 100%;
+	}
+
+	div.wpcf7 input[type="file"] {
+		border: 0;
+	}
+
+
 }
 
 
@@ -556,5 +609,113 @@ body.post-type-archive-centros_salud {
 				}
 			}
 		}
+	}
+}
+
+
+
+
+
+
+.people-list-wrapper {
+
+	ul {
+		list-style-type: none;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+	
+	li {
+		margin: 1em 1em 3em;
+		text-align: center;
+		width: 300px;
+		
+		a {
+			color: $deep-blue;
+		}
+		
+		.image {
+			 border-radius: 300px;
+			 overflow: hidden;
+			 width: 150px;	
+			 height: 150px;			 
+			 margin: 0 auto 0.7em;
+			 
+			img {
+				margin: 0 auto;	
+				height: 100%;
+				width: 150px;
+			}
+		}
+		
+		.title {
+			font-weight: bold;
+			font-size: 1.1em;
+		}
+	}
+
+}
+
+
+
+
+.module_add_shortcode .nnice-cta {
+	.row > .col {
+		display: flex;
+	}
+	
+	.text {
+		width: 50%;
+	}
+	background-color: $orange;
+	
+	&.nnice-cta-form {
+		border-radius: 1em;
+		overflow: hidden;
+		
+		.text {
+			margin: 0;
+		}
+	
+		.content {
+			background-color: transparent;
+			color: #fff;
+			
+		}
+		.box-image {
+			background-position: center top;
+			background-size:cover;
+			min-height: 300px;
+			height: 100%;
+		}
+		
+		form.form-subscribe {
+			border-radius: 0 1em 1em 0;
+			color: #fff;
+			max-width: 540px;
+			
+			h3 {
+				color: inherit !important;
+				text-align: center;
+				margin-bottom: 1em;
+				font-size: 1.6em;
+			}
+			
+			.row.inline {
+				justify-content: space-between;
+			}
+			
+			.row > .inline {
+				padding-right: 1em;
+				width: 100%;
+			}
+			
+			.row.inline .inline {
+				width: 47% !important;
+			}
+
+		}
+		
 	}
 }

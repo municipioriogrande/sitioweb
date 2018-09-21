@@ -3046,6 +3046,11 @@ $ppb_shortcodes['ppb_add_shortcode'] = array(
     			'type' => 'text',
     			'desc' => 'Ingrese el texto del ancla',
     		),			
+			'clases' => array(
+    			'title' => 'Clases',
+    			'type' => 'text',
+    			'desc' => 'Clases para esta sección',
+    		),	
 			'contenido' => array(
     			'title' => 'Texto',
 				'type' => 'textarea',

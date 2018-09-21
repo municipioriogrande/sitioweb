@@ -1,5 +1,15 @@
 @charset "UTF-8";
 @import url("https://fonts.googleapis.com/css?family=Muli:300,400,600,700,800");
+.visually-hide {
+  position: absolute;
+  display: inline-block;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  color: transparent;
+  background: transparent;
+}
+
 .top_bar #searchform {
   margin-right: 2em;
 }
@@ -231,6 +241,8 @@ form.form-subscribe .fake-label {
 form.form-subscribe .inline {
   display: flex;
   padding-right: 3em;
+  font-size: 0.9em;
+  width: 100%;
 }
 form.form-subscribe .inline label,
 form.form-subscribe .inline .fake-label {
@@ -261,8 +273,9 @@ form.form-subscribe input[type=submit] {
   border: 1px solid #fff;
   background-color: #ff6a00;
   color: #fff;
+  width: auto;
 }
-form.form-subscribe input[type=submit]::hover {
+form.form-subscribe input[type=submit]:hover {
   color: #000;
   background: #ffffff !important;
 }
@@ -272,6 +285,13 @@ form.form-subscribe .row {
   flex-wrap: wrap;
   align-items: center;
   margin: 0.5em 0;
+}
+form.form-subscribe .row.inline .inline {
+  width: 47%;
+  padding-right: 1em !important;
+}
+form.form-subscribe .row.inline .inline input {
+  width: 100%;
 }
 form.form-subscribe .row.center {
   text-align: center;
@@ -299,6 +319,12 @@ form.form-subscribe span.wpcf7-list-item {
   display: block;
 }
 form.form-subscribe div.wpcf7-mail-sent-ok {
+  border: 0;
+}
+form.form-subscribe .wpcf7-form-control-wrap {
+  width: 100%;
+}
+form.form-subscribe div.wpcf7 input[type=file] {
   border: 0;
 }
 
@@ -471,6 +497,85 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info {
 body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
   font-weight: bold;
   font-size: 1.2em;
+}
+
+.people-list-wrapper ul {
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.people-list-wrapper li {
+  margin: 1em 1em 3em;
+  text-align: center;
+  width: 300px;
+}
+.people-list-wrapper li a {
+  color: #002855;
+}
+.people-list-wrapper li .image {
+  border-radius: 300px;
+  overflow: hidden;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 0.7em;
+}
+.people-list-wrapper li .image img {
+  margin: 0 auto;
+  height: 100%;
+  width: 150px;
+}
+.people-list-wrapper li .title {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.module_add_shortcode .nnice-cta {
+  background-color: #ff6a00;
+}
+.module_add_shortcode .nnice-cta .row > .col {
+  display: flex;
+}
+.module_add_shortcode .nnice-cta .text {
+  width: 50%;
+}
+.module_add_shortcode .nnice-cta.nnice-cta-form {
+  border-radius: 1em;
+  overflow: hidden;
+}
+.module_add_shortcode .nnice-cta.nnice-cta-form .text {
+  margin: 0;
+}
+.module_add_shortcode .nnice-cta.nnice-cta-form .content {
+  background-color: transparent;
+  color: #fff;
+}
+.module_add_shortcode .nnice-cta.nnice-cta-form .box-image {
+  background-position: center top;
+  background-size: cover;
+  min-height: 300px;
+  height: 100%;
+}
+.module_add_shortcode .nnice-cta.nnice-cta-form form.form-subscribe {
+  border-radius: 0 1em 1em 0;
+  color: #fff;
+  max-width: 540px;
+}
+.module_add_shortcode .nnice-cta.nnice-cta-form form.form-subscribe h3 {
+  color: inherit !important;
+  text-align: center;
+  margin-bottom: 1em;
+  font-size: 1.6em;
+}
+.module_add_shortcode .nnice-cta.nnice-cta-form form.form-subscribe .row.inline {
+  justify-content: space-between;
+}
+.module_add_shortcode .nnice-cta.nnice-cta-form form.form-subscribe .row > .inline {
+  padding-right: 1em;
+  width: 100%;
+}
+.module_add_shortcode .nnice-cta.nnice-cta-form form.form-subscribe .row.inline .inline {
+  width: 47% !important;
 }
 
 .effect-enlarge-shadow:hover {

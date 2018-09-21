@@ -2085,6 +2085,7 @@ function ppb_add_shortcode_func($atts, $content) {
 		'layout' => 'fixedwidth',
 		'titulo' => '',
 		'ancla' 	=> '',
+		'clases' 	=> '',
 		'contenido' => '',
 		'shortcode' => '',
 		
@@ -2099,33 +2100,31 @@ function ppb_add_shortcode_func($atts, $content) {
 	
 	$return_html .= ( $ancla ) ? ' id="'.$ancla.'" ' : '';
 
-   $return_html .= '><div class="page_content_wrapper">';
+   $return_html .= '><div class="page_content_wrapper '. html_entity_decode($atts['clases']) .'">';
 
 
-	 if( !empty($titulo) ) {
-		$return_html .= '<div class="row">';
-		$return_html .= '	<div class="col col-md col-md-12">';
-		
-		if( !empty($titulo) ) {
-			$return_html .= '			<h2 class="section-title">'.html_entity_decode($atts['titulo']).'</h2>'; 
-		}
-		if(!empty($contenido))
-		{		
-			$return_html .= '			<div class="text">' . html_entity_decode($atts['contenido']) . '</div>';
-			
-		}
-		if(!empty($shortcode))
-		{		
-			//$contenido = str_replace("&quot;",'"',$contenido);
-			$contenido = "[" . htmlspecialchars_decode($atts['shortcode']) . "]";
-			$return_html .= '			<div class="content">' . do_shortcode($contenido) . '</div>';
-			
-		}		
-		
-		
-		$return_html .= '	</div>'."\r";
-		$return_html .= '</div>'; // close row
+	$return_html .= '<div class="row">';
+	$return_html .= '	<div class="col col-md col-md-12">';
+	
+	if( !empty($titulo) ) {
+		$return_html .= '			<h2 class="section-title">'.html_entity_decode($atts['titulo']).'</h2>'; 
 	}
+	if(!empty($contenido))
+	{		
+		$return_html .= '			<div class="text">' . html_entity_decode($atts['contenido']) . '</div>';
+		
+	}
+	if(!empty($shortcode))
+	{		
+		//$contenido = str_replace("&quot;",'"',$contenido);
+		$contenido = "[" . htmlspecialchars_decode($atts['shortcode']) . "]";
+		$return_html .= '			<div class="content">' . do_shortcode($contenido) . '</div>';
+		
+	}		
+	
+	
+	$return_html .= '	</div>'."\r";
+	$return_html .= '</div>'; // close row
 	
 	$return_html .= '</div>'; // close page_content_wrapper
 	$return_html .= '</div>'; // close bilder_modul
