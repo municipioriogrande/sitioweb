@@ -50,6 +50,23 @@
   width: 76% !important;
 }
 
+@media screen and (max-width: 500px) {
+  body.home .ppb_wrapper .ppb_gestion_municipal .box {
+    width: 150px !important;
+    margin: 0.3em !important;
+    float: none;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  body.home .ppb_wrapper .ppb_gestion_municipal .box h3 {
+    font-size: 0.9em !important;
+  }
+  body.home .ppb_wrapper .ppb_gestion_municipal .box .image {
+    width: 100%;
+    max-width: 100px;
+  }
+}
+
 .wrapper_max_width {
   max-width: 1080px;
   margin: 0 auto;
@@ -364,7 +381,7 @@ form.form-subscribe div.wpcf7 input[type=file] {
   overflow: hidden;
   background-color: #f0f0f0;
 }
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 500px) {
   .ppb_module_centros-salud .centro-salud {
     width: 100%;
     display: block;
@@ -375,7 +392,7 @@ form.form-subscribe div.wpcf7 input[type=file] {
   height: 300px;
   overflow: hidden;
 }
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 500px) {
   .ppb_module_centros-salud .centro-salud .featured-image {
     height: 210px;
   }
@@ -404,7 +421,7 @@ body.single-centros_salud #page_caption {
   background-position: center;
   background-repeat: no-repeat;
 }
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 500px) {
   body.single-centros_salud #page_caption {
     position: relative;
   }
@@ -417,14 +434,14 @@ body.single-centros_salud #page_caption .title {
   color: #fff;
   font-size: 3em;
 }
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 500px) {
   body.single-centros_salud #page_caption .title {
     width: 100vw;
     font-size: 2em !important;
     position: relative;
   }
 }
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 500px) {
   body.single-centros_salud .inner_wrapper {
     padding: 6em 1em;
   }
@@ -450,7 +467,7 @@ body.single-centros_salud .post_wrapper h4 {
 body.single-centros_salud .post_wrapper ul {
   margin: 0 0 1em 0 !important;
 }
-@media screen and (min-width: 400px) {
+@media screen and (min-width: 500px) {
   body.single-centros_salud .post_wrapper .cols {
     display: flex;
     flex-wrap: wrap;
@@ -461,7 +478,7 @@ body.single-centros_salud .post_wrapper .cols .col {
   margin: 3em 2em;
   width: 40%;
 }
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 500px) {
   body.single-centros_salud .post_wrapper .cols .col {
     margin: 2em 0.7em;
     width: 100%;
@@ -480,12 +497,12 @@ body.post-type-archive-centros_salud #list-centros_salud ul li {
   margin: 2em auto;
   max-width: 900px;
 }
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 500px) {
   body.post-type-archive-centros_salud #list-centros_salud ul li {
     flex-direction: column;
   }
 }
-@media screen and (min-width: 400px) {
+@media screen and (min-width: 500px) {
   body.post-type-archive-centros_salud #list-centros_salud ul li .featured-image {
     max-width: 300px;
     margin-right: 2em;

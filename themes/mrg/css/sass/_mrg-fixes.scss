@@ -61,6 +61,41 @@
 }
 
 
+
+
+
+
+
+body.home .ppb_wrapper .ppb_gestion_municipal {
+	@media screen and (max-width:$mobile-width) {
+		.box {
+			 width: 150px !important;
+			 margin: 0.3em !important;
+			 float: none;
+			 display: inline-block;
+			 vertical-align: middle;
+			 
+			h3 {
+				font-size: 0.9em !important
+			}
+			
+			.image {
+				width: 100%;
+				max-width: 100px;
+			}
+
+
+		}
+	}
+}
+
+
+
+
+
+
+
+
 .wrapper_max_width {
 	max-width: 1080px;
 	margin: 0 auto;
