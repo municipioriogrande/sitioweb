@@ -20,7 +20,7 @@ $categories_select = array();
 $categories_select[''] = '';
 
 foreach ($categories_arr as $cat) {
-	$categories_select[$cat->cat_ID] = $cat->cat_name;
+	$categories_select[$cat->id] = $cat->cat_name;
 }
 
 /* THISNEW { */
@@ -3068,7 +3068,65 @@ $ppb_shortcodes['ppb_add_shortcode'] = array(
 
     );	 
 	 
+
 	 
+// call from functions	 
+$tmp = get_external_blog_categories();
+
+$categories_select = array(
+	'all' => 'Todas'
+);
+
+if ( !empty( $tmp ) ) {
+	$the_cat_id = -1;
+	$the_cat_name = "";
+	foreach ($tmp as $cat_id => $cat_details ) {
+		$the_cat_id = $cat_id;
+		$the_cat_name = $cat_details['name'];
+		
+		if ( isset($cat_details['id']) ) {
+			$the_cat_id = $cat_details['id'];
+		}
+		
+		//$data[$cat["id"]] = array("name" => $cat["name"], "link" => $cat["link"]);
+		//$categories_select[$cat['id']] = $cat["name"]; //expected format
+		$categories_select[$the_cat_id] = $the_cat_name; //expected format
+	}	
+}
+
+
+
+
+$ppb_shortcodes['ppb_blog_latest_posts'] = array(
+	'title' =>  'BLOG (nuevo) Títular / Notas x 3',
+    'attr' => array(
+			'titulo' => array(
+    			'title' => 'Titulo',
+    			'type' => 'text',
+    			'desc' => 'Ingrese el texto para mostrar como Titulo',
+    		),
+			/*
+			'show_items' => array(
+    			'type' => 'text',
+    			'desc' => 'Enter the number of articles to show',
+    		),
+			*/
+			'ancla' => array(
+    			'title' => 'Ancla',
+    			'type' => 'text',
+    			'desc' => 'Ingrese el texto del ancla',
+    		),			
+			'selected_category' => array(
+    			'title' => 'Categoría',
+    			'type' => 'select',
+    			'options' => $categories_select,
+    			'desc' => 'Seleccionar la categoría para filtrar los posts',
+    		),	
+    	'desc' => array(),
+    	'content' => false
+    )
+
+	 );
 	 
  $ppb_shortcodes['ppb_lista_centros_salud'] = array(
 	'title' =>  'Titular y lista Centros de Salud',

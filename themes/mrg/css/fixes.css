@@ -613,6 +613,28 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
   backface-visibility: hidden;
 }
 
+.mini-posts-container .row {
+  display: flex;
+  margin: 1em 0;
+  flex-wrap: wrap;
+}
+@media screen and (max-width: 400px) {
+  .mini-posts-container .row {
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+  }
+}
+.mini-posts-container .column {
+  width: 32%;
+  display: flex;
+}
+@media screen and (max-width: 400px) {
+  .mini-posts-container .column {
+    width: 100%;
+  }
+}
+
 .mini-article {
   background-color: #f0f0f0;
   overflow: hidden;
@@ -644,7 +666,7 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
   padding: 0 0.7em;
   margin-top: 0.8em;
   font-weight: 700;
-  font-family: Muli;
+  font-family: "Muli", Arial, sans-serif;
 }
 .mini-article .image {
   order: 1;
@@ -654,6 +676,12 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
   overflow: hidden;
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
+}
+@media screen and (max-width: 400px) {
+  .mini-article .image {
+    background-position: left top;
+  }
 }
 .mini-article .category {
   order: 3;
@@ -661,33 +689,69 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
   padding: 1em;
   text-transform: uppercase;
 }
-
-.mini-posts-container .row {
-  display: flex;
-  margin: 1em 0;
-  flex-wrap: wrap;
-}
 @media screen and (max-width: 400px) {
-  .mini-posts-container .row {
-    flex-direction: column;
-    align-items: center;
+  .mini-article .category {
+    font-size: 0.9em !important;
   }
-}
-.mini-posts-container .column {
-  width: 32%;
-  display: flex;
-}
-
-.mini-posts-container .column-bigger .mini-article .image {
-  min-height: 440px;
-  height: 70%;
-}
-.mini-posts-container .column-bigger .mini-article .title {
-  margin-top: 0.4em;
 }
 
 .mini-posts-container .column-bigger .bigger {
   width: 64%;
+}
+@media screen and (max-width: 400px) {
+  .mini-posts-container .column-bigger .bigger {
+    width: 100%;
+  }
+}
+.mini-posts-container .column-bigger .mini-article .title {
+  margin-top: 0.4em;
+}
+.mini-posts-container .column-bigger .mini-article .image {
+  min-height: 440px;
+  height: 70%;
+}
+@media screen and (max-width: 400px) {
+  .mini-posts-container .column-bigger .mini-article .image {
+    min-height: 240px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .mini-posts-container .column {
+    width: 100% !important;
+  }
+}
+
+.blog-latest {
+  margin: 0 auto;
+  padding-top: 2em;
+}
+
+.blog-latest > .title {
+  margin: 1em;
+  padding-top: 0px;
+  color: #ff6a00;
+  text-align: center;
+  font-family: Muli, sans-serif;
+  font-weight: 900;
+  font-size: 3em;
+}
+@media screen and (max-width: 400px) {
+  .blog-latest > .title {
+    margin: 0.5em;
+    font-size: 2.3em !important;
+    line-height: 1.3em !important;
+  }
+}
+
+.blog-latest .button-blog {
+  display: inline-block;
+  margin: 6em auto;
+  transition: 0.4s;
+}
+
+.blog-latest .button-blog:hover {
+  transform: rotate(-20deg);
 }
 
 /*# sourceMappingURL=fixes.css.map */

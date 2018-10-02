@@ -49,6 +49,32 @@ $font-awesome-brands: "Font Awesome 5 Brands";
 	backface-visibility: hidden;
 }
 
+
+
+.mini-posts-container {
+	.row {
+		display:  flex;
+		margin:  1em 0;
+		flex-wrap:  wrap;
+
+		@media screen and (max-width: $mobile-width) {
+			flex-direction: column;
+			align-items: center;
+			margin: 0;
+	  }
+	}
+
+	.column {
+		width: 32%;
+		display: flex; //same height
+		@media screen and (max-width:$mobile-width){
+			width: 100%;
+		}
+		
+	}
+}
+
+
 .mini-article {
 	background-color: $light-grey;
 	overflow: hidden;
@@ -59,16 +85,17 @@ $font-awesome-brands: "Font Awesome 5 Brands";
 	justify-content: space-between;
 	width:  100%;
 
-	
 
 	@media screen and (max-width: $mobile-width) {
 		width: 100%;
 		margin: 0;
 		margin-bottom: 1em;
 	}
+	
 	a {
 		color: $deep-blue;
 	}
+	
 	.title{
 		order: 2;
 		font-size: 1.6em;
@@ -77,7 +104,7 @@ $font-awesome-brands: "Font Awesome 5 Brands";
 
 		margin-top: 0.8em;
 		font-weight: 700;
-		font-family: Muli;
+		font-family: $main-font;
 	}
 
 	.image{
@@ -90,6 +117,12 @@ $font-awesome-brands: "Font Awesome 5 Brands";
 
 		background-size: cover;
 		background-position: center;
+		background-repeat: no-repeat;
+		
+		@media screen and (max-width: $mobile-width) {
+			background-position: left top;
+		}
+		
 	 }
 
 	.category{
@@ -98,48 +131,43 @@ $font-awesome-brands: "Font Awesome 5 Brands";
 		padding: 1em;
 
 		text-transform: uppercase;
+		
+		@media screen and (max-width: $mobile-width) {
+		   font-size: 0.9em !important;
+		}
 	}
 	
 }
 
 
-
-.mini-posts-container {
-	.row {
-		display:  flex;
-		margin:  1em 0;
-		flex-wrap:  wrap;
-
-		@media screen and (max-width: $mobile-width) {
-			flex-direction: column;
-			align-items: center;
-	  }
-	}
-
-	.column {
-		width: 32%;
-		display: flex; //same height
-	}
-}
-
-
-
-
-.mini-posts-container .column-bigger .mini-article {
-	.image {
-		min-height: 440px;
-		height: 70%;
-
-	}
-	.title {
-		margin-top: 0.4em;
-	}
-}
-
 .mini-posts-container .column-bigger {
-
 	.bigger {
-		width:  64%;
+		width: 64%;
+		
+		@media screen and (max-width:$mobile-width){
+			width: 100%;
+		}
 	}
+	
+	.mini-article {
+		.title {
+			margin-top: 0.4em;
+		}
+		
+		.image {
+			min-height: 440px;
+			height: 70%;
+			
+			@media screen and (max-width: $mobile-width) {
+				min-height: 240px;
+			}
+		}
+	}
+}
 
+
+.mini-posts-container .column {
+	@media screen and (max-width: $mobile-width) {
+		width: 100% !important;
+	}
 }

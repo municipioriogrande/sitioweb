@@ -1,0 +1,30 @@
+.blog-latest  {
+	margin: 0 auto;
+	padding-top: 2em;
+}
+
+.blog-latest > .title {
+	margin: 1em;
+	padding-top: 0px;
+	color: #ff6a00;
+	text-align: center;
+	font-family: Muli, sans-serif;
+	font-weight: 900;
+	font-size: 3em;
+	
+	@media screen and (max-width: $mobile-width) {
+		margin: 0.5em;
+		font-size: 2.3em !important;
+		line-height: 1.3em !important;
+	}
+}
+
+.blog-latest .button-blog {
+	display: inline-block;
+	margin: 6em auto;
+	transition: 0.4s;
+}
+.blog-latest .button-blog:hover {
+	transform: rotate(-20deg);
+}
+
