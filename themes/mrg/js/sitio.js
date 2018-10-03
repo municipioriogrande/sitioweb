@@ -1,4 +1,28 @@
 jQuery(document).ready(function() {
+	// page: congreso 
+	jQuery("body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .mesas-container").hide();
+	jQuery("body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .time").css("cursor","pointer");
+	jQuery("body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .time").append('<span class="arrow arrow-down"></span>');
+	jQuery("body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .time").on("click",function(){
+		
+		jQuery(this).next().slideToggle();
+			//alert(jQuery(this).children("arrow"));
+		if ( jQuery(this).children("span").hasClass("arrow-down") ) {
+			jQuery(this).children("span").addClass("arrow-left");
+			jQuery(this).children("span").removeClass("arrow-down");
+		}
+		else {
+			jQuery(this).children("span").addClass("arrow-down");
+			jQuery(this).children("span").removeClass("arrow-left");
+		}
+	});
+	
+	jQuery("body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .profesionales-videos video").css("display","none");
+	
+	
+	
+	
+	// Page: ciudad
 	
 	 jQuery('.slider.simple').flexslider({
 		 animation: "slide",

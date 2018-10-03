@@ -130,7 +130,9 @@ if(is_single())
 	
 	if(!empty($pp_before_head_code))
 	{
-		echo stripslashes($pp_before_head_code);
+		if (!DEV_ENV) {
+			echo stripslashes($pp_before_head_code);
+		}
 	}
 	
 	//Get shop columns
@@ -145,6 +147,15 @@ if(is_single())
 	 */
 	wp_head();
 ?>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.1/dist/jquery.fancybox.min.css" />
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.1/dist/jquery.fancybox.min.js"></script>
+
+
+
 </head>
 
 <body <?php body_class(); ?> <?php if(isset($pp_homepage_style) && !empty($pp_homepage_style)) { echo 'data-style="'.$pp_homepage_style.'"'; } ?> <?php if($shop_product_columns==3) { ?>data-shop="three_cols"<?php } ?>>

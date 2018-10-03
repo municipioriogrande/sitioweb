@@ -595,6 +595,96 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
   width: 47% !important;
 }
 
+body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur #cronograma-congreso {
+  background: url(../images/encabezado-congreso.png) top center no-repeat;
+  padding-top: 210px;
+  background-size: 1100px;
+}
+body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .arrow::before {
+  display: inline-block;
+  content: "";
+  width: 1px;
+  height: 1px;
+  margin-left: 0.4em;
+  vertical-align: middle;
+}
+body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .arrow.arrow-down::before {
+  border-top: 4px solid black;
+  border-bottom: 4px solid transparent;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  margin-top: 0.2em;
+  margin-left: 0.2em;
+}
+body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .arrow.arrow-left::before {
+  border-left: 4px solid black;
+  border-bottom: 4px solid transparent;
+  border-top: 4px solid transparent;
+  border-right: 4px solid transparent;
+}
+body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .day {
+  font-size: 1.8em;
+}
+body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .time {
+  margin: 1em 0;
+  font-size: 1.21em;
+  color: #000;
+  font-weight: bold;
+}
+body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .mesas-container {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.8em;
+}
+body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .mesas-container .mesa {
+  width: 208px;
+  margin: 0 4px;
+}
+@media screen and (max-width: 500px) {
+  body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .mesas-container .mesa {
+    width: 100%;
+  }
+}
+body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .mesas-container .mesa p {
+  padding-bottom: 0.9em;
+}
+body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .mesas-container .mesa .place {
+  font-weight: bold;
+  font-size: 1.2em;
+  min-height: 60px;
+  border-bottom: 1px solid #ff6a00;
+  text-align: center;
+  line-height: 1.3em;
+  margin-bottom: 1em;
+  padding-bottom: 0;
+  margin-top: 2em;
+}
+@media screen and (max-width: 500px) {
+  body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .mesas-container .mesa .place {
+    min-height: 40px;
+  }
+}
+body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .mesas-container .mesa .title {
+  font-style: italic;
+}
+body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .profesionales-videos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .profesionales-videos video {
+  width: 80%;
+  height: auto;
+  min-width: 300px;
+}
+body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .profesionales-videos a {
+  max-width: 300px;
+  margin: 0.8em;
+}
+body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .profesionales-videos a:hover {
+  opacity: 0.7;
+}
+
 .effect-enlarge-shadow:hover {
   -webkit-transform: scale(1.015);
   -ms-transform: scale(1.015);

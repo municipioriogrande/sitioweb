@@ -754,3 +754,113 @@ body.post-type-archive-centros_salud {
 		
 	}
 }
+
+
+
+body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur {
+
+	#cronograma-congreso {
+		background: url(../images/encabezado-congreso.png) top center no-repeat;
+		padding-top: 210px;
+		background-size: 1100px;
+	}
+
+	.accordion {
+		.arrow::before{
+			display: inline-block;
+			content: "";
+			width: 1px;
+			height: 1px;
+			margin-left: 0.4em;
+			vertical-align: middle;
+		}
+		.arrow.arrow-down::before{
+			border-top: 4px solid black;
+			border-bottom: 4px solid transparent;
+			border-left: 4px solid transparent;
+			border-right: 4px solid transparent;
+			margin-top: 0.2em;
+			margin-left: 0.2em;
+		}
+		.arrow.arrow-left::before{
+			border-left: 4px solid black;
+			border-bottom: 4px solid transparent;
+			border-top: 4px solid transparent;
+			border-right: 4px solid transparent;
+		}
+	}
+
+
+
+	.day {
+		 font-size: 1.8em;
+		 }
+	.time {
+		margin: 1em 0;
+		font-size: 1.21em;
+		color: #000;
+		font-weight: bold;
+	}
+
+	.mesas-container {
+		 display: flex;
+		 flex-wrap: wrap;
+		 font-size: 0.8em;
+		 
+		 .mesa {
+			  width: 208px;
+			  margin: 0 4px;
+			  
+			  @media screen and (max-width:$mobile-width){
+				width: 100%;
+			  }
+			  
+				p {
+					padding-bottom: 0.9em;
+				}
+			  
+			  .place {
+					font-weight: bold;
+					font-size: 1.2em;
+					min-height: 60px;
+					border-bottom: 1px solid $orange;
+					text-align: center;
+					line-height: 1.3em;
+					margin-bottom: 1em;
+					padding-bottom: 0;
+					margin-top: 2em;
+					@media screen and (max-width:$mobile-width){
+						min-height: 40px;
+					  }
+					
+			  }
+				.title {
+					font-style:italic;
+				}
+			
+
+		 }
+	}
+
+	.profesionales-videos {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		
+		video {
+			width: 80%;
+			height: auto;
+			min-width: 300px;
+		}
+		
+		a {
+			max-width: 300px;
+			margin: 0.8em;
+			
+			&:hover {
+				opacity: 0.7;
+			}
+		}
+	}
+
+}
