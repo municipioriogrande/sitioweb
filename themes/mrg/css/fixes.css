@@ -600,6 +600,18 @@ body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur #cronogr
   padding-top: 210px;
   background-size: 1100px;
 }
+body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .time {
+  color: #ff6a00;
+}
+body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .time:hover {
+  color: #000;
+}
+body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .time:hover .arrow.arrow-down::before {
+  border-top: 4px solid #000;
+}
+body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .time:hover .arrow.arrow-left::before {
+  border-left: 4px solid #000;
+}
 body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .arrow::before {
   display: inline-block;
   content: "";
@@ -607,20 +619,18 @@ body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordi
   height: 1px;
   margin-left: 0.4em;
   vertical-align: middle;
+  border-bottom: 4px solid transparent;
+  border-right: 4px solid transparent;
 }
 body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .arrow.arrow-down::before {
-  border-top: 4px solid black;
-  border-bottom: 4px solid transparent;
+  border-top: 4px solid #ff6a00;
   border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
   margin-top: 0.2em;
   margin-left: 0.2em;
 }
 body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .arrow.arrow-left::before {
-  border-left: 4px solid black;
-  border-bottom: 4px solid transparent;
   border-top: 4px solid transparent;
-  border-right: 4px solid transparent;
+  border-left: 4px solid #ff6a00;
 }
 body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .day {
   font-size: 1.8em;

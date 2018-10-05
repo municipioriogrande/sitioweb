@@ -766,6 +766,22 @@ body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur {
 	}
 
 	.accordion {
+		.time {
+			color: $orange;
+			
+			&:hover {
+				color: #000;
+				.arrow {
+					&.arrow-down::before {
+						border-top: 4px solid #000;
+					}
+					&.arrow-left::before {
+						border-left: 4px solid #000;
+					}
+				}
+			}
+			
+		}
 		.arrow::before{
 			display: inline-block;
 			content: "";
@@ -773,20 +789,19 @@ body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur {
 			height: 1px;
 			margin-left: 0.4em;
 			vertical-align: middle;
+			border-bottom: 4px solid transparent;
+			border-right: 4px solid transparent;
 		}
 		.arrow.arrow-down::before{
-			border-top: 4px solid black;
-			border-bottom: 4px solid transparent;
+			border-top: 4px solid $orange;
 			border-left: 4px solid transparent;
-			border-right: 4px solid transparent;
 			margin-top: 0.2em;
 			margin-left: 0.2em;
+			
 		}
 		.arrow.arrow-left::before{
-			border-left: 4px solid black;
-			border-bottom: 4px solid transparent;
 			border-top: 4px solid transparent;
-			border-right: 4px solid transparent;
+			border-left: 4px solid $orange;
 		}
 	}
 
