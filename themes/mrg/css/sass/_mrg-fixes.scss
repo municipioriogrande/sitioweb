@@ -113,6 +113,30 @@ dl.inline-wrapped dt{
 	font-weight: bold;
 }
 
+.arrow::before{
+	display: inline-block;
+	content: "";
+	width: 1px;
+	height: 1px;
+	margin-left: 0.4em;
+	vertical-align: middle;
+	border-bottom: 4px solid transparent;
+	border-right: 4px solid transparent;
+}
+.arrow.arrow-down::before{
+	border-top: 4px solid #000;
+	border-left: 4px solid transparent;
+	margin-top: 0.2em;
+	margin-left: 0.2em;
+	
+}
+.arrow.arrow-left::before{
+	border-top: 4px solid transparent;
+	border-left: 4px solid #000;
+}
+
+
+
 
 
 
@@ -367,6 +391,12 @@ form.form-subscribe {
 		}
 	}
 
+	input[type="checkbox"] {
+		width: auto;
+		margin-right: .4em;
+		vertical-align: text-top;
+	}	
+	
 	.row {
 		display: flex;
 		width: 100%;
@@ -436,10 +466,6 @@ form.form-subscribe {
 }
 
 
-
-
-
-
 .icon::before {
 	content: "";
 	display: inline-block;
@@ -456,8 +482,10 @@ form.form-subscribe {
 	content: "\f017";
 }
 
-			
-			
+
+
+
+
 
 .ppb_module_centros-salud {
 	ul {
@@ -629,8 +657,13 @@ body.post-type-archive-centros_salud {
 				
 				.featured-image {
 					@media screen and (min-width: $mobile-width){
-						max-width: 300px;
+						min-width: 300px;
+						width: 300px;
 						margin-right: 2em;
+						
+						img {
+							min-height: 225px;
+						}
 					}
 				}
 				
@@ -769,42 +802,30 @@ body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur {
 		.time {
 			color: $orange;
 			
+			.arrow.arrow-down::before{
+				border-top-color: $orange;
+				
+			}
+			.arrow.arrow-left::before{
+				border-left-color: $orange;
+			}			
+			
+			
 			&:hover {
 				color: #000;
 				.arrow {
 					&.arrow-down::before {
-						border-top: 4px solid #000;
+						border-top-color: #000;
 					}
 					&.arrow-left::before {
-						border-left: 4px solid #000;
+						border-left-color: #000;
 					}
 				}
 			}
 			
 		}
-		.arrow::before{
-			display: inline-block;
-			content: "";
-			width: 1px;
-			height: 1px;
-			margin-left: 0.4em;
-			vertical-align: middle;
-			border-bottom: 4px solid transparent;
-			border-right: 4px solid transparent;
-		}
-		.arrow.arrow-down::before{
-			border-top: 4px solid $orange;
-			border-left: 4px solid transparent;
-			margin-top: 0.2em;
-			margin-left: 0.2em;
-			
-		}
-		.arrow.arrow-left::before{
-			border-top: 4px solid transparent;
-			border-left: 4px solid $orange;
-		}
-	}
 
+	}
 
 
 	.day {
@@ -885,6 +906,29 @@ body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur {
 				position: absolute;
 				top: 40px;
 			}
+		}
+	}
+
+}
+
+
+body.page-espacio-tecnologico {
+	fieldset.expand-sub-items {
+		margin-bottom: 1em;
+		
+		legend {
+			border-bottom: 1px solid;
+			height: 30px;
+			
+			.arrow.arrow-down::before{
+				border-top-color: #fff;
+			}
+			.arrow.arrow-left::before{
+				border-left-color: #fff;
+			}	
+		}
+		& > p {
+			margin-left: 1em;
 		}
 	}
 

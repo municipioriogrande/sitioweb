@@ -85,6 +85,29 @@ dl.inline-wrapped dt {
   font-weight: bold;
 }
 
+.arrow::before {
+  display: inline-block;
+  content: "";
+  width: 1px;
+  height: 1px;
+  margin-left: 0.4em;
+  vertical-align: middle;
+  border-bottom: 4px solid transparent;
+  border-right: 4px solid transparent;
+}
+
+.arrow.arrow-down::before {
+  border-top: 4px solid #000;
+  border-left: 4px solid transparent;
+  margin-top: 0.2em;
+  margin-left: 0.2em;
+}
+
+.arrow.arrow-left::before {
+  border-top: 4px solid transparent;
+  border-left: 4px solid #000;
+}
+
 .centered {
   margin: 0 auto;
 }
@@ -296,6 +319,11 @@ form.form-subscribe input[type=submit]:hover {
   color: #000;
   background: #ffffff !important;
 }
+form.form-subscribe input[type=checkbox] {
+  width: auto;
+  margin-right: 0.4em;
+  vertical-align: text-top;
+}
 form.form-subscribe .row {
   display: flex;
   width: 100%;
@@ -504,8 +532,12 @@ body.post-type-archive-centros_salud #list-centros_salud ul li {
 }
 @media screen and (min-width: 500px) {
   body.post-type-archive-centros_salud #list-centros_salud ul li .featured-image {
-    max-width: 300px;
+    min-width: 300px;
+    width: 300px;
     margin-right: 2em;
+  }
+  body.post-type-archive-centros_salud #list-centros_salud ul li .featured-image img {
+    min-height: 225px;
   }
 }
 body.post-type-archive-centros_salud #list-centros_salud ul li .info {
@@ -603,34 +635,20 @@ body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur #cronogr
 body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .time {
   color: #ff6a00;
 }
+body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .time .arrow.arrow-down::before {
+  border-top-color: #ff6a00;
+}
+body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .time .arrow.arrow-left::before {
+  border-left-color: #ff6a00;
+}
 body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .time:hover {
   color: #000;
 }
 body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .time:hover .arrow.arrow-down::before {
-  border-top: 4px solid #000;
+  border-top-color: #000;
 }
 body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .time:hover .arrow.arrow-left::before {
-  border-left: 4px solid #000;
-}
-body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .arrow::before {
-  display: inline-block;
-  content: "";
-  width: 1px;
-  height: 1px;
-  margin-left: 0.4em;
-  vertical-align: middle;
-  border-bottom: 4px solid transparent;
-  border-right: 4px solid transparent;
-}
-body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .arrow.arrow-down::before {
-  border-top: 4px solid #ff6a00;
-  border-left: 4px solid transparent;
-  margin-top: 0.2em;
-  margin-left: 0.2em;
-}
-body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .arrow.arrow-left::before {
-  border-top: 4px solid transparent;
-  border-left: 4px solid #ff6a00;
+  border-left-color: #000;
 }
 body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .day {
   font-size: 1.8em;
@@ -702,6 +720,23 @@ body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .profesi
   height: 100px;
   position: absolute;
   top: 40px;
+}
+
+body.page-espacio-tecnologico fieldset.expand-sub-items {
+  margin-bottom: 1em;
+}
+body.page-espacio-tecnologico fieldset.expand-sub-items legend {
+  border-bottom: 1px solid;
+  height: 30px;
+}
+body.page-espacio-tecnologico fieldset.expand-sub-items legend .arrow.arrow-down::before {
+  border-top-color: #fff;
+}
+body.page-espacio-tecnologico fieldset.expand-sub-items legend .arrow.arrow-left::before {
+  border-left-color: #fff;
+}
+body.page-espacio-tecnologico fieldset.expand-sub-items > p {
+  margin-left: 1em;
 }
 
 .effect-enlarge-shadow:hover {
