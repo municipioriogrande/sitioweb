@@ -2065,7 +2065,6 @@ add_filter('query_vars', 'add_query_vars');
 
 define( "EXTERNAL_BLOG_URL_API", "https://info.riogrande.gob.ar/wp-json/wp/v2" );
 
-
 //Page Slug Body Class
 add_filter( 'body_class', 'add_slug_body_class' );
 function add_slug_body_class( $classes ) {
@@ -2084,6 +2083,16 @@ function enqueue_styles_scripts() {
 	wp_enqueue_script( "sitio", get_stylesheet_directory_uri() . "/js/sitio.js", array(), '20180815', true );
 	
 }
+
+
+add_action( 'login_enqueue_scripts', 'my_login_stylesheet' );
+function my_login_stylesheet() { 
+   wp_enqueue_style( 'rgsite-login', get_template_directory_uri() . "/css/wp-login.min.css" );
+}
+
+
+
+
 
 
 
