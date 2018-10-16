@@ -939,7 +939,7 @@ body.page-espacio-tecnologico {
 
 .box_pic-text-caption-wrapper {
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
 	flex-wrap: wrap;
 	
 	@media screen and (max-width:$mobile-width){
