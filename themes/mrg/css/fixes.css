@@ -25,12 +25,19 @@
   padding-top: 0;
 }
 .andimol_clima .icon {
-  max-width: 70px;
+  max-width: 76px;
   float: none;
   line-height: 0px;
 }
 .andimol_clima i[class^=meteocons-] {
   margin-right: 0;
+}
+.andimol_clima .anndimol-temp {
+  width: 212px;
+}
+
+.indice_anclas.fixed {
+  top: 104px;
 }
 
 #page_content_wrapper .search_form_wrapper {

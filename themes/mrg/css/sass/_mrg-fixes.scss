@@ -20,7 +20,7 @@
 	}
 	
 	.icon {
-		max-width: 70px;
+		max-width: 76px;
 		float: none;
 		line-height: 0px;
 	}
@@ -28,11 +28,17 @@
 	i[class^="meteocons-"] {
 		margin-right: 0;
 	}
+	
+	.anndimol-temp {
+		width: 212px;
+	}
 }
 
 
 
-
+.indice_anclas.fixed {
+	top: 104px;
+}
 
 
 
