@@ -744,6 +744,12 @@ body.page-espacio-tecnologico fieldset.expand-sub-items > p {
   justify-content: space-around;
   flex-wrap: wrap;
 }
+@media screen and (max-width: 500px) {
+  .box_pic-text-caption-wrapper {
+    flex-direction: column;
+    align-content: center;
+  }
+}
 
 .box_pic-text-caption {
   border-radius: 10px;
@@ -752,6 +758,12 @@ body.page-espacio-tecnologico fieldset.expand-sub-items > p {
   overflow: hidden;
   min-width: 500px;
   margin: 1.4em 0;
+}
+@media screen and (max-width: 500px) {
+  .box_pic-text-caption {
+    width: 100%;
+    min-width: 320px;
+  }
 }
 .box_pic-text-caption .image {
   background-size: cover;
@@ -767,6 +779,11 @@ body.page-espacio-tecnologico fieldset.expand-sub-items > p {
   margin: 0px !important;
   line-height: 1.2em !important;
   height: 100%;
+}
+@media screen and (max-width: 500px) {
+  .box_pic-text-caption .text {
+    font-size: 1.6em !important;
+  }
 }
 
 .effect-enlarge-shadow:hover {

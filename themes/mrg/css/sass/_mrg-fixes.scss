@@ -941,6 +941,11 @@ body.page-espacio-tecnologico {
 	display: flex;
 	justify-content: space-around;
 	flex-wrap: wrap;
+	
+	@media screen and (max-width:$mobile-width){
+		flex-direction: column;
+		align-content: center;
+	}
 }
 .box_pic-text-caption {
 	border-radius: 10px;
@@ -949,7 +954,12 @@ body.page-espacio-tecnologico {
 	overflow: hidden;
 	min-width: 500px;
 	margin: 1.4em 0;
-	 
+	
+	@media screen and (max-width:$mobile-width){
+		width: 100%;
+		min-width: 320px;
+	}
+	
 	.image {
 		background-size: cover;
 		height: 228px;
@@ -965,6 +975,10 @@ body.page-espacio-tecnologico {
 		margin: 0px !important;
 		line-height: 1.2em !important;
 		height: 100%;
+		
+		@media screen and (max-width:$mobile-width){
+			font-size: 1.6em !important;
+		}
 	}
 
 }
