@@ -933,3 +933,38 @@ body.page-espacio-tecnologico {
 	}
 
 }
+
+
+
+
+.box_pic-text-caption-wrapper {
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+}
+.box_pic-text-caption {
+	border-radius: 10px;
+	width: 47%;
+	float: left;
+	overflow: hidden;
+	min-width: 500px;
+	margin: 1.4em 0;
+	 
+	.image {
+		background-size: cover;
+		height: 228px;
+		width: 100%;
+	}
+	
+	.text {
+		color: #fff !important;
+		background-color: $orange !important;
+		font-weight: bold !important;
+		font-size: 2.3em !important;
+		padding: 1em !important;
+		margin: 0px !important;
+		line-height: 1.2em !important;
+		height: 100%;
+	}
+
+}
