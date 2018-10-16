@@ -2094,9 +2094,6 @@ function my_login_stylesheet() {
 
 
 
-
-
-
 add_shortcode('ppb_add_shortcode', 'ppb_add_shortcode_func');
 function ppb_add_shortcode_func($atts, $content) {
 
@@ -2467,6 +2464,68 @@ function ppb_blog_latest_posts_func($atts, $content) {
 	
    print_external_blog_posts($remote_posts, $titulo);
 }
+
+
+
+
+
+
+function ppb_module_titular_cuerpo_nlb_func($atts, $content) {
+
+	//extract short code attr
+	extract(shortcode_atts(array(
+		'layout'  => 'fixedwidth',
+		'titulo'  => '',
+		'ancla'   => '',
+		'bajada'  => '',
+		'cuerpo'  => '',
+	), $atts));
+
+	$return_html = '<div id="'.$ancla.'" class="module_titular_bajada_c1_img ';
+
+	$return_html .= (!empty($layout) && $layout == 'fullwidth') ? 'fullwidth ' : '' ;
+	 
+	$scapes = array("\r\n", "\n", "\r", "<br/>", "<br />");
+	$cuerpo = trim(str_replace($scapes, '', html_entity_decode($cuerpo)));
+
+	$return_html .= '" ';
+	$return_html .= '><div class="page_content_wrapper">';
+	
+	if( !empty($titulo) || !empty($bajada) ) {
+		$return_html .= '<div class="row">';
+		$return_html .= '	<div class="col-md col-md-12">';
+		$return_html .= '		<div class="content">';
+		
+		$return_html .= ( !empty($titulo) ) ? '			<h2>' . html_entity_decode($titulo) . '</h2>' : '';
+		
+		
+		if( !empty($bajada) ) {
+			$return_html .= ( empty($cuerpo) ) ? '			<aside style="margin:0;">'.html_entity_decode($bajada).'</aside>' : '			<aside>'.html_entity_decode($bajada).'</aside>';
+		}
+		
+		$return_html .= '		</div>';
+		$return_html .= '	</div>'."\r";
+		$return_html .= '</div>'; // close row
+	}
+	
+	if( !empty($cuerpo) ) {
+		$return_html .= '<div class="row">';
+		$return_html .= '	<div class="col-md col-md-12">';
+		$return_html .= '		<div class="content">';
+		$return_html .= '			<p>'.html_entity_decode($cuerpo).'</p>';
+		$return_html .= '		</div>';
+		$return_html .= '	</div>'."\r";
+		$return_html .= '</div>'; // close row
+	}
+	
+	$return_html .= '</div>'; // close page_content_wrapper
+   $return_html .= '</div>'; // close bilder_modul
+	
+   return $return_html;
+}
+add_shortcode('ppb_module_titular_cuerpo_nlb', 'ppb_module_titular_cuerpo_nlb_func');
+
+
 
 
 ?>

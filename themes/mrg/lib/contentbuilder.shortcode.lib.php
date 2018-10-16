@@ -3001,38 +3001,6 @@ if($pp_revslider_activated)
 
 
 
-
-
-
-$ppb_shortcodes['ppb_free_text'] = array(
-	'title' =>  'Titular y texto libre',
-    	'attr' => array(
-			'titulo' => array(
-    			'title' => 'Titulo',
-    			'type' => 'text',
-    			'desc' => 'Ingrese el texto para mostrar como Titulo',
-    		),
-			'ancla' => array(
-    			'title' => 'Ancla',
-    			'type' => 'text',
-    			'desc' => 'Ingrese el texto del ancla',
-    		),			
-			'contenido' => array(
-    			'title' => 'Contenido',
-				'type' => 'textarea_wysiwyg',
-    			'desc' => 'Ingrese contenido',
-    		),						
-    	),
-    	'desc' => array(),
-    	'content' => false
-    
-
-    );
-	 
-	 
-	 
-	 
-	 
 $ppb_shortcodes['ppb_add_shortcode'] = array(
 	'title' =>  'Titular y shortcode',
     	'attr' => array(
@@ -3156,7 +3124,35 @@ $ppb_shortcodes['ppb_blog_latest_posts'] = array(
 	 
 	 
 	 
-	 
+ $ppb_shortcodes['ppb_module_titular_cuerpo_nlb'] = array(
+    	'title' =>  '(S) Títular y Bajada / Cuerpo (No Linebreaks)',
+    	'attr' => array(
+			
+			'titulo' => array(
+    			'title' => 'Titulo',
+    			'type' => 'text',
+    			'desc' => 'Enter the Text you want to display of Title',
+    		),
+			'bajada' => array(
+    			'title' => 'Bajada',
+    			'type' => 'text',
+    			'desc' => 'Enter the Text you want to display of Bajada',
+    		),
+			'ancla' => array(
+    			'title' => 'Ancla',
+    			'type' => 'text',
+    			'desc' => 'Enter the Anchor Text',
+    		),
+			'cuerpo' => array(
+    			'title' => 'Campo',
+				'type' => 'textarea',
+    			'desc' => 'Enter the text for Column',
+    		),
+			
+    	),
+    	'desc' => array(),
+    	'content' => FALSE
+    );
 	 
 	 
 	 

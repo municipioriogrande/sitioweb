@@ -3049,7 +3049,7 @@ function ppb_module_titular_cuerpo_func($atts, $content) {
         $return_html .= 'fullwidth ';
     }
 	$scapes   = array("\r\n", "\n", "\r", "<br/>", "<br />");
-	//$cuerpo_1 = trim(str_replace($scapes, '', html_entity_decode($cuerpo_1)));
+	//$cuerpo = trim(str_replace($scapes, '', html_entity_decode($cuerpo)));
 	//$cuerpo_2 = trim(str_replace($scapes, '', html_entity_decode($cuerpo_2)));
 
     $return_html .= '" ';
@@ -3096,6 +3096,15 @@ function ppb_module_titular_cuerpo_func($atts, $content) {
     return $return_html;
 }
 add_shortcode('ppb_module_titular_cuerpo', 'ppb_module_titular_cuerpo_func');
+
+
+
+
+
+
+
+
+
 
 
 function ppb_module_header_full_func($atts, $content) {
