@@ -74,7 +74,7 @@ if(empty($page_hide_header) && ($page_revslider == -1 OR empty($page_revslider) 
 				</ul>
 			</div>
 			<div class="col-md col col-2 col-md-4">
-				<?php the_modified_date('m/d/Y', '<div class="the-modified-date">Última actualización: ', '</div>'); ?>
+				<?php the_modified_date('d/m/Y', '<div class="the-modified-date">Última actualización: ', '</div>'); ?>
 			</div>
 		</div>
 	</div>
