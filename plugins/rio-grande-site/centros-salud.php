@@ -55,7 +55,6 @@ function centros_salud_post_type() {
 		'feeds'                 => true,
 	);
 	
-	
 	$args = array(
 		'label'                 => __( 'Centro de salud', 'text_domain' ),
 		'description'           => __( 'Post Type Description', 'text_domain' ),
@@ -75,7 +74,9 @@ function centros_salud_post_type() {
 		'exclude_from_search'   => false,
 		'publicly_queryable'    => true,
 		'rewrite'               => $rewrite,
-		'capability_type'       => 'page',
+		//'capability_type'       => 'page',
+		'capability_type'       => 'centros_salud', //allow custom capabilities easily
+		'map_meta_cap' => true, //add all capabilities 
 	);
 	register_post_type( 'centros_salud', $args );
 
