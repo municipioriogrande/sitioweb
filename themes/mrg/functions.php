@@ -2423,7 +2423,7 @@ function print_external_blog_posts($posts, $section_title=""){
 		
 		?>
 
-		<p style="text-align: center;"><a class="button-blog" href="http://info.riogrande.gob.ar/"><img src="https://riogrande.gob.ar/wp-content/themes/mrg/images/globa_blog.svg" alt="Blog" width="73"></a></p>
+		<p style="text-align: center;width:100%;"><a class="button-blog" href="http://info.riogrande.gob.ar/"><img src="https://riogrande.gob.ar/wp-content/themes/mrg/images/globa_blog.svg" alt="Blog" width="73"></a></p>
 	</section>
 <?php
 	
