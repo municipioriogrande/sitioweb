@@ -33,8 +33,8 @@ class Yacare {
     public static function Barrios($atts) {
 		wp_enqueue_style( 'yacare-tables-default', '//cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css', array() );
 		wp_enqueue_script( 'jquery' );
-        wp_enqueue_script( 'yacare-tables-datatables', '//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js', array( 'jquery' ), null, true );
-        wp_enqueue_script( 'yacare-tables-datatables', '//cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js', array( 'jquery' ), null, true );
+        wp_enqueue_script( 'yacare-tables-datatables', 'https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js', array( 'jquery' ), null, true );
+        wp_enqueue_script( 'yacare-tables-datatables', 'https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js', array( 'jquery' ), null, true );
         
         add_action('wp_footer', array ( 'Yacare', 'dataTablesFooter' ) );
     
@@ -76,8 +76,8 @@ ob_start(); ?>
     public static function Calles($atts) {
 		wp_enqueue_style( 'yacare-tables-default', '//cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css', array() );
 		wp_enqueue_script( 'jquery' );
-        wp_enqueue_script( 'yacare-tables-datatables', '//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js', array( 'jquery' ), null, true );
-        wp_enqueue_script( 'yacare-tables-datatables', '//cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js', array( 'jquery' ), null, true );
+        wp_enqueue_script( 'yacare-tables-datatables', 'https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js', array( 'jquery' ), null, true );
+        wp_enqueue_script( 'yacare-tables-datatables', 'https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js', array( 'jquery' ), null, true );
         
         add_action('wp_footer', array ( 'Yacare', 'dataTablesFooter' ) );
     
@@ -115,8 +115,8 @@ ob_start(); ?>
     public static function PaMatriculados($atts) {
 		wp_enqueue_style( 'yacare-tables-default', '//cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css', array() );
 		wp_enqueue_script( 'jquery' );
-        wp_enqueue_script( 'yacare-tables-datatables', '//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js', array( 'jquery' ), null, true );
-        wp_enqueue_script( 'yacare-tables-datatables', '//cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js', array( 'jquery' ), null, true );
+        wp_enqueue_script( 'yacare-tables-datatables', 'https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js', array( 'jquery' ), null, true );
+        wp_enqueue_script( 'yacare-tables-datatables', 'https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js', array( 'jquery' ), null, true );
         
         add_action('wp_footer', array ( 'Yacare', 'dataTablesFooter' ) );
         ob_start();
