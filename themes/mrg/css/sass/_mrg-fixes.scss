@@ -326,6 +326,10 @@ form.form-subscribe {
 	max-width: 700px;
    display: block;
 	
+	@media screen and (max-width: $mobile-width) {
+		margin-top: 1em;
+	}	
+	
 	legend {
 		color: inherit;
 		font-weight: 900;
@@ -363,7 +367,7 @@ form.form-subscribe {
 	}
 	
 	
-	input {
+	input, button {
 		border: 1px solid #939297;
 		color: #666666;
 		padding: 0.6em 1em;
@@ -385,11 +389,13 @@ form.form-subscribe {
 		margin: 0 1em;
 	}
 
-	input[type="submit"] {
+	[type="submit"] {
 		border: 1px solid #fff;
 		background-color: $orange;
 		color: #fff;	
 		width: auto;
+		padding: 1em 1.7em !important;
+		text-transform: uppercase;
 		
 		&:hover {
 			color: #000;
@@ -748,8 +754,17 @@ body.post-type-archive-centros_salud {
 		border-radius: 1em;
 		overflow: hidden;
 		
+		@media screen and (max-width: $mobile-width) {
+			margin-top: 1em;
+		}	
+		
 		.text {
 			margin: 0;
+
+			@media screen and (max-width: $mobile-width) {
+				width: auto;
+			}
+
 		}
 	
 		.content {
@@ -762,12 +777,21 @@ body.post-type-archive-centros_salud {
 			background-size:cover;
 			min-height: 300px;
 			height: 100%;
+			
+			@media screen and (max-width: $mobile-width) {
+				display: none;
+			}
 		}
 		
 		form.form-subscribe {
 			border-radius: 0 1em 1em 0;
 			color: #fff;
 			max-width: 540px;
+			
+			@media screen and (max-width: $mobile-width) {
+				max-width: 300px;
+			}			
+			
 			
 			h3 {
 				color: inherit !important;
@@ -787,8 +811,24 @@ body.post-type-archive-centros_salud {
 			
 			.row.inline .inline {
 				width: 47% !important;
+				
+				@media screen and (max-width: $mobile-width) {
+					width: 100% !important;
+					margin: .2em 0;
+				}	
+			}
+			
+			.submit-wrapper {
+				text-align: center;
+				margin-top: 2em;
 			}
 
+		}
+		
+		.mauticform-row {
+			@media screen and (max-width: $mobile-width) {
+				width: 100%;
+			}	
 		}
 		
 	}
@@ -920,7 +960,7 @@ body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur {
 
 body.page-espacio-tecnologico {
 	fieldset.expand-sub-items {
-		margin-bottom: 1em;
+		margin: 1em 0;
 		
 		legend {
 			border-bottom: 1px solid;
@@ -936,6 +976,12 @@ body.page-espacio-tecnologico {
 		& > p {
 			margin-left: 1em;
 		}
+	}
+	
+	
+	.form-edlt-info-wrapper .box-image {
+		background-size: auto 1800px !important;
+	
 	}
 
 }
@@ -987,4 +1033,43 @@ body.page-espacio-tecnologico {
 		}
 	}
 
+}
+
+
+
+
+
+
+
+.tablepress tfoot th, .tablepress thead th {
+   background-color: #e7e7e7 !important;
+	border-bottom: 0 !important;
+}
+
+.tablepress .sorting:hover, .tablepress .sorting_asc, .tablepress .sorting_desc {
+	background-color: #6a6a6a !important;
+	color: white;
+	
+}
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:after {
+	content: " " !important;
+}
+
+.tablepress td, .tablepress th {
+	padding: 8px 10px !important;
+}
+
+.tablepress tbody td, .tablepress tfoot th {
+	border-top: 1px solid #ddd;
+}
+
+
+#tabla-yacare-calles {
+	font-size: 0.9em;
+}
+
+#tabla-yacare-calles_info {
+	font-size: 0.7em;
+	margin-bottom: 3em;
 }

@@ -267,6 +267,11 @@ form.form-subscribe {
   max-width: 700px;
   display: block;
 }
+@media screen and (max-width: 500px) {
+  form.form-subscribe {
+    margin-top: 1em;
+  }
+}
 form.form-subscribe legend {
   color: inherit;
   font-weight: 900;
@@ -297,7 +302,7 @@ form.form-subscribe .inline .fake-label {
   width: 200px;
   margin-right: 1em;
 }
-form.form-subscribe input {
+form.form-subscribe input, form.form-subscribe button {
   border: 1px solid #939297;
   color: #666666;
   padding: 0.6em 1em;
@@ -316,13 +321,15 @@ form.form-subscribe input[type=radio] + label {
   margin-right: 1em;
   margin: 0 1em;
 }
-form.form-subscribe input[type=submit] {
+form.form-subscribe [type=submit] {
   border: 1px solid #fff;
   background-color: #ff6a00;
   color: #fff;
   width: auto;
+  padding: 1em 1.7em !important;
+  text-transform: uppercase;
 }
-form.form-subscribe input[type=submit]:hover {
+form.form-subscribe [type=submit]:hover {
   color: #000;
   background: #ffffff !important;
 }
@@ -599,8 +606,18 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
   border-radius: 1em;
   overflow: hidden;
 }
+@media screen and (max-width: 500px) {
+  .module_add_shortcode .nnice-cta.nnice-cta-form {
+    margin-top: 1em;
+  }
+}
 .module_add_shortcode .nnice-cta.nnice-cta-form .text {
   margin: 0;
+}
+@media screen and (max-width: 500px) {
+  .module_add_shortcode .nnice-cta.nnice-cta-form .text {
+    width: auto;
+  }
 }
 .module_add_shortcode .nnice-cta.nnice-cta-form .content {
   background-color: transparent;
@@ -612,10 +629,20 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
   min-height: 300px;
   height: 100%;
 }
+@media screen and (max-width: 500px) {
+  .module_add_shortcode .nnice-cta.nnice-cta-form .box-image {
+    display: none;
+  }
+}
 .module_add_shortcode .nnice-cta.nnice-cta-form form.form-subscribe {
   border-radius: 0 1em 1em 0;
   color: #fff;
   max-width: 540px;
+}
+@media screen and (max-width: 500px) {
+  .module_add_shortcode .nnice-cta.nnice-cta-form form.form-subscribe {
+    max-width: 300px;
+  }
 }
 .module_add_shortcode .nnice-cta.nnice-cta-form form.form-subscribe h3 {
   color: inherit !important;
@@ -632,6 +659,21 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
 }
 .module_add_shortcode .nnice-cta.nnice-cta-form form.form-subscribe .row.inline .inline {
   width: 47% !important;
+}
+@media screen and (max-width: 500px) {
+  .module_add_shortcode .nnice-cta.nnice-cta-form form.form-subscribe .row.inline .inline {
+    width: 100% !important;
+    margin: 0.2em 0;
+  }
+}
+.module_add_shortcode .nnice-cta.nnice-cta-form form.form-subscribe .submit-wrapper {
+  text-align: center;
+  margin-top: 2em;
+}
+@media screen and (max-width: 500px) {
+  .module_add_shortcode .nnice-cta.nnice-cta-form .mauticform-row {
+    width: 100%;
+  }
 }
 
 body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur #cronograma-congreso {
@@ -730,7 +772,7 @@ body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .profesi
 }
 
 body.page-espacio-tecnologico fieldset.expand-sub-items {
-  margin-bottom: 1em;
+  margin: 1em 0;
 }
 body.page-espacio-tecnologico fieldset.expand-sub-items legend {
   border-bottom: 1px solid;
@@ -744,6 +786,9 @@ body.page-espacio-tecnologico fieldset.expand-sub-items legend .arrow.arrow-left
 }
 body.page-espacio-tecnologico fieldset.expand-sub-items > p {
   margin-left: 1em;
+}
+body.page-espacio-tecnologico .form-edlt-info-wrapper .box-image {
+  background-size: auto 1800px !important;
 }
 
 .box_pic-text-caption-wrapper {
@@ -791,6 +836,38 @@ body.page-espacio-tecnologico fieldset.expand-sub-items > p {
   .box_pic-text-caption .text {
     font-size: 1.6em !important;
   }
+}
+
+.tablepress tfoot th, .tablepress thead th {
+  background-color: #e7e7e7 !important;
+  border-bottom: 0 !important;
+}
+
+.tablepress .sorting:hover, .tablepress .sorting_asc, .tablepress .sorting_desc {
+  background-color: #6a6a6a !important;
+  color: white;
+}
+
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:after {
+  content: " " !important;
+}
+
+.tablepress td, .tablepress th {
+  padding: 8px 10px !important;
+}
+
+.tablepress tbody td, .tablepress tfoot th {
+  border-top: 1px solid #ddd;
+}
+
+#tabla-yacare-calles {
+  font-size: 0.9em;
+}
+
+#tabla-yacare-calles_info {
+  font-size: 0.7em;
+  margin-bottom: 3em;
 }
 
 .effect-enlarge-shadow:hover {
@@ -944,7 +1021,7 @@ body.page-espacio-tecnologico fieldset.expand-sub-items > p {
 
 .blog-latest .button-blog {
   display: inline-block;
-  margin: 6em auto;
+  margin: 3em auto;
   transition: 0.4s;
 }
 
