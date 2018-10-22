@@ -173,13 +173,30 @@ ob_start(); ?>
     public static function dataTablesFooter() {
         echo <<<END_SCRIPT
 <script type="text/javascript">
-$(document).ready(function(){
-    $('.tabla-yacare-datatables').DataTable( { 
+jQuery(document).ready(function(){
+    jQuery('.tabla-yacare-datatables').DataTable( { 
         paging: false,
         pageLength: 100,
         language: {
             search:        "Buscar:",
             lengthMenu:    "Mostrar _MENU_ elementos",
+			  sInfo:          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+			  sInfoEmpty:     "Mostrando registros del 0 al 0 de un total de 0 registros",
+			  sProcessing:    "Procesando...",
+			  sZeroRecords:   "No se encontraron resultados",
+			  sEmptyTable:    "Ningún dato disponible en esta tabla",
+			  sInfoFiltered:  "(filtrado de un total de _MAX_ registros)",
+			  sLoadingRecords: "Cargando...",
+			  oPaginate: {
+					sFirst:    "Primero",
+					sLast:    "Último",
+					sNext:    "Siguiente",
+					sPrevious: "Anterior"
+			  },
+			  oAria: {
+					sSortAscending:  ": Activar para ordenar la columna de manera ascendente",
+					sSortDescending: ": Activar para ordenar la columna de manera descendente"
+			  }
         }
     } );
 });
