@@ -57,6 +57,11 @@
   width: 76% !important;
 }
 
+.page-breadcrumb ul li {
+  max-width: 450px;
+  text-align: left;
+}
+
 @media screen and (max-width: 500px) {
   body.home .ppb_wrapper .ppb_gestion_municipal .box {
     width: 150px !important;
@@ -744,25 +749,26 @@ body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .mesas-c
 body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .mesas-container .mesa .title {
   font-style: italic;
 }
-body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .profesionales-videos {
+
+.videos-thumbnails-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
-body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .profesionales-videos video {
+.videos-thumbnails-list video {
   width: 80%;
   height: auto;
   min-width: 300px;
 }
-body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .profesionales-videos a {
+.videos-thumbnails-list .item {
   max-width: 300px;
   margin: 0.8em;
   position: relative;
 }
-body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .profesionales-videos a:hover {
+.videos-thumbnails-list .item:hover {
   opacity: 0.7;
 }
-body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .profesionales-videos a::after {
+.videos-thumbnails-list .item::after {
   content: "";
   background: url(../js/mediaelement/bigplay.png) top center no-repeat;
   width: 100%;
