@@ -1083,3 +1083,28 @@ table.dataTable thead .sorting_asc:after {
 	font-size: 0.7em;
 	margin-bottom: 3em;
 }
+
+
+#map_puntos_carga .leaflet-top {
+	z-index: 500;
+}
+
+#map_puntos_carga .leaflet-popup-content p {
+	font-weight: bold;
+	font-size: 1.2em;
+	margin: 0;
+}
+
+#map_puntos_carga .leaflet-popup-content dt,
+#map_puntos_carga .leaflet-popup-content dd {
+	display: inline-block;
+	margin: 0;
+}
+
+#map_puntos_carga .leaflet-popup-content dt {
+	font-weight: bold;
+}
+
+#map_puntos_carga .leaflet-popup-content dd {
+	margin-left: 0.3em;	
+}
