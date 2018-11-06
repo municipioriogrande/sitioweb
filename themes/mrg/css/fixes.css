@@ -10,6 +10,14 @@
   background: transparent;
 }
 
+.smaller-font {
+  font-size: smaller;
+}
+
+.rounded-corners {
+  border-radius: 10px;
+}
+
 .top_bar #searchform {
   margin-right: 2em;
 }
@@ -60,6 +68,15 @@
 .page-breadcrumb ul li {
   max-width: 450px;
   text-align: left;
+}
+
+.module_add_shortcode .fake-text-bajada-style .text {
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 400;
+  text-align: left;
+  margin: 0 0 40px 0;
+  padding: 0px;
 }
 
 @media screen and (max-width: 500px) {

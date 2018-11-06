@@ -337,13 +337,73 @@ function puntos_carga_mapa_shortcode( $atts ) {
 	);
 	wp_enqueue_style("leaflet",     "https://unpkg.com/leaflet@1.3.4/dist/leaflet.css", false, "1.3.4", "all");
 	wp_enqueue_script("leaflet-js", "https://unpkg.com/leaflet@1.3.4/dist/leaflet.js", false, "1.3.4", true);
-
-	wp_enqueue_script("jquery_map_puntos_carga", plugins_url( 'map-puntos.php', __FILE__ ), false, THEMEVERSION, true);
-	wp_localize_script( 'jquery_map_puntos_carga', 'MapPointsParams', $atts );
 	
+	$file_url = plugins_url( 'json/puntos-carga.json', __FILE__ );
+	$response = json_decode( file_get_contents( $file_url ), true);
+	$points = $response;
+	//var_dump($points);
+	$point_popup_tpl = '<p>$name </p><dl><div><dt>Dirección:</dt><dd>$address</dd></div>$open_times</dl>';
 	
-	return "<div id='map_puntos_carga' style='height: 500px;width:100%;'></div>";
+	ob_start();
+	?>
+	<div id='map_puntos_carga' style='height:600px;width:100%;margin-bottom: 3em;'></div>
+	<script type="text/javascript">
+	jQuery(document).ready(function() {
+		var map = L.map('map_puntos_carga').setView([-53.78903, -67.69588], 15);
+		var tile_url = 'https://tiles.dir.riogrande.gob.ar/carto/{z}/{x}/{y}.png';
 
+		var map_icon = L.icon({
+			iconUrl: 'https://riogrande.gob.ar/wp-content/uploads/2017/12/marker.png',
+			iconSize: [36,46],
+			iconAnchor: [18, 46],
+			popupAnchor: [0,-40],
+		});
+
+		L.tileLayer(tile_url,{
+			attribution: 'Map data © <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors',
+			maxZoom: 18,
+			minZoom: 14
+		}).addTo(map);
+		
+		<?php
+		foreach ($points as $point) {
+			$tmp_times = "";
+			if ( !empty( $point['open_times']) ) {
+				$tmp_times = "<div><dt>Horario:</dt><dd>".$point['open_times']."</dd></div>";	
+			}
+			
+			$tmp_name = $point['name'];
+			if ( $point["place_type"] ) {
+				$tmp_name = $point['name'] . ' <br><span class="smaller-font">(' . $point["place_type"] . ")</span>";
+			}
+			
+			
+			$vars = array(
+				'$name'       => $tmp_name,
+				'$address'    => str_replace("'", " ", $point['address']),
+				'$open_times' => $tmp_times,
+			);
+			
+			
+			$js_point = "";
+			
+			if ( 
+					( $atts['tipo'] == "estacionamiento" && $point['is_estacionamiento-medido'] == "si" ) 
+					||
+					( $atts['tipo'] == "sube" && !empty($point['center_type']) )
+				)
+				{
+				echo "L.marker([".$point['geocoord']."], {icon: map_icon}).addTo(map).bindPopup('".strtr($point_popup_tpl, $vars)."');";
+			}
+			
+			
+		} ?>
+	});
+	</script>
+	
+	<?php
+	return ob_get_clean();
+	
 }
 add_shortcode( 'puntos_carga_mapa', 'puntos_carga_mapa_shortcode' );
 

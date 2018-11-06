@@ -17,6 +17,13 @@ $font-awesome-brands: "Font Awesome 5 Brands";
 	background: transparent;
 }
 
+.smaller-font {
+	font-size: smaller;
+}
+
+.rounded-corners {
+	border-radius: 10px;	
+}
 
 @import "_mrg-fixes";
 @import "_mini-article";
