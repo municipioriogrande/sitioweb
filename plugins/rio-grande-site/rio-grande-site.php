@@ -20,19 +20,20 @@ include "centros-salud.php";
 
 
 
-// remove comments option
+// remove menu options
 add_action( 'admin_menu', 'my_remove_admin_menus' );
 function my_remove_admin_menus() {
 	remove_menu_page( 'edit-comments.php' );
+	remove_menu_page( 'edit.php?post_type=sube' );
 }
 
-// Removes from post and pages
+// Remove comments from post and pages
 add_action('init', 'remove_comment_support', 100);
 function remove_comment_support() {
 	remove_post_type_support( 'post', 'comments' );
 	remove_post_type_support( 'page', 'comments' );
 }
-// Removes from admin bar
+// Remove comments from admin bar
 add_action( 'wp_before_admin_bar_render', 'mytheme_admin_bar_render' );
 function mytheme_admin_bar_render() {
 	global $wp_admin_bar;
