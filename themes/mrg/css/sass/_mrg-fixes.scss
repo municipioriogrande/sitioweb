@@ -37,9 +37,8 @@
 
 
 .indice_anclas.fixed {
-	top: 104px;
+	top: 102px;
 }
-
 
 
 
@@ -762,15 +761,87 @@ body.post-type-archive-centros_salud {
 
 
 
-.module_add_shortcode .nnice-cta {
+.nnice-cta {
+
+	background-color: $orange;
+	border-radius: 10px;
+	
 	.row > .col {
-		display: flex;
+		display: flex;		
+	}
+	
+	.box-image {
+		background-size:cover;
+		background-position: center;
+		background-repeat: no-repeat;
+		border-radius: 10px 0 0 10px;
 	}
 	
 	.text {
 		width: 50%;
+		border-radius: 0 10px 10px 0;
 	}
-	background-color: $orange;
+	
+	
+	.button-cta {
+		display: inline-block;
+		margin-top: 2%;
+		margin-bottom: 0px;
+		padding: 11px 25px;
+		border: 2px solid #fff;
+		border-radius: 5px;
+		background-color: $orange;
+		font-family: Muli,sans-serif;
+		color: #fff;
+		font-size: 17px;
+		font-weight: 400;
+		text-align: center;
+		text-transform: uppercase;
+		line-height: 17px;	
+	}
+	
+	&.vertical-cta {
+
+		margin: 0 auto;
+		background-color: transparent;
+		
+		.row > .col {
+			flex-direction: column;
+			align-items: center;
+			margin: 0 auto;
+			max-width: 700px;
+			width: 70%;
+			
+			@media screen and (max-width: $mobile-width){
+				width: 100%;
+			}
+		}
+		
+		.box-image, .box-cta {
+			width: 100%;
+		}
+		
+		.box-image {
+			border-radius: 10px 10px 0 0;
+			
+			height: 250px; /* hardcoded for salud > asperger */
+			
+			@media screen and (max-width: $mobile-width){
+				height: 150px; /* hardcoded for salud > asperger */
+				
+			}
+		}
+		
+		.box-cta {
+			background-image: none;
+			padding-bottom: 1em;
+			border-radius: 0 0 10px 10px;
+			text-align: center;
+		}	
+
+		
+	}
+	
 	
 	&.nnice-cta-form {
 		border-radius: 1em;

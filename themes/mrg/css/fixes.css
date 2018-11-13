@@ -45,7 +45,7 @@
 }
 
 .indice_anclas.fixed {
-  top: 104px;
+  top: 102px;
 }
 
 #page_content_wrapper .search_form_wrapper {
@@ -615,85 +615,145 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
   font-size: 1.1em;
 }
 
-.module_add_shortcode .nnice-cta {
+.nnice-cta {
   background-color: #ff6a00;
+  border-radius: 10px;
 }
-.module_add_shortcode .nnice-cta .row > .col {
+.nnice-cta .row > .col {
   display: flex;
 }
-.module_add_shortcode .nnice-cta .text {
-  width: 50%;
+.nnice-cta .box-image {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 10px 0 0 10px;
 }
-.module_add_shortcode .nnice-cta.nnice-cta-form {
+.nnice-cta .text {
+  width: 50%;
+  border-radius: 0 10px 10px 0;
+}
+.nnice-cta .button-cta {
+  display: inline-block;
+  margin-top: 2%;
+  margin-bottom: 0px;
+  padding: 11px 25px;
+  border: 2px solid #fff;
+  border-radius: 5px;
+  background-color: #ff6a00;
+  font-family: Muli, sans-serif;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 400;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 17px;
+}
+.nnice-cta.vertical-cta {
+  margin: 0 auto;
+  background-color: transparent;
+}
+.nnice-cta.vertical-cta .row > .col {
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 700px;
+  width: 70%;
+}
+@media screen and (max-width: 500px) {
+  .nnice-cta.vertical-cta .row > .col {
+    width: 100%;
+  }
+}
+.nnice-cta.vertical-cta .box-image, .nnice-cta.vertical-cta .box-cta {
+  width: 100%;
+}
+.nnice-cta.vertical-cta .box-image {
+  border-radius: 10px 10px 0 0;
+  height: 250px;
+  /* hardcoded for salud > asperger */
+}
+@media screen and (max-width: 500px) {
+  .nnice-cta.vertical-cta .box-image {
+    height: 150px;
+    /* hardcoded for salud > asperger */
+  }
+}
+.nnice-cta.vertical-cta .box-cta {
+  background-image: none;
+  padding-bottom: 1em;
+  border-radius: 0 0 10px 10px;
+  text-align: center;
+}
+.nnice-cta.nnice-cta-form {
   border-radius: 1em;
   overflow: hidden;
 }
 @media screen and (max-width: 500px) {
-  .module_add_shortcode .nnice-cta.nnice-cta-form {
+  .nnice-cta.nnice-cta-form {
     margin-top: 1em;
   }
 }
-.module_add_shortcode .nnice-cta.nnice-cta-form .text {
+.nnice-cta.nnice-cta-form .text {
   margin: 0;
 }
 @media screen and (max-width: 500px) {
-  .module_add_shortcode .nnice-cta.nnice-cta-form .text {
+  .nnice-cta.nnice-cta-form .text {
     width: auto;
   }
 }
-.module_add_shortcode .nnice-cta.nnice-cta-form .content {
+.nnice-cta.nnice-cta-form .content {
   background-color: transparent;
   color: #fff;
 }
-.module_add_shortcode .nnice-cta.nnice-cta-form .box-image {
+.nnice-cta.nnice-cta-form .box-image {
   background-position: center top;
   background-size: cover;
   min-height: 300px;
   height: 100%;
 }
 @media screen and (max-width: 500px) {
-  .module_add_shortcode .nnice-cta.nnice-cta-form .box-image {
+  .nnice-cta.nnice-cta-form .box-image {
     display: none;
   }
 }
-.module_add_shortcode .nnice-cta.nnice-cta-form form.form-subscribe {
+.nnice-cta.nnice-cta-form form.form-subscribe {
   border-radius: 0 1em 1em 0;
   color: #fff;
   max-width: 540px;
 }
 @media screen and (max-width: 500px) {
-  .module_add_shortcode .nnice-cta.nnice-cta-form form.form-subscribe {
+  .nnice-cta.nnice-cta-form form.form-subscribe {
     max-width: 300px;
   }
 }
-.module_add_shortcode .nnice-cta.nnice-cta-form form.form-subscribe h3 {
+.nnice-cta.nnice-cta-form form.form-subscribe h3 {
   color: inherit !important;
   text-align: center;
   margin-bottom: 1em;
   font-size: 1.6em;
 }
-.module_add_shortcode .nnice-cta.nnice-cta-form form.form-subscribe .row.inline {
+.nnice-cta.nnice-cta-form form.form-subscribe .row.inline {
   justify-content: space-between;
 }
-.module_add_shortcode .nnice-cta.nnice-cta-form form.form-subscribe .row > .inline {
+.nnice-cta.nnice-cta-form form.form-subscribe .row > .inline {
   padding-right: 1em;
   width: 100%;
 }
-.module_add_shortcode .nnice-cta.nnice-cta-form form.form-subscribe .row.inline .inline {
+.nnice-cta.nnice-cta-form form.form-subscribe .row.inline .inline {
   width: 47% !important;
 }
 @media screen and (max-width: 500px) {
-  .module_add_shortcode .nnice-cta.nnice-cta-form form.form-subscribe .row.inline .inline {
+  .nnice-cta.nnice-cta-form form.form-subscribe .row.inline .inline {
     width: 100% !important;
     margin: 0.2em 0;
   }
 }
-.module_add_shortcode .nnice-cta.nnice-cta-form form.form-subscribe .submit-wrapper {
+.nnice-cta.nnice-cta-form form.form-subscribe .submit-wrapper {
   text-align: center;
   margin-top: 2em;
 }
 @media screen and (max-width: 500px) {
-  .module_add_shortcode .nnice-cta.nnice-cta-form .mauticform-row {
+  .nnice-cta.nnice-cta-form .mauticform-row {
     width: 100%;
   }
 }
