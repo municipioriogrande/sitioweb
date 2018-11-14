@@ -1,9 +1,9 @@
 === Flamingo ===
 Contributors: takayukister, megumithemes
 Tags: bird, contact, mail, crm
-Requires at least: 4.8
-Tested up to: 4.9.2
-Stable tag: 1.8
+Requires at least: 4.9
+Tested up to: 4.9
+Stable tag: 1.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,6 +17,10 @@ After activation of the plugin, you'll find *Flamingo* on the WordPress admin sc
 
 For more detailed information, please refer to the [Contact Form 7 documentation page](https://contactform7.com/save-submitted-messages-with-flamingo/).
 
+= Privacy Notices =
+
+This plugin stores submission data collected through contact forms, which may include the submitters' personal information, in the database on the server that hosts the website.
+
 == Installation ==
 
 1. Upload the entire `flamingo` folder to the `/wp-content/plugins/` directory.
@@ -28,13 +32,13 @@ For more detailed information, please refer to the [Contact Form 7 documentation
 
 == Changelog ==
 
+= 1.9 =
+
+* The admin screen UI has been updated.
+* Enables to search Inbound Messages by keywords used in the Consent and Meta sections.
+* Introduces personal data eraser for Address Book and Inbound Messages data.
+
 = 1.8 =
 
 * Remove support for outdated Akismet APIs.
 * Take consent data through an inbound message.
-
-= 1.7 =
-
-* New filter: flamingo_add_inbound
-* New filter: flamingo_add_contact
-* New filter: flamingo_htmlize

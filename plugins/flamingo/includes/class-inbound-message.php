@@ -157,7 +157,8 @@ class Flamingo_Inbound_Message {
 			$this->id = $post->ID;
 
 			$this->date = get_the_time(
-				__( 'Y/m/d g:i:s A', 'flamingo' ), $this->id );
+				/* translators: date format, see https://php.net/date */
+				__( 'M j, Y @ H:i', 'flamingo' ), $this->id );
 			$this->subject = get_post_meta( $post->ID, '_subject', true );
 			$this->from = get_post_meta( $post->ID, '_from', true );
 			$this->from_name = get_post_meta( $post->ID, '_from_name', true );
@@ -200,10 +201,15 @@ class Flamingo_Inbound_Message {
 			$post_title = __( '(No Title)', 'flamingo' );
 		}
 
-		$fields = flamingo_array_flatten( $this->fields );
-		$fields = array_filter( array_map( 'trim', $fields ) );
+		$post_content = array_merge(
+			$this->fields,
+			$this->consent,
+			$this->meta
+		);
 
-		$post_content = implode( "\n", $fields );
+		$post_content = flamingo_array_flatten( $post_content );
+		$post_content = array_filter( array_map( 'trim', $post_content ) );
+		$post_content = implode( "\n", $post_content );
 
 		$post_status = $this->spam ? self::spam_status : 'publish';
 

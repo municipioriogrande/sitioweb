@@ -114,7 +114,7 @@ class Flamingo_Inbound_Messages_List_Table extends WP_List_Table {
 			number_format_i18n( $posts_in_inbox ) );
 
 		$status_links['inbox'] = sprintf( '<a href="%1$s"%2$s>%3$s</a>',
-			admin_url( 'admin.php?page=flamingo_inbound' ),
+			menu_page_url( 'flamingo_inbound', false ),
 			( $this->is_trash || $this->is_spam ) ? '' : ' class="current"',
 			$inbox );
 
@@ -130,9 +130,15 @@ class Flamingo_Inbound_Messages_List_Table extends WP_List_Table {
 			number_format_i18n( $posts_in_spam ) );
 
 		$status_links['spam'] = sprintf( '<a href="%1$s"%2$s>%3$s</a>',
-			admin_url( 'admin.php?page=flamingo_inbound&post_status=spam' ),
+			esc_url( add_query_arg(
+				array(
+					'post_status' => 'spam',
+				),
+				menu_page_url( 'flamingo_inbound', false )
+			) ),
 			'spam' == $post_status ? ' class="current"' : '',
-			$spam );
+			$spam
+		);
 
 		// Trash
 		Flamingo_Inbound_Message::find( array( 'post_status' => 'trash' ) );
@@ -149,7 +155,12 @@ class Flamingo_Inbound_Messages_List_Table extends WP_List_Table {
 			number_format_i18n( $posts_in_trash ) );
 
 		$status_links['trash'] = sprintf( '<a href="%1$s"%2$s>%3$s</a>',
-			admin_url( 'admin.php?page=flamingo_inbound&post_status=trash' ),
+			esc_url( add_query_arg(
+				array(
+					'post_status' => 'trash',
+				),
+				menu_page_url( 'flamingo_inbound', false )
+			) ),
 			'trash' == $post_status ? ' class="current"' : '',
 			$trash );
 
@@ -266,12 +277,19 @@ class Flamingo_Inbound_Messages_List_Table extends WP_List_Table {
 
 		$actions = array();
 		$post_id = absint( $item->id );
-		$base_url = admin_url( 'admin.php?page=flamingo_inbound&post=' . $post_id );
+
+		$base_url = add_query_arg(
+			array(
+				'post' => $post_id,
+			),
+			menu_page_url( 'flamingo_inbound', false )
+		);
+
 		$edit_link = add_query_arg( array( 'action' => 'edit' ), $base_url );
 
 		if ( current_user_can( 'flamingo_edit_inbound_message', $post_id ) ) {
 			$actions['edit'] = sprintf( '<a href="%1$s">%2$s</a>',
-				esc_url( $edit_link ), esc_html( __( 'Edit', 'flamingo' ) ) );
+				esc_url( $edit_link ), esc_html( __( 'View', 'flamingo' ) ) );
 		}
 
 		if ( $item->spam
@@ -295,7 +313,7 @@ class Flamingo_Inbound_Messages_List_Table extends WP_List_Table {
 		}
 
 		if ( current_user_can( 'flamingo_edit_inbound_message', $post_id ) ) {
-			return sprintf( '<strong><a class="row-title" href="%1$s" title="%2$s">%3$s</a></strong> %4$s',
+			return sprintf( '<strong><a class="row-title" href="%1$s" aria-label="%2$s">%3$s</a></strong> %4$s',
 				esc_url( $edit_link ),
 				esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'flamingo' ), $item->subject ) ),
 				esc_html( $item->subject ),
@@ -335,18 +353,32 @@ class Flamingo_Inbound_Messages_List_Table extends WP_List_Table {
 				continue;
 			}
 
-			$link = admin_url(
-				'admin.php?page=flamingo_inbound&channel=' . $parent->slug );
+			$link = add_query_arg(
+				array(
+					'channel' => $parent->slug,
+				),
+				menu_page_url( 'flamingo_inbound', false )
+			);
 
-			$output .= sprintf( '<a href="%1$s" title="%2$s">%3$s</a> / ',
-				$link, esc_attr( $parent->name ), esc_html( $parent->name ) );
+			$output .= sprintf( '<a href="%1$s" aria-label="%2$s">%3$s</a> / ',
+				esc_url( $link ),
+				esc_attr( $parent->name ),
+				esc_html( $parent->name )
+			);
 		}
 
-		$link = admin_url(
-			'admin.php?page=flamingo_inbound&channel=' . $term->slug );
+		$link = add_query_arg(
+			array(
+				'channel' => $term->slug,
+			),
+			menu_page_url( 'flamingo_inbound', false )
+		);
 
-		$output .= sprintf( '<a href="%1$s" title="%2$s">%3$s</a>',
-			$link, esc_attr( $term->name ), esc_html( $term->name ) );
+		$output .= sprintf( '<a href="%1$s" aria-label="%2$s">%3$s</a>',
+			esc_url( $link ),
+			esc_attr( $term->name ),
+			esc_html( $term->name )
+		);
 
 		return $output;
 	}
@@ -370,6 +402,6 @@ class Flamingo_Inbound_Messages_List_Table extends WP_List_Table {
 			$h_time = mysql2date( __( 'Y/m/d', 'flamingo' ), $m_time );
 		}
 
-		return '<abbr title="' . $t_time . '">' . $h_time . '</abbr>';
+		return '<abbr aria-label="' . $t_time . '">' . $h_time . '</abbr>';
 	}
 }

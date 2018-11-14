@@ -101,7 +101,7 @@ class Flamingo_Outbound_Messages_List_Table extends WP_List_Table {
 			number_format_i18n( $posts_in_inbox ) );
 
 		$status_links['inbox'] = sprintf( '<a href="%1$s"%2$s>%3$s</a>',
-			admin_url( 'admin.php?page=flamingo_outbound' ),
+			menu_page_url( 'flamingo_outbound', false ),
 			( $this->is_trash ) ? '' : ' class="current"',
 			$inbox );
 
@@ -120,7 +120,12 @@ class Flamingo_Outbound_Messages_List_Table extends WP_List_Table {
 			number_format_i18n( $posts_in_trash ) );
 
 		$status_links['trash'] = sprintf( '<a href="%1$s"%2$s>%3$s</a>',
-			admin_url( 'admin.php?page=flamingo_outbound&post_status=trash' ),
+			esc_url( add_query_arg(
+				array(
+					'post_status' => 'trash',
+				),
+				menu_page_url( 'flamingo_outbound', false )
+			) ),
 			'trash' == $post_status ? ' class="current"' : '',
 			$trash );
 
@@ -196,9 +201,14 @@ class Flamingo_Outbound_Messages_List_Table extends WP_List_Table {
 
 		$actions = array();
 		$post_id = absint( $item->id );
-		$base_url = admin_url(
-			'admin.php?page=flamingo_outbound&post=' . $post_id );
-		$edit_link = add_query_arg( array( 'action' => 'edit' ), $base_url );
+
+		$edit_link = add_query_arg(
+			array(
+				'post' => $post_id,
+				'action' => 'edit',
+			),
+			menu_page_url( 'flamingo_outbound', false )
+		);
 
 		if ( current_user_can( 'flamingo_edit_outbound_message', $post_id ) ) {
 			$actions['edit'] = sprintf( '<a href="%1$s">%2$s</a>',
@@ -206,7 +216,7 @@ class Flamingo_Outbound_Messages_List_Table extends WP_List_Table {
 		}
 
 		if ( current_user_can( 'flamingo_edit_outbound_message', $post_id ) ) {
-			return sprintf( '<strong><a class="row-title" href="%1$s" title="%2$s">%3$s</a></strong> %4$s',
+			return sprintf( '<strong><a class="row-title" href="%1$s" aria-label="%2$s">%3$s</a></strong> %4$s',
 				esc_url( $edit_link ),
 				esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'flamingo' ), $item->subject ) ),
 				esc_html( $item->subject ),
@@ -241,6 +251,6 @@ class Flamingo_Outbound_Messages_List_Table extends WP_List_Table {
 			$h_time = mysql2date( __( 'Y/m/d', 'flamingo' ), $m_time );
 		}
 
-		return '<abbr title="' . $t_time . '">' . $h_time . '</abbr>';
+		return '<abbr aria-label="' . $t_time . '">' . $h_time . '</abbr>';
 	}
 }
