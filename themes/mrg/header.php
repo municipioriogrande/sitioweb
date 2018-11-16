@@ -5,6 +5,32 @@
  * @package WordPress
  */
  
+ 
+ 
+// load contact form 7 when it's needed
+
+if ( is_page( 
+		array(
+			'home',
+			'medioambiente',
+			'espacio-tecnologico',
+			'1er-congreso-internacional-educacion-e-inclusion-desde-el-sur'
+		) 
+	) ) {	
+	
+
+	if ( function_exists( 'wpcf7_enqueue_scripts' ) ) {
+		wpcf7_enqueue_scripts();
+	}
+
+	if ( function_exists( 'wpcf7_enqueue_styles' ) ) {
+		wpcf7_enqueue_styles();
+	}
+
+}
+
+
+ 
 if (!isset( $content_width ) ) $content_width = 1170;
 
 if(session_id() == '') {
@@ -147,13 +173,6 @@ if(is_single())
 	 */
 	wp_head();
 ?>
-
-
-
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.1/dist/jquery.fancybox.min.css" />
-<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.1/dist/jquery.fancybox.min.js"></script>
-
 
 
 </head>
@@ -847,3 +866,9 @@ if(is_single())
 		<?php
 			} //End if not blank template
 		?>
+		
+		
+		
+		
+		
+

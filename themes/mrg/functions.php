@@ -783,7 +783,7 @@ if($tg_screen->id == 'toplevel_page_functions')
 	wp_enqueue_script("jslider", $file_dir."/functions/jquery.slider-min.js", false, THEMEVERSION);
 }
 
-wp_enqueue_script("fancybox", $file_dir."/js/fancybox/jquery.fancybox.admin.js", false);
+wp_enqueue_script("fancybox", $file_dir."/js/fancybox/jquery.fancybox.admin.js", false, THEMEVERSION, true);
 wp_enqueue_script("hint", $file_dir."/js/hint.js", false, THEMEVERSION, true);
 wp_enqueue_script("jquery-ui-datepicker");
 wp_enqueue_script("jquery.timepicker", $file_dir."/functions/jquery.timepicker.js", false);
@@ -934,10 +934,23 @@ function pp_enqueue_front_page_scripts() {
 	}
 	
 	//Enqueue javascripts
-	wp_enqueue_script("jquery");
+	//wp_enqueue_script("jquery");
+	
+   wp_deregister_script( 'jquery' );
+   wp_register_script( 'jquery', includes_url( '/js/jquery/jquery.js' ), false, NULL, true );
+   wp_enqueue_script( 'jquery' );
+
+   wp_deregister_script( 'jquery-migrate' );
+   wp_register_script( 'jquery-migrate', includes_url( '/js/jquery/jquery-migrate.min.js' ), false, NULL, true );
+   wp_enqueue_script( 'jquery-migrate' );	
+	
+	
+	
+	
+	
 	
 	//Setup Google Map API key
-	MRG_set_map_api();
+	//MRG_set_map_api();
 	
 	wp_enqueue_script("parallax", get_template_directory_uri()."/js/parallax.min.js", false, THEMEVERSION, true);
 	
@@ -2082,6 +2095,10 @@ function enqueue_styles_scripts() {
 	wp_enqueue_script("flexslider-js", get_template_directory_uri()."/js/flexslider/jquery.flexslider-min.js", false, '20180815', true);
 	wp_enqueue_script( "sitio", get_stylesheet_directory_uri() . "/js/sitio.js", array(), '20180815', true );
 	
+	
+	wp_enqueue_script( "fancybox", "https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.1/dist/jquery.fancybox.min.js", array(), '3.5.1', true );
+   wp_enqueue_style( 'fancybox', "https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.1/dist/jquery.fancybox.min.css" );
+	
 }
 
 
@@ -2091,6 +2108,46 @@ function my_login_stylesheet() {
 }
 
 
+// ---- start removing stuff
+
+//wp_deregister_script( 'jquery-migrate' ); //doens't work :( 
+wp_deregister_script( 'comment-reply' );
+
+add_filter( 'wpcf7_load_js', '__return_false' );
+add_filter( 'wpcf7_load_css', '__return_false' );
+// load contact form 7 when needed. (see header.php)
+
+if ( is_front_page() ){
+	wp_dequeue_style('fancybox');
+	wp_dequeue_style('tooltipster');
+	wp_dequeue_style('magnific-popup');		
+}
+
+
+remove_action( 'wp_head', 'rsd_link' ) ;  // Display the link to the Really Simple Discovery service endpoint, EditURI link
+remove_action('wp_head', 'wp_shortlink_wp_head', 10, 0);
+add_action( 'wp_footer', 'disable_embed' );
+	function disable_embed(){
+		wp_dequeue_script( 'wp-embed' );
+	}
+add_filter('xmlrpc_enabled', '__return_false');
+remove_action( 'wp_head', 'wp_generator' ); // Display the XHTML generator that is generated on the wp_head hook, WP version
+remove_action( 'wp_head', 'wlwmanifest_link' ); // Display the link to the Windows Live Writer manifest file.
+add_action( 'pre_ping', 'disable_pingback' );
+	function disable_pingback( &$links ) {
+	 foreach ( $links as $l => $link )
+	 if ( 0 === strpos( $link, get_option( 'home' ) ) )
+	 unset($links[$l]);
+}
+
+remove_action( 'wp_head', 'feed_links_extra', 3 ); // Display the links to the extra feeds such as category feeds
+remove_action( 'wp_head', 'feed_links', 2 ); // Display the links to the general feeds: Post and Comment Feed
+remove_action( 'wp_head', 'index_rel_link' ); // index link
+remove_action( 'wp_head', 'parent_post_rel_link', 10, 0 ); // prev link
+remove_action( 'wp_head', 'start_post_rel_link', 10, 0 ); // start link
+remove_action( 'wp_head', 'adjacent_posts_rel_link', 10, 0 ); // Display relational links for the posts adjacent to the current post.
+
+// end 
 
 
 
@@ -2356,9 +2413,11 @@ function print_external_blog_posts($posts, $section_title=""){
 	$ctr = 0;
 	?>
 	
+	
 	<section class="mini-posts-container blog-latest wrapper_max_width">
 		<h2 class="title"><?php echo ( $section_title ) ? $section_title : "Mantenete bien informado";?></h2>
 	
+		<!-- mfunc FRAGMENT_CACHING -->
 		<?php foreach( $remote_posts as $remote_post ) : 
 			$ctr ++;
 			if ( $ctr == 1 ) {
@@ -2423,6 +2482,7 @@ function print_external_blog_posts($posts, $section_title=""){
 		
 		?>
 
+		<!-- /mfunc FRAGMENT_CACHING -->
 		<p style="text-align: center;width:100%;"><a class="button-blog" href="http://info.riogrande.gob.ar/"><img src="https://riogrande.gob.ar/wp-content/themes/mrg/images/globa_blog.svg" alt="Blog" width="73"></a></p>
 	</section>
 <?php
