@@ -2117,11 +2117,20 @@ add_filter( 'wpcf7_load_js', '__return_false' );
 add_filter( 'wpcf7_load_css', '__return_false' );
 // load contact form 7 when needed. (see header.php)
 
-if ( is_front_page() ){
-	wp_dequeue_style('fancybox');
-	wp_dequeue_style('tooltipster');
-	wp_dequeue_style('magnific-popup');		
+
+
+add_action('wp_print_styles','_remove_style');
+function _remove_style(){
+	if ( is_front_page() ){
+		wp_dequeue_style('fancybox');
+		wp_deregister_script( 'fancybox' );
+		wp_dequeue_style('tooltipster');
+		//wp_deregister_script( 'jquery.tooltipster.min.js' );  //sino se rompe
+		wp_dequeue_style('magnific-popup');		
+		//wp_deregister_script( 'jquery.magnific-popup.js' );  //sino se rompe
+	}
 }
+
 
 
 remove_action( 'wp_head', 'rsd_link' ) ;  // Display the link to the Really Simple Discovery service endpoint, EditURI link
