@@ -683,6 +683,7 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
   padding-bottom: 1em;
   border-radius: 0 0 10px 10px;
   text-align: center;
+  word-break: break-word;
 }
 .nnice-cta.nnice-cta-form {
   border-radius: 1em;
@@ -1134,6 +1135,138 @@ table.dataTable thead .sorting_asc:after {
 
 .blog-latest .button-blog:hover {
   transform: rotate(-20deg);
+}
+
+@media print {
+  .top_bar #searchform,
+.content-weather,
+body.home .slider_wrapper,
+.blog-latest,
+.indice_anclas,
+.hamburger,
+.footer,
+body.page .ppb_module_cta_imagen_texto_boton {
+    display: none !important;
+  }
+
+  body {
+    font-size: 70%;
+    margin: 20px;
+  }
+
+  .ppb_wrapper a:link:after {
+    content: " (" attr(href) ") ";
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #002855 !important;
+  }
+
+  .page-breadcrumb-wrapper {
+    margin: 10px auto;
+  }
+
+  .page-breadcrumb .the-modified-date {
+    font-size: 14px;
+    text-align: left;
+  }
+
+  body.home .ppb_secciones_destacadas .page_content_wrapper .box {
+    width: 200px;
+  }
+  body.home .ppb_secciones_destacadas .page_content_wrapper h3 {
+    font-size: 20px;
+  }
+  body.home .ppb_descubre .page_content_wrapper .title,
+body.home .ppb_gestion_municipal .page_content_wrapper .title {
+    font-size: 40px;
+  }
+  body.home .ppb_descubre .page_content_wrapper .box {
+    width: 100%;
+    height: auto;
+  }
+  body.home .ppb_descubre .page_content_wrapper .image {
+    float: left;
+    margin-right: 1em;
+  }
+  body.home .ppb_descubre .page_content_wrapper h3 {
+    display: block;
+    margin: 0;
+    text-align: left;
+  }
+  body.home .ppb_gestion_municipal .page_content_wrapper .box .image {
+    width: 80px;
+  }
+  body.home .ppb_gestion_municipal .page_content_wrapper .box h3 {
+    font-size: 16px;
+  }
+
+  body.page .bilder_modul.fixed {
+    padding-bottom: 100px;
+  }
+  body.page .bilder_modul .col-md {
+    width: 100%;
+  }
+  body.page .bilder_modul .col-md-8 {
+    margin-bottom: 2em;
+  }
+  body.page .bilder_modul .page_content_wrapper .col-md-8 .content h2 {
+    font-size: 40px;
+    line-height: 58px;
+  }
+  body.page .bilder_modul .page_content_wrapper .col-md-8 .content p {
+    font-size: 22px;
+  }
+  body.page .bilder_modul .page_content_wrapper .col-md-8 .content ul li {
+    font-size: 20px;
+  }
+  body.page .bilder_modul .page_content_wrapper .col-md-4 .content ul {
+    column-count: 2;
+  }
+  body.page .bilder_modul .page_content_wrapper .col-md-4 .content ul li {
+    margin-right: 30px;
+    font-weight: normal;
+    font-size: 20px;
+  }
+  body.page .bilder_modul .page_content_wrapper .col-md-4 .content ul li img {
+    max-width: 30px;
+  }
+  body.page .titular_bajada_c1_c2 .page_content_wrapper {
+    max-width: none;
+  }
+  body.page .titular_bajada_c1_c2 .page_content_wrapper .col-md-12 .content h2 {
+    font-size: 40px;
+  }
+  body.page .titular_bajada_c1_c2 .page_content_wrapper .col-md-6 .content img {
+    float: none;
+    max-width: 400px;
+  }
+  body.page .titular_bajada_c1_c2 .col-md-6 {
+    float: none;
+    width: 100%;
+  }
+  body.page .ppb_module_cta_imagen_texto_boton .page_content_wrapper .col-md-12 .content h3 {
+    font-size: 20px;
+    line-height: 30px;
+  }
+  body.page .ppb_module_centros-salud ul {
+    flex-direction: column;
+  }
+  body.page .ppb_module_centros-salud ul .centro-salud {
+    width: 100%;
+    background-color: transparent;
+    display: flex;
+  }
+  body.page .ppb_module_centros-salud ul .centro-salud .featured-image {
+    height: 200px;
+  }
+  body.page .ppb_module_centros-salud ul .centro-salud .featured-image img {
+    max-width: 400px;
+  }
+
+  body.page-empleo #dejanos-tu-cv .box-cta {
+    display: none;
+  }
 }
 
 /*# sourceMappingURL=fixes.css.map */
