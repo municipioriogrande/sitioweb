@@ -761,7 +761,7 @@ wp_enqueue_style("jquery.timepicker", $file_dir."/functions/jquery.timepicker.cs
 $pp_font = get_option('pp_font');
 if(!empty($pp_font) && $pp_font!='Avenir-Heavy' && $pp_font!='Avenir-Medium' && $pp_font!='Avenir-Regular')
 {
-	wp_enqueue_style('google_fonts', "http://fonts.googleapis.com/css?family=".$pp_font."&subset=latin,cyrillic", false, "", "all");
+	wp_enqueue_style('google_fonts', "https://fonts.googleapis.com/css?family=".$pp_font."&subset=latin,cyrillic", false, "", "all");
 }
 
 //Get current backend screen
@@ -914,7 +914,7 @@ function pp_enqueue_front_page_scripts() {
 	{
 		if(!empty($gg_fonts_family_value) && $gg_fonts_family_value != 'Helvetica' && $gg_fonts_family_value != 'Arial' && $gg_fonts_family_value != 'Avenir-Heavy' && $gg_fonts_family_value != 'Avenir-Medium' && $gg_fonts_family_value != 'Avenir-Roman')
 		{
-			wp_enqueue_style('google_font'.$key, "http://fonts.googleapis.com/css?family=".$gg_fonts_family_value.":100,200,300,400,500,600,700,900,400italic&subset=latin,cyrillic-ext,greek-ext,cyrillic", false, "", "all");
+			wp_enqueue_style('google_font'.$key, "https://fonts.googleapis.com/css?family=".$gg_fonts_family_value.":100,200,300,400,500,600,700,900,400italic&subset=latin,cyrillic-ext,greek-ext,cyrillic", false, "", "all");
 		}
 	}
 	
@@ -2042,7 +2042,7 @@ add_filter('getSegmentOffArrayByIndice' , 'getSegmentOffArrayByIndice', 1, 3);
 
 function _remove_script_version( $src ){ 
 	$parts = explode( '?', $src );
-	if($parts[0]=='https://maps.googleapis.com/maps/api/js' || $parts[0]=='https://fonts.googleapis.com/css' || $parts[0]=='http://fonts.googleapis.com/css')
+	if($parts[0]=='https://maps.googleapis.com/maps/api/js' || $parts[0]=='https://fonts.googleapis.com/css' || $parts[0]=='https://fonts.googleapis.com/css')
 	{
 		return $src;
 	}else{
@@ -2071,530 +2071,37 @@ add_filter('query_vars', 'add_query_vars');
 
 
 
-
-
-
-
-
 define( "EXTERNAL_BLOG_URL_API", "https://info.riogrande.gob.ar/wp-json/wp/v2" );
 
 //Page Slug Body Class
 add_filter( 'body_class', 'add_slug_body_class' );
-function add_slug_body_class( $classes ) {
-	global $post;
-	if ( isset( $post ) ) {
-		$classes[] = $post->post_type . '-' . $post->post_name;
+	function add_slug_body_class( $classes ) {
+		global $post;
+		if ( isset( $post ) ) {
+			$classes[] = $post->post_type . '-' . $post->post_name;
+		}
+		return $classes;
 	}
-	return $classes;
-}
 
 
 add_action( 'wp_enqueue_scripts', 'enqueue_styles_scripts',12 );
-function enqueue_styles_scripts() {
-
-	wp_enqueue_script("flexslider-js", get_template_directory_uri()."/js/flexslider/jquery.flexslider-min.js", false, '20180815', true);
-	wp_enqueue_script( "sitio", get_stylesheet_directory_uri() . "/js/sitio.js", array(), '20180815', true );
-	
-	
-	wp_enqueue_script( "fancybox", "https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.1/dist/jquery.fancybox.min.js", array(), '3.5.1', true );
-   wp_enqueue_style( 'fancybox', "https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.1/dist/jquery.fancybox.min.css" );
-	
-}
+	function enqueue_styles_scripts() {
+		wp_enqueue_script( "flexslider-js", get_template_directory_uri()."/js/flexslider/jquery.flexslider-min.js", false, '20180815', true);
+		wp_enqueue_script( "sitio", get_stylesheet_directory_uri() . "/js/sitio.js", array(), '20180815', true );
+		
+		wp_enqueue_script( "fancybox", "https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.1/dist/jquery.fancybox.min.js", array(), '3.5.1', true );
+		 wp_enqueue_style( "fancybox", "https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.1/dist/jquery.fancybox.min.css" );
+	}
 
 
 add_action( 'login_enqueue_scripts', 'my_login_stylesheet' );
-function my_login_stylesheet() { 
-   wp_enqueue_style( 'rgsite-login', get_template_directory_uri() . "/css/wp-login.min.css" );
-}
-
-
-// ---- start removing stuff
-
-//wp_deregister_script( 'jquery-migrate' ); //doens't work :( 
-wp_deregister_script( 'comment-reply' );
-
-add_filter( 'wpcf7_load_js', '__return_false' );
-add_filter( 'wpcf7_load_css', '__return_false' );
-// load contact form 7 when needed. (see header.php)
-
-
-
-add_action('wp_print_styles','_remove_style');
-function _remove_style(){
-	if ( is_front_page() ){
-		wp_dequeue_style('fancybox');
-		wp_deregister_script( 'fancybox' );
-		wp_dequeue_style('tooltipster');
-		//wp_deregister_script( 'jquery.tooltipster.min.js' );  //sino se rompe
-		wp_dequeue_style('magnific-popup');		
-		//wp_deregister_script( 'jquery.magnific-popup.js' );  //sino se rompe
+	function my_login_stylesheet() { 
+		wp_enqueue_style( 'rgsite-login', get_template_directory_uri() . "/css/wp-login.min.css" );
 	}
-}
 
 
+require get_parent_theme_file_path( '/includes/remove-stuff.php' );
+require get_parent_theme_file_path( '/includes/theme-shortcodes.php' );
+require get_parent_theme_file_path( '/includes/external-blog.php' );
 
-remove_action( 'wp_head', 'rsd_link' ) ;  // Display the link to the Really Simple Discovery service endpoint, EditURI link
-remove_action('wp_head', 'wp_shortlink_wp_head', 10, 0);
-add_action( 'wp_footer', 'disable_embed' );
-	function disable_embed(){
-		wp_dequeue_script( 'wp-embed' );
-	}
-add_filter('xmlrpc_enabled', '__return_false');
-remove_action( 'wp_head', 'wp_generator' ); // Display the XHTML generator that is generated on the wp_head hook, WP version
-remove_action( 'wp_head', 'wlwmanifest_link' ); // Display the link to the Windows Live Writer manifest file.
-add_action( 'pre_ping', 'disable_pingback' );
-	function disable_pingback( &$links ) {
-	 foreach ( $links as $l => $link )
-	 if ( 0 === strpos( $link, get_option( 'home' ) ) )
-	 unset($links[$l]);
-}
 
-remove_action( 'wp_head', 'feed_links_extra', 3 ); // Display the links to the extra feeds such as category feeds
-remove_action( 'wp_head', 'feed_links', 2 ); // Display the links to the general feeds: Post and Comment Feed
-remove_action( 'wp_head', 'index_rel_link' ); // index link
-remove_action( 'wp_head', 'parent_post_rel_link', 10, 0 ); // prev link
-remove_action( 'wp_head', 'start_post_rel_link', 10, 0 ); // start link
-remove_action( 'wp_head', 'adjacent_posts_rel_link', 10, 0 ); // Display relational links for the posts adjacent to the current post.
-
-// end 
-
-
-
-add_shortcode('ppb_add_shortcode', 'ppb_add_shortcode_func');
-function ppb_add_shortcode_func($atts, $content) {
-
-    //extract short code attr
-    extract(shortcode_atts(array(
-		'layout' => 'fixedwidth',
-		'titulo' => '',
-		'ancla' 	=> '',
-		'clases' 	=> '',
-		'contenido' => '',
-		'shortcode' => '',
-		
-    ), $atts));
-
-	$return_html = '<div class="module_add_shortcode ';
-
-    if (!empty($layout) && $layout == 'fullwidth') {
-        $return_html .= 'fullwidth ';
-    }
-   $return_html .= '" ';
-	
-	$return_html .= ( $ancla ) ? ' id="'.$ancla.'" ' : '';
-
-   $return_html .= '><div class="page_content_wrapper '. html_entity_decode($atts['clases']) .'">';
-
-
-	$return_html .= '<div class="row">';
-	$return_html .= '	<div class="col col-md col-md-12">';
-	
-	if( !empty($titulo) ) {
-		$return_html .= '			<h2 class="section-title">'.html_entity_decode($atts['titulo']).'</h2>'; 
-	}
-	if(!empty($contenido))
-	{		
-		$return_html .= '			<div class="text">' . html_entity_decode($atts['contenido']) . '</div>';
-		
-	}
-	if(!empty($shortcode))
-	{		
-		//$contenido = str_replace("&quot;",'"',$contenido);
-		$contenido = "[" . htmlspecialchars_decode($atts['shortcode']) . "]";
-		$return_html .= '			<div class="content">' . do_shortcode($contenido) . '</div>';
-		
-	}		
-	
-	
-	$return_html .= '	</div>'."\r";
-	$return_html .= '</div>'; // close row
-	
-	$return_html .= '</div>'; // close page_content_wrapper
-	$return_html .= '</div>'; // close bilder_modul
-	
-    return $return_html;
-}
-
-
-
-
-// Add shortcode for theme's content builder (display in front end)
-// To add sections (backend), must edit /themes/mrg/lib/contentbuilder.shortcode.lib.php
-add_shortcode('ppb_lista_centros_salud', 'ppb_lista_centros_salud_func');
-function ppb_lista_centros_salud_func($atts, $content) {
-
-    //extract short code attr
-    extract(shortcode_atts(array(
-		'layout' => 'fixedwidth',
-		'titulo' => '',
-		'ancla' 	=> '',
-		'contenido' => '',
-		
-    ), $atts));
-
-	$return_html = '<div id="'.$ancla.'" class="ppb_module_centros-salud ppb_module_titular_bajada_full_c1_c2 ';
-
-    if (!empty($layout) && $layout == 'fullwidth') {
-        $return_html .= 'fullwidth ';
-    }
-
-    $return_html .= '" ';
-    $return_html .= '><div class="page_content_wrapper">';
-
-
-	 if( !empty($titulo) ) {
-		$return_html .= '<div class="row">';
-		$return_html .= '	<div class="col-md col-md-12">';
-		$return_html .= '		<div class="content">';
-		
-		if( !empty($titulo) ) {
-			$return_html .= '			<h2>'.html_entity_decode($atts['titulo']).'</h2>'; 
-		}
-		
-		if(!empty($bajada)) {
-			$return_html .= '			<div>'.html_entity_decode($atts['contenido']).'</div>';
-		}
-		
-		$return_html .= '			<div>'.list_centros_salud().'</div>';
-		
-		$return_html .= '		</div>';
-		$return_html .= '	</div>'."\r";
-		$return_html .= '</div>'; // close row
-	}
-	
-	$return_html .= '</div>'; // close page_content_wrapper
-	$return_html .= '</div>'; // close bilder_modul
-	
-    return $return_html;
-}
-
-
-
-function make_file_from_external_blog($wp_response, $name_file, $context=""){
-	
-	$data = array();
-	
-
-	if( !is_wp_error( $wp_response ) && $wp_response['response']['code'] == 200 ) {
-		$tmp = json_decode( $wp_response['body'], true ); 
-		
-		$data = $tmp;
-		
-		if ( $context == "categories" ) {
-			
-			foreach ($tmp as $cat) {
-				//$data[$cat["id"]] = array("name" => $cat["name"], "link" => $cat["link"]);
-				$data[] = array("id" => $cat["id"], "name" => $cat["name"], "link" => $cat["link"] );
-			}
-		}
-		
-		# Eliminamos archivo
-		if(file_exists($name_file)){
-			@unlink($name_file);
-		}
-
-		# Creamos archivo
-		file_put_contents( $name_file , json_encode($data) );
-		
-		
-		return $data;
-	}	
-	
-	
-}
-
-
-
-
-
-/**
- *  Get blog (WP, external) categories using REST API
- *  
- *  @return array. id => array(name, link )
- *  
- */
-function get_external_blog_categories(){
-	
-	$blog_url_cats = EXTERNAL_BLOG_URL_API . "/categories";
-	
-	$response_cat = wp_remote_get( add_query_arg( array(
-		'per_page' => 100 //between 1 and 100
-		//'page' => 1 
-	), $blog_url_cats ) );
-	
-	
-	$name_file 	= dirname(__FILE__).'/json/external_blog_categories.json';
-	
-	$make_file = true;
-	
-	if(!file_exists($name_file)) {
-		$make_file = true;
-	}
-	else {
-		date_default_timezone_set('UTC');
-		date_default_timezone_set("America/Argentina/Ushuaia");
-		setlocale(LC_ALL,"es_ES");
-		
-		$hora 					= getdate();
-		$segundos_menos 		= 3600*3; 									// Diferencia horaria (3hs Argentina)
-		$segundos_validos 	= 3600; 										// Segundos validos para el archivo (5hs)
-		$hora_actual 			= gmdate("H:i:s", ($hora[0]-$segundos_menos));	// Formateamos hora de sistema
-		$hora_archivo 			= date("H:i:s.", filemtime($name_file));	// Formateamos hora de sistema
-		$horas_resta 			= MRG_normalice_fecha($hora_actual)-MRG_normalice_fecha($hora_archivo);
-		
-		$make_file = ($horas_resta <= $segundos_validos) ? false : true;
-	}
-	
-	if ( !$make_file ) {
-		return json_decode(file_get_contents($name_file), true);
-	}
-	return make_file_from_external_blog($response_cat,$name_file, $context="categories");
-	
-}
-
-
-
-
-
-/**
- *  Get blog (WP, external) posts using REST API
- *  
- *  @return array
- */
-function get_external_blog_posts($filter_categories=array()){
-	$blog_url = EXTERNAL_BLOG_URL_API . "/posts";
-
-	$name_file 	= dirname(__FILE__).'/json/external_blog_posts.json';
-	
-	$query_args = array(
-		'per_page' => 5
-		, '_embed' => ''
-	);
-	
-	if ( !empty( $filter_categories ) ) {
-		$query_args['categories'] = $filter_categories;
-		$tmp = is_array( $filter_categories ) ? $filter_categories[0] : $filter_categories;
-		$name_file 	= dirname(__FILE__).'/json/external_blog_posts_cat_' . $tmp . '.json';
-	}
-	
-	$response = wp_remote_get( add_query_arg( $query_args, $blog_url ) );	
-
-	
-	$make_file = true;
-	
-	if(!file_exists($name_file)) {
-		$make_file = true;
-	}
-	else {
-		date_default_timezone_set('UTC');
-		date_default_timezone_set("America/Argentina/Ushuaia");
-		setlocale(LC_ALL,"es_ES");
-		
-		$hora 					= getdate();
-		$segundos_menos 		= 3600*3; 		// Diferencia horaria (3hs Argentina)
-		$segundos_validos 		= 3600; 		// Segundos validos para el archivo (5hs)
-		$hora_actual 			= gmdate("H:i:s", ($hora[0]-$segundos_menos));	// Formateamos hora de sistema
-		$hora_archivo 			= date("H:i:s.", filemtime($name_file));	// Formateamos hora de sistema
-		$horas_resta 			= MRG_normalice_fecha($hora_actual) - MRG_normalice_fecha($hora_archivo);
-		
-		$make_file = ($horas_resta <= $segundos_validos) ? false : true;
-	}
-	
-	if ( !$make_file ) {
-		return json_decode(file_get_contents($name_file), true);
-	}
-	return make_file_from_external_blog($response,$name_file);
-	
-
-
-}
-
-
-
-
-
-function print_external_blog_posts($posts, $section_title=""){
-	
-	$remote_posts = $posts;
-
-	$remote_categories_cache = get_external_blog_categories();
-	
-	$ctr = 0;
-	?>
-	
-	
-	<section class="mini-posts-container blog-latest wrapper_max_width">
-		<h2 class="title"><?php echo ( $section_title ) ? $section_title : "Mantenete bien informado";?></h2>
-	
-		<!-- mfunc FRAGMENT_CACHING -->
-		<?php foreach( $remote_posts as $remote_post ) : 
-			$ctr ++;
-			if ( $ctr == 1 ) {
-				echo '<div class="row">';
-			}
-
-			if ( $ctr == 4 ) {
-				echo '<div class="row column-bigger">';
-					echo '<div class="post column smaller">';
-			}
-			if ( $ctr == 5 ) {
-				echo '<div class="post column bigger">';
-			}
-
-			if ( $ctr < 4 ) {
-				echo '<div class="column">';
-				}
-			?>
-				<div class="mini-article effect-enlarge-shadow">
-					<div>
-						<div <?php if ( !empty( $remote_post['_embedded']['wp:featuredmedia'][0]['media_details']['sizes']['medium_large']['source_url'] ) ) { echo 'style="background-image:url(' . $remote_post['_embedded']['wp:featuredmedia'][0]['media_details']['sizes']['medium_large']['source_url'] . ')"'; } ?> class="image"></div>
-
-						<h3 class="title"><a href="<?php echo esc_url( $remote_post['link'] );?>"><?php echo $remote_post['title']['rendered'];?></a></h3>
-					</div>
-
-					<?php 
-					$categories_list = array();
-
-					foreach ($remote_post['categories'] as $cat) {
-						
-						$tmp = -1;
-						
-						foreach( $remote_categories_cache as $cat_d ) {
-							if ( $cat == $cat_d['id'] ) {
-								$tmp = $cat_d;
-								break;
-							}
-						}
-						
-						if ( $tmp >= 0 ) {
-							$categories_list[] = '<a href="' . esc_url( $tmp['link'] ) . '">' . $tmp['name'] . '</a>';
-						}
-					}
-
-					if ( $categories_list ) : ?>
-							<p class="category uppercase">
-								<?php echo implode( ", ", $categories_list );?>
-							</p>
-					<?php	endif; ?>
-				</div> <?php //article ?>
-			</div> <?php //end column ?>
-
-			<?php
-			if ( $ctr == 3 || $ctr == 5 ) {
-				echo '</div>'; //end row
-			}
-		endforeach;	
-		
-		if ( $ctr == 4 ) {
-				echo '</div>'; //end row
-		}
-		
-		?>
-
-		<!-- /mfunc FRAGMENT_CACHING -->
-		<p style="text-align: center;width:100%;"><a class="button-blog" href="http://info.riogrande.gob.ar/"><img src="https://riogrande.gob.ar/wp-content/themes/mrg/images/globa_blog.svg" alt="Blog" width="73"></a></p>
-	</section>
-<?php
-	
-}
-
-
-function print_external_blog_posts_holder($section_title="", $filtered_cats=array()){
-	$remote_posts = get_external_blog_posts($filtered_cats);
-	
-	if ( empty( $remote_posts ) ) {
-		return "";
-	}
-	
-   print_external_blog_posts($remote_posts, $section_title);	
-}
-
-
-
-add_shortcode('ppb_blog_latest_posts', 'ppb_blog_latest_posts_func');
-function ppb_blog_latest_posts_func($atts, $content) {
-
-    //extract short code attr
-    extract(shortcode_atts(array(
-		'layout' => 'fixedwidth',
-		'titulo' => '',
-		'ancla' 	=> '',
-		'show_items' => '',
-		'selected_category' => '',
-		
-    ), $atts));
-	 
-	 
-	$remote_posts = ( $selected_category != "all" ) ? get_external_blog_posts($selected_category) : get_external_blog_posts();
-	
-	if ( empty( $remote_posts ) ) {
-		return "";
-	}
-	
-   print_external_blog_posts($remote_posts, $titulo);
-}
-
-
-
-
-
-
-function ppb_module_titular_cuerpo_nlb_func($atts, $content) {
-
-	//extract short code attr
-	extract(shortcode_atts(array(
-		'layout'  => 'fixedwidth',
-		'titulo'  => '',
-		'ancla'   => '',
-		'bajada'  => '',
-		'cuerpo'  => '',
-	), $atts));
-
-	$return_html = '<div id="'.$ancla.'" class="module_titular_bajada_c1_img ';
-
-	$return_html .= (!empty($layout) && $layout == 'fullwidth') ? 'fullwidth ' : '' ;
-	 
-	$scapes = array("\r\n", "\n", "\r", "<br/>", "<br />");
-	$cuerpo = trim(str_replace($scapes, '', html_entity_decode($cuerpo)));
-
-	$return_html .= '" ';
-	$return_html .= '><div class="page_content_wrapper">';
-	
-	if( !empty($titulo) || !empty($bajada) ) {
-		$return_html .= '<div class="row">';
-		$return_html .= '	<div class="col-md col-md-12">';
-		$return_html .= '		<div class="content">';
-		
-		$return_html .= ( !empty($titulo) ) ? '			<h2>' . html_entity_decode($titulo) . '</h2>' : '';
-		
-		
-		if( !empty($bajada) ) {
-			$return_html .= ( empty($cuerpo) ) ? '			<aside style="margin:0;">'.html_entity_decode($bajada).'</aside>' : '			<aside>'.html_entity_decode($bajada).'</aside>';
-		}
-		
-		$return_html .= '		</div>';
-		$return_html .= '	</div>'."\r";
-		$return_html .= '</div>'; // close row
-	}
-	
-	if( !empty($cuerpo) ) {
-		$return_html .= '<div class="row">';
-		$return_html .= '	<div class="col-md col-md-12">';
-		$return_html .= '		<div class="content">';
-		$return_html .= '			<p>'.html_entity_decode($cuerpo).'</p>';
-		$return_html .= '		</div>';
-		$return_html .= '	</div>'."\r";
-		$return_html .= '</div>'; // close row
-	}
-	
-	$return_html .= '</div>'; // close page_content_wrapper
-   $return_html .= '</div>'; // close bilder_modul
-	
-   return $return_html;
-}
-add_shortcode('ppb_module_titular_cuerpo_nlb', 'ppb_module_titular_cuerpo_nlb_func');
-
-
-
-
-?>

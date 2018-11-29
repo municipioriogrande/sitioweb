@@ -7,6 +7,7 @@
 ?>
 	
 <?php
+
 	/**
     *	Setup Google Analyric Code
     **/
@@ -14,7 +15,9 @@
 	
 	if(!empty($pp_ga_code))
 	{
-		echo stripslashes($pp_ga_code);
+		if (!DEV_ENV) {
+			echo stripslashes($pp_ga_code);
+		}
 	}
 	
 	//Check if blank template
@@ -365,7 +368,7 @@ if(!empty($pp_hamburguesa_menu))
 			{
 				$html_return_social .= '<li class="facebook"><a ';
 				if(!empty($pp_footer_first_social_link_blank)) {
-					$html_return_social .= 'target="_blank"';
+					//$html_return_social .= 'target="_blank"';
 				}
 				$html_return_social .= ' href="' . $pp_facebook_username . '"><i class="fa fa-facebook"></i></a></li>';
 			}
@@ -375,7 +378,7 @@ if(!empty($pp_hamburguesa_menu))
 			{
 				$html_return_social .= '<li class="twitter"><a ';
 				if(!empty($pp_footer_first_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
+					//$html_return_social .= 'target="_blank"';
 				} 
 				$html_return_social .= ' href="http://twitter.com/'.$pp_twitter_username.'"><i class="fa fa-twitter"></i></a></li>';
 			}
@@ -385,7 +388,7 @@ if(!empty($pp_hamburguesa_menu))
 			{
 				$html_return_social .= '<li class="flickr"><a ';
 				if(!empty($pp_footer_first_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
+					//$html_return_social .= 'target="_blank"';
 				}
 				$html_return_social .= ' title="Flickr" href="http://flickr.com/people/'.$pp_flickr_username.'"><i class="fa fa-flickr"></i></a></li>';
 			}
@@ -395,7 +398,7 @@ if(!empty($pp_hamburguesa_menu))
 			{
 				$html_return_social .= '<li class="youtube"><a ';
 				if(!empty($pp_footer_first_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
+					//$html_return_social .= 'target="_blank"';
 				}
 				$html_return_social .= ' title="Youtube" href="http://youtube.com/channel/'.$pp_youtube_username.'"><i class="fa fa-youtube"></i></a></li>';
 			}
@@ -405,7 +408,7 @@ if(!empty($pp_hamburguesa_menu))
 			{
 				$html_return_social .= '<li class="vimeo"><a ';
 				if(!empty($pp_footer_first_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
+					//$html_return_social .= 'target="_blank"';
 				}
 				$html_return_social .= ' title="Vimeo" href="http://vimeo.com/'.$pp_vimeo_username.'"><i class="fa fa-vimeo-square"></i></a></li>';
 			}
@@ -415,7 +418,7 @@ if(!empty($pp_hamburguesa_menu))
 			{
 				$html_return_social .= '<li class="tumblr"><a ';
 				if(!empty($pp_footer_first_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
+					//$html_return_social .= 'target="_blank"';
 				}
 				$html_return_social .= 'title="Tumblr" href="http://'.$pp_tumblr_username.'.tumblr.com"><i class="fa fa-tumblr"></i></a></li>';
 			}
@@ -425,7 +428,7 @@ if(!empty($pp_hamburguesa_menu))
 			{
 				$html_return_social .= '<li class="google"><a ';
 				if(!empty($pp_footer_first_social_link_blank)) {
-					$html_return_social .= 'target="_blank"';
+					//$html_return_social .= 'target="_blank"';
 				}
 				$html_return_social .= ' title="Google+" href="'.$pp_google_username.'"><i class="fa fa-google-plus"></i></a></li>';
 			}
@@ -435,7 +438,7 @@ if(!empty($pp_hamburguesa_menu))
 			{
 				$html_return_social .= '<li class="dribbble"><a ';
 				if(!empty($pp_footer_first_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
+					//$html_return_social .= 'target="_blank"';
 				}
 				$html_return_social .= 'title="Dribbble" href="http://dribbble.com/'.$pp_dribbble_username.'"><i class="fa fa-dribbble"></i></a></li>';
 			}
@@ -445,7 +448,7 @@ if(!empty($pp_hamburguesa_menu))
 			{
 				$html_return_social .= '<li class="linkedin"><a ';
 				if(!empty($pp_footer_first_social_link_blank)) {
-					$html_return_social .= 'target="_blank"';
+					//$html_return_social .= 'target="_blank"';
 				}
 				$html_return_social .= 'title="Linkedin" href="'.$pp_linkedin_username.'"><i class="fa fa-linkedin"></i></a></li>';
 			}
@@ -455,7 +458,7 @@ if(!empty($pp_hamburguesa_menu))
 			{
 				$html_return_social .= '<li class="pinterest"><a ';
 				if(!empty($pp_footer_first_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
+					//$html_return_social .= 'target="_blank"';
 				}
 				$html_return_social .= 'title="Pinterest" href="http://pinterest.com/'.$pp_pinterest_username.'"><i class="fa fa-pinterest"></i></a></li>';
 			}
@@ -465,7 +468,7 @@ if(!empty($pp_hamburguesa_menu))
 			{
 				$html_return_social .= '<li class="instagram"><a ';
 				if(!empty($pp_footer_first_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
+					//$html_return_social .= 'target="_blank"';
 				}
 				$html_return_social .= 'title="Instagram" href="http://instagram.com/'.$pp_instagram_username.'"><i class="fa fa-instagram"></i></a></li>';
 			}
@@ -475,7 +478,7 @@ if(!empty($pp_hamburguesa_menu))
 			{
 				$html_return_social .= '<li class="behance"><a ';
 				if(!empty($pp_footer_first_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
+					//$html_return_social .= 'target="_blank"';
 				}
 				$html_return_social .= 'title="Behance" href="http://behance.net/'.$pp_behance_username.'"><i class="fa fa-behance-square"></i></a></li>';
 			}
@@ -485,7 +488,7 @@ if(!empty($pp_hamburguesa_menu))
 			{
 				$html_return_social .= '<li class="tripadvisor"><a ';
 				if(!empty($pp_footer_first_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
+					//$html_return_social .= 'target="_blank"';
 				}
 				$html_return_social .= ' title="Tripadvisor" href="'.$pp_tripadvisor_url.'"><i class="fa fa-tripadvisor"></i></a></li>';
 			}
