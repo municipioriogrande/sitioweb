@@ -6,7 +6,6 @@
  */
  
  
- 
 // load contact form 7 when it's needed
 
 if ( is_page( 
@@ -97,31 +96,42 @@ if(isset($mppb_form_data_order[0]))
 ?>
 
 <?php
-if(is_single())
-{
-	$fb_thumb = wp_get_attachment_image_src($post->ID, 'gallery_3', true);
-	if(isset($fb_thumb[0]) && !empty($fb_thumb[0]))
-	{
+//global $post;
+$fb_thumb = "";
+if ( has_post_thumbnail() ) { 
+	$fb_thumb = get_the_post_thumbnail_url( get_the_ID(), "large");
+}
+else{
+	$fb_thumb = wp_get_attachment_image_src(get_the_ID(), 'gallery_3', true);
+	$fb_thumb = $fb_thumb[0];
+
+	/*
+	if(isset($fb_thumb) && !empty($fb_thumb)){
 		$image_desc = get_post_field('post_content', $post->ID);
-	?>
+		$image_desc = strip_tags(strip_shortcodes($image_desc);
+	}
+	*/
+}
+
+$image_desc = "";
+if ( get_the_excerpt($post) ) {
+	$image_desc = get_the_excerpt($post);
+}
+
+?>
 	<!-- Open Graph data -->
     <meta property="og:type" content="article" />
-	<meta property="og:image" content="<?php echo $fb_thumb[0]; ?>"/>
+	<meta property="og:image" content="<?php echo $fb_thumb; ?>"/>
 	<meta property="og:title" content="<?php the_title(); ?>"/>
-	<meta property="og:url" content="<?php echo get_permalink($post->ID); ?>"/>
-	<meta property="og:description" content="<?php echo strip_tags(strip_shortcodes($image_desc)); ?>"/>
+	<meta property="og:url" content="<?php echo get_permalink(get_the_ID()); ?>"/>
+	<meta property="og:description" content="<?php echo $image_desc; ?>"/>
     
     <!-- Twitter Card data -->
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="<?php echo get_permalink($post->ID); ?>" />
+    <meta name="twitter:site" content="<?php echo get_permalink(get_the_ID()); ?>" />
     <meta name="twitter:title" content="<?php the_title(); ?>" />
-    <meta name="twitter:description" content="<?php echo strip_tags(strip_shortcodes($image_desc)); ?>" />
-    <meta name="twitter:image" content="<?php echo $fb_thumb[0]; ?>">
-    
-	<?php
-	}
-}
-?>
+    <meta name="twitter:description" content="<?php echo $image_desc; ?>" />
+    <meta name="twitter:image" content="<?php echo $fb_thumb; ?>">
 
 	<!-- Apple -->
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
