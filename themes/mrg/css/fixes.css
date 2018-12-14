@@ -978,6 +978,72 @@ table.dataTable thead .sorting_asc:after {
   margin-left: 0.3em;
 }
 
+.big-buttons-icons-wrapper {
+  text-align: center;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+}
+.big-buttons-icons-wrapper .btn {
+  width: 240px;
+  margin: 0.5em 2em;
+  background-color: #e7e7e7;
+  border-radius: 10px;
+  padding: 0.8em;
+  text-align: center;
+  color: #002855;
+  height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.big-buttons-icons-wrapper .btn img {
+  max-width: 120px !important;
+  margin: 0 auto;
+}
+.big-buttons-icons-wrapper .btn .label {
+  margin: 0.9em 0 0 !important;
+  text-align: center !important;
+  font-size: 0.6em !important;
+  font-weight: bold !important;
+}
+
+.mrg-downloads-table-formularios .ssfa-crumbs {
+  font-size: 0.6em;
+  background-color: transparent;
+  padding: 0 !important;
+}
+.mrg-downloads-table-formularios table {
+  border-spacing: 0 0.6em !important;
+}
+.mrg-downloads-table-formularios table thead th {
+  color: #fff !important;
+  background-color: #002357 !important;
+  text-shadow: none !important;
+}
+.mrg-downloads-table-formularios table tfoot td {
+  border: none !important;
+}
+.mrg-downloads-table-formularios table tbody td {
+  background-color: #f2f2f2 !important;
+}
+.mrg-downloads-table-formularios table tbody tr:hover td {
+  background-color: #ff6a00 !important;
+  color: white !important;
+  text-shadow: none !important;
+}
+.mrg-downloads-table-formularios table tbody tr:hover td a {
+  color: white !important;
+}
+.mrg-downloads-table-formularios table tbody td.ssfa-sortname {
+  font-size: 1.2em;
+}
+.mrg-downloads-table-formularios table tbody td.ssfa-sortname a {
+  display: block !important;
+  text-align: left !important;
+  line-height: 2em !important;
+}
+
 .effect-enlarge-shadow:hover {
   -webkit-transform: scale(1.015);
   -ms-transform: scale(1.015);

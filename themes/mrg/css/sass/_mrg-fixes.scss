@@ -1193,3 +1193,97 @@ table.dataTable thead .sorting_asc:after {
 #map_puntos_carga .leaflet-popup-content dd {
 	margin-left: 0.3em;	
 }
+
+
+
+// not used
+.big-buttons-icons-wrapper {
+	text-align: center;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+
+	 .btn {
+		width: 240px;
+		margin: 0.5em 2em;
+		background-color: #e7e7e7;
+		border-radius: 10px;
+		padding: 0.8em;
+		text-align: center;
+		color: $deep-blue;
+		height: 160px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+
+
+		img {
+			max-width: 120px !important;
+			margin: 0 auto;
+		}
+
+		.label {
+			margin: 0.9em 0 0 !important;
+			text-align: center !important;
+			font-size: 0.6em !important;
+			font-weight: bold !important;
+		}
+	}
+}
+
+
+// for file away
+.mrg-downloads-table-formularios {
+	
+	.ssfa-crumbs{
+		font-size: 0.6em;
+		background-color: transparent;
+		padding: 0 !important;
+	}
+
+
+	table {
+	
+		border-spacing: 0 .6em !important;
+	
+		thead th {
+			color: #fff !important;
+			background-color: #002357 !important;
+			text-shadow: none !important;
+		}
+	
+		tfoot td {
+			border: none !important;
+		}
+	
+		tbody td {
+			background-color: #f2f2f2 !important;
+		}
+	
+		tbody tr:hover td {
+			background-color: #ff6a00 !important;
+			color: white !important;
+			text-shadow: none !important;
+			
+			a {
+				color: white !important;
+				
+			}
+	
+		}
+	
+		tbody td.ssfa-sortname {
+			font-size: 1.2em;
+			a {
+				display: block !important;
+				text-align: left !important;
+				line-height: 2em !important;
+			}
+		}
+		
+	}
+
+
+}
+
+
