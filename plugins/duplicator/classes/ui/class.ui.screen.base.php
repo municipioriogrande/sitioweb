@@ -1,6 +1,4 @@
 <?php
-defined("ABSPATH") or die(""); 
-
 /**
  * The base class for all screen.php files.  This class is used to control items that are common
  * among all screens, namely the Help tab and Screen Options drop down items.  When creating a
@@ -12,9 +10,12 @@ defined("ABSPATH") or die("");
  * @package Duplicator
  * @subpackage classes/ui
  * @copyright (c) 2017, Snapcreek LLC
- * @since 1.1.0
  *
  */
+
+// Exit if accessed directly
+if (! defined('DUPLICATOR_VERSION')) exit;
+
 class DUP_UI_Screen
 {
     /**
@@ -48,7 +49,7 @@ class DUP_UI_Screen
 
         $this->screen->add_help_tab(array(
             'id' => 'dup_help_tab_callback',
-            'title' => __('Support', 'duplicator'),
+            'title' => esc_html__('Support', 'duplicator'),
             'content' => "<p>{$content}</p>"
             )
         );
@@ -67,11 +68,11 @@ class DUP_UI_Screen
         $txt_faq   = __("Technical FAQs", 'duplicator');
 		$txt_sets  = __("Package Settings", 'duplicator');
         $this->screen->set_help_sidebar(
-            "<div class='dup-screen-hlp-info'><b>{$txt_title}:</b> <br/>"
-            ."<i class='fa fa-home'></i> <a href='https://snapcreek.com/duplicator/docs/' target='_sc-home'>{$txt_home}</a> <br/>"
-            ."<i class='fa fa-book'></i> <a href='https://snapcreek.com/duplicator/docs/guide/' target='_sc-guide'>{$txt_guide}</a> <br/>"
-            ."<i class='fa fa-file-code-o'></i> <a href='https://snapcreek.com/duplicator/docs/faqs-tech/' target='_sc-faq'>{$txt_faq}</a> <br/>"
-			."<i class='fa fa-gear'></i> <a href='admin.php?page=duplicator-settings&tab=package'>{$txt_sets}</a></div>"
+            "<div class='dup-screen-hlp-info'><b>".esc_html($txt_title).":</b> <br/>"
+            ."<i class='fa fa-home'></i> <a href='https://snapcreek.com/duplicator/docs/' target='_sc-home'>".esc_html($txt_home)."</a> <br/>"
+            ."<i class='fa fa-book'></i> <a href='https://snapcreek.com/duplicator/docs/guide/' target='_sc-guide'>".esc_html($txt_guide)."</a> <br/>"
+            ."<i class='fa fa-file-code-o'></i> <a href='https://snapcreek.com/duplicator/docs/faqs-tech/' target='_sc-faq'>".esc_html($txt_faq)."</a> <br/>"
+			."<i class='fa fa-gear'></i> <a href='admin.php?page=duplicator-settings&tab=package'>".esc_html($txt_sets)."</a></div>"
         );
     }
 }

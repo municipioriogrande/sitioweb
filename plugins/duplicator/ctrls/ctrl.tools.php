@@ -1,5 +1,6 @@
 <?php
-if ( ! defined('DUPLICATOR_VERSION') ) exit; // Exit if accessed directly
+// Exit if accessed directly
+if (! defined('DUPLICATOR_VERSION')) exit;
 
 require_once(DUPLICATOR_PLUGIN_PATH . '/ctrls/ctrl.base.php'); 
 require_once(DUPLICATOR_PLUGIN_PATH . '/classes/utilities/class.u.scancheck.php');
@@ -16,7 +17,7 @@ class DUP_CTRL_Tools extends DUP_CTRL_Base
 	function __construct() 
 	{
 		add_action('wp_ajax_DUP_CTRL_Tools_runScanValidator', array($this, 'runScanValidator'));
-		add_action('wp_ajax_DUP_CTRL_Tools_deleteInstallerFiles', array($this, 'deleteInstallerFiles'));
+        add_action('wp_ajax_DUP_CTRL_Tools_getTraceLog', array($this, 'getTraceLog'));
 	}
 	
 	/** 
@@ -30,20 +31,26 @@ class DUP_CTRL_Tools extends DUP_CTRL_Base
 	public function runScanValidator($post)
 	{
         @set_time_limit(0);
-		$post = $this->postParamMerge($post);
-		check_ajax_referer($post['action'], 'nonce');
+        $post = $this->postParamMerge($post);
+        $action = sanitize_text_field($post['action']);
+		check_ajax_referer($action, 'nonce');
 		
 		$result = new DUP_CTRL_Result($this);
 		 
 		try 
 		{
 			//CONTROLLER LOGIC
-			$path = isset($post['scan-path']) ? $post['scan-path'] : DUPLICATOR_WPROOTPATH;
+			$path = isset($post['scan-path']) ? sanitize_text_field($post['scan-path']) : DUPLICATOR_WPROOTPATH;
 			if (!is_dir($path)) {
 				throw new Exception("Invalid directory provided '{$path}'!");
 			}
-			$scanner = new DUP_ScanCheck();
-			$scanner->recursion = (isset($post['scan-recursive']) && $post['scan-recursive'] != 'false') ? true : false;
+            $scanner = new DUP_ScanCheck();
+            if (isset($post['scan-recursive'])) {
+                $scan_recursive_val = sanitize_text_field($post['scan-recursive']);
+                $scan_recursive = ($scan_recursive_val != 'false');
+            }
+            
+			$scanner->recursion = $scan_recursive ? true : false;
 			$payload = $scanner->run($path);
 
 			//RETURN RESULT
@@ -58,49 +65,66 @@ class DUP_CTRL_Tools extends DUP_CTRL_Base
 		}
     }
 
+    public function getTraceLog()
+    {
+        DUP_Log::Trace("enter");
+        
+        $nonce = sanitize_text_field($_GET['nonce']);
+        if (!wp_verify_nonce($nonce, 'DUP_CTRL_Tools_getTraceLog')) {
+            die('An unathorized security request was made to this page. Please try again!');
+        }
 
-	/**
-     * Removed all reserved installer files names
-	 *
-	 * @param string $_POST['archive-name']		The name of the archive file used to create this site
-	 *
-	 * @notes: Testing = /wp-admin/admin-ajax.php?action=DUP_CTRL_Tools_deleteInstallerFiles
-     */
-	public function deleteInstallerFiles($post)
-	{
-		$post = $this->postParamMerge($post);
-		check_ajax_referer($post['action'], 'nonce');
-		$result = new DUP_CTRL_Result($this);
-		$payload = array();
-		try
-		{
-			//CONTROLLER LOGIC
-			$installer_files = DUP_Server::getInstallerFiles();
-			//array_push($installer_files, $package_path);
-			foreach($installer_files as $file => $path) {
-				if (! is_dir($path)) {
-					@chmod($path, 0777);
-					$status = (@unlink($path) === false) ? false : true;
-					$payload[] = array(
-						'file' => $path,
-						'removed' => $status,
-						'writable' => is_writable($path),
-						'readable' => is_readable($path),
-						'exists' => file_exists($path)
-					);
-				}
-			}
+        Dup_Util::hasCapability('export');
 
-			//RETURN RESULT
-			$test = (in_array(true, $payload['exists']))
-					? DUP_CTRL_Status::FAILED
-					: DUP_CTRL_Status::SUCCESS;
-			$result->process($payload, $test);
-		}
-		catch (Exception $exc)
-		{
-			$result->processError($exc);
-		}
+        $request     = stripslashes_deep($_REQUEST);
+        $file_path   = DUP_Log::GetTraceFilepath();
+        $backup_path = DUP_Log::GetBackupTraceFilepath();
+        $zip_path    = DUPLICATOR_SSDIR_PATH."/".DUPLICATOR_ZIPPED_LOG_FILENAME;
+        $zipped      = DUP_Zip_U::zipFile($file_path, $zip_path, true, null, true);
+
+        if ($zipped && file_exists($backup_path)) {
+            $zipped = DUP_Zip_U::zipFile($backup_path, $zip_path, false, null, true);
+        }
+
+        header("Pragma: public");
+        header("Expires: 0");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("Cache-Control: private", false);
+        header("Content-Transfer-Encoding: binary");
+
+        $fp = fopen($zip_path, 'rb');
+
+        if (($fp !== false) && $zipped) {
+            $zip_filename = basename($zip_path);
+
+            header("Content-Type: application/octet-stream");
+            header("Content-Disposition: attachment; filename=\"$zip_filename\";");
+
+            // required or large files wont work
+            if (ob_get_length()) {
+                ob_end_clean();
+            }
+
+            DUP_Log::trace("streaming $zip_path");
+            if (fpassthru($fp) === false) {
+                DUP_Log::trace("Error with fpassthru for $zip_path");
+            }
+
+            fclose($fp);
+            @unlink($zip_path);
+        } else {
+            header("Content-Type: text/plain");
+            header("Content-Disposition: attachment; filename=\"error.txt\";");
+            if ($zipped === false) {
+                $message = "Couldn't create zip file.";
+            } else {
+                $message = "Couldn't open $file_path.";
+            }
+            DUP_Log::trace($message);
+            echo esc_html($message);
+        }
+
+        exit;
     }
 	
 }

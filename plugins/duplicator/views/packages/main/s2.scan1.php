@@ -1,7 +1,7 @@
 <?php
 	//Nonce Check
-	if (! isset( $_POST['dup_form_opts_nonce_field'] ) || ! wp_verify_nonce( $_POST['dup_form_opts_nonce_field'], 'dup_form_opts' ) ) {
-		DUP_UI_Notice::redirect('admin.php?page=duplicator&tab=new1');
+	if (! isset( $_POST['dup_form_opts_nonce_field'] ) || ! wp_verify_nonce( sanitize_text_field($_POST['dup_form_opts_nonce_field']), 'dup_form_opts' ) ) {
+		DUP_UI_Notice::redirect('admin.php?page=duplicator&tab=new1&_wpnonce='.wp_create_nonce('new1-package'));
 	}
 
 	global $wp_version;
@@ -10,11 +10,16 @@
 	if (empty($_POST)) {
 		//F5 Refresh Check
 		$redirect = admin_url('admin.php?page=duplicator&tab=new1');
-		die("<script>window.location.href = '{$redirect}'</script>");
+		$redirect_nonce_url = wp_nonce_url($redirect, 'new1-package');
+		die("<script>window.location.href = '{$reredirect_nonce_url}'</script>");
 	}
 
 	$Package = new DUP_Package();
 	$Package->saveActive($_POST);
+
+    DUP_Settings::Set('active_package_id', -1);
+    DUP_Settings::Save();
+    
 	$Package = DUP_Package::getActive();
 	
 	$mysqldump_on	 = DUP_Settings::Get('package_mysqldump') && DUP_DB::getMySqlDumpPath();
@@ -22,6 +27,9 @@
 	$mysqlcompat_on  = ($mysqldump_on && $mysqlcompat_on) ? true : false;
 	$dbbuild_mode    = ($mysqldump_on) ? 'mysqldump' : 'PHP';
     $zip_check		 = DUP_Util::getZipPath();
+
+	$action_url = admin_url('admin.php?page=duplicator&tab=new3');
+	$action_nonce_url = wp_nonce_url($action_url, 'new3-package');
 ?>
 
 <style>
@@ -47,9 +55,9 @@
 	div.scan-item div.title {background-color:#F1F1F1; width:100%; padding:4px 0 4px 0; cursor:pointer; height:20px;}
 	div.scan-item div.title:hover {background-color:#ECECEC;}
 	div.scan-item div.text {font-weight:bold; font-size:14px; float:left;  position:relative; left:10px}
-	div.scan-item div.badge {float:right; border-radius:4px; color:#fff; min-width:40px; text-align:center; position:relative; right:10px; font-size:12px; padding:0 3px 0 3px}
-	div.scan-item div.badge-pass {background:green;}
-	div.scan-item div.badge-warn {background:#630f0f;}
+	div.scan-item div.badge {float:right; border-radius:4px; color:#fff; min-width:40px; text-align:center; position:relative; right:10px; font-size:12px; padding:0 3px 1px 3px}
+	div.scan-item div.badge-pass {background:#197b19;}
+	div.scan-item div.badge-warn {background:#636363;}
 	div.scan-item div.info {display:none; padding:10px; background:#fff}
 	div.scan-good {display:inline-block; color:green;font-weight:bold;}
 	div.scan-warn {display:inline-block; color:#630f0f;font-weight:bold;}
@@ -60,6 +68,7 @@
 
 	/*FILES */
 	div#data-arc-size1 {display:inline-block; font-size:11px; margin-right:1px;}
+	sup.dup-small-ext-type {font-size:11px; font-weight: normal; font-style: italic}
 	i.data-size-help { font-size:12px; display:inline-block;  margin:0; padding:0}
 	div.dup-data-size-uncompressed {font-size:10px; text-align: right; padding:0; margin:-7px 0 0 0; font-style: italic; font-weight: normal; border:0px solid red; clear:both}
 	div.hb-files-style div.container {border:1px solid #E0E0E0; border-radius:4px; margin:5px 0 10px 0}
@@ -94,7 +103,7 @@
 	div#dup-scan-db-info {margin-top:5px}
 	div#data-db-tablelist {max-height:250px; overflow-y:scroll; border:1px solid silver; padding:8px; background: #efefef; border-radius: 4px}
 	div#data-db-tablelist td{padding:0 5px 3px 20px; min-width:100px}
-	div#data-db-size1 {display:inline-block; font-size:11px; margin-right:1px;}
+	div#data-db-size1, div#data-ll-totalsize {display:inline-block; font-size:11px; margin-right:1px;}
 	
 	/*WARNING-CONTINUE*/
 	div#dup-scan-warning-continue {display:none; text-align:center; padding:0 0 15px 0}
@@ -104,13 +113,13 @@
 	div.dup-pro-support {text-align:center; font-style:italic; font-size:13px; margin-top:20px;font-weight:bold}
 
 	/*DIALOG WINDOWS*/
-	div#arc-details-dlg {font-size:12px}
+	div#arc-details-dlg {font-size:12px; line-height:18px !important}
 	div#arc-details-dlg h2 {margin:0; padding:0 0 5px 0; border-bottom:1px solid #dfdfdf;}
 	div#arc-details-dlg hr {margin:3px 0 10px 0}
 	div#arc-details-dlg table#db-area {margin:0;  width:98%}
 	div#arc-details-dlg table#db-area td {padding:0;}
 	div#arc-details-dlg table#db-area td:first-child {font-weight:bold;  white-space:nowrap; width:100px}
-	div#arc-details-dlg div.filter-area {height:265px; overflow-y:scroll; border:1px solid #dfdfdf; padding:8px; margin:2px 0}
+	div#arc-details-dlg div.filter-area {height:245px; overflow-y:scroll; border:1px solid #dfdfdf; padding:8px; margin:2px 0}
 	div#arc-details-dlg div.file-info {padding:0 0 10px 15px; width:500px; white-space:nowrap;}
 	div#arc-details-dlg div.file-info i.fa-question-circle { margin-right: 5px;  font-size: 11px;}
 
@@ -125,6 +134,33 @@
         i.scan-warn {color:#630f0f;}
 </style>
 
+<?php
+$validator = $Package->validateInputs();
+if (!$validator->isSuccess()) {
+    ?>
+    <form id="form-duplicator" method="post" action="<?php echo $action_nonce_url; ?>">
+        <!--  ERROR MESSAGE -->
+        <div id="dup-msg-error" >
+            <div class="dup-hdr-error"><i class="fa fa-exclamation-circle"></i> <?php _e('Input fields not valid', 'duplicator'); ?></div>
+            <i><?php esc_html_e('Please try again!', 'duplicator'); ?></i><br/>
+            <div class="dup-hdr-error-details">
+                <b><?php esc_html_e("Error Message:", 'duplicator'); ?></b>
+                <div id="dup-msg-error-response-text">
+                    <ul>
+                        <?php
+                        $validator->getErrorsFormat("<li>%s</li>");
+                        ?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <input type="button" value="&#9664; <?php esc_html_e("Back", 'duplicator') ?>" onclick="window.location.assign('?page=duplicator&tab=new1&_wpnonce=<?php echo wp_create_nonce('new1-package'); ?>')" class="button button-large" />
+    </form>
+    <?php
+    return;
+}
+?>
+
 <!-- =========================================
 TOOL BAR:STEPS -->
 <table id="dup-toolbar">
@@ -132,45 +168,44 @@ TOOL BAR:STEPS -->
 		<td style="white-space:nowrap">
 			<div id="dup-wiz">
 				<div id="dup-wiz-steps">
-					<div class="completed-step"><a>1-<?php _e('Setup', 'duplicator'); ?></a></div>
-					<div class="active-step"><a>2-<?php _e('Scan', 'duplicator'); ?> </a></div>
-					<div><a>3-<?php _e('Build', 'duplicator'); ?> </a></div>
+					<div class="completed-step"><a>1-<?php esc_html_e('Setup', 'duplicator'); ?></a></div>
+					<div class="active-step"><a>2-<?php esc_html_e('Scan', 'duplicator'); ?> </a></div>
+					<div><a>3-<?php esc_html_e('Build', 'duplicator'); ?> </a></div>
 				</div>
 				<div id="dup-wiz-title">
-					<?php _e('Step 2: System Scan', 'duplicator'); ?>
+					<?php esc_html_e('Step 2: System Scan', 'duplicator'); ?>
 				</div> 
 			</div>	
 		</td>
 		<td>
-			<a href="?page=duplicator" class="add-new-h2"><i class="fa fa-archive"></i> <?php _e('Packages', 'duplicator'); ?></a> 
-			<span> <?php _e('Create New', 'duplicator'); ?></span>
+			<a href="?page=duplicator" class="add-new-h2"><i class="fa fa-archive"></i> <?php esc_html_e('Packages', 'duplicator'); ?></a> 
+			<span> <?php esc_html_e('Create New', 'duplicator'); ?></span>
 		</td>
 	</tr>
 </table>		
 <hr class="dup-toolbar-line">
 
-
-<form id="form-duplicator" method="post" action="?page=duplicator&tab=new3">
+<form id="form-duplicator" method="post" action="<?php echo $action_nonce_url; ?>">
 <?php wp_nonce_field('dup_form_opts', 'dup_form_opts_nonce_field', false); ?>
 
 	<!--  PROGRESS BAR -->
 	<div id="dup-progress-bar-area">
-		<div class="dup-progress-title"><i class="fa fa-circle-o-notch fa-spin"></i> <?php _e('Scanning Site', 'duplicator'); ?></div>
+		<div class="dup-progress-title"><i class="fa fa-circle-o-notch fa-spin"></i> <?php esc_html_e('Scanning Site', 'duplicator'); ?></div>
 		<div id="dup-progress-bar"></div>
-		<b><?php _e('Please Wait...', 'duplicator'); ?></b><br/><br/>
-		<i><?php _e('Keep this window open during the scan process.', 'duplicator'); ?></i><br/>
-		<i><?php _e('This can take several minutes.', 'duplicator'); ?></i><br/>
+		<b><?php esc_html_e('Please Wait...', 'duplicator'); ?></b><br/><br/>
+		<i><?php esc_html_e('Keep this window open during the scan process.', 'duplicator'); ?></i><br/>
+		<i><?php esc_html_e('This can take several minutes.', 'duplicator'); ?></i><br/>
 	</div>
 
 	<!--  ERROR MESSAGE -->
 	<div id="dup-msg-error" style="display:none">
-		<div class="dup-hdr-error"><i class="fa fa-exclamation-circle"></i> <?php _e('Scan Error', 'duplicator'); ?></div>
-		<i><?php _e('Please try again!', 'duplicator'); ?></i><br/>
+		<div class="dup-hdr-error"><i class="fa fa-exclamation-circle"></i> <?php esc_html_e('Scan Error', 'duplicator'); ?></div>
+		<i><?php esc_html_e('Please try again!', 'duplicator'); ?></i><br/>
 		<div class="dup-hdr-error-details">
-			<b><?php _e("Server Status:", 'duplicator'); ?></b> &nbsp;
+			<b><?php esc_html_e("Server Status:", 'duplicator'); ?></b> &nbsp;
 			<div id="dup-msg-error-response-status" style="display:inline-block"></div><br/>
 
-			<b><?php _e("Error Message:", 'duplicator'); ?></b>
+			<b><?php esc_html_e("Error Message:", 'duplicator'); ?></b>
 			<div id="dup-msg-error-response-text"></div>
 		</div>
 	</div>
@@ -179,9 +214,9 @@ TOOL BAR:STEPS -->
 	<div id="dup-msg-success" style="display:none">
 
 		<div style="text-align:center">
-			<div class="dup-hdr-success"><i class="fa fa-check-square-o fa-lg"></i> <?php _e('Scan Complete', 'duplicator'); ?></div>
+			<div class="dup-hdr-success"><i class="fa fa-check-square-o fa-lg"></i> <?php esc_html_e('Scan Complete', 'duplicator'); ?></div>
 			<div id="dup-msg-success-subtitle">
-				<?php _e('Process Time:', 'duplicator'); ?> <span id="data-rpt-scantime"></span>
+				<?php esc_html_e('Process Time:', 'duplicator'); ?> <span id="data-rpt-scantime"></span>
 			</div>
 		</div>
 
@@ -197,11 +232,11 @@ TOOL BAR:STEPS -->
 		<div id="dup-scan-warning-continue">
 			<div class="msg1">
 				<label for="dup-scan-warning-continue-checkbox">
-					<?php _e('A notice status has been detected, are you sure you want to continue?', 'duplicator');?>
+					<?php esc_html_e('A notice status has been detected, are you sure you want to continue?', 'duplicator');?>
 				</label>
 				<div style="padding:8px 0">
 					<input type="checkbox" id="dup-scan-warning-continue-checkbox" onclick="Duplicator.Pack.warningContinue(this)"/>
-					<label for="dup-scan-warning-continue-checkbox"><?php _e('Yes.  Continue with the build process!', 'duplicator');?></label>
+					<label for="dup-scan-warning-continue-checkbox"><?php esc_html_e('Yes.  Continue with the build process!', 'duplicator');?></label>
 				</div>
 			</div>
 			<div class="msg2">
@@ -216,9 +251,9 @@ TOOL BAR:STEPS -->
 		</div>
 
 		<div class="dup-button-footer" style="display:none">
-			<input type="button" value="&#9664; <?php _e("Back", 'duplicator') ?>" onclick="window.location.assign('?page=duplicator&tab=new1')" class="button button-large" />
-			<input type="button" value="<?php _e("Rescan", 'duplicator') ?>" onclick="Duplicator.Pack.rescan()" class="button button-large" />
-			<input type="submit" value="<?php _e("Build", 'duplicator') ?> &#9654" class="button button-primary button-large" id="dup-build-button" />
+			<input type="button" value="&#9664; <?php esc_html_e("Back", 'duplicator') ?>" onclick="window.location.assign('?page=duplicator&tab=new1&_wpnonce=<?php echo wp_create_nonce('new1-package');?>')" class="button button-large" />
+			<input type="button" value="<?php esc_attr_e("Rescan", 'duplicator') ?>" onclick="Duplicator.Pack.rescan()" class="button button-large" />
+			<input type="submit" value="<?php esc_attr_e("Build", 'duplicator') ?> &#9654" class="button button-primary button-large" id="dup-build-button" />
 		</div>
 	</div>
 
@@ -230,16 +265,29 @@ jQuery(document).ready(function($)
 	// Performs ajax call to get scanner retults via JSON response
 	Duplicator.Pack.runScanner = function()
 	{
-		var data = {action : 'duplicator_package_scan',file_notice:'<?= $core_file_notice; ?>',dir_notice:'<?= $core_dir_notice; ?>'}
+		var data = {action : 'duplicator_package_scan',file_notice:'<?= $core_file_notice; ?>',dir_notice:'<?= $core_dir_notice; ?>', nonce: '<?php echo wp_create_nonce('duplicator_package_scan'); ?>'}
 		$.ajax({
 			type: "POST",
+			dataType: "text",
 			cache: false,
 			url: ajaxurl,
-			dataType: "json",
 			timeout: 10000000,
 			data: data,
 			complete: function() {$('.dup-button-footer').show()},
-			success:  function(data) {
+			success:  function(respData, textStatus, xHr) {
+				try {
+					var data = Duplicator.parseJSON(respData);
+				} catch(err) {
+					console.error(err);
+					console.error('JSON parse failed for response data: ' + respData);
+					$('#dup-progress-bar-area').hide();
+					var status = xHr.status + ' -' + xHr.statusText;
+					$('#dup-msg-error-response-status').html(status)
+					$('#dup-msg-error-response-text').html(xHr.responseText);
+					$('#dup-msg-error').show(200);
+					console.log(data);
+					return false;
+				}
 				Duplicator.Pack.loadScanData(data);
 			},
 			error: function(data) {
@@ -270,7 +318,7 @@ jQuery(document).ready(function($)
 		Duplicator.Pack.intServerData(data);
 		Duplicator.Pack.initArchiveFilesData(data);
 		Duplicator.Pack.initArchiveDBData(data);
-
+        
 		//Addon Sites
 		$('#data-arc-status-addonsites').html(Duplicator.Pack.setScanStatus(data.ARC.Status.AddonSites));
 		if (data.ARC.FilterInfo.Dirs.AddonSites !== undefined && data.ARC.FilterInfo.Dirs.AddonSites.length > 0) {
@@ -291,6 +339,10 @@ jQuery(document).ready(function($)
 			$('#dup-scan-warning-continue').hide();
 			$('#dup-build-button').prop("disabled",false).addClass('button-primary');
 		}
+
+	    <?php if (DUP_Settings::Get('archive_build_mode') == DUP_Archive_Build_Mode::DupArchive) :?>
+			Duplicator.Pack.initLiteLimitData(data);
+		<?php endif; ?>
 	}
 	
 	//Toggles each scan item to hide/show details
@@ -327,14 +379,14 @@ jQuery(document).ready(function($)
 	Duplicator.Pack.intErrorView = function()
 	{
 		var html_msg;
-		html_msg  = '<?php _e("Unable to perform a full scan, please try the following actions:", 'duplicator') ?><br/><br/>';
-		html_msg += '<?php _e("1. Go back and create a root path directory filter to validate the site is scan-able.", 'duplicator') ?><br/>';
-		html_msg += '<?php _e("2. Continue to add/remove filters to isolate which path is causing issues.", 'duplicator') ?><br/>';
-		html_msg += '<?php _e("3. This message will go away once the correct filters are applied.", 'duplicator') ?><br/><br/>';
+		html_msg  = '<?php esc_html_e("Unable to perform a full scan, please try the following actions:", 'duplicator') ?><br/><br/>';
+		html_msg += '<?php esc_html_e("1. Go back and create a root path directory filter to validate the site is scan-able.", 'duplicator') ?><br/>';
+		html_msg += '<?php esc_html_e("2. Continue to add/remove filters to isolate which path is causing issues.", 'duplicator') ?><br/>';
+		html_msg += '<?php esc_html_e("3. This message will go away once the correct filters are applied.", 'duplicator') ?><br/><br/>';
 
-		html_msg += '<?php _e("Common Issues:", 'duplicator') ?><ul>';
-		html_msg += '<li><?php _e("- On some budget hosts scanning over 30k files can lead to timeout/gateway issues. Consider scanning only your main WordPress site and avoid trying to backup other external directories.", 'duplicator') ?></li>';
-		html_msg += '<li><?php _e("- Symbolic link recursion can cause timeouts.  Ask your server admin if any are present in the scan path.  If they are add the full path as a filter and try running the scan again.", 'duplicator') ?></li>';
+		html_msg += '<?php esc_html_e("Common Issues:", 'duplicator') ?><ul>';
+		html_msg += '<li><?php esc_html_e("- On some budget hosts scanning over 30k files can lead to timeout/gateway issues. Consider scanning only your main WordPress site and avoid trying to backup other external directories.", 'duplicator') ?></li>';
+		html_msg += '<li><?php esc_html_e("- Symbolic link recursion can cause timeouts.  Ask your server admin if any are present in the scan path.  If they are add the full path as a filter and try running the scan again.", 'duplicator') ?></li>';
 		html_msg += '</ul>';
 		$('#dup-msg-error-response-status').html('Scan Path Error [<?php echo rtrim(DUPLICATOR_WPROOTPATH, '/'); ?>]');
 		$('#dup-msg-error-response-text').html(html_msg);
@@ -347,9 +399,10 @@ jQuery(document).ready(function($)
 		var result;
 		switch (status) {
 			case false :    result = '<div class="scan-warn"><i class="fa fa-exclamation-triangle"></i></div>'; break;
-			case 'Warn' :   result = '<div class="badge badge-warn"><?php _e("Notice", 'duplicator') ?></div>'; break;
+			case 'Warn' :   result = '<div class="badge badge-warn"><?php esc_html_e("Notice", 'duplicator') ?></div>'; break;
 			case true :     result = '<div class="scan-good"><i class="fa fa-check"></i></div>'; break;
-			case 'Good' :   result = '<div class="badge badge-pass"><?php _e("Good", 'duplicator') ?></div>'; break;
+			case 'Good' :   result = '<div class="badge badge-pass"><?php esc_html_e("Good", 'duplicator') ?></div>'; break;
+            case 'Fail' :   result = '<div class="badge badge-warn"><?php esc_html_e("Fail", 'duplicator') ?></div>'; break;
 			default :
 				result = 'unable to read';
 		}

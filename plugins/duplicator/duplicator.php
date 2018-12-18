@@ -1,9 +1,9 @@
 <?php
 /** ===============================================================================
   Plugin Name: Duplicator
-  Plugin URI: http://www.lifeinthegrid.com/duplicator/
+  Plugin URI: https://snapcreek.com/duplicator/duplicator-free/
   Description: Migrate and backup a copy of your WordPress files and database. Duplicate and move a site from one location to another quickly.
-  Version: 1.2.40
+  Version: 1.3.0
   Author: Snap Creek
   Author URI: http://www.snapcreek.com/duplicator/
   Text Domain: duplicator
@@ -31,12 +31,90 @@
 
 require_once("define.php");
 
+if (!function_exists('sanitize_textarea_field')) {
+    /**
+     * Sanitizes a multiline string from user input or from the database.
+     *
+     * The function is like sanitize_text_field(), but preserves
+     * new lines (\n) and other whitespace, which are legitimate
+     * input in textarea elements.
+     *
+     * @see sanitize_text_field()
+     *
+     * @since 4.7.0
+     *
+     * @param string $str String to sanitize.
+     * @return string Sanitized string.
+     */
+    function sanitize_textarea_field($str)
+    {
+        $filtered = _sanitize_text_fields($str, true);
+
+        /**
+         * Filters a sanitized textarea field string.
+         *
+         * @since 4.7.0
+         *
+         * @param string $filtered The sanitized string.
+         * @param string $str      The string prior to being sanitized.
+         */
+        return apply_filters('sanitize_textarea_field', $filtered, $str);
+    }
+}
+
+if (!function_exists('_sanitize_text_fields')) {
+    /**
+     * Internal helper function to sanitize a string from user input or from the db
+     *
+     * @since 4.7.0
+     * @access private
+     *
+     * @param string $str String to sanitize.
+     * @param bool $keep_newlines optional Whether to keep newlines. Default: false.
+     * @return string Sanitized string.
+     */
+    function _sanitize_text_fields($str, $keep_newlines = false)
+    {
+        $filtered = wp_check_invalid_utf8($str);
+
+        if (strpos($filtered, '<') !== false) {
+            $filtered = wp_pre_kses_less_than($filtered);
+            // This will strip extra whitespace for us.
+            $filtered = wp_strip_all_tags($filtered, false);
+
+            // Use html entities in a special case to make sure no later
+            // newline stripping stage could lead to a functional tag
+            $filtered = str_replace("<\n", "&lt;\n", $filtered);
+        }
+
+        if (! $keep_newlines) {
+            $filtered = preg_replace('/[\r\n\t ]+/', ' ', $filtered);
+        }
+        $filtered = trim($filtered);
+
+        $found = false;
+        while (preg_match('/%[a-f0-9]{2}/i', $filtered, $match)) {
+            $filtered = str_replace($match[0], '', $filtered);
+            $found = true;
+        }
+
+        if ($found) {
+            // Strip out the whitespace that may now exist after removing the octets.
+            $filtered = trim(preg_replace('/ +/', ' ', $filtered));
+        }
+
+        return $filtered;
+    }
+}
+
 if (is_admin() == true) 
 {
 	//Classes
-    require_once 'classes/class.logging.php';
     require_once 'classes/class.settings.php';
+    require_once 'classes/class.logging.php';    
     require_once 'classes/utilities/class.u.php';
+	require_once 'classes/utilities/class.u.string.php';
+    require_once 'classes/utilities/class.u.validator.php';
     require_once 'classes/class.db.php';
     require_once 'classes/class.server.php';
 	require_once 'classes/ui/class.ui.viewstate.php';
@@ -109,8 +187,8 @@ if (is_admin() == true)
     }
 
 	/**
-	 * Hooked into `register_deactivation_hook`.  Routines used to deactivae the plugin
-	 * For uninstall see uninstall.php  Wordpress by default will call the uninstall.php file
+	 * Hooked into `register_deactivation_hook`.  Routines used to deactivate the plugin
+	 * For uninstall see uninstall.php  WordPress by default will call the uninstall.php file
      *
      * @access global
      * @return null
@@ -125,14 +203,19 @@ if (is_admin() == true)
      * =====================================================  */
     add_action('plugins_loaded',	'duplicator_update');
     add_action('plugins_loaded',	'duplicator_wpfront_integrate');
-	add_action('admin_init',		'duplicator_init');
+    add_action('admin_init',		'duplicator_init');
     add_action('admin_menu',		'duplicator_menu');
+    add_action('admin_enqueue_scripts', 'duplicator_admin_enqueue_scripts' );
 	add_action('admin_notices',		array('DUP_UI_Notice', 'showReservedFilesNotice'));
 	
 	//CTRL ACTIONS
-    add_action('wp_ajax_duplicator_package_scan',        'duplicator_package_scan');
-    add_action('wp_ajax_duplicator_package_build',		 'duplicator_package_build');
-    add_action('wp_ajax_duplicator_package_delete',		 'duplicator_package_delete');
+    add_action('wp_ajax_duplicator_package_scan',				'duplicator_package_scan');
+    add_action('wp_ajax_duplicator_package_build',				'duplicator_package_build');
+    add_action('wp_ajax_duplicator_package_delete',				'duplicator_package_delete');
+    add_action('wp_ajax_duplicator_duparchive_package_build',	'duplicator_duparchive_package_build');
+    add_action('wp_ajax_nopriv_duplicator_duparchive_package_build',	'duplicator_duparchive_package_build');
+
+
 	$GLOBALS['CTRLS_DUP_CTRL_UI']		= new DUP_CTRL_UI();
 	$GLOBALS['CTRLS_DUP_CTRL_Tools']	= new DUP_CTRL_Tools();
 	$GLOBALS['CTRLS_DUP_CTRL_Package']	= new DUP_CTRL_Package();
@@ -161,12 +244,29 @@ if (is_admin() == true)
         /* CSS */
         wp_register_style('dup-jquery-ui', DUPLICATOR_PLUGIN_URL . 'assets/css/jquery-ui.css', null, "1.11.2");
         wp_register_style('dup-font-awesome', DUPLICATOR_PLUGIN_URL . 'assets/css/font-awesome.min.css', null, '4.7.0');
-        wp_register_style('dup-plugin-style', DUPLICATOR_PLUGIN_URL . 'assets/css/style.css', null, DUPLICATOR_VERSION);
+        wp_register_style('dup-plugin-global-style', DUPLICATOR_PLUGIN_URL . 'assets/css/global_admin_style.css', null , DUPLICATOR_VERSION);
+        wp_register_style('dup-plugin-style', DUPLICATOR_PLUGIN_URL . 'assets/css/style.css', array('dup-plugin-global-style') , DUPLICATOR_VERSION);
+
 		wp_register_style('dup-jquery-qtip',DUPLICATOR_PLUGIN_URL . 'assets/js/jquery.qtip/jquery.qtip.min.css', null, '2.2.1');
+		wp_register_style('dup-parsley-style', DUPLICATOR_PLUGIN_URL . 'assets/css/parsley.css', null, '2.3.5');
         /* JS */
 		wp_register_script('dup-handlebars', DUPLICATOR_PLUGIN_URL . 'assets/js/handlebars.min.js', array('jquery'), '4.0.10');
-        wp_register_script('dup-parsley', DUPLICATOR_PLUGIN_URL . 'assets/js/parsley-standalone.min.js', array('jquery'), '1.1.18');
+        wp_register_script('dup-parsley', DUPLICATOR_PLUGIN_URL . 'assets/js/parsley.min.js', array('jquery'), '1.1.18');
 		wp_register_script('dup-jquery-qtip', DUPLICATOR_PLUGIN_URL . 'assets/js/jquery.qtip/jquery.qtip.min.js', array('jquery'), '2.2.1');
+
+
+        // Clean tmp folder
+        DUP_Package::not_active_files_tmp_cleanup();
+    }
+
+    /**
+	 * Hooked into `admin_enqueue_scripts`.  Init routines for all admin pages
+     *
+     * @access global
+     * @return null
+     */
+    function duplicator_admin_enqueue_scripts() {
+        wp_enqueue_style('dup-plugin-global-style');
     }
 	
 	/**
@@ -177,14 +277,14 @@ if (is_admin() == true)
      */
     function duplicator_get_menu() 
 	{
-        $current_page = isset($_REQUEST['page']) ? esc_html($_REQUEST['page']) : 'duplicator';
+        $current_page = isset($_REQUEST['page']) ? sanitize_text_field($_REQUEST['page']) : 'duplicator';
         switch ($current_page) 
 		{
             case 'duplicator':			include('views/packages/controller.php');	break;
             case 'duplicator-settings': include('views/settings/controller.php');	break;
             case 'duplicator-tools':	include('views/tools/controller.php');      break;
 			case 'duplicator-debug':	include('debug/main.php');					break;
-			case 'duplicator-gopro':	include('views/help/gopro.php');			break;
+			case 'duplicator-gopro':	include('views/settings/gopro.php');			break;
         }
     }
 
@@ -207,36 +307,25 @@ if (is_admin() == true)
 
         $perms = 'export';
         $perms = apply_filters($wpfront_caps_translator, $perms);
-		$lang_txt = __('Packages', 'duplicator');
+		$lang_txt = esc_html__('Packages', 'duplicator');
         $page_packages = add_submenu_page('duplicator', $lang_txt, $lang_txt, $perms, 'duplicator', 'duplicator_get_menu');
 		$GLOBALS['DUP_PRO_Package_Screen'] = new DUP_Package_Screen($page_packages);
 
 		$perms = 'manage_options';
         $perms = apply_filters($wpfront_caps_translator, $perms);
-		$lang_txt = __('Tools', 'duplicator');
+		$lang_txt = esc_html__('Tools', 'duplicator');
         $page_tools = add_submenu_page('duplicator', $lang_txt, $lang_txt, $perms, 'duplicator-tools', 'duplicator_get_menu');
 
         $perms = 'manage_options';
         $perms = apply_filters($wpfront_caps_translator, $perms);
-		$lang_txt = __('Settings', 'duplicator');
+		$lang_txt = esc_html__('Settings', 'duplicator');
         $page_settings = add_submenu_page('duplicator', $lang_txt, $lang_txt, $perms, 'duplicator-settings', 'duplicator_get_menu');
 
 		$perms = 'manage_options';
-		$lang_txt = __('Go Pro!', 'duplicator');
+		$lang_txt = esc_html__('Go Pro!', 'duplicator');
 		$go_pro_link = '<span style="color:#f18500">' . $lang_txt . '</span>';
         $perms = apply_filters($wpfront_caps_translator, $perms);
         $page_gopro = add_submenu_page('duplicator', $go_pro_link, $go_pro_link, $perms, 'duplicator-gopro', 'duplicator_get_menu');
-		
-		$package_debug = DUP_Settings::Get('package_debug');
-		if ($package_debug != null && $package_debug == true)
-		{
-			$perms = 'manage_options';
-			$perms = apply_filters($wpfront_caps_translator, $perms);			
-			$lang_txt = __('Debug', 'duplicator');
-			$page_debug = add_submenu_page('duplicator', $lang_txt, $lang_txt, $perms, 'duplicator-debug', 'duplicator_get_menu');
-			add_action('admin_print_scripts-' . $page_debug, 'duplicator_scripts');
-			add_action('admin_print_styles-'  . $page_debug, 'duplicator_styles');
-		}
 
         //Apply Scripts
         add_action('admin_print_scripts-' . $page_packages, 'duplicator_scripts');
@@ -249,7 +338,6 @@ if (is_admin() == true)
         add_action('admin_print_styles-' . $page_settings, 'duplicator_styles');
         add_action('admin_print_styles-' . $page_tools, 'duplicator_styles');
 		add_action('admin_print_styles-' . $page_gopro, 'duplicator_styles');
-		
     }
 
     /**
@@ -302,7 +390,7 @@ if (is_admin() == true)
             $this_plugin = plugin_basename(__FILE__);
 
         if ($file == $this_plugin) {
-            $settings_link = '<a href="admin.php?page=duplicator">' . __("Manage", 'duplicator') . '</a>';
+            $settings_link = '<a href="admin.php?page=duplicator">' . esc_html__("Manage", 'duplicator') . '</a>';
             array_unshift($links, $settings_link);
         }
         return $links;
@@ -319,7 +407,7 @@ if (is_admin() == true)
         $plugin = plugin_basename(__FILE__);
         // create link
         if ($file == $plugin) {
-            $links[] = '<a href="admin.php?page=duplicator-gopro" title="' . __('Get Help', 'duplicator') . '" style="">' . __('Go Pro', 'duplicator') . '</a>';
+            $links[] = '<a href="admin.php?page=duplicator-gopro" title="' . esc_attr__('Get Help', 'duplicator') . '" style="">' . esc_html__('Go Pro', 'duplicator') . '</a>';
             return $links;
         }
         return $links;

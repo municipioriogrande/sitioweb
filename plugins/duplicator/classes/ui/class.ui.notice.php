@@ -1,7 +1,7 @@
 <?php
 /**
  * Used to display notices in the WordPress Admin area
- * This class takes advatage of the 'admin_notice' action.
+ * This class takes advantage of the admin_notice action.
  *
  * Standard: PSR-2
  * @link http://www.php-fig.org/psr/psr-2
@@ -9,20 +9,17 @@
  * @package Duplicator
  * @subpackage classes/ui
  * @copyright (c) 2017, Snapcreek LLC
- * @since 1.1.0
  *
  */
 
 // Exit if accessed directly
-if (!defined('DUPLICATOR_VERSION')) {
-    exit;
-}
+if (! defined('DUPLICATOR_VERSION')) exit;
 
 class DUP_UI_Notice
 {
     /**
      * Shows a display message in the wp-admin if any reserved files are found
-     * 
+     *
      * @return string   Html formated text notice warnings
      */
     public static function showReservedFilesNotice()
@@ -32,15 +29,16 @@ class DUP_UI_Notice
         $dup_perm   = current_user_can('manage_options');
         if (!$dup_active || !$dup_perm)
 			return;
-		
+
 		$screen = get_current_screen();
         if (!isset($screen))
 			return;
-  
-        if (DUP_Server::hasInstallerFiles()) {
+
+		$is_installer_cleanup_req = ($screen->id == 'duplicator_page_duplicator-tools' && isset($_GET['action']) && $_GET['action'] == 'installer');
+        if (DUP_Server::hasInstallerFiles() && !$is_installer_cleanup_req) {
 
 			$on_active_tab = isset($_GET['section'])? $_GET['section']: '';
-            echo '<div class="updated notice-success" id="dup-global-error-reserved-files"><p>';
+            echo '<div class="dup-updated notice-success" id="dup-global-error-reserved-files"><p>';
 
 			//Safe Mode Notice
 			$safe_html = '';
@@ -56,13 +54,13 @@ class DUP_UI_Notice
 
 				$title = __('This site has been successfully migrated!', 'duplicator');
 				$msg1  = __('Final step(s):', 'duplicator');
-				$msg2  = __('This message will be removed after all installer files are removed.  Installer files must be removed to maintain a secure site.<br/>'
+				$msg2  = __('This message will be removed after all installer files are removed.  Installer files must be removed to maintain a secure site.  '
 									. 'Click the link above or button below to remove all installer files and complete the migration.', 'duplicator');
 
-				echo "<b class='pass-msg'><i class='fa fa-check-circle'></i> {$title}</b> <br/> {$safe_html} <b>{$msg1}</b> <br/>";
-				printf("1. <a href='https://wordpress.org/support/plugin/duplicator/reviews/?filter=5' target='wporg'>%s</a> <br/> ", __('Optionally, Review Duplicator at WordPress.org...', 'duplicator'));
-				printf("2. <a href='javascript:void(0)' onclick='jQuery(\"#dup-remove-installer-files-btn\").click()'>%s</a><br/>", __('Remove Installation Files Now!', 'duplicator'));
-                echo "<div class='pass-msg'>{$msg2}</div>";
+				echo "<b class='pass-msg'><i class='fa fa-check-circle'></i> ".esc_html($title)."</b> <br/> {$safe_html} <b>".esc_html($msg1)."</b> <br/>";
+				printf("1. <a href='javascript:void(0)' onclick='jQuery(\"#dup-remove-installer-files-btn\").click()'>%s</a><br/>", esc_html__('Remove Installation Files Now!', 'duplicator'));
+                printf("2. <a href='https://wordpress.org/support/plugin/duplicator/reviews/?filter=5' target='wporg'>%s</a> <br/> ", esc_html__('Optionally, Review Duplicator at WordPress.org...', 'duplicator'));
+				echo "<div class='pass-msg'>".esc_html($msg2)."</div>";
 
 			//All other Pages
             } else {
@@ -78,7 +76,7 @@ class DUP_UI_Notice
 
             }
             echo "</p></div>";
-        } 
+        }
     }
 
     /**
@@ -89,9 +87,9 @@ class DUP_UI_Notice
     public static function redirect($location)
     {
         echo '<div class="dup-redirect"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>';
-			__('Redirecting Please Wait...', 'duplicator');
+		esc_html__('Redirecting Please Wait...', 'duplicator');
 		echo '</div>';
 		echo "<script>window.location = '{$location}';</script>";
-		die(__('Invalid token permissions to perform this request.', 'duplicator'));
+		die(esc_html__('Invalid token permissions to perform this request.', 'duplicator'));
     }
 }

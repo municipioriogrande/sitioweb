@@ -8,14 +8,11 @@
  * @package Duplicator
  * @subpackage classes/utilities
  * @copyright (c) 2017, Snapcreek LLC
- * @since 1.1.32
  *
  */
 
 // Exit if accessed directly
-if (!defined('DUPLICATOR_VERSION')) {
-    exit;
-}
+if (! defined('DUPLICATOR_VERSION')) exit;
 
 class DUP_DB extends wpdb
 {
@@ -132,9 +129,7 @@ class DUP_DB extends wpdb
                 'C:/Program Files/xampp/mysql/bin/mysqldump',
                 'C:/Program Files/MySQL/MySQL Server 6.0/bin/mysqldump',
                 'C:/Program Files/MySQL/MySQL Server 5.5/bin/mysqldump',
-                'C:/Program Files/MySQL/MySQL Server 5.4/bin/mysqldump',
-                'C:/Program Files/MySQL/MySQL Server 5.1/bin/mysqldump',
-                'C:/Program Files/MySQL/MySQL Server 5.0/bin/mysqldump',
+                'C:/Program Files/MySQL/MySQL Server 5.4/bin/mysqldump'
             );
 
             //Common Linux Paths
@@ -160,16 +155,26 @@ class DUP_DB extends wpdb
                 '/usr/mysql/bin/mysqldump',
                 '/usr/bin/mysqldump',
                 '/opt/local/lib/mysql6/bin/mysqldump',
-                '/opt/local/lib/mysql5/bin/mysqldump',
-                '/opt/local/lib/mysql4/bin/mysqldump',
+                '/opt/local/lib/mysql5/bin/mysqldump'
             );
         }
 
-        // Find the one which works
+        //Try to find a path that works.  With open_basedir enabled, the file_exists may not work on some systems
+		//So we fallback and try to use exec as a last resort
+		$exec_available = function_exists('exec');
         foreach ($paths as $path) {
-            if(file_exists($path)) {
-				if (DUP_Util::isExecutable($path))
+            if(@file_exists($path)) {
+				if (DUP_Util::isExecutable($path)) {
 					return $path;
+				}
+			} elseif ($exec_available) {
+				$out = array();
+				$rc  = -1;
+				$cmd = $path . ' --help';
+				@exec($cmd, $out, $rc);
+				if ($rc === 0) {
+					return $path;
+				}
 			}
         }
 
