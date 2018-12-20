@@ -24,7 +24,7 @@ if(isset($page->ID))
 get_header(); 
 ?>
 <!-- Title -->
-<div class="ppb_wrapper">
+<div id="content" class="ppb_wrapper">
     <div class="ppb_default_detail one ">
     	<div class="page_content_wrapper full_width" style="text-align:center">
         	<div class="title"><h1><?php echo __('LANDING PAGE', THEMEDOMAIN); ?></h1></div>
@@ -43,7 +43,7 @@ get_header();
 	if(!empty($ppb_enable))
 	{
 ?>
-<div class="ppb_wrapper <?php if(!empty($pp_page_bg)) { ?>hasbg<?php } ?> <?php if(!empty($pp_page_bg) && !empty($global_pp_topbar)) { ?>withtopbar<?php } ?>" style="margin: 20px 0  100px 0;">
+<div id="content" class="ppb_wrapper <?php if(!empty($pp_page_bg)) { ?>hasbg<?php } ?> <?php if(!empty($pp_page_bg) && !empty($global_pp_topbar)) { ?>withtopbar<?php } ?>" style="margin: 20px 0  100px 0;">
 <?php
 		tg_apply_builder($current_page_id);
 ?>

@@ -8,13 +8,15 @@ $font-awesome-brands: "Font Awesome 5 Brands";
 
 
 .visually-hide {
-	position: absolute;
+	position: absolute !important;
 	display: inline-block;
 	width:  1px;
 	height: 1px;
 	overflow: hidden;
 	color: transparent;
 	background: transparent;
+	overflow: hidden;
+	clip: rect(1px, 1px, 1px, 1px);
 }
 
 .smaller-font {

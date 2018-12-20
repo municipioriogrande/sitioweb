@@ -29,7 +29,7 @@ if ( is_page(
 }
 
 
- 
+
 if (!isset( $content_width ) ) $content_width = 1170;
 
 if(session_id() == '') {
@@ -180,6 +180,10 @@ if ( get_the_excerpt($post) ) {
 </head>
 
 <body <?php body_class(); ?> <?php if(isset($pp_homepage_style) && !empty($pp_homepage_style)) { echo 'data-style="'.$pp_homepage_style.'"'; } ?> <?php if($shop_product_columns==3) { ?>data-shop="three_cols"<?php } ?>>
+
+<a href="#content" class="visually-hide">Saltear al contenido</a> 
+
+
 	<?php
 		//Check if disable right click
 		$pp_enable_right_click = get_option('pp_enable_right_click');
@@ -616,7 +620,7 @@ if ( get_the_excerpt($post) ) {
 				    	}
 				?>		
 				    <a id="custom_logo" class="logo_wrapper <?php if($use_transparent_logo) { ?>hidden<?php } else { ?>default<?php } ?>" href="<?php echo home_url(); ?>">
-				    	<img src="<?php echo $pp_retina_logo; ?>" alt="" width="<?php echo $pp_retina_logo_width; ?>" height="<?php echo $pp_retina_logo_height; ?>"/>
+				    	<img src="<?php echo $pp_retina_logo; ?>" alt="<?php echo SITE_LOGO_ALT;?>" width="<?php echo $pp_retina_logo_width; ?>" height="<?php echo $pp_retina_logo_height; ?>"/>
 				    </a>
 				<?php
 				    }
@@ -624,7 +628,7 @@ if ( get_the_excerpt($post) ) {
 				    {
 				?>
 				    <a id="custom_logo" class="logo_wrapper <?php if($use_transparent_logo) { ?>hidden<?php } else { ?>default<?php } ?>" href="<?php echo home_url(); ?>">
-				    	<img src="<?php echo $pp_logo?>" alt=""/>
+				    	<img src="<?php echo $pp_logo?>" alt="<?php echo SITE_LOGO_ALT;?>"/>
 				    </a>
 				<?php
 				    }
@@ -639,7 +643,8 @@ if ( get_the_excerpt($post) ) {
 					
 					if(empty($pp_logo_transparent) && empty($pp_retina_logo_transparent))
 				    {
-				    	$pp_retina_logo_transparent = get_template_directory_uri().'/images/logo@2x_white.png';
+				    	//$pp_retina_logo_transparent = get_template_directory_uri().'/images/logo@2x_white.png';
+				    	$pp_retina_logo_transparent = get_template_directory_uri().'/images/logo@2x.png';
 				    	$pp_retina_logo_transparent_width = 69;
 				    	$pp_retina_logo_transparent_height = 33;
 				    }
@@ -658,7 +663,7 @@ if ( get_the_excerpt($post) ) {
 				    	}
 				?>		
 				    <a id="custom_logo_transparent" class="logo_wrapper <?php if(!$use_transparent_logo) { ?>hidden<?php } else { ?>default<?php } ?>" href="<?php echo home_url(); ?>">
-				    	<img src="<?php echo $pp_retina_logo_transparent; ?>" alt="" width="<?php echo $pp_retina_logo_transparent_width; ?>" height="<?php echo $pp_retina_logo_transparent_height; ?>"/>
+				    	<img src="<?php echo $pp_retina_logo_transparent; ?>" alt="<?php echo SITE_LOGO_ALT;?>" width="<?php echo $pp_retina_logo_transparent_width; ?>" height="<?php echo $pp_retina_logo_transparent_height; ?>"/>
 				    </a>
 				<?php
 				    }
@@ -666,7 +671,7 @@ if ( get_the_excerpt($post) ) {
 				    {
 				?>
 				    <a id="custom_logo_transparent" class="logo_wrapper <?php if(!$use_transparent_logo) { ?>hidden<?php } else { ?>default<?php } ?>" href="<?php echo home_url(); ?>">
-				    	<img src="<?php echo $pp_logo_transparent?>" alt=""/>
+				    	<img src="<?php echo $pp_logo_transparent?>" alt="<?php echo SITE_LOGO_ALT;?>"/>
 				    </a>
 				<?php
 				    }
@@ -765,7 +770,7 @@ if ( get_the_excerpt($post) ) {
 				    	<label for="s"><?php echo _e( 'To Search, type and hit enter', THEMEDOMAIN ); ?></label>
 				    	<input type="text" value="<?php the_search_query(); ?>" name="s" id="s" autocomplete="off"/>
 				    	<button>
-				        	<i class="fa fa-search"></i>
+				        	<i class="fa fa-search"></i><span class="visually-hide">Buscar</span>
 				        </button>
 				    </div>
 				    <div id="autocomplete"></div>

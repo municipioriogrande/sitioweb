@@ -90,7 +90,7 @@ if(empty($page_hide_header))
 	if(!empty($ppb_enable))
 	{
 ?>
-<div class="ppb_wrapper <?php if(!empty($pp_page_bg)) { ?>hasbg<?php } ?> <?php if(!empty($pp_page_bg) && !empty($global_pp_topbar)) { ?>withtopbar<?php } ?>">
+<div id="content" class="ppb_wrapper <?php if(!empty($pp_page_bg)) { ?>hasbg<?php } ?> <?php if(!empty($pp_page_bg) && !empty($global_pp_topbar)) { ?>withtopbar<?php } ?>">
 <?php
 		tg_apply_builder($current_page_id);
 ?>

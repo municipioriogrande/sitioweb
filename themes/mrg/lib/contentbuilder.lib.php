@@ -1849,6 +1849,8 @@ function ppb_descubre_func($atts, $content) {
 }
 add_shortcode('ppb_descubre', 'ppb_descubre_func');
 
+
+
 function ppb_gestion_municipal_func($atts, $content) {
 
     //extract short code attr
@@ -1927,7 +1929,18 @@ function ppb_gestion_municipal_func($atts, $content) {
 			$margen_top = '120px';
 		break;
 	}
-	
+
+	if (!function_exists ('ppb_gestion_municipal_print_icon')) {
+		function ppb_gestion_municipal_print_icon($text, $icon, $url, $col_width) {
+			return '<a href="'.$url.'" class="bt">
+						<div class="box" style="width: '.$col_width.';">
+							<img src="'.$icon.'" class="image" alt="'.get_attachment_metadata_from_url($icon, "alt_text").'"/>
+							<h3>'.$text.'</h3>
+						</div>
+					</a>';		
+		}
+	}
+
 	$return_html = '<div class="ppb_gestion_municipal ';
 
     if (!empty($layout) && $layout == 'fullwidth') {
@@ -1947,60 +1960,24 @@ function ppb_gestion_municipal_func($atts, $content) {
 	
 	# Contenido
 
-	if(!empty($seccion_1_text))
-	{
-		$return_html.= '<a href="'.$seccion_1_url.'" class="bt">';
-		$return_html.= '<div class="box" style="width: '.$ancho_columna.';">';
-		$return_html.= '<img src="'.$seccion_1_icono.'" class="image"/>';
-		$return_html.= '<h3>'.$seccion_1_text.'</h3>';
-		$return_html.= '</div>';
-		$return_html.= '</a>';
+	if(!empty($seccion_1_text))	{
+		$return_html.= ppb_gestion_municipal_print_icon($seccion_1_text, $seccion_1_icono, $seccion_1_url, $ancho_columna);
 	}
-	if(!empty($seccion_2_text))
-	{
-		$return_html.= '<a href="'.$seccion_2_url.'" class="bt">';
-		$return_html.= '<div class="box" style="width: '.$ancho_columna.';">';
-		$return_html.= '<img src="'.$seccion_2_icono.'" class="image"/>';
-		$return_html.= '<h3>'.$seccion_2_text.'</h3>';
-		$return_html.= '</div>';
-		$return_html.= '</a>';
+	if(!empty($seccion_2_text))	{
+		$return_html.= ppb_gestion_municipal_print_icon($seccion_2_text, $seccion_2_icono, $seccion_2_url, $ancho_columna);
 	}
-	if(!empty($seccion_3_text))
-	{
-		$return_html.= '<a href="'.$seccion_3_url.'" class="bt">';
-		$return_html.= '<div class="box" style="width: '.$ancho_columna.';">';
-		$return_html.= '<img src="'.$seccion_3_icono.'" class="image"/>';
-		$return_html.= '<h3>'.$seccion_3_text.'</h3>';
-		$return_html.= '</div>';
-		$return_html.= '</a>';
+	if(!empty($seccion_3_text))	{
+		$return_html.= ppb_gestion_municipal_print_icon($seccion_3_text, $seccion_3_icono, $seccion_3_url, $ancho_columna);
 	}
-	if(!empty($seccion_4_text))
-	{
-		$return_html.= '<a href="'.$seccion_4_url.'" class="bt">';
-		$return_html.= '<div class="box" style="width: '.$ancho_columna.';">';
-		$return_html.= '<img src="'.$seccion_4_icono.'" class="image"/>';
-		$return_html.= '<h3>'.$seccion_4_text.'</h3>';
-		$return_html.= '</div>';
-		$return_html.= '</a>';
+	if(!empty($seccion_4_text))	{
+		$return_html.= ppb_gestion_municipal_print_icon($seccion_4_text, $seccion_4_icono, $seccion_4_url, $ancho_columna);
 	}
-	if(!empty($seccion_5_text))
-	{
-		$return_html.= '<a href="'.$seccion_5_url.'" class="bt">';
-		$return_html.= '<div class="box" style="width: '.$ancho_columna.';">';
-		$return_html.= '<img src="'.$seccion_5_icono.'" class="image"/>';
-		$return_html.= '<h3>'.$seccion_5_text.'</h3>';
-		$return_html.= '</div>';
-		$return_html.= '</a>';
+	if(!empty($seccion_5_text))	{
+		$return_html.= ppb_gestion_municipal_print_icon($seccion_5_text, $seccion_5_icono, $seccion_5_url, $ancho_columna);
 	}
 	
-	if(!empty($seccion_6_text))
-	{
-		$return_html.= '<a href="'.$seccion_6_url.'" class="bt">';
-		$return_html.= '<div class="box" style="width: '.$ancho_columna.';">';
-		$return_html.= '<img src="'.$seccion_6_icono.'" class="image"/>';
-		$return_html.= '<h3>'.$seccion_6_text.'</h3>';
-		$return_html.= '</div>';
-		$return_html.= '</a>';
+	if(!empty($seccion_6_text))	{
+		$return_html.= ppb_gestion_municipal_print_icon($seccion_6_text, $seccion_6_icono, $seccion_6_url, $ancho_columna);
 	}
 	
 	$return_html .= '</div>';

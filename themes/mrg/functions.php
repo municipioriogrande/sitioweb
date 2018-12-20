@@ -12,6 +12,9 @@ define("THEMEDEMOURL", $theme_obj['ThemeURI']);
 define("THEMEDATEFORMAT", get_option('date_format'));
 define("THEMETIMEFORMAT", get_option('time_format'));
 
+
+define("SITE_LOGO_ALT", "Municipio de Río Grande");
+
 //Get default WP uploads folder
 $wp_upload_arr = wp_upload_dir();
 define("THEMEUPLOAD", $wp_upload_arr['basedir']."/".strtolower(THEMENAME)."/");
@@ -2103,5 +2106,61 @@ add_action( 'login_enqueue_scripts', 'my_login_stylesheet' );
 require get_parent_theme_file_path( '/includes/remove-stuff.php' );
 require get_parent_theme_file_path( '/includes/theme-shortcodes.php' );
 require get_parent_theme_file_path( '/includes/external-blog.php' );
+
+
+
+
+
+
+function get_attachment_metadata_from_url($attachment_url, $meta="all"){
+	
+	if ( $attachment_url == "" ) {
+		return;
+	}
+	
+	$upload_dir_path = wp_upload_dir()['baseurl'];
+	$upload_dir_path = str_replace( 'http://',  'https://', $upload_dir_path );
+	$upload_dir_path = str_replace( 'https://', '',         $upload_dir_path );
+	
+	// check if it's a WP's media item / library
+	if ( strpos( $attachment_url, $upload_dir_path ) === False ) {
+		return;
+	}
+
+	global $wpdb;
+
+	// If this is the URL of an auto-generated thumbnail, get the URL of the original image
+	$attachment_url = preg_replace( '/-\d+x\d+(?=\.(jpg|jpeg|png|gif)$)/i', '', $attachment_url );
+
+	// Remove the upload path base directory from the attachment URL
+	$attachment_url = str_replace( $upload_dir_path . '/', '', $attachment_url );
+
+	if ( strpos( $attachment_url, "//" ) !== false ) {
+		$attachment_url = str_replace("//","",$attachment_url);
+	}
+
+	// building query
+	$attachment_url = "%" . $attachment_url; //escape like this for LIKE 
+	$query = "FROM {$wpdb->prefix}posts INNER JOIN {$wpdb->prefix}postmeta ON {$wpdb->prefix}posts.ID = {$wpdb->prefix}postmeta.post_id AND {$wpdb->prefix}posts.post_type = 'attachment' AND {$wpdb->prefix}posts.guid LIKE %s";
+	
+	/*
+	-- SELECT meta_value FROM mrg_posts INNER JOIN mrg_postmeta ON mrg_posts.ID = mrg_postmeta.post_id AND mrg_posts.post_type = "attachment" AND mrg_posts.guid LIKE "%agua.png" AND mrg_postmeta.meta_key = "_wp_attachment_image_alt"
+	
+	SELECT meta_value FROM mrg_posts, mrg_postmeta WHERE mrg_posts.ID = mrg_postmeta.post_id AND mrg_posts.post_type = "attachment" AND mrg_posts.guid LIKE "%agua.png" AND mrg_postmeta.meta_key = "_wp_attachment_image_alt"
+	*/
+
+	if ( $meta == "alt" || $meta == "alt_text" ) {
+		$query = "SELECT meta_value " . $query . " AND mrg_postmeta.meta_key = '_wp_attachment_image_alt'"; 
+		$results = $wpdb->get_row( $wpdb->prepare( $query , $attachment_url ) ) ;
+
+		return $results->meta_value;
+	}
+
+	$query = "SELECT * " . $query; 
+	$results = $wpdb->get_results( $wpdb->prepare( $query , $attachment_url ), ARRAY_A  ) ;
+	
+	return $results;	
+}
+
 
 

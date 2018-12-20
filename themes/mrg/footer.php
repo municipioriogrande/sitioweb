@@ -20,6 +20,43 @@
 		}
 	}
 	
+
+
+
+function print_social_links($links){
+
+	$html_return = '<div class="content_social"><h4 class="folou_us">'. __('FOLLOW US', THEMEDOMAIN).'</h4> ';
+	$html_return .= '<ul class="social_icons">';
+
+	$sns = array(
+		"facebook",   "twitter",
+		"flickr",     "youtube",
+		"vimeo",      "tumblr",
+		"googleplus", "dribbble",
+		"linkedin",   "pinterest",
+		"instagram",  "behance",
+		"tripadvisor"
+	);
+
+	foreach ($sns as $social_name) {
+		if( $links[$social_name] ) {
+			$html_return .= '<li class="';
+			
+			if ( $social_name == "googleplus" ) {
+				$html_return = "google";
+			}
+
+			$html_return .= ' ' . $social_name . '">' . $links[$social_name] . '</li>';
+		}
+	}
+
+	$html_return .= '</ul></div>';
+
+	return $html_return;
+}
+
+
+
 	//Check if blank template
 	global $is_no_header;
 	
@@ -88,7 +125,7 @@ if(!empty($pp_hamburguesa_menu))
 			
 		$html_logo .= '<div class="content_logo">';
 		$html_logo .= '	<a class="logo_href" href="' . home_url() . '">';
-		$html_logo .= '		<img src="' . $pp_footer_logo_retina . '" alt="" width="' . $pp_footer_logo_retina_width . '" height="' . $pp_footer_logo_retina_height . '"/>';
+		$html_logo .= '		<img src="' . $pp_footer_logo_retina . '" alt="'. SITE_LOGO_ALT .'" width="' . $pp_footer_logo_retina_width . '" height="' . $pp_footer_logo_retina_height . '"/>';
 		$html_logo .= '	</a>';
 		$html_logo .= '</div>';
 		
@@ -98,7 +135,7 @@ if(!empty($pp_hamburguesa_menu))
 
 		$html_logo .= '<div class="content_logo">';
 		$html_logo .= '	<a class="logo_href" href="' . home_url() . '">';
-		$html_logo .= '		<img src="' . $pp_footer_logo . '" alt=""/>';
+		$html_logo .= '		<img src="' . $pp_footer_logo . '" alt="'. SITE_LOGO_ALT .'"/>';
 		$html_logo .= '	</a>';
 		$html_logo .= '</div>';
 
@@ -242,6 +279,65 @@ if(!empty($pp_hamburguesa_menu))
 			$html_return_social .= ' title="Tripadvisor" href="'.$pp_tripadvisor_url.'"><i class="fa fa-tripadvisor"></i></a></li>';
 		}
 		$html_return_social .= '</ul></div>';*/
+
+
+		$pp_facebook_username = get_option('pp_facebook_username');
+		$pp_twitter_username  = get_option('pp_twitter_username');
+		$pp_flickr_username   = get_option('pp_flickr_username');
+		$pp_youtube_username  = get_option('pp_youtube_username');
+		$pp_vimeo_username    = get_option('pp_vimeo_username');
+		$pp_tumblr_username   = get_option('pp_tumblr_username');
+		$pp_google_username   = get_option('pp_google_username');
+		$pp_dribbble_username = get_option('pp_dribbble_username');
+		$pp_linkedin_username = get_option('pp_linkedin_username');
+		$pp_pinterest_username = get_option('pp_pinterest_username');
+		$pp_instagram_username = get_option('pp_instagram_username');
+		$pp_behance_username  = get_option('pp_behance_username');
+		$pp_tripadvisor_url   = get_option('pp_tripadvisor_url');
+		
+		$social_links_profiles = array();
+			
+		if(!empty($pp_facebook_username)) {
+			$social_links_profiles['facebook'] = '<a href="' . $pp_facebook_username . '"><i class="fa fa-facebook"></i><span class="visually-hide" lang="en">Facebook</span></a>';
+		}
+		if(!empty($pp_twitter_username)) {
+			$social_links_profiles['twitter'] = '<a href="http://twitter.com/'.$pp_twitter_username.'"><i class="fa fa-twitter"></i><span class="visually-hide" lang="en">Twitter</span></a>';
+		}
+		if(!empty($pp_flickr_username)) {
+			$social_links_profiles['flickr'] = '<a href="http://flickr.com/people/'.$pp_flickr_username.'"><i class="fa fa-flickr"></i><span class="visually-hide" lang="en">Flickr</span></a>';
+		}
+		if(!empty($pp_youtube_username)) {
+			$social_links_profiles['youtube'] = '<a href="http://youtube.com/channel/'.$pp_youtube_username.'"><i class="fa fa-youtube"></i><span class="visually-hide" lang="en">Youtube</span></a>';
+		}
+		if(!empty($pp_vimeo_username)){
+			$social_links_profiles['vimeo'] = '<a href="http://vimeo.com/'.$pp_vimeo_username.'"><i class="fa fa-vimeo-square"></i><span class="visually-hide" lang="en">Vimeo</span></a>';
+		}
+		if(!empty($pp_tumblr_username)) {
+			$social_links_profiles['tumblr'] = '<a href="http://'.$pp_tumblr_username.'.tumblr.com"><i class="fa fa-tumblr"></i><span class="visually-hide" lang="en">Tumblr</span></a>';
+		}
+		if(!empty($pp_google_username)){
+			$social_links_profiles['googleplus'] = '<a href="'.$pp_google_username.'"><i class="fa fa-google-plus"></i><span class="visually-hide" lang="en">Google+</span></a>';
+		}
+		if(!empty($pp_dribbble_username)){
+			$social_links_profiles['dribbble'] = '<a href="http://dribbble.com/'.$pp_dribbble_username.'"><i class="fa fa-dribbble"></i><span class="visually-hide" lang="en">Dribble</span></a>';
+		}
+		if(!empty($pp_linkedin_username)){
+			$social_links_profiles['linkedin'] = '<a href="'.$pp_linkedin_username.'"><i class="fa fa-linkedin"></i><span class="visually-hide" lang="en">LinkedIn</span></a>';
+		}
+		if(!empty($pp_pinterest_username)){
+			$social_links_profiles['pinterest'] = '<a href="http://pinterest.com/'.$pp_pinterest_username.'"><i class="fa fa-pinterest"></i><span class="visually-hide" lang="en">Pinterest</span></a>';
+		}
+		if(!empty($pp_instagram_username)){
+			$social_links_profiles['instagram'] = '<a href="http://instagram.com/'.$pp_instagram_username.'"><i class="fa fa-instagram"></i><span class="visually-hide" lang="en">Instagram</span></a>';
+		}
+		if(!empty($pp_behance_username)){
+			$social_links_profiles['behance'] = '<a href="http://behance.net/'.$pp_behance_username.'"><i class="fa fa-behance-square"></i><span class="visually-hide" lang="en">Behance</span></a>';
+		}
+		if(!empty($pp_tripadvisor_url)){
+			$social_links_profiles['tripadvisor'] = '<a href="'.$pp_tripadvisor_url.'"><i class="fa fa-tripadvisor"></i><span class="visually-hide" lang="en">Trip Advisor</span></a>';
+		}
+
+
 		# } Social
 		
 		
@@ -358,141 +454,10 @@ if(!empty($pp_hamburguesa_menu))
 			
 			
 			# Social {
-			$html_return_social 			= '';
-			$html_return_social 			= '<div class="content_social"><h4 class="folou_us">'. __('FOLLOW US', THEMEDOMAIN).'</h4> ';
-			//Check if open link in new window
-			$html_return_social .= '<ul class="social_icons">';
-			
-			$pp_facebook_username 			= get_option('pp_facebook_username');
-			if(!empty($pp_facebook_username))
-			{
-				$html_return_social .= '<li class="facebook"><a ';
-				if(!empty($pp_footer_first_social_link_blank)) {
-					//$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= ' href="' . $pp_facebook_username . '"><i class="fa fa-facebook"></i></a></li>';
-			}
-			
-			$pp_twitter_username = get_option('pp_twitter_username');
-			if(!empty($pp_twitter_username))
-			{
-				$html_return_social .= '<li class="twitter"><a ';
-				if(!empty($pp_footer_first_social_link_blank)) { 
-					//$html_return_social .= 'target="_blank"';
-				} 
-				$html_return_social .= ' href="http://twitter.com/'.$pp_twitter_username.'"><i class="fa fa-twitter"></i></a></li>';
-			}
-			
-			$pp_flickr_username = get_option('pp_flickr_username');
-			if(!empty($pp_flickr_username))
-			{
-				$html_return_social .= '<li class="flickr"><a ';
-				if(!empty($pp_footer_first_social_link_blank)) { 
-					//$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= ' title="Flickr" href="http://flickr.com/people/'.$pp_flickr_username.'"><i class="fa fa-flickr"></i></a></li>';
-			}
-			
-			$pp_youtube_username = get_option('pp_youtube_username');
-			if(!empty($pp_youtube_username))
-			{
-				$html_return_social .= '<li class="youtube"><a ';
-				if(!empty($pp_footer_first_social_link_blank)) { 
-					//$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= ' title="Youtube" href="http://youtube.com/channel/'.$pp_youtube_username.'"><i class="fa fa-youtube"></i></a></li>';
-			}
-			
-			$pp_vimeo_username = get_option('pp_vimeo_username');
-			if(!empty($pp_vimeo_username))
-			{
-				$html_return_social .= '<li class="vimeo"><a ';
-				if(!empty($pp_footer_first_social_link_blank)) { 
-					//$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= ' title="Vimeo" href="http://vimeo.com/'.$pp_vimeo_username.'"><i class="fa fa-vimeo-square"></i></a></li>';
-			}
-			
-			$pp_tumblr_username = get_option('pp_tumblr_username');
-			if(!empty($pp_tumblr_username))
-			{
-				$html_return_social .= '<li class="tumblr"><a ';
-				if(!empty($pp_footer_first_social_link_blank)) { 
-					//$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= 'title="Tumblr" href="http://'.$pp_tumblr_username.'.tumblr.com"><i class="fa fa-tumblr"></i></a></li>';
-			}
-			
-			$pp_google_username = get_option('pp_google_username');
-			if(!empty($pp_google_username))
-			{
-				$html_return_social .= '<li class="google"><a ';
-				if(!empty($pp_footer_first_social_link_blank)) {
-					//$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= ' title="Google+" href="'.$pp_google_username.'"><i class="fa fa-google-plus"></i></a></li>';
-			}
-			
-			$pp_dribbble_username = get_option('pp_dribbble_username');
-			if(!empty($pp_dribbble_username))
-			{
-				$html_return_social .= '<li class="dribbble"><a ';
-				if(!empty($pp_footer_first_social_link_blank)) { 
-					//$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= 'title="Dribbble" href="http://dribbble.com/'.$pp_dribbble_username.'"><i class="fa fa-dribbble"></i></a></li>';
-			}
-			
-			$pp_linkedin_username = get_option('pp_linkedin_username');
-			if(!empty($pp_linkedin_username))
-			{
-				$html_return_social .= '<li class="linkedin"><a ';
-				if(!empty($pp_footer_first_social_link_blank)) {
-					//$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= 'title="Linkedin" href="'.$pp_linkedin_username.'"><i class="fa fa-linkedin"></i></a></li>';
-			}
-			
-			$pp_pinterest_username = get_option('pp_pinterest_username');
-			if(!empty($pp_pinterest_username))
-			{
-				$html_return_social .= '<li class="pinterest"><a ';
-				if(!empty($pp_footer_first_social_link_blank)) { 
-					//$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= 'title="Pinterest" href="http://pinterest.com/'.$pp_pinterest_username.'"><i class="fa fa-pinterest"></i></a></li>';
-			}
-			
-			$pp_instagram_username = get_option('pp_instagram_username');
-			if(!empty($pp_instagram_username))
-			{
-				$html_return_social .= '<li class="instagram"><a ';
-				if(!empty($pp_footer_first_social_link_blank)) { 
-					//$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= 'title="Instagram" href="http://instagram.com/'.$pp_instagram_username.'"><i class="fa fa-instagram"></i></a></li>';
-			}
-			
-			$pp_behance_username = get_option('pp_behance_username');
-			if(!empty($pp_behance_username))
-			{
-				$html_return_social .= '<li class="behance"><a ';
-				if(!empty($pp_footer_first_social_link_blank)) { 
-					//$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= 'title="Behance" href="http://behance.net/'.$pp_behance_username.'"><i class="fa fa-behance-square"></i></a></li>';
-			}
-			
-			$pp_tripadvisor_url = get_option('pp_tripadvisor_url');
-			if(!empty($pp_tripadvisor_url))
-			{
-				$html_return_social .= '<li class="tripadvisor"><a ';
-				if(!empty($pp_footer_first_social_link_blank)) { 
-					//$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= ' title="Tripadvisor" href="'.$pp_tripadvisor_url.'"><i class="fa fa-tripadvisor"></i></a></li>';
-			}
-			$html_return_social .= '</ul></div>';
+
+
+			$html_return_social = print_social_links($social_links_profiles);
+
 			# } Social
 			
 		
@@ -676,141 +641,8 @@ if(!empty($pp_hamburguesa_menu))
 			$pp_footer_second_hover_link_color 			= get_option('pp_footer_second_hover_link_color');
 			
 			# Social {
-			$html_return_social 			= '';
-			$html_return_social 			= '<div class="content_social"><h4 class="folou_us">'. __('FOLLOW US', THEMEDOMAIN).'</h4> ';
-			//Check if open link in new window
-			$html_return_social .= '<ul class="social_icons">';
+			$html_return_social = print_social_links($social_links_profiles);
 			
-			$pp_facebook_username 			= get_option('pp_facebook_username');
-			if(!empty($pp_facebook_username))
-			{
-				$html_return_social .= '<li class="facebook"><a ';
-				if(!empty($pp_footer_second_social_link_blank)) {
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= ' href="' . $pp_facebook_username . '"><i class="fa fa-facebook"></i></a></li>';
-			}
-			
-			$pp_twitter_username = get_option('pp_twitter_username');
-			if(!empty($pp_twitter_username))
-			{
-				$html_return_social .= '<li class="twitter"><a ';
-				if(!empty($pp_footer_second_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				} 
-				$html_return_social .= ' href="http://twitter.com/'.$pp_twitter_username.'"><i class="fa fa-twitter"></i></a></li>';
-			}
-			
-			$pp_flickr_username = get_option('pp_flickr_username');
-			if(!empty($pp_flickr_username))
-			{
-				$html_return_social .= '<li class="flickr"><a ';
-				if(!empty($pp_footer_second_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= ' title="Flickr" href="http://flickr.com/people/'.$pp_flickr_username.'"><i class="fa fa-flickr"></i></a></li>';
-			}
-			
-			$pp_youtube_username = get_option('pp_youtube_username');
-			if(!empty($pp_youtube_username))
-			{
-				$html_return_social .= '<li class="youtube"><a ';
-				if(!empty($pp_footer_second_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= ' title="Youtube" href="http://youtube.com/channel/'.$pp_youtube_username.'"><i class="fa fa-youtube"></i></a></li>';
-			}
-			
-			$pp_vimeo_username = get_option('pp_vimeo_username');
-			if(!empty($pp_vimeo_username))
-			{
-				$html_return_social .= '<li class="vimeo"><a ';
-				if(!empty($pp_footer_second_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= ' title="Vimeo" href="http://vimeo.com/'.$pp_vimeo_username.'"><i class="fa fa-vimeo-square"></i></a></li>';
-			}
-			
-			$pp_tumblr_username = get_option('pp_tumblr_username');
-			if(!empty($pp_tumblr_username))
-			{
-				$html_return_social .= '<li class="tumblr"><a ';
-				if(!empty($pp_footer_second_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= 'title="Tumblr" href="http://'.$pp_tumblr_username.'.tumblr.com"><i class="fa fa-tumblr"></i></a></li>';
-			}
-			
-			$pp_google_username = get_option('pp_google_username');
-			if(!empty($pp_google_username))
-			{
-				$html_return_social .= '<li class="google"><a ';
-				if(!empty($pp_footer_second_social_link_blank)) {
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= ' title="Google+" href="'.$pp_google_username.'"><i class="fa fa-google-plus"></i></a></li>';
-			}
-			
-			$pp_dribbble_username = get_option('pp_dribbble_username');
-			if(!empty($pp_dribbble_username))
-			{
-				$html_return_social .= '<li class="dribbble"><a ';
-				if(!empty($pp_footer_second_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= 'title="Dribbble" href="http://dribbble.com/'.$pp_dribbble_username.'"><i class="fa fa-dribbble"></i></a></li>';
-			}
-			
-			$pp_linkedin_username = get_option('pp_linkedin_username');
-			if(!empty($pp_linkedin_username))
-			{
-				$html_return_social .= '<li class="linkedin"><a ';
-				if(!empty($pp_footer_second_social_link_blank)) {
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= 'title="Linkedin" href="'.$pp_linkedin_username.'"><i class="fa fa-linkedin"></i></a></li>';
-			}
-			
-			$pp_pinterest_username = get_option('pp_pinterest_username');
-			if(!empty($pp_pinterest_username))
-			{
-				$html_return_social .= '<li class="pinterest"><a ';
-				if(!empty($pp_footer_second_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= 'title="Pinterest" href="http://pinterest.com/'.$pp_pinterest_username.'"><i class="fa fa-pinterest"></i></a></li>';
-			}
-			
-			$pp_instagram_username = get_option('pp_instagram_username');
-			if(!empty($pp_instagram_username))
-			{
-				$html_return_social .= '<li class="instagram"><a ';
-				if(!empty($pp_footer_second_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= 'title="Instagram" href="http://instagram.com/'.$pp_instagram_username.'"><i class="fa fa-instagram"></i></a></li>';
-			}
-			
-			$pp_behance_username = get_option('pp_behance_username');
-			if(!empty($pp_behance_username))
-			{
-				$html_return_social .= '<li class="behance"><a ';
-				if(!empty($pp_footer_second_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= 'title="Behance" href="http://behance.net/'.$pp_behance_username.'"><i class="fa fa-behance-square"></i></a></li>';
-			}
-			
-			$pp_tripadvisor_url = get_option('pp_tripadvisor_url');
-			if(!empty($pp_tripadvisor_url))
-			{
-				$html_return_social .= '<li class="tripadvisor"><a ';
-				if(!empty($pp_footer_second_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= ' title="Tripadvisor" href="'.$pp_tripadvisor_url.'"><i class="fa fa-tripadvisor"></i></a></li>';
-			}
-			$html_return_social .= '</ul></div>';
 			# } Social
 		
 			# logo
@@ -993,141 +825,7 @@ if(!empty($pp_hamburguesa_menu))
 			$pp_footer_third_hover_link_color 			= get_option('pp_footer_third_hover_link_color');
 		
 			# Social {
-			$html_return_social 			= '';
-			$html_return_social 			= '<div class="content_social"><h4 class="folou_us">'. __('FOLLOW US', THEMEDOMAIN).'</h4> ';
-			//Check if open link in new window
-			$html_return_social .= '<ul class="social_icons">';
-			
-			$pp_facebook_username 			= get_option('pp_facebook_username');
-			if(!empty($pp_facebook_username))
-			{
-				$html_return_social .= '<li class="facebook"><a ';
-				if(!empty($pp_footer_third_social_link_blank)) {
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= ' href="' . $pp_facebook_username . '"><i class="fa fa-facebook"></i></a></li>';
-			}
-			
-			$pp_twitter_username = get_option('pp_twitter_username');
-			if(!empty($pp_twitter_username))
-			{
-				$html_return_social .= '<li class="twitter"><a ';
-				if(!empty($pp_footer_third_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				} 
-				$html_return_social .= ' href="http://twitter.com/'.$pp_twitter_username.'"><i class="fa fa-twitter"></i></a></li>';
-			}
-			
-			$pp_flickr_username = get_option('pp_flickr_username');
-			if(!empty($pp_flickr_username))
-			{
-				$html_return_social .= '<li class="flickr"><a ';
-				if(!empty($pp_footer_third_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= ' title="Flickr" href="http://flickr.com/people/'.$pp_flickr_username.'"><i class="fa fa-flickr"></i></a></li>';
-			}
-			
-			$pp_youtube_username = get_option('pp_youtube_username');
-			if(!empty($pp_youtube_username))
-			{
-				$html_return_social .= '<li class="youtube"><a ';
-				if(!empty($pp_footer_third_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= ' title="Youtube" href="http://youtube.com/channel/'.$pp_youtube_username.'"><i class="fa fa-youtube"></i></a></li>';
-			}
-			
-			$pp_vimeo_username = get_option('pp_vimeo_username');
-			if(!empty($pp_vimeo_username))
-			{
-				$html_return_social .= '<li class="vimeo"><a ';
-				if(!empty($pp_footer_third_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= ' title="Vimeo" href="http://vimeo.com/'.$pp_vimeo_username.'"><i class="fa fa-vimeo-square"></i></a></li>';
-			}
-			
-			$pp_tumblr_username = get_option('pp_tumblr_username');
-			if(!empty($pp_tumblr_username))
-			{
-				$html_return_social .= '<li class="tumblr"><a ';
-				if(!empty($pp_footer_third_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= 'title="Tumblr" href="http://'.$pp_tumblr_username.'.tumblr.com"><i class="fa fa-tumblr"></i></a></li>';
-			}
-			
-			$pp_google_username = get_option('pp_google_username');
-			if(!empty($pp_google_username))
-			{
-				$html_return_social .= '<li class="google"><a ';
-				if(!empty($pp_footer_third_social_link_blank)) {
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= ' title="Google+" href="'.$pp_google_username.'"><i class="fa fa-google-plus"></i></a></li>';
-			}
-			
-			$pp_dribbble_username = get_option('pp_dribbble_username');
-			if(!empty($pp_dribbble_username))
-			{
-				$html_return_social .= '<li class="dribbble"><a ';
-				if(!empty($pp_footer_third_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= 'title="Dribbble" href="http://dribbble.com/'.$pp_dribbble_username.'"><i class="fa fa-dribbble"></i></a></li>';
-			}
-			
-			$pp_linkedin_username = get_option('pp_linkedin_username');
-			if(!empty($pp_linkedin_username))
-			{
-				$html_return_social .= '<li class="linkedin"><a ';
-				if(!empty($pp_footer_third_social_link_blank)) {
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= 'title="Linkedin" href="'.$pp_linkedin_username.'"><i class="fa fa-linkedin"></i></a></li>';
-			}
-			
-			$pp_pinterest_username = get_option('pp_pinterest_username');
-			if(!empty($pp_pinterest_username))
-			{
-				$html_return_social .= '<li class="pinterest"><a ';
-				if(!empty($pp_footer_third_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= 'title="Pinterest" href="http://pinterest.com/'.$pp_pinterest_username.'"><i class="fa fa-pinterest"></i></a></li>';
-			}
-			
-			$pp_instagram_username = get_option('pp_instagram_username');
-			if(!empty($pp_instagram_username))
-			{
-				$html_return_social .= '<li class="instagram"><a ';
-				if(!empty($pp_footer_third_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= 'title="Instagram" href="http://instagram.com/'.$pp_instagram_username.'"><i class="fa fa-instagram"></i></a></li>';
-			}
-			
-			$pp_behance_username = get_option('pp_behance_username');
-			if(!empty($pp_behance_username))
-			{
-				$html_return_social .= '<li class="behance"><a ';
-				if(!empty($pp_footer_third_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= 'title="Behance" href="http://behance.net/'.$pp_behance_username.'"><i class="fa fa-behance-square"></i></a></li>';
-			}
-			
-			$pp_tripadvisor_url = get_option('pp_tripadvisor_url');
-			if(!empty($pp_tripadvisor_url))
-			{
-				$html_return_social .= '<li class="tripadvisor"><a ';
-				if(!empty($pp_footer_third_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= ' title="Tripadvisor" href="'.$pp_tripadvisor_url.'"><i class="fa fa-tripadvisor"></i></a></li>';
-			}
-			$html_return_social .= '</ul></div>';
+				$html_return_social = print_social_links($social_links_profiles);
 			# } Social
 			
 			# logo
@@ -1310,141 +1008,7 @@ if(!empty($pp_hamburguesa_menu))
 			$pp_footer_fourth_hover_link_color 			= get_option('pp_footer_fourth_hover_link_color');
 			
 			# Social {
-			$html_return_social 			= '';
-			$html_return_social 			= '<div class="content_social"><h4 class="folou_us">'. __('FOLLOW US', THEMEDOMAIN).'</h4> ';
-			//Check if open link in new window
-			$html_return_social .= '<ul class="social_icons">';
-			
-			$pp_facebook_username 			= get_option('pp_facebook_username');
-			if(!empty($pp_facebook_username))
-			{
-				$html_return_social .= '<li class="facebook"><a ';
-				if(!empty($pp_footer_fourth_social_link_blank)) {
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= ' href="' . $pp_facebook_username . '"><i class="fa fa-facebook"></i></a></li>';
-			}
-			
-			$pp_twitter_username = get_option('pp_twitter_username');
-			if(!empty($pp_twitter_username))
-			{
-				$html_return_social .= '<li class="twitter"><a ';
-				if(!empty($pp_footer_fourth_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				} 
-				$html_return_social .= ' href="http://twitter.com/'.$pp_twitter_username.'"><i class="fa fa-twitter"></i></a></li>';
-			}
-			
-			$pp_flickr_username = get_option('pp_flickr_username');
-			if(!empty($pp_flickr_username))
-			{
-				$html_return_social .= '<li class="flickr"><a ';
-				if(!empty($pp_footer_fourth_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= ' title="Flickr" href="http://flickr.com/people/'.$pp_flickr_username.'"><i class="fa fa-flickr"></i></a></li>';
-			}
-			
-			$pp_youtube_username = get_option('pp_youtube_username');
-			if(!empty($pp_youtube_username))
-			{
-				$html_return_social .= '<li class="youtube"><a ';
-				if(!empty($pp_footer_fourth_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= ' title="Youtube" href="http://youtube.com/channel/'.$pp_youtube_username.'"><i class="fa fa-youtube"></i></a></li>';
-			}
-			
-			$pp_vimeo_username = get_option('pp_vimeo_username');
-			if(!empty($pp_vimeo_username))
-			{
-				$html_return_social .= '<li class="vimeo"><a ';
-				if(!empty($pp_footer_fourth_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= ' title="Vimeo" href="http://vimeo.com/'.$pp_vimeo_username.'"><i class="fa fa-vimeo-square"></i></a></li>';
-			}
-			
-			$pp_tumblr_username = get_option('pp_tumblr_username');
-			if(!empty($pp_tumblr_username))
-			{
-				$html_return_social .= '<li class="tumblr"><a ';
-				if(!empty($pp_footer_fourth_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= 'title="Tumblr" href="http://'.$pp_tumblr_username.'.tumblr.com"><i class="fa fa-tumblr"></i></a></li>';
-			}
-			
-			$pp_google_username = get_option('pp_google_username');
-			if(!empty($pp_google_username))
-			{
-				$html_return_social .= '<li class="google"><a ';
-				if(!empty($pp_footer_fourth_social_link_blank)) {
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= ' title="Google+" href="'.$pp_google_username.'"><i class="fa fa-google-plus"></i></a></li>';
-			}
-			
-			$pp_dribbble_username = get_option('pp_dribbble_username');
-			if(!empty($pp_dribbble_username))
-			{
-				$html_return_social .= '<li class="dribbble"><a ';
-				if(!empty($pp_footer_fourth_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= 'title="Dribbble" href="http://dribbble.com/'.$pp_dribbble_username.'"><i class="fa fa-dribbble"></i></a></li>';
-			}
-			
-			$pp_linkedin_username = get_option('pp_linkedin_username');
-			if(!empty($pp_linkedin_username))
-			{
-				$html_return_social .= '<li class="linkedin"><a ';
-				if(!empty($pp_footer_fourth_social_link_blank)) {
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= 'title="Linkedin" href="'.$pp_linkedin_username.'"><i class="fa fa-linkedin"></i></a></li>';
-			}
-			
-			$pp_pinterest_username = get_option('pp_pinterest_username');
-			if(!empty($pp_pinterest_username))
-			{
-				$html_return_social .= '<li class="pinterest"><a ';
-				if(!empty($pp_footer_fourth_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= 'title="Pinterest" href="http://pinterest.com/'.$pp_pinterest_username.'"><i class="fa fa-pinterest"></i></a></li>';
-			}
-			
-			$pp_instagram_username = get_option('pp_instagram_username');
-			if(!empty($pp_instagram_username))
-			{
-				$html_return_social .= '<li class="instagram"><a ';
-				if(!empty($pp_footer_fourth_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= 'title="Instagram" href="http://instagram.com/'.$pp_instagram_username.'"><i class="fa fa-instagram"></i></a></li>';
-			}
-			
-			$pp_behance_username = get_option('pp_behance_username');
-			if(!empty($pp_behance_username))
-			{
-				$html_return_social .= '<li class="behance"><a ';
-				if(!empty($pp_footer_fourth_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= 'title="Behance" href="http://behance.net/'.$pp_behance_username.'"><i class="fa fa-behance-square"></i></a></li>';
-			}
-			
-			$pp_tripadvisor_url = get_option('pp_tripadvisor_url');
-			if(!empty($pp_tripadvisor_url))
-			{
-				$html_return_social .= '<li class="tripadvisor"><a ';
-				if(!empty($pp_footer_fourth_social_link_blank)) { 
-					$html_return_social .= 'target="_blank"';
-				}
-				$html_return_social .= ' title="Tripadvisor" href="'.$pp_tripadvisor_url.'"><i class="fa fa-tripadvisor"></i></a></li>';
-			}
-			$html_return_social .= '</ul></div>';
+			$html_return_social = print_social_links($social_links_profiles);
 			# } Social
 		
 			# logo
