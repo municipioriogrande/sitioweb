@@ -11,9 +11,6 @@
 	}    
 }
 
-
-
-
 .andimol_clima {
 	.anndimol-temp {
 		padding-top: 0;
@@ -34,18 +31,9 @@
 	}
 }
 
-
-
 .indice_anclas.fixed {
 	top: 102px;
 }
-
-
-
-
-
-
-
 
 #page_content_wrapper .search_form_wrapper {
 	float: none;
@@ -65,14 +53,11 @@
 	}
 }
 
-
-
 // Breadcrumbs: para que no se baje todo el bloque
 .page-breadcrumb ul li {
 	max-width: 450px;
 	text-align: left;
 }
-
 
 .module_add_shortcode .fake-text-bajada-style .text {
 	font-size: 28px;
@@ -82,16 +67,6 @@
 	margin: 0 0 40px 0;
 	padding: 0px;
 }
-
-
-
-
-
-
-
-
-
-
 
 body.home .ppb_wrapper .ppb_gestion_municipal {
 	@media screen and (max-width:$mobile-width) {
@@ -111,23 +86,14 @@ body.home .ppb_wrapper .ppb_gestion_municipal {
 				max-width: 100px;
 			}
 
-
 		}
 	}
 }
-
-
-
-
-
-
-
 
 .wrapper_max_width {
 	max-width: 1080px;
 	margin: 0 auto;
 }
-
 
 dl.inline-wrapped dt
 , dl.inline-wrapped dd {
@@ -162,19 +128,12 @@ dl.inline-wrapped dt{
 	border-left: 4px solid #000;
 }
 
-
-
-
-
-
-
 .centered {margin: 0 auto;} 
 
 body.page-ciudad #page_content_wrapper .inner .sidebar_content img {
 	max-width: none !important;
 }
 body.page-ciudad #page_content_wrapper .row { margin-bottom: 6em; clear:both} 
-
 
 body.page-ciudad .remove-margin-page { 
 	margin-left: -4em; margin-right: -4em;  
@@ -198,7 +157,6 @@ body.page-ciudad .row-full-border {
 		line-height: 1.1em !important;
 	}  
 } 
-
 
 body.page-ciudad .getting-here-list {
 	margin: 0 auto 2em !important; 
@@ -236,7 +194,6 @@ body.page-ciudad .imitate-caption {
 	text-align: center !important;
 }
 
-
 body.page-ciudad .row.with-image { 
 	display: flex; 
 	align-items: center; 
@@ -254,9 +211,6 @@ body.page-ciudad .row.with-image {
 	} 
 }
 
-
-
-
 body.page-ciudad .slider {
 	position: relative; 
 	
@@ -271,7 +225,6 @@ body.page-ciudad .slider {
 	}
 
 }
-
 
 body.page-ciudad .thumbnails  {
 	position: relative;
@@ -302,11 +255,6 @@ body.page-ciudad .thumbnails  {
 	
 }
 
-
-
-
-
-
 .module_add_shortcode  {
 	margin: 0;
 	padding: 0 0 50px 0;
@@ -334,10 +282,6 @@ body.page-ciudad .thumbnails  {
 	}
 }
 
-
-
-
-
 form.form-subscribe {
 	background-color: $orange;
 	color: #fff;
@@ -360,7 +304,6 @@ form.form-subscribe {
 		letter-spacing: 2px;
 	}
 	
-	
 	label, 
 	.fake-label {
 		color: inherit;
@@ -371,7 +314,6 @@ form.form-subscribe {
 		font-size: 11px;
 		letter-spacing: 2px;
 	}
-	
 	
 	.inline {
 		display: flex;
@@ -387,7 +329,6 @@ form.form-subscribe {
 		margin-right: 1em;
 	}
 	
-	
 	input, button {
 		border: 1px solid #939297;
 		color: #666666;
@@ -399,7 +340,6 @@ form.form-subscribe {
 		border-radius: 5px;
 		box-sizing: border-box;
 	}
-	
 	
 	input[type="radio"] {
 		width: auto;
@@ -449,7 +389,6 @@ form.form-subscribe {
 		}
 	}
 	
-
 	.row.center {
 		text-align: center;
 		margin: 0 auto;
@@ -459,18 +398,15 @@ form.form-subscribe {
 		}
 	}
 	
-	
 	.small-text {
 		font-size: .8em;
 		margin: 1em 0;
 		font-style: italic;
 	}
 
-	
 	.row.small-input input {
 		width: 200px !important;
 	}
-
 
 	div.wpcf7-response-output {
 		 margin-top: 1em !important;
@@ -495,9 +431,7 @@ form.form-subscribe {
 		border: 0;
 	}
 
-
 }
-
 
 .icon::before {
 	content: "";
@@ -514,11 +448,6 @@ form.form-subscribe {
 .icon.hours::before {
 	content: "\f017";
 }
-
-
-
-
-
 
 .ppb_module_centros-salud {
 	ul {
@@ -545,7 +474,6 @@ form.form-subscribe {
 			margin-right: 0;
 		}
 		
-		
 		.featured-image {
 			height: 300px;
 			overflow: hidden;
@@ -553,7 +481,6 @@ form.form-subscribe {
 			@media screen and (max-width:$mobile-width) {
 				height: 210px;
 			}
-		
 		
 		}		
 		
@@ -590,7 +517,6 @@ body.single-centros_salud {
 		background-position: center;
 		background-repeat: no-repeat;
 
-	 
 		@media screen and (max-width:$mobile-width) {
 			position: relative;
 			
@@ -648,7 +574,6 @@ body.single-centros_salud {
 			margin: 0 0 1em 0 !important;
 		}
 		
-				
 		.cols {
 			@media screen and (min-width: $mobile-width){
 				display: flex;
@@ -713,11 +638,6 @@ body.post-type-archive-centros_salud {
 	}
 }
 
-
-
-
-
-
 .people-list-wrapper {
 
 	ul {
@@ -758,9 +678,6 @@ body.post-type-archive-centros_salud {
 
 }
 
-
-
-
 .nnice-cta {
 
 	background-color: $orange;
@@ -781,7 +698,6 @@ body.post-type-archive-centros_salud {
 		width: 50%;
 		border-radius: 0 10px 10px 0;
 	}
-	
 	
 	.button-cta {
 		display: inline-block;
@@ -840,9 +756,7 @@ body.post-type-archive-centros_salud {
 			word-break: break-word;
 		}	
 
-		
 	}
-	
 	
 	&.nnice-cta-form {
 		border-radius: 1em;
@@ -884,8 +798,8 @@ body.post-type-archive-centros_salud {
 			
 			@media screen and (max-width: $mobile-width) {
 				max-width: 300px;
+				padding: 0.4em;
 			}			
-			
 			
 			h3 {
 				color: inherit !important;
@@ -928,8 +842,6 @@ body.post-type-archive-centros_salud {
 	}
 }
 
-
-
 body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur {
 
 	#cronograma-congreso {
@@ -950,7 +862,6 @@ body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur {
 				border-left-color: $orange;
 			}			
 			
-			
 			&:hover {
 				color: #000;
 				.arrow {
@@ -966,7 +877,6 @@ body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur {
 		}
 
 	}
-
 
 	.day {
 		 font-size: 1.8em;
@@ -1014,7 +924,6 @@ body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur {
 					font-style:italic;
 				}
 			
-
 		 }
 	}
 }
@@ -1050,9 +959,6 @@ body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur {
 	}
 }
 
-	
-
-
 body.page-espacio-tecnologico {
 	fieldset.expand-sub-items {
 		margin: 1em 0;
@@ -1073,16 +979,21 @@ body.page-espacio-tecnologico {
 		}
 	}
 	
-	
-	.form-edlt-info-wrapper .box-image {
-		background-size: auto 1800px !important;
-	
+	.form-edlt-info-wrapper {
+		.box-image {
+			background-size: auto 1800px !important;
+		
+		}
+		#mauticform_edltinformacioncursos {
+			#mauticform_edltinformacioncursos_nombre, 
+			#mauticform_edltinformacioncursos_apellido {
+				width: 100%;
+			}
+
+		}
 	}
 
 }
-
-
-
 
 .box_pic-text-caption-wrapper {
 	display: flex;
@@ -1130,12 +1041,6 @@ body.page-espacio-tecnologico {
 
 }
 
-
-
-
-
-
-
 .tablepress tfoot th, .tablepress thead th {
    background-color: #e7e7e7 !important;
 	border-bottom: 0 !important;
@@ -1159,7 +1064,6 @@ table.dataTable thead .sorting_asc:after {
 	border-top: 1px solid #ddd;
 }
 
-
 #tabla-yacare-calles {
 	font-size: 0.9em;
 }
@@ -1168,7 +1072,6 @@ table.dataTable thead .sorting_asc:after {
 	font-size: 0.7em;
 	margin-bottom: 3em;
 }
-
 
 #map_puntos_carga .leaflet-top {
 	z-index: 500;
@@ -1194,8 +1097,6 @@ table.dataTable thead .sorting_asc:after {
 	margin-left: 0.3em;	
 }
 
-
-
 // not used
 .big-buttons-icons-wrapper {
 	text-align: center;
@@ -1216,7 +1117,6 @@ table.dataTable thead .sorting_asc:after {
 		flex-direction: column;
 		justify-content: center;
 
-
 		img {
 			max-width: 120px !important;
 			margin: 0 auto;
@@ -1231,7 +1131,6 @@ table.dataTable thead .sorting_asc:after {
 	}
 }
 
-
 // for file away
 .mrg-downloads-table-formularios {
 	
@@ -1240,7 +1139,6 @@ table.dataTable thead .sorting_asc:after {
 		background-color: transparent;
 		padding: 0 !important;
 	}
-
 
 	table {
 	
@@ -1283,7 +1181,4 @@ table.dataTable thead .sorting_asc:after {
 		
 	}
 
-
 }
-
-

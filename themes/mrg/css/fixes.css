@@ -727,6 +727,7 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
 @media screen and (max-width: 500px) {
   .nnice-cta.nnice-cta-form form.form-subscribe {
     max-width: 300px;
+    padding: 0.4em;
   }
 }
 .nnice-cta.nnice-cta-form form.form-subscribe h3 {
@@ -875,6 +876,10 @@ body.page-espacio-tecnologico fieldset.expand-sub-items > p {
 }
 body.page-espacio-tecnologico .form-edlt-info-wrapper .box-image {
   background-size: auto 1800px !important;
+}
+body.page-espacio-tecnologico .form-edlt-info-wrapper #mauticform_edltinformacioncursos #mauticform_edltinformacioncursos_nombre,
+body.page-espacio-tecnologico .form-edlt-info-wrapper #mauticform_edltinformacioncursos #mauticform_edltinformacioncursos_apellido {
+  width: 100%;
 }
 
 .box_pic-text-caption-wrapper {

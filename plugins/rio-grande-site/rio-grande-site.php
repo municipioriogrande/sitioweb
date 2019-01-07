@@ -127,7 +127,7 @@ function mautic_form_edlt_info_shortcode() {
             </div>
 
             <div id="mauticform_edltinformacioncursos_telefono"  data-validate="telefono" data-validation-type="tel" class="mauticform-row mauticform-tel mauticform-field-4 mauticform-required row">
-                <label id="mauticform_label_edltinformacioncursos_telefono" for="mauticform_input_edltinformacioncursos_telefono" class="mauticform-label">Teléfono</label> <input id="mauticform_input_edltinformacioncursos_telefono" name="mauticform[telefono]" value="" placeholder="2964 444 444" class="mauticform-input" type="tel" />
+                <label id="mauticform_label_edltinformacioncursos_telefono" for="mauticform_input_edltinformacioncursos_telefono" class="mauticform-label">Teléfono</label> <span class="mauticform-helpmessage">+54[teléfono con código de área]</span> <input id="mauticform_input_edltinformacioncursos_telefono" name="mauticform[telefono]" value="" placeholder="+54 2964 444 444" class="mauticform-input" type="tel" />
                 <span class="mauticform-errormsg" style="display: none;">Es obligatorio</span>
             </div>
 
