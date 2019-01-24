@@ -39,7 +39,7 @@ function print_social_links($links){
 	);
 
 	foreach ($sns as $social_name) {
-		if( $links[$social_name] ) {
+		if( $links && array_key_exists($social_name, $links) && $links[$social_name] ) {
 			$html_return .= '<li class="';
 			
 			if ( $social_name == "googleplus" ) {
