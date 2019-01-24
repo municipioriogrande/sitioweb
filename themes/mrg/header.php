@@ -158,7 +158,7 @@ if ( get_the_excerpt($post) ) {
 	
 	if(!empty($pp_before_head_code))
 	{
-		if (!DEV_ENV) {
+		if ( defined(DEV_ENV) && !DEV_ENV) {
 			echo stripslashes($pp_before_head_code);
 		}
 	}

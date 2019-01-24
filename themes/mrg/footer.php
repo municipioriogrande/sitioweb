@@ -15,7 +15,7 @@
 	
 	if(!empty($pp_ga_code))
 	{
-		if (!DEV_ENV) {
+		if (defined(DEV_ENV) && !DEV_ENV) {
 			echo stripslashes($pp_ga_code);
 		}
 	}
