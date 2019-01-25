@@ -8,16 +8,15 @@
 /**
 *	Get Current page object
 **/
-$page = get_page($post->ID);
+//$page = get_page($post->ID);
 
 /**
 *	Get current page id
 **/
 
-if(!isset($current_page_id) && isset($page->ID))
-{
-    $current_page_id = $page->ID;
-}
+//if(!isset($current_page_id) && isset($page->ID)){
+//    $current_page_id = $page->ID;
+//}
 
 get_header(); 
 

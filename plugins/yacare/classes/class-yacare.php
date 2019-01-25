@@ -163,7 +163,7 @@ ob_start(); ?>
     </tbody>
 </table>
 <?php
-        
+        $res = "";
         $res .= ob_get_clean();
         $dbyacare = null;
         return $res;

@@ -2153,6 +2153,10 @@ function get_attachment_metadata_from_url($attachment_url, $meta="all"){
 		$query = "SELECT meta_value " . $query . " AND mrg_postmeta.meta_key = '_wp_attachment_image_alt'"; 
 		$results = $wpdb->get_row( $wpdb->prepare( $query , $attachment_url ) ) ;
 
+		if (!is_object($results)) {
+			return;
+		}
+
 		return $results->meta_value;
 	}
 

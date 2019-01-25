@@ -209,8 +209,14 @@ function dimox_breadcrumbs() {
       }
  
     } elseif ( !is_single() && !is_page() && get_post_type() != 'post' && !is_404() && !is_search()) {
-      $post_type = get_post_type_object(get_post_type());
-      echo $before . $post_type->labels->singular_name . $after;
+		$post_type = get_post_type_object(get_post_type());
+		
+		if ( is_object($post_type)) {
+			echo $before . $post_type->labels->singular_name . $after;
+		}
+		else {
+			echo $before . $after;
+		}
  
     } elseif ( is_attachment() ) {
       $parent = get_post($post->post_parent);
@@ -1135,7 +1141,9 @@ function getBrowser()
             $version= $matches['version'][0];
         }
         else {
-            $version= $matches['version'][1];
+			  if ( isset($matches['version'][1]) ) {
+				  $version= $matches['version'][1];
+				}
         }
     }
     else {
