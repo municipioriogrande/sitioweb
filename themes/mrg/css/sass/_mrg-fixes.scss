@@ -1182,3 +1182,9 @@ table.dataTable thead .sorting_asc:after {
 	}
 
 }
+
+// if two pbb_module_tramites, "merge them" changing top margin to a negative number
+
+div.ppb_module_tramites + div.ppb_module_tramites {
+	margin-top: -60px;
+}

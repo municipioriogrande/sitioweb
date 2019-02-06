@@ -1051,6 +1051,10 @@ table.dataTable thead .sorting_asc:after {
   line-height: 2em !important;
 }
 
+.pbb_module_tramites + .pbb_module_tramites.module-no-title {
+  margin-top: -60px;
+}
+
 .effect-enlarge-shadow:hover {
   -webkit-transform: scale(1.015);
   -ms-transform: scale(1.015);
