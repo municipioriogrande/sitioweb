@@ -1805,7 +1805,7 @@ function ppb_descubre_func($atts, $content) {
 	{
 		$return_html.= '<a href="'.$seccion_a1_url.'" class="bt">';
 		$return_html.= '<div class="box">';
-		$return_html.= '<img src="'.$seccion_a1_imagen.'" class="image"/>';
+		$return_html.= '<img src="'.$seccion_a1_imagen.'" class="image" alt=""/>';
 		$return_html.= '<h3>'.$seccion_a1_text.'</h3>';
 		$return_html.= '<p>'.$seccion_a1_copete.'</p>';
 		$return_html.= '</div>';
@@ -1815,7 +1815,7 @@ function ppb_descubre_func($atts, $content) {
 	{
 		$return_html.= '<a href="'.$seccion_a2_url.'" class="bt">';
 		$return_html.= '<div class="box">';
-		$return_html.= '<img src="'.$seccion_a2_imagen.'" class="image"/>';
+		$return_html.= '<img src="'.$seccion_a2_imagen.'" class="image" alt=""/>';
 		$return_html.= '<h3>'.$seccion_a2_text.'</h3>';
 		$return_html.= '<p>'.$seccion_a2_copete.'</p>';
 		$return_html.= '</div>';
@@ -1825,7 +1825,7 @@ function ppb_descubre_func($atts, $content) {
 	{
 		$return_html.= '<a href="'.$seccion_a3_url.'" class="bt">';
 		$return_html.= '<div class="box">';
-		$return_html.= '<img src="'.$seccion_a3_imagen.'" class="image"/>';
+		$return_html.= '<img src="'.$seccion_a3_imagen.'" class="image" alt=""/>';
 		$return_html.= '<h3>'.$seccion_a3_text.'</h3>';
 		$return_html.= '<p>'.$seccion_a3_copete.'</p>';
 		$return_html.= '</div>';
@@ -1835,7 +1835,7 @@ function ppb_descubre_func($atts, $content) {
 	{
 		$return_html.= '<a href="'.$seccion_a4_url.'" class="bt">';
 		$return_html.= '<div class="box">';
-		$return_html.= '<img src="'.$seccion_a4_imagen.'" class="image"/>';
+		$return_html.= '<img src="'.$seccion_a4_imagen.'" class="image" alt=""/>';
 		$return_html.= '<h3>'.$seccion_a4_text.'</h3>';
 		$return_html.= '<p>'.$seccion_a4_copete.'</p>';
 		$return_html.= '</div>';
@@ -3219,14 +3219,21 @@ function ppb_module_tramites_func($atts, $content) {
 
     if (!empty($layout) && $layout == 'fullwidth') {
         $return_html .= 'fullwidth ';
-    }
+	}
+	
+	if ( empty($subtitulo) ) {
+		$return_html .= 'module-no-title ';
+	}
 
     $return_html .= '" ';
     $return_html .= '><div class="page_content_wrapper">';
 	$return_html .= '<div class="row">';
 	
 	$return_html .= '	<div class="col-md col-md-12">';
-	$return_html .= '			<h2>'.$subtitulo.'</h2>';
+	
+	if ( !empty($subtitulo) ) {
+		$return_html .= '			<h2>'.$subtitulo.'</h2>';
+	}
 	$return_html .= '		<div class="content">';
 	
 	
