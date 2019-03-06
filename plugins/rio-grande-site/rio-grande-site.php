@@ -3,6 +3,8 @@
 /*
 Plugin Name: Río Grande plugin
 Description: Agrega funcionalidad extra para el sitio
+Author: Ariela Quinzi
+Version: 1.0
 */
 
 //include('form-submissions-check.php');

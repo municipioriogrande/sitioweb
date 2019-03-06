@@ -75,8 +75,8 @@ function centros_salud_post_type() {
 		'publicly_queryable'    => true,
 		'rewrite'               => $rewrite,
 		//'capability_type'       => 'page',
-		'capability_type'       => 'centros_salud', //allow custom capabilities easily
-		'map_meta_cap' => true, //add all capabilities 
+		//'capability_type'       => 'centros_salud', //allow custom capabilities easily
+		//'map_meta_cap' => true, //add all capabilities 
 	);
 	register_post_type( 'centros_salud', $args );
 
