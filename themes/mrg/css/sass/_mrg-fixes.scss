@@ -32,7 +32,7 @@
 }
 
 .indice_anclas.fixed {
-	top: 102px;
+	top: 80px;
 }
 
 #page_content_wrapper .search_form_wrapper {
@@ -46,7 +46,11 @@
 #page_content_wrapper .inner .sidebar_content {
 	float: none;
 	margin: 0 auto;
-	width: 1080px !important;
+	
+	@media screen and (min-width:1000px) {
+		width: 1080px !important;
+		
+	}
 
 	.searchform .searchform-s {
 		width: 76% !important;
@@ -1187,4 +1191,50 @@ table.dataTable thead .sorting_asc:after {
 
 div.ppb_module_tramites + div.ppb_module_tramites {
 	margin-top: -60px;
+}
+
+body.page-municipio {
+
+	#page_caption {
+		&.hasbg{
+			background-position-x: center;
+			
+			h1 {
+				font-weight: bold;
+			}
+		}
+		.page_title_wrapper {
+			@media screen and (max-width:400px){
+				width: auto;
+			}
+		}
+	}
+
+	h2 {
+		margin-top: 2em;
+	}
+
+	#page_content_wrapper {
+		padding: 0.5em;
+	}
+
+	.services-list {
+		list-style-type: none;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		margin: 0 !important;
+		padding: 0;
+		width: 96%;
+
+		li {
+			margin: 1em;
+			text-align: center;
+			font-size: 1.2em;
+
+			a:hover img {
+				opacity: .8;
+			}
+		}
+	}
 }
