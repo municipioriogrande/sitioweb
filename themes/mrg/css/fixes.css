@@ -113,11 +113,12 @@ dl.inline-wrapped dd {
 }
 
 dl.inline-wrapped dt:after {
-  content: ":";
+  content: ": ";
 }
 
 dl.inline-wrapped dt {
   font-weight: bold;
+  margin-right: 0.2em;
 }
 
 .arrow::before {
@@ -1092,6 +1093,13 @@ body.page-municipio .services-list li {
 }
 body.page-municipio .services-list li a:hover img {
   opacity: 0.8;
+}
+body.page-municipio .services-list li img {
+  max-height: 156px;
+  min-height: 156px;
+  object-fit: cover;
+  object-position: top;
+  border: 1px solid silver;
 }
 
 .effect-enlarge-shadow:hover {

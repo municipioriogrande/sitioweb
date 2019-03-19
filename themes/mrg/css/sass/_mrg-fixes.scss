@@ -104,10 +104,11 @@ dl.inline-wrapped dt
 	display: inline-block;
 }
 dl.inline-wrapped dt:after{
-	content: ":";
+	content: ": ";
 }
 dl.inline-wrapped dt{
 	font-weight: bold;
+	margin-right: 0.2em;
 }
 
 .arrow::before{
@@ -1234,6 +1235,14 @@ body.page-municipio {
 
 			a:hover img {
 				opacity: .8;
+			}
+
+			img {
+				max-height: 156px;
+				min-height: 156px;
+				object-fit: cover;
+				object-position: top;
+				border: 1px solid silver;
 			}
 		}
 	}
