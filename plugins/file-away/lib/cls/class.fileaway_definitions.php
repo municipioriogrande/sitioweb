@@ -107,7 +107,9 @@ if(!class_exists('fileaway_definitions'))
 					false
 				)
 			);
-			$agent = $_SERVER['HTTP_USER_AGENT'];
+			//$agent = $_SERVER['HTTP_USER_AGENT'];
+			$agent = isset($_SERVER['HTTP_USER_AGENT']) ? strtolower($_SERVER['HTTP_USER_AGENT']) : '';
+
 			$this->is_opera = stripos($agent, 'opr') !== false || stripos($agent, 'opera') !== false ? true : false; 
 			$mobiles = array(
 				'mobile', 'iphone','ipod', 'ipad', 'android', 'tablet', 'wOSBrowser', 'TouchPad', 'Nook', 'Pad', 'blackberry', 'opera mobi', 
