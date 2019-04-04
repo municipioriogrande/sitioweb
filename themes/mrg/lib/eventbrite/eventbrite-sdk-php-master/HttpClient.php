@@ -99,16 +99,14 @@ class HttpClient extends AccessMethods
 		$file_name = str_replace('/','_',$path);
 		$file_name = $file_name . $add_file_name;
 		
-		# JSON DE HUBSPOT
 		$name_file 	= dirname(__FILE__).'/json/data_eventbrite'.$file_name.'.json';
 		$context  = stream_context_create($options);
 
 
 		if(empty($this->seconds_expire))
 		{
-			//$response = $this->MRG_make_file_hubspot_blog($url,$name_file,$context);
-			$response = $this->MRG_make_file_hubspot_blog($url,$name_file,false);
-			//$response = $this->getfile_quickfix($url,$name_file);
+			$response = $this->MRG_make_file_evenbrite($url,$name_file,false);
+			
 			$this->status = 'Instantly '.$hora_actual .'|'.$hora_archivo;
 		}
 		else
@@ -117,9 +115,8 @@ class HttpClient extends AccessMethods
 			if(!file_exists($name_file))
 			{
 				//echo '|1|'.'<br>'."\r";
-				//$response = $this->MRG_make_file_hubspot_blog($url,$name_file,$context);
-				$response = $this->MRG_make_file_hubspot_blog($url,$name_file,false);
-				//$response = $this->getfile_quickfix($url,$name_file);
+				$response = $this->MRG_make_file_evenbrite($url,$name_file,false);
+				
 				//$status = 'Init';
 			}
 			else
@@ -147,9 +144,8 @@ class HttpClient extends AccessMethods
 				}
 				else
 				{
-					//$response = $this->MRG_make_file_hubspot_blog($url,$name_file,$context);
-					$response = $this->MRG_make_file_hubspot_blog($url,$name_file,false);
-					//$response = $this->getfile_quickfix($url,$name_file);
+					$response = $this->MRG_make_file_evenbrite($url,$name_file,false);
+					
 					$this->status = 'Off time '.$hora_actual .'|'.$hora_archivo;
 				}
 				//echo $status.'<br>'."\r";
@@ -166,7 +162,7 @@ class HttpClient extends AccessMethods
 		return $retorno;
 	}
 	
-	public function MRG_make_file_hubspot_blog($url_post,$namefile,$context)
+	public function MRG_make_file_evenbrite($url_post,$namefile,$context)
 	{
 		/*
 		echo '|a|<br>'."\r";

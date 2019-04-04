@@ -1987,190 +1987,9 @@ function ppb_gestion_municipal_func($atts, $content) {
 }
 add_shortcode('ppb_gestion_municipal', 'ppb_gestion_municipal_func');
 
-function ppb_content_blog_func($atts, $content) {
 
-    //extract short code attr
-    extract(shortcode_atts(array(
-        'layout' 			=> 'fixedwidth',
-		
-        'titulo' 			=> '',
-		
-		'show_items'		=> '3',
-		//'shortcodeform' 	=> '',
-		
-		'custom_css' 		=> '',
-        'custom_class' 		=> '',
-                    ), $atts));
-	
-	$pp_hubspot_api_key = get_option('pp_hubspot_api_key');
-	
-	$return_html = '<div class="ppb_content_blog ';
 
-    if (!empty($layout) && $layout == 'fullwidth') {
-        $return_html .= 'fullwidth ';
-    }
 
-    $return_html .= '" ';
-    $return_html .= '><div class="page_content_wrapper">';
-	$return_html.= '<div class="title">'.html_entity_decode($titulo).'</div>';
-	
-	# JSON DE HUBSPOT
-	$name_file 	= dirname(__FILE__).'/json/data_hubspot.json';
-	$url_post = 'https://api.hubapi.com/content/api/v2/blog-posts?state=PUBLISHED&hapikey='.$pp_hubspot_api_key;
-	
-	# Si el archivo no existe lo cre por primera vez
-	if(!file_exists($name_file))
-	{
-		$data = MRG_make_file_hubspot_blog($url_post,$name_file);
-		$status = 'Init';
-	}
-	else
-	{
-		date_default_timezone_set('UTC');
-		date_default_timezone_set("America/Argentina/Ushuaia");
-		setlocale(LC_ALL,"es_ES");
-		
-		$hora 					= getdate();
-		$segundos_menos 		= 3600*3; 									// Diferencia horaria (3hs Argentina)
-		$segundos_validos 		= 3600; 										// Segundos validos para el archivo (5hs)
-		$hora_actual 			= gmdate("H:i:s", ($hora[0]-$segundos_menos));	// Formateamos hora de sistema
-		$hora_archivo 			= date("H:i:s.", filemtime($name_file));	// Formateamos hora de sistema
-		$horas_resta 			= MRG_normalice_fecha($hora_actual)-MRG_normalice_fecha($hora_archivo);
-		
-		if($horas_resta<=$segundos_validos){
-			$data = json_decode(file_get_contents($name_file), true);
-			$status = 'On time';
-		}
-		else
-		{
-			$data = MRG_make_file_hubspot_blog($url_post,$name_file);
-			$status = 'Off time';
-		}
-	}
-
-	/*
-	$url_post = 'https://api.hubapi.com/content/api/v2/blog-posts?state=PUBLISHED&hapikey='.$pp_hubspot_api_key;  
-	$ch = curl_init($url_post);                                                                      
-	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");                                                                     
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
-	$result = curl_exec($ch);
-	
-	$return_data = json_decode($result, true);*/
-	
-	//$data = $return_data['objects'];
-	$elements_to_show = $show_items-1;
-	$data_length = count($data)-1;
-	
-	if($data_length>=1)
-	{
-		$return_html.= '<div class="row" data-state="'.$status.'">';
-		
-		for($i=0; $i<=$data_length; $i++)
-		{
-			if($i<=2)
-			{
-				if($i<=$elements_to_show)
-				{
-					$return_html .= '<div class="col-md col-md-4">';
-					$return_html .= '	<div class="box-flex">';
-					$return_html .= '		<div class="image" style="background-image:url(\''.rawurldecode($data[$i]['featured_image']).'\')">';
-					$return_html .= '			<img src="'. get_template_directory_uri() .'/images/img_bg_small.gif" alt="image" width="100%">';
-					$return_html .= '		</div>';
-					$return_html .= '		<div class="content-middle">';
-					$return_html .= '			<div class="title">';
-					$return_html .= '				<a href="'.$data[$i]['absolute_url'].'"><h3>'.$data[$i]['html_title'].'</h3></a>';
-					$return_html .= '			</div>';
-					
-					if(!empty($data[$i]['tag_ids']['0']))
-					{
-						$return_html .= '			<div class="category">';
-					
-						$url_tags_ids = 'https://api.hubapi.com/blogs/v3/topics/'.$data[$i]['tag_ids']['0'].'?hapikey='.$pp_hubspot_api_key;
-						$ch2 = curl_init($url_tags_ids);                                                                      
-						curl_setopt($ch2, CURLOPT_CUSTOMREQUEST, "GET");                                                                     
-						curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);                                                                      
-						$result_tags_ids = curl_exec($ch2);
-						$return_data_tags_ids = json_decode($result_tags_ids, true);
-						
-						if(is_array($return_data_tags_ids) && !empty($return_data_tags_ids['name']))
-						{
-							$return_html .= '				<a class="button_categoria_select w-button" href="//info.riogrande.gob.ar/topic/'.$return_data_tags_ids['name'].'">'.$return_data_tags_ids['name'].'</a>';
-						}
-					
-						$return_html .= '			</div>';
-					}
-					$return_html .= '		</div>';
-					$return_html .= '	</div>';
-					$return_html .= '</div>'."\r";
-				}
-			}
-			if($i==3)
-			{
-				$return_html .= '<div class="col-md col-md-4 ss_form">';
-				$return_html .= '	<div class="box-flex box-flex-variant">';
-				$return_html .= '	<div class="ss_content_form">';
-				$return_html .= '		<div class="ss_text">';
-				$return_html .= '	    	<h2>Suscribite a noticias de la Muni</h2>';
-				$return_html .= '	    </div>';
-				//$return_html .= do_shortcode(html_entity_decode($shortcodeform));
-				$return_html .= do_shortcode('[contact-form-7 id="100" title="Sucribe a noticias"]');
-				$return_html .= '	</div>';
-				$return_html .= '	</div>';
-				$return_html .= '</div>'."\r";
-			}
-			if($i==4)
-			{
-				$return_html .= '<div class="col-md col-md-8">';
-				$return_html .= '	<div class="box-flex box-flex-variant">';
-				$return_html .= '		<div class="image" style="background-image:url(\''.rawurldecode($data[$i]['featured_image']).'\')">';
-				$return_html .= '			<img src="'. get_template_directory_uri() .'/images/img_bg_medium.gif" alt="image" width="100%">';
-				$return_html .= '		</div>';
-				$return_html .= '		<div class="content-middle">';
-				$return_html .= '			<div class="title">';
-				$return_html .= '				<a href="'.$data[$i]['absolute_url'].'"><h3>'.$data[$i]['html_title'].'</h3></a>';
-				$return_html .= '			</div>';
-				
-				if(!empty($data[$i]['tag_ids']['0']))
-				{
-					$return_html .= '			<div class="category">';
-				
-					$url_tags_ids = 'https://api.hubapi.com/blogs/v3/topics/'.$data[$i]['tag_ids']['0'].'?hapikey='.$pp_hubspot_api_key;
-					$ch2 = curl_init($url_tags_ids);                                                                      
-					curl_setopt($ch2, CURLOPT_CUSTOMREQUEST, "GET");                                                                     
-					curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);                                                                      
-					$result_tags_ids = curl_exec($ch2);
-					$return_data_tags_ids = json_decode($result_tags_ids, true);
-					
-					if(is_array($return_data_tags_ids) && !empty($return_data_tags_ids['name']))
-					{
-						$return_html .= '				<a class="button_categoria_select w-button" href="//info.riogrande.gob.ar/topic/'.$return_data_tags_ids['name'].'">'.$return_data_tags_ids['name'].'</a>';
-					}
-				
-					$return_html .= '			</div>';
-				}
-				$return_html .= '		</div>';
-				$return_html .= '	</div>';
-				$return_html .= '</div>'."\r";
-			}
-			if($i==2)
-			{
-				$return_html.= '</div>';
-				$return_html.= '<div class="row">';
-			}
-		}
-	
-		$return_html .= '</div>'; //close second row
-	}
-	$return_html .= '<div class="icon_blog">';
-	$return_html .= '	<a class="button_blog" href="//info.riogrande.gob.ar/" target="_blank"><img src="'. get_template_directory_uri() .'/images/globa_blog.svg" alt="Blog" width="73"></a>';
-	$return_html .= '</div>';
-	
-	$return_html .= '</div>';
-    $return_html .= '</div>';
-	
-    return $return_html;
-}
-add_shortcode('ppb_content_blog', 'ppb_content_blog_func');
 
 function ppb_telefonos_utiles_func($atts, $content) {
 
@@ -3296,148 +3115,6 @@ function ppb_module_tramites_func($atts, $content) {
 }
 add_shortcode('ppb_module_tramites', 'ppb_module_tramites_func');
 
-function ppb_module_blog_titular_nota_3_func($atts, $content) {
-
-    //extract short code attr
-    extract(shortcode_atts(array(
-        'layout' 			=> 'fixedwidth',
-		
-        'titulo' 			=> '',
-		
-		'show_items'		=> '3',
-		'hubspot_topics' 	=> '',
-		
-         ), $atts));
-	
-	$pp_hubspot_api_key = get_option('pp_hubspot_api_key');
-	
-	$hubspot_topics = str_replace('a','',$hubspot_topics);
-	$return_html = '<div class="ppb_content_blog ';
-
-    if (!empty($layout) && $layout == 'fullwidth') {
-        $return_html .= 'fullwidth ';
-    }
-
-    $return_html .= '" ';
-    $return_html .= '><div class="page_content_wrapper">';
-	$return_html.= '<div class="title">'.html_entity_decode($titulo).'</div>';
-	
-
-	/*$url_post = 'https://api.hubapi.com/content/api/v2/blog-posts?state=PUBLISHED&hapikey='.$pp_hubspot_api_key.'&limit=30';  
-	$ch = curl_init($url_post);                                                                      
-	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");                                                                     
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
-	$result = curl_exec($ch);
-	
-	$return_data = json_decode($result, true);
-	$data = $return_data['objects'];*/
-	
-	# JSON DE HUBSPOT
-	$name_file 	= dirname(__FILE__).'/json/data_hubspot_'.$hubspot_topics.'.json';
-	$url_post = 'https://api.hubapi.com/content/api/v2/blog-posts?state=PUBLISHED&hapikey='.$pp_hubspot_api_key.'&limit=100';
-	
-	# Si el archivo no existe lo cre por primera vez
-	if(!file_exists($name_file))
-	{
-		$data = MRG_make_file_hubspot_blog_filter($url_post,$name_file,$hubspot_topics);
-		$status = 'Init';
-	}
-	else
-	{
-		date_default_timezone_set('UTC');
-		date_default_timezone_set("America/Argentina/Ushuaia");
-		setlocale(LC_ALL,"es_ES");
-		
-		$hora 					= getdate();
-		$segundos_menos 		= 3600*3; 									// Diferencia horaria (3hs Argentina)
-		$segundos_validos 		= 3600*5; 										// Segundos validos para el archivo (1hs)
-		$hora_actual 			= gmdate("H:i:s", ($hora[0]-$segundos_menos));	// Formateamos hora de sistema
-		$hora_archivo 			= date("H:i:s.", filemtime($name_file));	// Formateamos hora de sistema
-		$horas_resta 			= MRG_normalice_fecha($hora_actual)-MRG_normalice_fecha($hora_archivo);
-		
-		if($horas_resta<=$segundos_validos){
-			$data = json_decode(file_get_contents($name_file), true);
-			$status = 'On time';
-		}
-		else
-		{
-			$data = MRG_make_file_hubspot_blog_filter($url_post,$name_file,$hubspot_topics);
-			$status = 'Off time';
-		}
-	}
-	
-	
-	
-	
-	/*
-	echo $hubspot_topics;
-	print_r($data);
-	*/
-	$elements_to_show = $show_items-1;
-	$data_length = count($data)-1;
-	
-	$return_html.= '<div class="row" data-state="'.$status.'|'.$hubspot_topics.'">';
-	$count_search = 0;
-	
-	for($i=0; $i<=$data_length; $i++)
-	{
-		if($count_search<=2)
-		{
-			//if(!empty($data[$i]['tag_ids']['0']) && $data[$i]['tag_ids']['0']==$hubspot_topics)
-			if(!empty($data[$i]['tag_ids']['0']) && in_array($hubspot_topics, $data[$i]['tag_ids']))
-			{
-				$return_html .= '<div class="col-md col-md-4">';
-				$return_html .= '	<div class="box-flex">';
-				$return_html .= '		<div class="image" style="background-image:url(\''.rawurldecode($data[$i]['featured_image']).'\')">';
-				$return_html .= '			<img src="'. get_template_directory_uri() .'/images/img_bg_small.gif" alt="image" width="100%">';
-				$return_html .= '		</div>';
-				$return_html .= '		<div class="content-middle">';
-				$return_html .= '			<div class="title">';
-				$return_html .= '				<a href="'.$data[$i]['absolute_url'].'"><h3>'.$data[$i]['html_title'].'</h3></a>';
-				$return_html .= '			</div>';
-				
-				if(!empty($data[$i]['tag_ids']['0']))
-				{
-					$return_html .= '			<div class="category">';
-				
-					$url_tags_ids = 'https://api.hubapi.com/blogs/v3/topics/'.$data[$i]['tag_ids']['0'].'?hapikey='.$pp_hubspot_api_key;
-					$ch2 = curl_init($url_tags_ids);                                                                      
-					curl_setopt($ch2, CURLOPT_CUSTOMREQUEST, "GET");                                                                     
-					curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);                                                                      
-					$result_tags_ids = curl_exec($ch2);
-					$return_data_tags_ids = json_decode($result_tags_ids, true);
-					
-					if(is_array($return_data_tags_ids) && !empty($return_data_tags_ids['name']))
-					{
-						$return_html .= '				<a class="button_categoria_select w-button" href="//info.riogrande.gob.ar/topic/'.$return_data_tags_ids['name'].'">'.$return_data_tags_ids['name'].'</a>';
-					}
-				
-					$return_html .= '			</div>';
-				}
-				$return_html .= '		</div>';
-				$return_html .= '	</div>';
-				$return_html .= '</div>'."\r";
-				
-				$count_search = $count_search+1;
-			}
-		}
-	}
-		
-	$return_html .= '</div>'; //close row
-	
-	$return_html .= '<div class="icon_blog">';
-	$return_html .= '	<a class="button_blog" href="//info.riogrande.gob.ar/" target="_blank"><img src="'. get_template_directory_uri() .'/images/globa_blog.svg" alt="Blog" width="73"></a>';
-	$return_html .= '</div>';
-	
-	
-	$return_html .= '</div>';
-    $return_html .= '</div>';
-	
-    return $return_html;
-}
-add_shortcode('ppb_module_blog_titular_nota_3', 'ppb_module_blog_titular_nota_3_func');
-
-
 
 function ppb_module_titular_bajada_subtitulo_copete_subtitulo_c1_subtitulo_c2_func($atts, $content) {
 
@@ -3944,6 +3621,8 @@ function ppb_header_module_mapa_sube_func($atts, $content) {
 }
 add_shortcode('ppb_header_module_mapa_sube', 'ppb_header_module_mapa_sube_func');
 
+
+
 function ppb_module_cta_imagen_texto_boton_func($atts, $content) {
 
     //extract short code attr
@@ -3955,7 +3634,7 @@ function ppb_module_cta_imagen_texto_boton_func($atts, $content) {
 		'cta_url' 			=> '',
 		'cta_boton_text' 	=> '',
 		'cta_use_cta' 		=> '',
-		'cta_code' 			=> '',
+		//'cta_code' 			=> '',
     ), $atts));
 
 	$return_html = '<div class="ppb_module_cta_imagen_texto_boton ';
@@ -3964,142 +3643,55 @@ function ppb_module_cta_imagen_texto_boton_func($atts, $content) {
         $return_html .= 'fullwidth ';
     }
 	$scapes   = array("\r\n", "\n", "\r", "<br/>", "<br />");
-	//$cta_1_detalle = trim(str_replace($scapes, '', html_entity_decode($cta_1_detalle)));
-	//$cta_2_detalle = trim(str_replace($scapes, '', html_entity_decode($cta_2_detalle)));
-	//$bajada = trim(str_replace($scapes, '', html_entity_decode($bajada)));
-	
-    $return_html .= '" ';
+
+	$return_html .= '" ';
     $return_html .= '><div class="page_content_wrapper">';
 	
 	$return_html .= '<div class="row">';
 	
-	
-	if(!empty($cta_use_cta) && $cta_use_cta==3)
-	{
-		$return_html .= '	<div class="col-md col-md-12">';
-		$return_html .= '		<div class="content">';
-		$return_html .= '			<div class="col-md col-md-12">';
-		
-		if(!empty($cta_code))
-		{
-			$return_html .= '					' . urldecode($cta_code);
-		}
-		else
-		{
-			$return_html .= '					falta codigo CTA de HubSpot!.';
-		}
-		
-		$return_html .= '			</div>';
-		$return_html .= '		</div>';
-		$return_html .= '	</div>'."\r";
+	$return_html .= '	<div class="col-md col-md-12">';
+	$return_html .= '		<div class="content">';
+
+	$cta_height = "";
+
+	switch($cta_lineas) {
+		case 6: $cta_height = 382; break;
+		case 5: $cta_height = 338; break;
+		case 4: $cta_height = 288; break;
+		case 3: $cta_height = 250; break;
+		case 2: $cta_height = 202; break;
+		case 1: $cta_height = 158; break;
 	}
-	elseif(!empty($cta_use_cta) && $cta_use_cta==2)
-	{
-		if (!empty($cta_titulo))
-		{
-			$return_html .= '	<div class="col-md col-md-12">';
-			$return_html .= '		<div class="content">';
-			
-			if($cta_lineas==6){
-				$return_html .= '			<div class="box-image" style="background-image:url(' . esc_attr($cta_imagen) . '); background-size:cover;height: 382px;"></div>';
-				$return_html .= '			<div class="box-cta" style="height: 382px;">';
-			}elseif($cta_lineas==5){
-				$return_html .= '			<div class="box-image" style="background-image:url(' . esc_attr($cta_imagen) . '); background-size:cover;height: 338px;"></div>';
-				$return_html .= '			<div class="box-cta" style="height: 338px;">';
-			}elseif($cta_lineas==4){
-				$return_html .= '			<div class="box-image" style="background-image:url(' . esc_attr($cta_imagen) . '); background-size:cover;height: 288px;"></div>';
-				$return_html .= '			<div class="box-cta" style="height: 288px;">';
-			}elseif($cta_lineas==3){
-				$return_html .= '			<div class="box-image" style="background-image:url(' . esc_attr($cta_imagen) . '); background-size:cover;height: 250px;"></div>';
-				$return_html .= '			<div class="box-cta" style="height: 250px;">';
-			}elseif($cta_lineas==2){
-				$return_html .= '			<div class="box-image" style="background-image:url(' . esc_attr($cta_imagen) . '); background-size:cover;height: 202px;"></div>';
-				$return_html .= '			<div class="box-cta" style="height: 202px;">';
-			}elseif($cta_lineas==1){
-				$return_html .= '			<div class="box-image" style="background-image:url(' . esc_attr($cta_imagen) . '); background-size:cover;height: 158px;"></div>';
-				$return_html .= '			<div class="box-cta" style="height: 158px;">';
-			}else{
-				$return_html .= '			<div class="box-image" style="background-image:url(' . esc_attr($cta_imagen) . '); background-size:cover;"></div>';
-				$return_html .= '			<div class="box-cta">';
-			}
-			$return_html .= '					<div class="box-content">';
-			
-			if($cta_lineas==2 || $cta_lineas==3){
-				$return_html .= '						<h3>'.html_entity_decode($cta_titulo).'</h3>';
-			}else{
-				$return_html .= '						<h3>'.html_entity_decode($cta_titulo).'</h3>';
-			}
-			
-			if(!empty($cta_code))
-			{
-				$return_html .= '					' . urldecode($cta_code);
-			}
-			else
-			{
-				$return_html .= '					falta codigo CTA de HubSpot!';
-			}
-						
-			$return_html .= '					</div>';
-			$return_html .= '				</div>';
-			
-			$return_html .= '		</div>';
-			$return_html .= '	</div>'."\r";
-		}
+
+	$cta_img_content = '<div class="box-image" style="background-image:url(' . esc_attr($cta_imagen) . '); background-size:cover;HEIGHTHERE"></div><div class="box-cta" style="HEIGHTHERE;">';
+
+	if ( $cta_height ) {
+		$cta_height = "height: " . $cta_height . "px";
 	}
-	elseif(!empty($cta_use_cta) && $cta_use_cta==1)
-	{
-		if (!empty($cta_titulo))
-		{
-			$return_html .= '	<div class="col-md col-md-12">';
-			$return_html .= '		<div class="content">';
-			
-			if($cta_lineas==6){
-				$return_html .= '			<div class="box-image" style="background-image:url(' . esc_attr($cta_imagen) . '); background-size:cover;height: 382px;"></div>';
-				$return_html .= '			<div class="box-cta" style="height: 382px;">';
-			}elseif($cta_lineas==5){
-				$return_html .= '			<div class="box-image" style="background-image:url(' . esc_attr($cta_imagen) . '); background-size:cover;height: 338px;"></div>';
-				$return_html .= '			<div class="box-cta" style="height: 338px;">';
-			}elseif($cta_lineas==4){
-				$return_html .= '			<div class="box-image" style="background-image:url(' . esc_attr($cta_imagen) . '); background-size:cover;height: 288px;"></div>';
-				$return_html .= '			<div class="box-cta" style="height: 288px;">';
-			}elseif($cta_lineas==3){
-				$return_html .= '			<div class="box-image" style="background-image:url(' . esc_attr($cta_imagen) . '); background-size:cover;height: 250px;"></div>';
-				$return_html .= '			<div class="box-cta" style="height: 250px;">';
-			}elseif($cta_lineas==2){
-				$return_html .= '			<div class="box-image" style="background-image:url(' . esc_attr($cta_imagen) . '); background-size:cover;height: 202px;"></div>';
-				$return_html .= '			<div class="box-cta" style="height: 202px;">';
-			}elseif($cta_lineas==1){
-				$return_html .= '			<div class="box-image" style="background-image:url(' . esc_attr($cta_imagen) . '); background-size:cover;height: 158px;"></div>';
-				$return_html .= '			<div class="box-cta" style="height: 158px;">';
-			}else{
-				$return_html .= '			<div class="box-image" style="background-image:url(' . esc_attr($cta_imagen) . '); background-size:cover;"></div>';
-				$return_html .= '			<div class="box-cta">';
+	$cta_img_content = str_replace("HEIGHTHERE", $cta_height, $cta_img_content);
+
+
+	if ( !empty($cta_use_cta) ) {
+		if( $cta_use_cta==3) {
+			$return_html .= '	<div class="col-md col-md-12"> </div>';
+		}
+		else {
+			if (!empty($cta_titulo)) {
+				$return_html .= $cta_img_content;
+				$return_html .= '		<div class="box-content">';
+				$return_html .= '			<h3>'.html_entity_decode($cta_titulo).'</h3>';
+				if( !empty($cta_url) ) {
+					$return_html .= '		<a href="' . $cta_url . '" class="button-cta w-button">'.$cta_boton_text.'</a>';
+				}
+				$return_html .= '		</div>'; //box content
+				$return_html .= '	</div>'; //opened in var
 			}
-			$return_html .= '					<div class="box-content">';
-			
-			if($cta_lineas==2 || $cta_lineas==3){
-				$return_html .= '					<h3>'.html_entity_decode($cta_titulo).'</h3>';
-			}else{
-				$return_html .= '					<h3>'.html_entity_decode($cta_titulo).'</h3>';
-			}
-			
-			if(!empty($cta_url))
-			{
-				$return_html .= '					<a href="' . $cta_url . '" class="button-cta w-button">'.$cta_boton_text.'</a>';
-			}
-			else
-			{
-				$return_html .= '					falta url de boton';
-			}
-			
-			$return_html .= '					</div>';
-			$return_html .= '				</div>';
-			
-			$return_html .= '		</div>';
-			$return_html .= '	</div>'."\r";
 		}
 	}
 	
+	$return_html .= '		</div>'; //content
+	$return_html .= '	</div>'."\r"; //col
+
 	$return_html .= '</div>'; // close row
 	$return_html .= '</div>'; // close page_content_wrapper
     $return_html .= '</div>'; // close bilder_modul
@@ -4107,6 +3699,12 @@ function ppb_module_cta_imagen_texto_boton_func($atts, $content) {
     return $return_html;
 }
 add_shortcode('ppb_module_cta_imagen_texto_boton', 'ppb_module_cta_imagen_texto_boton_func');
+
+
+
+
+
+
 
 function ppb_module_titular_bajada_full_c3_func($atts, $content) {
 
@@ -4255,7 +3853,7 @@ function ppb_cta_100_imagen_cuerpo_boton_func($atts, $content) {
 		'cta_url' => '',
 		'cta_texto' => '',
 		'cta_use_cta' => '',
-		'cta_code' => '',
+		//'cta_code' => '',
     ), $atts));
 
     $return_html = '<div class="ppb_cta_100_imagen_cuerpo_boton ';
@@ -4284,7 +3882,6 @@ function ppb_cta_100_imagen_cuerpo_boton_func($atts, $content) {
 	
 	if (!empty($background))
 	{
-        //$return_html .= 'style="background-image:url(' . $background_image . ');background-size:cover;" ';
 		$return_html .= 'style="background-image: -webkit-linear-gradient(270deg, rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url(' . $background_image . '); ';
 		$return_html .= 'background-image: linear-gradient(180deg, rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url(' . $background_image . '); "';
     }
@@ -4292,70 +3889,25 @@ function ppb_cta_100_imagen_cuerpo_boton_func($atts, $content) {
     $return_html .= '<div class="page_content_wrapper fullwidth" style="text-align:center">';
 	$return_html .= '<div class="row">';
 	
-	if(!empty($bajada))
-	{
-		if(!empty($cta_use_cta) && $cta_use_cta==3)
-		{
-			$return_html .= '	<div class="col-md col-md-12">';
-			$return_html .= '		<div class="content">';
-			$return_html .= '			<h3>'.html_entity_decode($bajada).'</h3>';
-			$return_html .= '			' . urldecode($cta_code);
-			$return_html .= '		</div>';
-			$return_html .= '	</div>'."\r";
-		}
-		elseif(!empty($cta_use_cta) && $cta_use_cta==2)
-		{
-			$return_html .= '	<div class="col-md col-md-12">';
-			$return_html .= '		<div class="content">';
-			$return_html .= '			<h3>'.html_entity_decode($bajada).'</h3>';
-			
-			if(!empty($cta_use_cta) && $cta_use_cta==1)
-			{
-				$return_html .= '			' . urldecode($cta_code);
+	$return_html .= '	<div class="col-md col-md-12">';
+	$return_html .= '		<div class="content">';
+
+	if( !empty($bajada) ) {
+
+		if( !empty($cta_use_cta) ) {
+			$return_html .= '<h3>'.html_entity_decode($bajada).'</h3>';
+
+			if( $cta_use_cta==1  && !empty($cta_url)) {
+				$return_html .= '	<a href="' . $cta_url . '" class="button-cta w-button">'.$cta_texto.'</a>';
 			}
-			else
-			{
-				$return_html .= '			falta url de boton o codigo de HubSpot!';
-			}
-			
-			$return_html .= '		</div>';
-			$return_html .= '	</div>'."\r";
-		}
-		elseif(!empty($cta_use_cta) && $cta_use_cta==1)
-		{	
-			$return_html .= '	<div class="col-md col-md-12">';
-			$return_html .= '		<div class="content">';
-			$return_html .= '			<h3>'.html_entity_decode($bajada).'</h3>';
-			
-			if(!empty($cta_url))
-			{
-				$return_html .= '			<a href="' . $cta_url . '" class="button-cta w-button">'.$cta_texto.'</a>';
-			}
-			else
-			{
-				$return_html .= '			falta url de boton';
-			}
-			
-			$return_html .= '		</div>';
-			$return_html .= '	</div>'."\r";
-		}
-		else
-		{
-			$return_html .= '	<div class="col-md col-md-12">';
-			$return_html .= '		<div class="content">';
-			$return_html .= '			<div class="col-md col-md-12">falta configurar el CTA</div>';
-			$return_html .= '		</div>';
-			$return_html .= '	</div>'."\r";
 		}
 	}
-	else
-	{
-		$return_html .= '	<div class="col-md col-md-12">';
-		$return_html .= '		<div class="content">';
-		$return_html .= '			<div class="col-md col-md-12">Agregue una bajada!</div>';
-		$return_html .= '		</div>';
-		$return_html .= '	</div>'."\r";
+	else {
+		$return_html .= '			<div class="col-md col-md-12"></div>';
 	}
+
+	$return_html .= '		</div>'; //content
+	$return_html .= '	</div>'."\r"; //col
 	
 	$return_html .= '</div>'; // close row
 	
@@ -4364,6 +3916,8 @@ function ppb_cta_100_imagen_cuerpo_boton_func($atts, $content) {
     return $return_html;
 }
 add_shortcode('ppb_cta_100_imagen_cuerpo_boton', 'ppb_cta_100_imagen_cuerpo_boton_func');
+
+
 
 function ppb_cta_imagen_cuerpo_boton_func($atts, $content) {
 
@@ -4377,7 +3931,7 @@ function ppb_cta_imagen_cuerpo_boton_func($atts, $content) {
 		'cta_url' => '',
 		'cta_texto' => '',
 		'cta_use_cta' => '',
-		'cta_code' => '',
+		//'cta_code' => '',
     ), $atts));
 
     $return_html = '<div class="ppb_cta_imagen_cuerpo_boton ">';
@@ -4422,70 +3976,32 @@ function ppb_cta_imagen_cuerpo_boton_func($atts, $content) {
 	
 	$return_html .= '<div class="row">';
 	
-	if(!empty($bajada))
-	{
-		if(!empty($cta_use_cta) && $cta_use_cta==3)
-		{
-					$return_html .= '	<div class="col-md col-md-12">';
-			$return_html .= '		<div class="content">';
-			$return_html .= '			<h3>' . $bajada . '</h3>';
-			$return_html .= '			' . urldecode($cta_code);
-			$return_html .= '		</div>';
-			$return_html .= '	</div>'."\r";
+	$return_html .= '	<div class="col-md col-md-12">';
+	$return_html .= '		<div class="content">';
+
+
+	if(!empty($bajada)) {
+
+		if ( !empty($cta_use_cta) ) {
+
+			$return_html .= '<h3>' . $bajada . '</h3>';
+		
+			if(!empty($cta_url)) {
+				$return_html .= '	<a href="' . $cta_url . '" class="button-cta w-button">'.$cta_texto.'</a>';
+			}
+				
 		}
-		elseif(!empty($cta_use_cta) && $cta_use_cta==2)
-		{	
-			$return_html .= '	<div class="col-md col-md-12">';
-			$return_html .= '		<div class="content">';
-			$return_html .= '			<h3>' . $bajada . '</h3>';
-			
-			if(!empty($cta_use_cta) && $cta_use_cta==1)
-			{
-				$return_html .= '			' . urldecode($cta_code);
-			}
-			else
-			{
-				$return_html .= '			falta url de boton o codigo de HubSpot!';
-			}
-			
-			$return_html .= '		</div>';
-			$return_html .= '	</div>'."\r";
-		}
-		elseif(!empty($cta_use_cta) && $cta_use_cta==1)
-		{	
-			$return_html .= '	<div class="col-md col-md-12">';
-			$return_html .= '		<div class="content">';
-			$return_html .= '			<h3>' . $bajada . '</h3>';
-			
-			if(!empty($cta_url))
-			{
-				$return_html .= '			<a href="' . $cta_url . '" class="button-cta w-button">'.$cta_texto.'</a>';
-			}
-			else
-			{
-				$return_html .= '			falta url de boton o codigo de HubSpot!';
-			}
-			
-			$return_html .= '		</div>';
-			$return_html .= '	</div>'."\r";
-		}
-		else
-		{
-			$return_html .= '	<div class="col-md col-md-12">';
-			$return_html .= '		<div class="content">';
-			$return_html .= '			<div class="col-md col-md-12">Falta configurar CTA</div>';
-			$return_html .= '		</div>';
-			$return_html .= '	</div>'."\r";
+		else {
+			$return_html .= '<div class="col-md col-md-12"></div>';
 		}
 	}
-	else
-	{
-		$return_html .= '	<div class="col-md col-md-12">';
-		$return_html .= '		<div class="content">';
-		$return_html .= '			<div class="col-md col-md-12">Agregue una bajada!</div>';
-		$return_html .= '		</div>';
-		$return_html .= '	</div>'."\r";
+	else {
+
+		$return_html .= '<div class="col-md col-md-12">Agregue una bajada!</div>';
 	}
+
+	$return_html .= '		</div>'; // content
+	$return_html .= '	</div>'."\r"; //col
 	
 	$return_html .= '</div>'; // close row
 	
@@ -5166,7 +4682,7 @@ function ppb_module_imagen_formulario_func($atts, $content) {
         'layout' 			=> 'fixedwidth',
 		'titulo' 			=> '',
 		'imagen' 			=> '',
-		'cta_code' 			=> '',
+		//'cta_code' 			=> '',
 		'ancla' 			=> '',
     ), $atts));
 
@@ -5175,53 +4691,32 @@ function ppb_module_imagen_formulario_func($atts, $content) {
     if (!empty($layout) && $layout == 'fullwidth') {
         $return_html .= 'fullwidth ';
     }
-	//$scapes   = array("\r\n", "\n", "\r", "<br/>", "<br />");
-	//$if_titulo = trim(str_replace($scapes, '', html_entity_decode($if_titulo)));
 	
     $return_html .= '" ';
     $return_html .= '><div class="page_content_wrapper">';
 	
 	$return_html .= '<div class="row">';
 	
+
+	$return_html .= '	<div class="col-md col-md-12">';
+	$return_html .= '		<div class="content">';
 	
-	if (!empty($imagen))
-	{
-		$return_html .= '	<div class="col-md col-md-12">';
-		$return_html .= '		<div class="content">';
-		$return_html .= '			<div class="box-image" style="background-image:url(' . esc_attr($imagen) . '); background-size:cover;/*height: 765px;*/"></div>';
-		$return_html .= '			<div class="box-cta" style="/*height: 765px;*/">';
-		$return_html .= '				<div class="box-content">';
+	if (!empty($imagen)) {
+		$return_html .= '	<div class="box-image" style="background-image:url(' . esc_attr($imagen) . '); background-size:cover;"></div>';
+		$return_html .= '		<div class="box-cta">';
+		$return_html .= '			<div class="box-content">';
 		
-		if(!empty($titulo))
-		{
-			$return_html .= '					<h3>'.$titulo.'</h3>';
-		}
-		else
-		{
-			$return_html .= '					FALTA: Titulo.';
-		}
-		
-		if(!empty($cta_code))
-		{
-			$return_html .= '					' . urldecode($cta_code);
-		}
-		else
-		{
-			$return_html .= '					FALTA: Codigo del formulario de HubSpot.';
+		if(!empty($titulo)) {
+			$return_html .= '			<h3>'.$titulo.'</h3>';
 		}
 		
 		$return_html .= '				</div>';
 		$return_html .= '			</div>';
-		$return_html .= '		</div>';
-		$return_html .= '	</div>'."\r";
-	}else{
-		$return_html .= '	<div class="col-md col-md-12">';
-		$return_html .= '		<div class="content">';
-		$return_html .= '			FALTA: Imagen';
-		$return_html .= '		</div>';
-		$return_html .= '	</div>'."\r";
 	}
 	
+	$return_html .= '		</div>'; //content
+	$return_html .= '	</div>'."\r"; //col
+
 	$return_html .= '</div>'; // close row
 	$return_html .= '</div>'; // close page_content_wrapper
     $return_html .= '</div>'; // close bilder_modul
@@ -5229,6 +4724,8 @@ function ppb_module_imagen_formulario_func($atts, $content) {
     return $return_html;
 }
 add_shortcode('ppb_module_imagen_formulario', 'ppb_module_imagen_formulario_func');
+
+
 
 function ppb_module_peoplesocial_func($atts, $content) {
 

@@ -80,6 +80,8 @@ foreach($habitacion_pages as $habitacion_page)
 $topics_select = array(
 	'' => '---- Please select topic ----'
 );
+
+/*
 $url_topics 		= 'https://api.hubapi.com/blogs/v3/topics?hapikey=d2973eed-dea2-48e2-8344-7f21fdd1827e';  
 $ch_topics 			= curl_init($url_topics);                                                                      
 curl_setopt($ch_topics, CURLOPT_CUSTOMREQUEST, "GET");                                                                     
@@ -96,14 +98,13 @@ $data_topics_length = count($data_topics)-1;
 for($i=0; $i<=$data_topics_length; $i++)
 {
 	$topics_select['a'.$data_topics[$i]['id']] = $data_topics[$i]['name'];
-	/*
-	echo "id:".$data_topics[$i]['id'].'<br>';
-	echo "name:".$data_topics[$i]['name'].'<br>';
-	echo "slug:".$data_topics[$i]['slug'].'<br>';
-	echo "description:".$data_topics[$i]['description'].'<br>';
-	echo '---------------<br>';
-	*/
+	//echo "id:".$data_topics[$i]['id'].'<br>';
+	//echo "name:".$data_topics[$i]['name'].'<br>';
+	//echo "slug:".$data_topics[$i]['slug'].'<br>';
+	//echo "description:".$data_topics[$i]['description'].'<br>';
+	//echo '---------------<br>';
 }
+*/
 /* } THISNEW MRG */
 
 //Get order options
@@ -217,9 +218,9 @@ $background_overlay_select = array(
 	'90' 	=> '90%',
 );
 $cta_select_2 = array(
-	'1'	=> 'Usar boton comun',
-	'2'	=> 'Usar Boton de HubSpot (Solo boton. El Boton de integrara al diseño)',
-	'3'	=> 'Usar Boton de HubSpot (Imagen, La imagen reemplazara al diseño)',
+	'1'	=> 'Usar botón comun',
+	'2'	=> 'Usar solo botón (el botón de integrará al diseño)',
+	'3'	=> 'Usar imagen (la imagen reemplazará al diseño)',
 );
 $cta_select = array(
 	''	=> 'False',
@@ -690,11 +691,7 @@ $ppb_shortcodes = array(
 			'boton_text' => array(
     			'type' => 'text',
     			'desc' => 'Enter text Button',
-    		),
-			'boton_cta' => array(
-    			'type' => 'textarea',
-    			'desc' => 'Enter the code of CTA (HubSpot)',
-    		),
+			 ),
 			'custom_css' => array(
     			'title' => 'Custom CSS',
     			'type' => 'text',
@@ -1080,38 +1077,6 @@ $ppb_shortcodes = array(
 				'type' => 'text',
     			'desc' => 'Enter URL Button',
     		),
-			'custom_css' => array(
-    			'title' => 'Custom CSS',
-    			'type' => 'text',
-    			'desc' => 'You can add custom CSS style for this block (advanced user only)',
-    		),
-			'custom_class' => array(
-    			'title' => 'Custom CLASS',
-    			'type' => 'text',
-    			'desc' => 'You can add custom CLASS style for this block (advanced user only)',
-    		),
-    	),
-    	'desc' => array(),
-    	'content' => TRUE
-    ),
-	'ppb_content_blog' => array(
-    	'title' =>  'BLOG • Contenido del blog de HubSpot',
-    	'attr' => array(
-			'titulo' => array(
-    			'title' => 'Titulo',
-    			'type' => 'text',
-    			'desc' => 'Enter the Text you want to display of Title',
-    		),
-			'show_items' => array(
-    			'type' => 'text',
-    			'desc' => 'Enter the number of articles to show',
-    		),
-			/*'shortcodeform' => array(
-				'title' => 'Short Code',
-    			'type' => 'textarea',
-    			'desc' => 'Ingrese Short Code del formulario',
-    		),*/
-			
 			'custom_css' => array(
     			'title' => 'Custom CSS',
     			'type' => 'text',
@@ -1799,30 +1764,6 @@ $ppb_shortcodes = array(
     	'desc' => array(),
     	'content' => false
     ),
-	
-	'ppb_module_blog_titular_nota_3' => array(
-    	'title' =>  '(S) BLOG Títular / Notas x 3',
-    	'attr' => array(
-			'titulo' => array(
-    			'title' => 'Titulo',
-    			'type' => 'text',
-    			'desc' => 'Enter the Text you want to display of Title',
-    		),
-			'show_items' => array(
-    			'type' => 'text',
-    			'desc' => 'Enter the number of articles to show',
-    		),
-			'hubspot_topics' => array(
-    			'title' => 'HubSpot Topics',
-    			'type' => 'select',
-    			'options' => $topics_select,
-    			'desc' => 'Select the Topic you want to display on post results',
-    		),
-    	),
-    	'desc' => array(),
-    	'content' => false
-    ),
-	
 	'ppb_module_titular_bajada_subtitulo_copete_subtitulo_c1_subtitulo_c2' => array(
     	'title' =>  '(S) Titular / Bajada + subtitulo + Copete / subtitulo 1 y cuerpo 1 + subtitulo 2 y cuerpo 2',
     	'attr' => array(
@@ -1959,15 +1900,10 @@ $ppb_shortcodes = array(
     			'desc' => 'Enter the Text Button.',
     		),
 			'cta_1_use_cta' => array(
-    			'title' => 'CTA 1 - Usar CTA de HubSpot',
+    			'title' => 'CTA 1 - Usar CTA',
     			'type' => 'select',
     			'options' => $cta_select_2,
-    			'desc' => 'Select use CTA if you want to show HubSpot CTA',
-    		),
-			'cta_1_code' => array(
-    			'title' => 'CTA 1 - Código de HubsPot',
-				'type' => 'html',
-    			'desc' => 'Enter the HubSpot CTA code',
+    			'desc' => 'Select use CTA if you want to show CTA',
     		),
 			
 			'cta_2_imagen' => array(
@@ -1996,15 +1932,10 @@ $ppb_shortcodes = array(
     			'desc' => 'Enter the Text Button.',
     		),
 			'cta_2_use_cta' => array(
-    			'title' => 'CTA 2 - Usar CTA de HubSpot',
+    			'title' => 'CTA 2 - Usar CTA',
     			'type' => 'select',
     			'options' => $cta_select_2,
-    			'desc' => 'Select use CTA if you want to show HubSpot CTA',
-    		),
-			'cta_2_code' => array(
-    			'title' => 'CTA 2 - Código de HubsPot',
-				'type' => 'html',
-    			'desc' => 'Enter the HubSpot CTA code',
+    			'desc' => 'Select use CTA if you want to show CTA',
     		),
 			
 			
@@ -2074,16 +2005,11 @@ $ppb_shortcodes = array(
     			'desc' => 'Enter the text for the button.',
     		),
 			'cta_use_cta' => array(
-    			'title' => 'Usar CTA de HubSpot',
+    			'title' => 'Usar CTA',
     			'type' => 'select',
     			'options' => $cta_select_2,
-    			'desc' => 'Select use CTA if you want to show HubSpot CTA',
-    		),
-			'cta_code' => array(
-    			'title' => 'CTA - Código de HubsPot',
-				'type' => 'html',
-    			'desc' => 'Enter the HubSpot CTA code',
-    		),
+    			'desc' => 'Select use CTA if you want to show CTA',
+			 ),
 			
     	),
     	'desc' => array(),
@@ -2195,15 +2121,10 @@ $ppb_shortcodes = array(
     			'desc' => 'Enter the Text Button.',
     		),
 			'cta_use_cta' => array(
-    			'title' => 'Usar CTA de HubSpot',
+    			'title' => 'Usar CTA',
     			'type' => 'select',
     			'options' => $cta_select_2,
-    			'desc' => 'Select use CTA if you want to show HubSpot CTA',
-    		),
-			'cta_code' => array(
-    			'title' => 'Código de HubsPot',
-				'type' => 'html',
-    			'desc' => 'Enter the HubSpot CTA code',
+    			'desc' => 'Select use CTA if you want to show CTA',
     		),
     		'background' => array(
     			'title' => 'Background Image',
@@ -2245,15 +2166,10 @@ $ppb_shortcodes = array(
     			'desc' => 'Enter the Text Button.',
     		),
 			'cta_use_cta' => array(
-    			'title' => 'Usar CTA de HubSpot',
+    			'title' => 'Usar CTA',
     			'type' => 'select',
     			'options' => $cta_select_2,
-    			'desc' => 'Select use CTA if you want to show HubSpot CTA',
-    		),
-			'cta_code' => array(
-    			'title' => 'Código de HubsPot',
-				'type' => 'html',
-    			'desc' => 'Enter the HubSpot CTA code',
+    			'desc' => 'Select use CTA if you want to show CTA',
     		),
     		'background' => array(
     			'title' => 'Background Image',
@@ -2594,13 +2510,7 @@ $ppb_shortcodes = array(
     			'title' => 'Imagen',
     			'type' => 'file',
     			'desc' => 'Upload the image you want to display',
-    		),
-			'cta_code' => array(
-    			'title' => 'Código de HubsPot',
-				'type' => 'html',
-    			'desc' => 'Enter the HubSpot code',
-    		),
-			
+			 ),
     	),
     	'desc' => array(),
     	'content' => FALSE
