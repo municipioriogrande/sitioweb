@@ -7,6 +7,10 @@ Author: Ariela Quinzi
 Version: 1.0
 */
 
+
+define( 'UPLOADS_DIR', wp_upload_dir()['baseurl']);
+
+
 //include('form-submissions-check.php');
 
 add_action( 'after_setup_theme', 'crb_load' );
@@ -15,9 +19,17 @@ function crb_load() {
     \Carbon_Fields\Carbon_Fields::boot();
 }
 
-
 include "centros-salud.php";
 
+
+function remote_file_exists($url){
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_NOBODY, true);
+    curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    return ( $httpCode == 200 ) ? true : false;
+}
 
 
 
@@ -329,6 +341,129 @@ add_shortcode( 'mautic_form_edlt_info', 'mautic_form_edlt_info_shortcode' );
 
 
 
+
+function load_points_in_osm($code, $atts=false){
+	wp_enqueue_style("leaflet",     "https://unpkg.com/leaflet@1.3.4/dist/leaflet.css", false, "1.3.4", "all");
+	wp_enqueue_script("leaflet-js", "https://unpkg.com/leaflet@1.3.4/dist/leaflet.js", false, "1.3.4", true);
+
+	$point_popup_tpl = "";
+	$filename = "";
+	$map_id   = "";
+    $map_point_icon = "";
+
+    $unwanted_characters = array(
+        'Ñ'=>'N', 'ñ'=>'n', 'Ç'=>'C', 'ç'=>'c',
+        'Á'=>'A', 'Â'=>'A', 'Ä'=>'A', 'á'=>'a', 'â'=>'a', 'ä'=>'a', 
+        'É'=>'E', 'Ê'=>'E', 'Ë'=>'E', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 
+        'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 
+        'Ó'=>'O', 'Ô'=>'O', 'Ö'=>'O', 'ó'=>'o', 'ô'=>'o', 'ö'=>'o', 
+        'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'ú'=>'u', 'û'=>'u', 'ü'=> 'u'
+    );
+    
+
+	if ( $code == "transporte" ){
+		$filename = "puntos-carga.json";
+		$map_id   = "map_puntos_carga";
+		$point_popup_tpl = '<p>$name </p><dl><div><dt>Dirección:</dt><dd>$address</dd></div>$open_times</dl>';
+        $map_point_icon = UPLOADS_DIR . "/2017/12/marker.png";
+        $map_point_icon_size   = array(36,46);
+		$map_point_icon_anchor = array(18, 46);
+		$map_popup_anchor      = array(0,-40);
+	}
+
+    if ( $code == "huertas" ) {
+		$filename = "puntos-huertas.json";
+		$map_id   = "map_puntos_huertas";
+        $map_point_icon = UPLOADS_DIR . "/global/icono-huertas-urbanas-small.png";
+        $point_popup_tpl = '<div class="popup-content"><div><p class="name">$name</p><dl><dt>Productor:</dt><dd>$producer</dd><dt>Dirección:</dt><dd>$address</dd>$phone</dl></div><div class="avatar" style="background-image:url($photo);"></div></div>';
+        $map_point_icon_size   = array(23,36);
+		$map_point_icon_anchor = array(18, 46);
+        $map_popup_anchor      = array(0,-40);
+	}
+
+	
+	$file_url = plugins_url( "json/" . $filename, __FILE__ );
+    $points = json_decode( file_get_contents( $file_url ), true);
+    
+	ob_start();
+	?>
+	<div id="<?php echo $map_id;?>" style='height:600px;width:100%;margin-bottom: 3em;'></div>
+	<script type="text/javascript">
+	jQuery(document).ready(function() {
+		var map = L.map("<?php echo $map_id;?>").setView([-53.78903, -67.69588], 14);
+		var tile_url = 'https://tiles.dir.riogrande.gob.ar/carto/{z}/{x}/{y}.png';
+
+		var map_icon = L.icon({
+			iconUrl: "<?php echo $map_point_icon;?>",
+            iconSize:    [<?php echo implode(",", $map_point_icon_size);?>],
+			iconAnchor:  [<?php echo implode(",", $map_point_icon_anchor);?>],
+			popupAnchor: [<?php echo implode(",", $map_popup_anchor);?>],
+		
+		});
+
+		L.tileLayer(tile_url,{
+			attribution: 'Map data © <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors',
+			maxZoom: 17,
+            <?php if ($code == "huertas"):?>
+			minZoom: 7
+            <?php else:?>
+			minZoom: 12
+            <?php endif;?>
+		}).addTo(map);
+		
+		<?php
+		foreach ($points as $point) {
+						
+			$vars = array(
+				'$name'       => $point['name'],
+				'$address'    => str_replace("'", " ", $point['address']),
+            );
+            			
+			if ( $code == "transporte" ) {
+				$vars['$open_times'] = ( !empty( $point['open_times']) ) ? "<div><dt>Horario:</dt><dd>".$point['open_times']."</dd></div>" : "";
+				
+				if ( $point["place_type"] ) {
+					$vars['$name'] = $point['name'] . ' <br><span class="smaller-font">(' . $point["place_type"] . ")</span>";
+				}				
+			}
+			if ( $code == "huertas" ) {
+                $vars['$producer'] = $point['producer'];
+                
+                $img = ( !empty($point['name_alt']) ) ? $point['name_alt'] : strtr( $point["name"], $unwanted_characters );
+                $img = strtolower(str_replace(" ", "-", $img));
+                
+                $img = UPLOADS_DIR . "/huertas-urbanas/productores/" . $img . ".jpg";
+
+                $vars['$photo'] = ( remote_file_exists($img) ) ? $img : str_replace("-small", "", $map_point_icon);
+                $vars['$phone'] = ( $point['phone'] ) ? '<dt>Teléfono</dt><dd><a href="tel:2964' . $point['phone'] . '">' . $point['phone'] . '</a></dd>' : '';
+			}
+
+			if ( !empty($point['geocoord']) && $point_popup_tpl )  {
+                $js_point = "L.marker([".$point['geocoord']."], {icon: map_icon}).addTo(map).bindPopup('".strtr($point_popup_tpl, $vars)."');";
+
+				if ( $code == "transporte" ) {
+                    if (
+                        ( $atts['tipo'] == "estacionamiento"  && $point['is_estacionamiento-medido'] != "si" ) 
+                        ||
+                        ( $atts['tipo'] == "sube" && empty($point['center_type']) ) 
+                        ) {
+                        $js_point = "";
+                    }
+                }
+                
+                echo $js_point;
+
+            }
+		} ?>
+	});
+	</script>
+	
+	<?php
+	return ob_get_clean();	
+}
+
+
+add_shortcode( 'puntos_carga_mapa', 'puntos_carga_mapa_shortcode' );
 function puntos_carga_mapa_shortcode( $atts ) {
 
 	// Attributes
@@ -337,81 +472,16 @@ function puntos_carga_mapa_shortcode( $atts ) {
 			'tipo' => 'sube', //"sube" o "estacionamiento"
 		),
 		$atts
-	);
-	wp_enqueue_style("leaflet",     "https://unpkg.com/leaflet@1.3.4/dist/leaflet.css", false, "1.3.4", "all");
-	wp_enqueue_script("leaflet-js", "https://unpkg.com/leaflet@1.3.4/dist/leaflet.js", false, "1.3.4", true);
-	
-	$file_url = plugins_url( 'json/puntos-carga.json', __FILE__ );
-	$response = json_decode( file_get_contents( $file_url ), true);
-	$points = $response;
-	//var_dump($points);
-	$point_popup_tpl = '<p>$name </p><dl><div><dt>Dirección:</dt><dd>$address</dd></div>$open_times</dl>';
-	
-	ob_start();
-	?>
-	<div id='map_puntos_carga' style='height:600px;width:100%;margin-bottom: 3em;'></div>
-	<script type="text/javascript">
-	jQuery(document).ready(function() {
-		var map = L.map('map_puntos_carga').setView([-53.78903, -67.69588], 15);
-		var tile_url = 'https://tiles.dir.riogrande.gob.ar/carto/{z}/{x}/{y}.png';
-
-		var map_icon = L.icon({
-			iconUrl: 'https://riogrande.gob.ar/wp-content/uploads/2017/12/marker.png',
-			iconSize: [36,46],
-			iconAnchor: [18, 46],
-			popupAnchor: [0,-40],
-		});
-
-		L.tileLayer(tile_url,{
-			attribution: 'Map data © <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors',
-			maxZoom: 18,
-			minZoom: 14
-		}).addTo(map);
-		
-		<?php
-		foreach ($points as $point) {
-			$tmp_times = "";
-			if ( !empty( $point['open_times']) ) {
-				$tmp_times = "<div><dt>Horario:</dt><dd>".$point['open_times']."</dd></div>";	
-			}
-			
-			$tmp_name = $point['name'];
-			if ( $point["place_type"] ) {
-				$tmp_name = $point['name'] . ' <br><span class="smaller-font">(' . $point["place_type"] . ")</span>";
-			}
-			
-			
-			$vars = array(
-				'$name'       => $tmp_name,
-				'$address'    => str_replace("'", " ", $point['address']),
-				'$open_times' => $tmp_times,
-			);
-			
-			
-			$js_point = "";
-			
-			if ( 
-					( $atts['tipo'] == "estacionamiento" && $point['is_estacionamiento-medido'] == "si" ) 
-					||
-					( $atts['tipo'] == "sube" && !empty($point['center_type']) )
-				)
-				{
-				echo "L.marker([".$point['geocoord']."], {icon: map_icon}).addTo(map).bindPopup('".strtr($point_popup_tpl, $vars)."');";
-			}
-			
-			
-		} ?>
-	});
-	</script>
-	
-	<?php
-	return ob_get_clean();
-	
+    );
+    
+    return load_points_in_osm("transporte", $atts);
 }
-add_shortcode( 'puntos_carga_mapa', 'puntos_carga_mapa_shortcode' );
 
 
-
+add_shortcode( 'mapa_huertas_urbanas_puntos', 'mapa_huertas_urbanas_puntos_shortcode' );
+function mapa_huertas_urbanas_puntos_shortcode( ) {
+    return load_points_in_osm("huertas");
+}
 
 
 ?>

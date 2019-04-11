@@ -1,0 +1,552 @@
+[
+    {
+        "name_alt": "",
+        "name": "3 niñas",
+        "address": "La Margaritas 20",
+        "last_updated": "2018",
+        "geocoord": "-53.81225,-67.64665",
+        "geo_exact": "close",
+        "phone": "15449615",
+        "producer": "Mónica Aldavez"
+    },
+    {
+        "name_alt": "",
+        "name": "Aldea de Duendes",
+        "address": "Ruta N°3 4032",
+        "last_updated": "2018",
+        "geocoord": "-53.80611, -67.76526",
+        "geo_exact": "si",
+        "phone": "15618847",
+        "producer": "José Bañares y Adriana"
+    },
+    {
+        "name_alt": "",
+        "name": "Alvarado",
+        "address": "Cabo Domingo 113",
+        "last_updated": "2018",
+        "geocoord": "-53.8061, -67.75752",
+        "geo_exact": "close",
+        "phone": "15481917",
+        "producer": "Liliana Alvarado"
+    },
+    {
+        "name_alt": "",
+        "name": "Arriagada",
+        "address": "Macizo 150, Calle sin nombre 86, lote 2",
+        "last_updated": "2018",
+        "geocoord": "-53.8201, -67.684",
+        "geo_exact": "si",
+        "phone": "15483215",
+        "producer": "Abel Segundo Arriagada"
+    },
+    {
+        "name_alt": "",
+        "name": "Chacra Berna",
+        "address": "Rafaela Ishton, lote 151",
+        "last_updated": "2018",
+        "geocoord": "",
+        "geo_exact": "x",
+        "phone": "15498648",
+        "producer": "Solange Uribe"
+    },
+    {
+        "name_alt": "",
+        "name": "Chacra Fénix",
+        "address": "Nuestra Señora de Itatí 1050",
+        "last_updated": "2018",
+        "geocoord": "-53.8088973,-67.6566252",
+        "geo_exact": "close",
+        "phone": "15659467",
+        "producer": "Mirian Mansilla"
+    },
+    {
+        "name_alt": "",
+        "name": "Chacra La leo",
+        "address": "Los Jazmines 275",
+        "last_updated": "2018",
+        "geocoord": "-53.81124, -67.65116",
+        "geo_exact": "close",
+        "phone": "15506859",
+        "producer": "Pedro Urruty"
+    },
+    {
+        "name_alt": "",
+        "name": "Chacra Toby ",
+        "address": "Calle sin nombre 355 n°4149",
+        "last_updated": "2018",
+        "geocoord": "-53.80523, -67.76535",
+        "geo_exact": "si",
+        "phone": "15412166",
+        "producer": "María Vivar Vivar"
+    },
+    {
+        "name_alt": "",
+        "name": "Don Alberto",
+        "address": "Paso de los Andes 4029",
+        "last_updated": "2018",
+        "geocoord": "-53.80517, -67.76233",
+        "geo_exact": "si",
+        "phone": "",
+        "producer": "Gastón Enchieme"
+    },
+    {
+        "name_alt": "",
+        "name": "Don Antonio",
+        "address": "Los Lupinos 40",
+        "last_updated": "2018",
+        "geocoord": "-53.81635, -67.66562",
+        "geo_exact": "close",
+        "phone": "15224269",
+        "producer": "Teresa \"Pepa\" Medina"
+    },
+    {
+        "name_alt": "",
+        "name": "El castor",
+        "address": "Los Jazmines  ",
+        "last_updated": "2018",
+        "geocoord": "-53.8112689,-67.6514597",
+        "geo_exact": "si",
+        "phone": "15453345",
+        "producer": "Juan Oyarzo"
+    },
+    {
+        "name_alt": "",
+        "name": "El Esfuerzo",
+        "address": "Paso de los Andes 4053",
+        "last_updated": "2018",
+        "geocoord": "-53.8051895,-67.7628804",
+        "geo_exact": "si",
+        "phone": "15507489",
+        "producer": "Fermin Perez y María Luisa"
+    },
+    {
+        "name_alt": "",
+        "name": "El Faisan",
+        "address": "Cabo Domingo 599",
+        "last_updated": "2018",
+        "geocoord": "-53.80391, -67.76224",
+        "geo_exact": "si",
+        "phone": "15474086",
+        "producer": "Daniel Rostagno"
+    },
+    {
+        "name_alt": "",
+        "name": "El Orejano",
+        "address": "Macizo 153, lote 8",
+        "last_updated": "2018",
+        "geocoord": "-53.8193, -67.6754",
+        "geo_exact": "close",
+        "phone": "15543617",
+        "producer": "Ricardo Pressaco"
+    },
+    {
+        "name_alt": "",
+        "name": "El paraíso",
+        "address": "Calle sin nombre 355 n°4203",
+        "last_updated": "2018",
+        "geocoord": "-53.80562, -67.76614",
+        "geo_exact": "si",
+        "phone": "15614541",
+        "producer": "Silvia Marta  Guzmán y Juan Borda"
+    },
+    {
+        "name_alt": "",
+        "name": "El paraíso",
+        "address": "Cabo Domingo 425",
+        "last_updated": "2018",
+        "geocoord": "-53.80494, -67.75969",
+        "geo_exact": "close",
+        "phone": "15533529",
+        "producer": "María Emilia Perez"
+    },
+    {
+        "name_alt": "",
+        "name": "El sueño del pibe",
+        "address": "Los Cerros 109",
+        "last_updated": "2018",
+        "geocoord": "",
+        "geo_exact": "x",
+        "phone": "15569309",
+        "producer": "Daniel Hernández"
+    },
+    {
+        "name_alt": "",
+        "name": "El Vergel",
+        "address": "Sección K, maciso 67",
+        "last_updated": "2018",
+        "geocoord": "",
+        "geo_exact": "x",
+        "phone": "2964607120",
+        "producer": "Dario Morel"
+    },
+    {
+        "name_alt": "",
+        "name": "Esperanza",
+        "address": "Las Caléndulas 55 (pasaje)",
+        "last_updated": "2018",
+        "geocoord": "-53.81248, -67.64864",
+        "geo_exact": "close",
+        "phone": "15609622",
+        "producer": "Raúl Rayan y Esposa Bernarda"
+    },
+    {
+        "name_alt": "",
+        "name": "Establecimiento Orlando",
+        "address": "Las Violetas 869",
+        "last_updated": "2018",
+        "geocoord": "-53.81420,-67.66143",
+        "geo_exact": "close",
+        "phone": "15536176 (Sebastian)",
+        "producer": "Matías Palmieri"
+    },
+    {
+        "name_alt": "",
+        "name": "Flores Violeta",
+        "address": "Yourka 216",
+        "last_updated": "2018",
+        "geocoord": "-53.80238,-67.66152",
+        "geo_exact": "si",
+        "phone": "15563823",
+        "producer": "Violeta Flores"
+    },
+    {
+        "name_alt": "",
+        "name": "Ibarra",
+        "address": "Macizo 150, sección k, lote 46",
+        "last_updated": "2018",
+        "geocoord": "-53.8176, -67.7002",
+        "geo_exact": "close",
+        "phone": "15468768",
+        "producer": "Miguel Ibarra"
+    },
+    {
+        "name_alt": "",
+        "name": "Ivonne",
+        "address": "Calle sin nombre 355 N°4073",
+        "last_updated": "2018",
+        "geocoord": "-53.80441, -67.76404",
+        "geo_exact": "si",
+        "phone": "15419537",
+        "producer": "Ivonne Fuentes"
+    },
+    {
+        "name_alt": "",
+        "name": "Klilito",
+        "address": "Las Margaritas 16",
+        "last_updated": "2018",
+        "geocoord": "-53.81211,-67.64667",
+        "geo_exact": "close",
+        "phone": "15550616",
+        "producer": "Vicente Gonzalez"
+    },
+    {
+        "name_alt": "",
+        "name": "La Abuela",
+        "address": "Cabo Domingo 467",
+        "last_updated": "2018",
+        "geocoord": "-53.80479, -67.76027",
+        "geo_exact": "si",
+        "phone": "15555356",
+        "producer": "Marcelo Saldivia"
+    },
+    {
+        "name_alt": "",
+        "name": "La Ganja RGA",
+        "address": "Calle sin nombre 355 N°4169",
+        "last_updated": "2018",
+        "geocoord": "-53.80538, -67.76566",
+        "geo_exact": "si",
+        "phone": "15629988",
+        "producer": "Alejandro Alvez Da Cruz"
+    },
+    {
+        "name_alt": "",
+        "name": "La Manzana",
+        "address": "Los Pensamintos 130",
+        "last_updated": "2018",
+        "geocoord": "-53.8165, -67.6487",
+        "geo_exact": "si",
+        "phone": "15500887",
+        "producer": "Miguel Angel Fleita"
+    },
+    {
+        "name_alt": "",
+        "name": "La Marcela",
+        "address": "Ruta N°3 4032",
+        "last_updated": "2018",
+        "geocoord": "-53.80568, -67.76126",
+        "geo_exact": "si",
+        "phone": "15452881",
+        "producer": "Rubén Uriona"
+    },
+    {
+        "name_alt": "",
+        "name": "La Pequeña",
+        "address": "Cabo Domingo 531",
+        "last_updated": "2018",
+        "geocoord": "-53.80457, -67.76078",
+        "geo_exact": "si",
+        "phone": "15503077",
+        "producer": "Raúl Moreira"
+    },
+    {
+        "name_alt": "",
+        "name": "La Porfiada",
+        "address": "Paso de los Andes 4189",
+        "last_updated": "2018",
+        "geocoord": "-53.80555,-67.76571",
+        "geo_exact": "si",
+        "phone": "15551398",
+        "producer": "Ángela Escalante y Malen Manquen"
+    },
+    {
+        "name_alt": "",
+        "name": "La Rivera",
+        "address": "Centenario 20",
+        "last_updated": "2018",
+        "geocoord": "-53.8125, -67.6635",
+        "geo_exact": "si",
+        "phone": "15587282",
+        "producer": "Andrea Vivar"
+    },
+    {
+        "name_alt": "",
+        "name": "Las Niñitas",
+        "address": "Kau 1085",
+        "last_updated": "2018",
+        "geocoord": "-53.8106, -67.66228",
+        "geo_exact": "close",
+        "phone": "15489571",
+        "producer": "Nibaldo Alvarado"
+    },
+    {
+        "name_alt": "",
+        "name": "Las Rosas",
+        "address": "Paso de los Andes 4004",
+        "last_updated": "2018",
+        "geocoord": "-53.80449, -67.7622",
+        "geo_exact": "si",
+        "phone": "15494812",
+        "producer": "Juan Carlos Ordoñez y María Ines"
+    },
+    {
+        "name_alt": "",
+        "name": "Licantica",
+        "address": "Ruta espacio verde",
+        "last_updated": "2018",
+        "geocoord": "-53.80525, -67.76012",
+        "geo_exact": "si",
+        "phone": "15608146",
+        "producer": "Pedro Licantica"
+    },
+    {
+        "name_alt": "",
+        "name": "Los Amigos",
+        "address": "Las Caléndulas 20",
+        "last_updated": "2018",
+        "geocoord": "-53.81168,-67.64823",
+        "geo_exact": "close",
+        "phone": "15475754",
+        "producer": "Patricia Ñancul"
+    },
+    {
+        "name_alt": "",
+        "name": "Los Cascabeles",
+        "address": "Paso de los Andes 4003",
+        "last_updated": "2018",
+        "geocoord": "-53.80439, -67.762",
+        "geo_exact": "si",
+        "phone": "15536367",
+        "producer": "Patricia Gallardo"
+    },
+    {
+        "name_alt": "",
+        "name": "Los Manantiales",
+        "address": "Calle sin nombre 355 N°4235",
+        "last_updated": "2018",
+        "geocoord": "-53.80320,-67.76654",
+        "geo_exact": "close",
+        "phone": "15658170",
+        "producer": " "
+    },
+    {
+        "name_alt": "",
+        "name": "Los Mellizos",
+        "address": "Los Claveles 274",
+        "last_updated": "2018",
+        "geocoord": "-53.811681,-67.6557412",
+        "geo_exact": "si",
+        "phone": "15575902",
+        "producer": "Pablo Mena"
+    },
+    {
+        "name_alt": "los pinos asencio",
+        "name": "Los Pinos",
+        "address": "Calle sin nombre 3977",
+        "last_updated": "2018",
+        "geocoord": "-53.80418, -67.76361",
+        "geo_exact": "si",
+        "phone": "",
+        "producer": "José Germán Asencio Maldonado"
+    },
+    {
+        "name_alt": "los pinos del valle",
+        "name": "Los Pinos",
+        "address": "Paso de los Andes 4076",
+        "last_updated": "2018",
+        "geocoord": "-53.80537,-67.76360",
+        "geo_exact": "close",
+        "phone": "15495627",
+        "producer": "Nelly Del Valle"
+    },
+    {
+        "name_alt": "",
+        "name": "Margarita",
+        "address": "El Esquilador 1395",
+        "last_updated": "2018",
+        "geocoord": "-53.81295,-67.65356",
+        "geo_exact": "si",
+        "phone": "15533061",
+        "producer": "Margarita Otey"
+    },
+    {
+        "name_alt": "",
+        "name": "Micaela",
+        "address": "Los Sauces 1310",
+        "last_updated": "2018",
+        "geocoord": "-53.81097,-67.66426",
+        "geo_exact": "close",
+        "phone": "15441028",
+        "producer": "Antonio Molleker"
+    },
+    {
+        "name_alt": "",
+        "name": "Nahuel",
+        "address": "Los Sauces 1349 ",
+        "last_updated": "2018",
+        "geocoord": "-53.81122,-67.66286",
+        "geo_exact": "close",
+        "phone": "15611964",
+        "producer": "Sergio Altamirano"
+    },
+    {
+        "name_alt": "",
+        "name": "NIMAR ",
+        "address": "Chacra 16 manzana 50",
+        "last_updated": "2018",
+        "geocoord": "",
+        "geo_exact": "x",
+        "phone": "15569061",
+        "producer": "Esterlina Ojeda"
+    },
+    {
+        "name_alt": "",
+        "name": "Ojeda",
+        "address": "Barrio La Rivera 16 B (al lado de Pedro Hernanez)",
+        "last_updated": "2018",
+        "geocoord": "-53.8141, -67.7047",
+        "geo_exact": "close",
+        "phone": "15452422",
+        "producer": "Osvaldo  Ojeda"
+    },
+    {
+        "name_alt": "",
+        "name": "Pampita",
+        "address": "Las Caléndulas 25, lote 17",
+        "last_updated": "2018",
+        "geocoord": "-53.8120,-67.6485",
+        "geo_exact": "si",
+        "phone": "15484316",
+        "producer": "Juan Bahamonde"
+    },
+    {
+        "name_alt": "",
+        "name": "Querencia Fueguina",
+        "address": "Los Sauces 1335",
+        "last_updated": "2018",
+        "geocoord": "-53.81113,-67.66323",
+        "geo_exact": "si",
+        "phone": "15617091",
+        "producer": "Norma Hernández y Tito Gómez"
+    },
+    {
+        "name_alt": "",
+        "name": "Quinchao",
+        "address": "Calle sin nombre 355 N° 4013",
+        "last_updated": "2018",
+        "geocoord": "-53.80392, -67.76334",
+        "geo_exact": "si",
+        "phone": "15402867",
+        "producer": "Victor Armando  Oyarzún Vera"
+    },
+    {
+        "name_alt": "",
+        "name": "Ruca Piwke",
+        "address": "Los Cerros 230",
+        "last_updated": "2018",
+        "geocoord": "-53.8187332, -67.6529731",
+        "geo_exact": "si",
+        "phone": "15484685",
+        "producer": "Carmen Luengo"
+    },
+    {
+        "name_alt": "",
+        "name": "Ruiz Diaz",
+        "address": "Paso de los Andes, macizo 40, lote 15",
+        "last_updated": "2018",
+        "geocoord": "-53.80564, -67.76288",
+        "geo_exact": "si",
+        "phone": "15415423",
+        "producer": "Roberto Ruiz Diaz"
+    },
+    {
+        "name_alt": "",
+        "name": "Techando Vientos",
+        "address": "Roque Saenz Peña 1380",
+        "last_updated": "2018",
+        "geocoord": "-53.78285, -67.72636",
+        "geo_exact": "si",
+        "phone": "",
+        "producer": "Alejandro Alazard y otros"
+    },
+    {
+        "name_alt": "",
+        "name": "Tepui",
+        "address": "Las Violetas 1020",
+        "last_updated": "2018",
+        "geocoord": "-53.81456,-67.66068",
+        "geo_exact": "close",
+        "phone": "15608741",
+        "producer": "Rodolfo José Millalonco y Glenda Millalonco"
+    },
+    {
+        "name_alt": "",
+        "name": "Titan",
+        "address": "Paso de los Andes 3965, macizo 40, lote 33",
+        "last_updated": "2018",
+        "geocoord": "",
+        "geo_exact": "x",
+        "phone": "15530864",
+        "producer": "Cristian Ruiz Diaz"
+    },
+    {
+        "name_alt": "",
+        "name": "Virgen de Guadalupe",
+        "address": "Paso de los Libres y 27 de octubre",
+        "last_updated": "2018",
+        "geocoord": "-53.81242, -67.66741",
+        "geo_exact": "close",
+        "phone": "15496905",
+        "producer": "Marcos Martín"
+    },
+    {
+        "name_alt": "",
+        "name": "Virgen del Carmen",
+        "address": "Rafaela Ishton 693 y Los Patriotas",
+        "last_updated": "2018",
+        "geocoord": "-53.8033, -67.67017",
+        "geo_exact": "close",
+        "phone": "15531847",
+        "producer": "José Mendiola y Elizabeth Godoy"
+    }
+]

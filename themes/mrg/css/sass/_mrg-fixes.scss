@@ -847,15 +847,28 @@ body.post-type-archive-centros_salud {
 	}
 }
 
+/*
 body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur {
-
 	#cronograma-congreso {
 		background: url(../images/encabezado-congreso.png) top center no-repeat;
 		padding-top: 210px;
 		background-size: 1100px;
 	}
+}
+*/
 
-	.accordion {
+#conocé-la-agenda-del-congreso { //congreso educacion
+	.day {
+		font-size: 1.8em;
+	}
+	.time {
+		margin: 1em 0;
+		font-size: 1.21em;
+		color: #000;
+		font-weight: bold;
+	}
+
+	.congreso-educacion-accordion {
 		.time {
 			color: $orange;
 			
@@ -881,36 +894,24 @@ body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur {
 			
 		}
 
-	}
-
-	.day {
-		 font-size: 1.8em;
-		 }
-	.time {
-		margin: 1em 0;
-		font-size: 1.21em;
-		color: #000;
-		font-weight: bold;
-	}
-
-	.mesas-container {
-		 display: flex;
-		 flex-wrap: wrap;
-		 font-size: 0.8em;
-		 
-		 .mesa {
-			  width: 208px;
-			  margin: 0 4px;
-			  
-			  @media screen and (max-width:$mobile-width){
+		.mesas-container {
+			display: flex;
+			flex-wrap: wrap;
+			font-size: 0.8em;
+			
+			.mesa {
+				width: 208px;
+				margin: 0 4px;
+				
+				@media screen and (max-width:$mobile-width){
 				width: 100%;
-			  }
-			  
+				}
+				
 				p {
 					padding-bottom: 0.9em;
 				}
-			  
-			  .place {
+				
+				.place {
 					font-weight: bold;
 					font-size: 1.2em;
 					min-height: 60px;
@@ -922,14 +923,16 @@ body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur {
 					margin-top: 2em;
 					@media screen and (max-width:$mobile-width){
 						min-height: 40px;
-					  }
+						}
 					
-			  }
+				}
 				.title {
 					font-style:italic;
 				}
 			
-		 }
+			}
+	}
+
 	}
 }
 
@@ -1245,5 +1248,42 @@ body.page-municipio {
 				border: 1px solid silver;
 			}
 		}
+	}
+}
+
+#map_puntos_huertas {
+	.leaflet-popup-content {
+		min-width: 380px;
+	}
+
+	.popup-content {
+		margin-right: -0.6em;
+		display: flex;
+		justify-content: space-between;
+		padding-top: 1em;
+
+		p {
+			line-height:1em;
+		}
+
+		.name {
+			font-size: 1.7em;
+			margin-top: 0;
+		}
+
+		dt {
+			font-weight: bold;
+			margin-top: 1em;
+		}
+
+		.avatar {
+			width: 200px;
+			height: 200px;
+			margin: 0.2em 0 0.2em 0.8em;
+			background-repeat: no-repeat;
+			background-size: contain;
+			background-position: center;
+		}
+
 	}
 }

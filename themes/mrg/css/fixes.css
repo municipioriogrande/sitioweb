@@ -767,56 +767,60 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
   }
 }
 
-body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur #cronograma-congreso {
-  background: url(../images/encabezado-congreso.png) top center no-repeat;
-  padding-top: 210px;
-  background-size: 1100px;
+/*
+body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur {
+	#cronograma-congreso {
+		background: url(../images/encabezado-congreso.png) top center no-repeat;
+		padding-top: 210px;
+		background-size: 1100px;
+	}
 }
-body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .time {
-  color: #ff6a00;
-}
-body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .time .arrow.arrow-down::before {
-  border-top-color: #ff6a00;
-}
-body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .time .arrow.arrow-left::before {
-  border-left-color: #ff6a00;
-}
-body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .time:hover {
-  color: #000;
-}
-body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .time:hover .arrow.arrow-down::before {
-  border-top-color: #000;
-}
-body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .accordion .time:hover .arrow.arrow-left::before {
-  border-left-color: #000;
-}
-body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .day {
+*/
+#conocé-la-agenda-del-congreso .day {
   font-size: 1.8em;
 }
-body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .time {
+#conocé-la-agenda-del-congreso .time {
   margin: 1em 0;
   font-size: 1.21em;
   color: #000;
   font-weight: bold;
 }
-body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .mesas-container {
+#conocé-la-agenda-del-congreso .congreso-educacion-accordion .time {
+  color: #ff6a00;
+}
+#conocé-la-agenda-del-congreso .congreso-educacion-accordion .time .arrow.arrow-down::before {
+  border-top-color: #ff6a00;
+}
+#conocé-la-agenda-del-congreso .congreso-educacion-accordion .time .arrow.arrow-left::before {
+  border-left-color: #ff6a00;
+}
+#conocé-la-agenda-del-congreso .congreso-educacion-accordion .time:hover {
+  color: #000;
+}
+#conocé-la-agenda-del-congreso .congreso-educacion-accordion .time:hover .arrow.arrow-down::before {
+  border-top-color: #000;
+}
+#conocé-la-agenda-del-congreso .congreso-educacion-accordion .time:hover .arrow.arrow-left::before {
+  border-left-color: #000;
+}
+#conocé-la-agenda-del-congreso .congreso-educacion-accordion .mesas-container {
   display: flex;
   flex-wrap: wrap;
   font-size: 0.8em;
 }
-body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .mesas-container .mesa {
+#conocé-la-agenda-del-congreso .congreso-educacion-accordion .mesas-container .mesa {
   width: 208px;
   margin: 0 4px;
 }
 @media screen and (max-width: 500px) {
-  body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .mesas-container .mesa {
+  #conocé-la-agenda-del-congreso .congreso-educacion-accordion .mesas-container .mesa {
     width: 100%;
   }
 }
-body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .mesas-container .mesa p {
+#conocé-la-agenda-del-congreso .congreso-educacion-accordion .mesas-container .mesa p {
   padding-bottom: 0.9em;
 }
-body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .mesas-container .mesa .place {
+#conocé-la-agenda-del-congreso .congreso-educacion-accordion .mesas-container .mesa .place {
   font-weight: bold;
   font-size: 1.2em;
   min-height: 60px;
@@ -828,11 +832,11 @@ body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .mesas-c
   margin-top: 2em;
 }
 @media screen and (max-width: 500px) {
-  body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .mesas-container .mesa .place {
+  #conocé-la-agenda-del-congreso .congreso-educacion-accordion .mesas-container .mesa .place {
     min-height: 40px;
   }
 }
-body.page-1er-congreso-internacional-educacion-e-inclusion-desde-el-sur .mesas-container .mesa .title {
+#conocé-la-agenda-del-congreso .congreso-educacion-accordion .mesas-container .mesa .title {
   font-style: italic;
 }
 
@@ -1100,6 +1104,35 @@ body.page-municipio .services-list li img {
   object-fit: cover;
   object-position: top;
   border: 1px solid silver;
+}
+
+#map_puntos_huertas .leaflet-popup-content {
+  min-width: 380px;
+}
+#map_puntos_huertas .popup-content {
+  margin-right: -0.6em;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1em;
+}
+#map_puntos_huertas .popup-content p {
+  line-height: 1em;
+}
+#map_puntos_huertas .popup-content .name {
+  font-size: 1.7em;
+  margin-top: 0;
+}
+#map_puntos_huertas .popup-content dt {
+  font-weight: bold;
+  margin-top: 1em;
+}
+#map_puntos_huertas .popup-content .avatar {
+  width: 200px;
+  height: 200px;
+  margin: 0.2em 0 0.2em 0.8em;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
 }
 
 .effect-enlarge-shadow:hover {
