@@ -6,6 +6,27 @@ $main-font: 'Muli', Arial, sans-serif;
 $font-awesome-normal: "Font Awesome 5 Free";
 $font-awesome-brands: "Font Awesome 5 Brands";
 
+table {
+	border: 0;
+	border-spacing: 0 .6em;
+
+	th {
+		color: #fff;
+		background-color: $deep-blue;
+		padding: 0.8em !important;
+	}
+
+	td {
+		background-color: #f2f2f2;
+		border-bottom: 0;
+		border-left: 1px solid #F0F0F0;
+		border-right: 0;
+		border-top: 1px solid #F0F0F0;
+		line-height: 14px;
+		padding: 10px;
+		vertical-align: middle;
+	}
+}
 
 .visually-hide {
 	position: absolute !important;

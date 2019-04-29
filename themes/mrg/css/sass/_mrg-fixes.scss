@@ -653,7 +653,7 @@ body.post-type-archive-centros_salud {
 	}
 	
 	li {
-		margin: 1em 1em 3em;
+		margin: 2em 1em 3em;
 		text-align: center;
 		width: 300px;
 		
@@ -672,6 +672,7 @@ body.post-type-archive-centros_salud {
 				margin: 0 auto;	
 				height: 100%;
 				width: 150px;
+				object-fit: cover;
 			}
 		}
 		
@@ -681,6 +682,57 @@ body.post-type-archive-centros_salud {
 		}
 	}
 
+}
+
+.people-list-wrapper.avatar-as-circle {
+	.image {
+		border-radius: 300px;
+	}
+}
+
+.people-list-wrapper.avatar-as-square {
+	li {
+		margin: 2em 0em;
+		width: 270px;
+	}
+	li a {
+		display: inline-block;
+		position: relative;
+
+		&:hover {
+			img {
+				opacity: 0.6;
+			}
+		}
+	}
+	.image {
+		width: 200px;
+		height: 200px;	
+		padding: 0;
+		margin: 0;
+		border-radius: 0px;
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+	}
+
+	.title {
+		display: block;
+		text-align: center;
+		max-width: 200px;
+		font-weight: normal;
+		font-size: 1.1em;
+		line-height: 1.5em;
+	}
+}
+
+.people-list-wrapper.avatar-as-square.rounded-corners {
+	.image {
+		border-radius: 20px;
+	}
 }
 
 .nnice-cta {
@@ -1249,6 +1301,10 @@ body.page-municipio {
 			}
 		}
 	}
+
+	table {
+		min-width: 80%;
+	}
 }
 
 #map_puntos_huertas {
@@ -1285,5 +1341,29 @@ body.page-municipio {
 			background-position: center;
 		}
 
+	}
+}
+
+.servicios-cards-wrapper {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.servicio-card {
+	width: 25%;
+	min-width: 270px;
+	margin: .6em;
+	.name {
+		font-size: 1.1em !important;
+		background-color: $deep-blue;
+		color: white;
+		padding: 0.4em 0.6em !important;
+		margin: 0 !important;
+		text-align: center !important;
+	}
+
+	.details {
+		background-color: #f2f2f2;
+		padding: 1em;
 	}
 }
