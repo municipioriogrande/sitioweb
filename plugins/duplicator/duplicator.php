@@ -3,7 +3,7 @@
   Plugin Name: Duplicator
   Plugin URI: https://snapcreek.com/duplicator/duplicator-free/
   Description: Migrate and backup a copy of your WordPress files and database. Duplicate and move a site from one location to another quickly.
-  Version: 1.3.0
+  Version: 1.3.10
   Author: Snap Creek
   Author URI: http://www.snapcreek.com/duplicator/
   Text Domain: duplicator
@@ -107,6 +107,45 @@ if (!function_exists('_sanitize_text_fields')) {
     }
 }
 
+if (!function_exists('wp_normalize_path')) {
+    /**
+     * Normalize a filesystem path.
+     *
+     * On windows systems, replaces backslashes with forward slashes
+     * and forces upper-case drive letters.
+     * Allows for two leading slashes for Windows network shares, but
+     * ensures that all other duplicate slashes are reduced to a single.
+     *
+     * @since 3.9.0
+     * @since 4.4.0 Ensures upper-case drive letters on Windows systems.
+     * @since 4.5.0 Allows for Windows network shares.
+     * @since 4.9.7 Allows for PHP file wrappers.
+     *
+     * @param string $path Path to normalize.
+     * @return string Normalized path.
+     */
+    function wp_normalize_path( $path ) {
+        $wrapper = '';
+        if ( wp_is_stream( $path ) ) {
+            list( $wrapper, $path ) = explode( '://', $path, 2 );
+            $wrapper .= '://';
+        }
+
+        // Standardise all paths to use /
+        $path = str_replace( '\\', '/', $path );
+
+        // Replace multiple slashes down to a singular, allowing for network shares having two slashes.
+        $path = preg_replace( '|(?<=.)/+|', '/', $path );
+
+        // Windows paths should uppercase the drive letter
+        if ( ':' === substr( $path, 1, 1 ) ) {
+            $path = ucfirst( $path );
+        }
+
+        return $wrapper . $path;
+    }
+}
+
 if (is_admin() == true) 
 {
 	//Classes
@@ -126,6 +165,7 @@ if (is_admin() == true)
 	require_once 'ctrls/ctrl.package.php';
 	require_once 'ctrls/ctrl.tools.php';
 	require_once 'ctrls/ctrl.ui.php';
+    require_once 'ctrls/class.web.services.php';
 
 	/** ========================================================
 	 * ACTIVATE/DEACTIVE/UPDATE HOOKS
@@ -203,12 +243,21 @@ if (is_admin() == true)
      * =====================================================  */
     add_action('plugins_loaded',	'duplicator_update');
     add_action('plugins_loaded',	'duplicator_wpfront_integrate');
+
+    function duplicator_load_textdomain()
+    {
+        load_plugin_textdomain('duplicator', false, false);
+    }
+    add_action('plugins_loaded', 'duplicator_load_textdomain');
+
     add_action('admin_init',		'duplicator_init');
     add_action('admin_menu',		'duplicator_menu');
     add_action('admin_enqueue_scripts', 'duplicator_admin_enqueue_scripts' );
 	add_action('admin_notices',		array('DUP_UI_Notice', 'showReservedFilesNotice'));
 	
 	//CTRL ACTIONS
+    DUP_Web_Services::init();
+    add_action('wp_ajax_duplicator_active_package_info',        'duplicator_active_package_info');
     add_action('wp_ajax_duplicator_package_scan',				'duplicator_package_scan');
     add_action('wp_ajax_duplicator_package_build',				'duplicator_package_build');
     add_action('wp_ajax_duplicator_package_delete',				'duplicator_package_delete');
@@ -303,8 +352,6 @@ if (is_admin() == true)
         $perms = 'export';
         $perms = apply_filters($wpfront_caps_translator, $perms);
         $main_menu = add_menu_page('Duplicator Plugin', 'Duplicator', $perms, 'duplicator', 'duplicator_get_menu', $icon_svg);
-		//$main_menu = add_menu_page('Duplicator Plugin', 'Duplicator', $perms, 'duplicator', 'duplicator_get_menu', plugins_url('duplicator/assets/img/logo-menu.svg'));
-
         $perms = 'export';
         $perms = apply_filters($wpfront_caps_translator, $perms);
 		$lang_txt = esc_html__('Packages', 'duplicator');
@@ -413,11 +460,9 @@ if (is_admin() == true)
         return $links;
     }
 
-
 	/** ========================================================
 	 * GENERAL
      * =====================================================  */
-
 	/**
 	 * Used for installer files to redirect if accessed directly
      *

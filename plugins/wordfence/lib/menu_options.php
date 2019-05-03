@@ -88,7 +88,7 @@ if (isset($_GET['source']) && wfPage::isValidPage($_GET['source'])) {
 				'wf-option-alertOn-update' => __('Email me when Wordfence is automatically updated', 'wordfence'),
 				'wf-option-alertOn-wordfenceDeactivated' => __('Email me if Wordfence is deactivated', 'wordfence'),
 				'wf-option-alertOn-wafDeactivated' => __('Email me if the Wordfence Web Application Firewall is turned off', 'wordfence'),
-				'wf-option-alertOn-scanIssues' => __('Alert me with scan results for issues of this severity level', 'wordfence'),
+				'wf-option-alertOn-scanIssues' => __('Alert me with scan results of this severity level or greater', 'wordfence'),
 				'wf-option-alertOn-block' => __('Alert when an IP address is blocked', 'wordfence'),
 				'wf-option-alertOn-loginLockout' => __('Alert when someone is locked out from login', 'wordfence'),
 				'wf-option-alertOn-lostPasswdForm' => __('Alert when the "lost password" form is used for a valid user', 'wordfence'),

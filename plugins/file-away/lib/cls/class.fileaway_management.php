@@ -23,12 +23,12 @@ if(!class_exists('fileaway_management'))
 			if(!wp_verify_nonce($_POST['nonce'], 'fileaway-nonce')) die($dm);
 			$li = is_user_logged_in();
 			extract($this->pathoptions);
-			$action = $_POST['act'];
+			$action = sanitize_html_class($_POST['act']);
 			// Flightbox
 			if($action === 'flightbox')
 			{
 				if(!wp_verify_nonce($_POST['flightbox_nonce'], 'fileaway-flightbox-nonce')) die($dm);
-				list($url, $query) = explode('?boxtype=', $_POST['url']);
+				list($url, $query) = explode('?boxtype=', esc_url($_POST['url']));
 				$src = $url;
 				$query = 'boxtype='.$query;
 				parse_str($query);
@@ -42,14 +42,14 @@ if(!class_exists('fileaway_management'))
 				$url = $g == 'true' ? $this->settings['redirect'] : $url;
 				$statstatus = $s == 'true' ? ' data-stat="true"' : ' data-stat="false"';
 				$linktype = $g == 'true' || $GLOBALS['is_IE'] || $GLOBALS['is_safari'] ? 'target="_blank"' : 'download';
-				$uid = (string)$_POST['uid'];
-				$icons = (string)$_POST['icons'];
-				$next = stripslashes($_POST['next']);
-				$prev = stripslashes($_POST['prev']);
-				$current = stripslashes($_POST['current']);
+				$uid = sanitize_html_class((string)$_POST['uid']);
+				$icons = sanitize_html_class((string)$_POST['icons']);
+				$next = is_numeric(stripslashes($_POST['next'])) ? stripslashes($_POST['next']) : 0;
+				$prev = is_numeric(stripslashes($_POST['prev'])) ? stripslashes($_POST['prev']) : 0;
+				$current = is_numeric(stripslashes($_POST['current'])) ? stripslashes($_POST['current']) : 0;
 				$nolinks = $_POST['nolinks'] == 'true' ? true : false;
-				$wh = $_POST['wh'];
-				$ww = $_POST['ww'];
+				$wh = (int)$_POST['wh'];
+				$ww = (int)$_POST['ww'];
 				if($wh > 1000)
 				{ 
 					$font = 20;
@@ -114,20 +114,20 @@ if(!class_exists('fileaway_management'))
 					$top = $wh < ($height+$bar+30) ? '0' : ($wh-($height+$bar+30)) / 2;
 					$download_link = $nolinks 
 						?	null 
-						:	'<a href="'.$url.'" class="ssfa-flightbox-download" '.$linktype.$statstatus.'>'.
+						:	'<a href="'.esc_url($url).'" class="ssfa-flightbox-download" '.$linktype.$statstatus.'>'.
 								'<span class="ssfa-icon-arrow-down-2" style="font-size:'.$font.'px; margin-right:5px; display:inline-block;"></span>'.
 							'</a>';
 					$response = array(
 						'html' =>
-							'<div id="ssfa-flightbox" class="'.$_POST['theme'].'" style="display:inline-block; '.$csize.' left:'.$offset.'px; top:'.$top.'px; padding:0px!important;">'.
+							'<div id="ssfa-flightbox" class="'.sanitize_html_class($_POST['theme']).'" style="display:inline-block; '.$csize.' left:'.$offset.'px; top:'.$top.'px; padding:0px!important;">'.
 								'<div id="ssfa-flightbox-inner" style="opacity:0; margin: 15px 15px 0!important;">'.
-									'<a href="'.$_POST['nexturl'].'" onclick="'.$next.'"><img src="'.$src.'" style="'.$isize.'"></a>'.
+									'<a href="'.esc_url($_POST['nexturl']).'" onclick="'.$next.'"><img src="'.esc_url($src).'" style="'.$isize.'"></a>'.
 								'</div>'.
 								'<div class="ssfa-flightbox-controls '.$icons.'" style="margin:'.$mrg.'px 15px!important; display:block; text-align:right;">'.
-									'<a href="'.$_POST['prevurl'].'" onclick="'.$prev.'">'.
+									'<a href="'.esc_url($_POST['prevurl']).'" onclick="'.$prev.'">'.
 										'<span class="ssfa-icon-arrow-left-2" style="font-size:'.$font.'px; margin-right:5px; display:inline-block;"></span>'.
 									'</a>'.
-									'<a href="'.$_POST['nexturl'].'" onclick="'.$next.'">'.
+									'<a href="'.esc_url($_POST['nexturl']).'" onclick="'.$next.'">'.
 										'<span class="ssfa-icon-arrow-right-2" style="font-size:'.$font.'px; margin-right:5px; display:inline-block;"></span>'.
 									'</a>'.
 									$download_link.
@@ -229,13 +229,13 @@ if(!class_exists('fileaway_management'))
 					}
 					$response = array(
 						'html' => 
-							'<div id="ssfa-flightbox" class="'.$_POST['theme'].'" style="display:inline-block; '.$csize.' left:'.$offset.'px; top:'.$top.'px; padding:0!important;">'.
+							'<div id="ssfa-flightbox" class="'.sanitize_html_class($_POST['theme']).'" style="display:inline-block; '.$csize.' left:'.$offset.'px; top:'.$top.'px; padding:0!important;">'.
 								'<div id="ssfa-flightbox-inner" style="opacity:0; margin: 15px 15px 0!important;">'.$video.'</div>'.
 								'<div class="ssfa-flightbox-controls '.$icons.'" style="margin:'.$mrg.'px 15px!important; display:block; text-align:right;">'.
-									'<a href="'.$_POST['prevurl'].'" onclick="'.$prev.'">'.
+									'<a href="'.esc_url($_POST['prevurl']).'" onclick="'.$prev.'">'.
 										'<span class="ssfa-icon-arrow-left-2" style="font-size:'.$font.'px; margin-right:5px; display:inline-block;"></span>'.
 									'</a>'.
-									'<a href="'.$_POST['nexturl'].'" onclick="'.$next.'">'.
+									'<a href="'.esc_url($_POST['nexturl']).'" onclick="'.$next.'">'.
 										'<span class="ssfa-icon-arrow-right-2" style="font-size:'.$font.'px; margin-right:5px; display:inline-block;"></span>'.
 									'</a>'.
 									$download.
@@ -263,7 +263,7 @@ if(!class_exists('fileaway_management'))
 						$width = round($height / $ratio, 0);
 						$rotate = 'expand';
 						$current = str_replace('&r=tall', '&r=wide', $current);
-						$currenturl = str_replace('&r=tall', '&r=wide', $_POST['currenturl']);
+						$currenturl = esc_url(str_replace('&r=tall', '&r=wide', $_POST['currenturl']));
 					}
 					else
 					{
@@ -273,7 +273,7 @@ if(!class_exists('fileaway_management'))
 						while($width > ($ww-$of)) $width = $width-10;
 						$rotate = 'contract';
 						$current = str_replace('&r=wide', '&r=tall', $current);
-						$currenturl = str_replace('&r=wide', '&r=tall', $_POST['currenturl']);
+						$currenturl = esc_url(str_replace('&r=wide', '&r=tall', $_POST['currenturl']));
 					}
 					if($width < 200) $width = 200;
 					$csize = 'width:'.($width+30).'px; height:'.($height+$bar+30).'px;';
@@ -285,17 +285,17 @@ if(!class_exists('fileaway_management'))
 						'</a>';
 					$response = array(
 						'html' => 
-							'<div id="ssfa-flightbox" class="'.$_POST['theme'].'" style="display:inline-block; '.$csize.' left:'.$offset.'px; top:'.$top.'px; padding:0!important;">'.
+							'<div id="ssfa-flightbox" class="'.sanitize_html_class($_POST['theme']).'" style="display:inline-block; '.$csize.' left:'.$offset.'px; top:'.$top.'px; padding:0!important;">'.
 								'<div id="ssfa-flightbox-inner" style="opacity:0; margin: 15px 15px 0!important;">'.
 									'<iframe src="'.$src.'" frameborder=0 height="'.$height.'" width="'.$width.'" name="'.fileaway_utility::basename($src).'" scrolling="no" seamless>'.
 										'Your browser does not support iframes.'.
 									'</iframe>'.
 								'</div>'.
 								'<div class="ssfa-flightbox-controls '.$icons.'" style="margin:'.$mrg.'px 15px!important; display:block; text-align:right;">'.
-									'<a href="'.$_POST['prevurl'].'" onclick="'.$prev.'">'.
+									'<a href="'.esc_url($_POST['prevurl']).'" onclick="'.$prev.'">'.
 										'<span class="ssfa-icon-arrow-left-2" style="font-size:'.$font.'px; margin-right:5px; display:inline-block;"></span>'.
 									'</a>'.
-									'<a href="'.$_POST['nexturl'].'" onclick="'.$next.'">'.
+									'<a href="'.esc_url($_POST['nexturl']).'" onclick="'.$next.'">'.
 										'<span class="ssfa-icon-arrow-right-2" style="font-size:'.$font.'px; margin-right:5px; display:inline-block;"></span>'.
 									'</a>'.
 									'<a href="'.$currenturl.'" onclick="'.$current.'">'.
@@ -322,73 +322,87 @@ if(!class_exists('fileaway_management'))
 			{
 				if(!$li) die($dm);
 				if(!wp_verify_nonce($_POST['manager_nonce'], 'fileaway-manager-nonce')) die($dm);
-				$parents = stripslashes(trim(str_replace('..', '', $_POST['parents']), '/'));
-				$newsub = stripslashes(trim(str_replace('..', '', $_POST['newsub']), '/'));
-				$uid = $_POST['uid']; 
-				$count = $_POST['count']; 
-				$page = $_POST['pg']; 
+				$parents = trim(str_replace('..', '', fileaway_utility::stripslashes($_POST['parents'])), '/');
+				if(!fileaway_utility::realpath($parents,$rootpath,$chosenpath)) die($dm);
+				if(!fileaway_utility::verify_location_nonce($_POST['loc_nonce'],$parents,array($rootpath,$chosenpath))) die($dm);
+				$newsub = trim(str_replace('..', '', fileaway_utility::stripslashes($_POST['newsub'])), '/');
+				$uid = sanitize_html_class($_POST['uid']); 
+				$count = sanitize_html_class($_POST['count']); 
+				$page = is_numeric($_POST['pg']) ? $_POST['pg'] : 0; 
 				$querystring = ltrim($_POST['querystring'], '?');
-				$drawericon = $_POST['drawer'];
-				$drawerid = $_POST['drawerid'];
-				$cells = $_POST['cells']; 
-				$class = $_POST['cls'];
-				$base = $_POST['base']; 
+				$drawericon = sanitize_html_class($_POST['drawer']);
+				$drawerid = sanitize_html_class($_POST['drawerid']);
+				$cells = is_numeric($_POST['cells']) ? $_POST['cells'] : 0; 
+				$class = sanitize_html_class($_POST['cls']);
+				$base = str_replace('..','',fileaway_utility::stripslashes($_POST['base'])); 
 				$subs = explode('/', $newsub); 
 				$first = $subs[0]; 
 				$last = $subs[count($subs)-1];
 				$start = trim(fileaway_utility::replacefirst($parents, $base, '').'/'.$first, '/'); 
 				$drawer = str_replace('/','*',$start);
 				$final = $rootpath.$parents.'/'.$newsub; 
-				$prettyfolder = str_replace(array('~', '--', '_', '.', '*'), ' ', "$first"); 
-				$prettyfolder = preg_replace('/(?<=\D)-(?=\D)/', ' ', "$prettyfolder"); 
-				$prettyfolder = preg_replace('/(?<=\D)-(?=\d)/', ' ', "$prettyfolder");
-				$prettyfolder = preg_replace('/(?<=\d)-(?=\D)/', ' ', "$prettyfolder"); 
-				$prettyfolder = fileaway_utility::strtotitle($prettyfolder);
+				$prettyfolder = $first;
+				if(empty($_POST['prettify']))
+				{
+					$prettyfolder = str_replace(array('~', '--', '_', '.', '*'), ' ', "$first"); 
+					$prettyfolder = preg_replace('/(?<=\D)-(?=\D)/', ' ', "$prettyfolder"); 
+					$prettyfolder = preg_replace('/(?<=\D)-(?=\d)/', ' ', "$prettyfolder");
+					$prettyfolder = preg_replace('/(?<=\d)-(?=\D)/', ' ', "$prettyfolder"); 
+					$prettyfolder = fileaway_utility::strtotitle($prettyfolder);
+				}
 				if(is_dir($final)) $response = array('status'=>'error', 'message'=>__('That directory name already exists in this location.', 'file-away'));
 				else
 				{ 
 					$first_exists = is_dir($rootpath.$parents.'/'.$first) ? true : false;
 					if(mkdir($final, 0755, true)) 
-					{ 
-						fileaway_utility::indexmulti($rootpath.$parents.'/'.$newsub, $rootpath.$parents.'/'); 
-						if(!$first_exists)
-						{ 
-							$status = "insert";
-							$message = 
-								"<tr id='ssfa-dir-$uid-$count' class='ssfa-drawers'>".
-									"<td id='folder-ssfa-dir-$uid-$count' data-value=\"# # # # # $first\" class='ssfa-sorttype $class-first-column'>".
-										"<a href=\"".fileaway_utility::querystring(get_permalink($page), $querystring, array($drawerid => $drawer)).
-											"\" data-name=\"".$first."\" data-path=\"".$start."\">".
-											"<span style='font-size:20px; margin-left:3px;' class='ssfa-faminicon ssfa-icon-$drawericon ssfa-classic' aria-hidden='true'></span>".
-											"<br>"._x('dir', 'abbrv. of *directory*', 'file-away').
-										"</a>".
-									"</td>".
-									"<td id='name-ssfa-dir-$uid-$count' data-value='# # # # # $first' class='ssfa-sortname'>".
-										"<a class='ssfa-classic' href=\"".fileaway_utility::querystring(get_permalink($page), $querystring, array($drawerid => $drawer))."\">".
-											"<span class='ssfa-filename' style='text-transform:uppercase;'>$prettyfolder</span>".
-										"</a>".
-										"<input type='text' id='rename-ssfa-dir-$uid-$count' type='text' value=\"$first\" ".
-											"style='width:90%; text-align:center; display:none'>".
-									"</td>"; 	
-							$icell = 1; 
-							while($icell < $cells)
-							{ 
-								$message .= "<td class='$class' data-value=\"# # # # # $first\"> &nbsp; </td>"; 
-								$icell++; 
-							}
-							$message .= 
-								"<td id='manager-ssfa-dir-$uid-$count' class=\"$class\" data-value=\"# # # # # $first\">".
-									"<a href='' id='rename-ssfa-dir-$uid-$count'>".__('Rename', 'file-away')."</a><br>".
-									"<a href='' id='delete-ssfa-dir-$uid-$count'>".__('Delete', 'file-away')."</a>".
-								"</td>";
-							$message .= "</tr>";
-						}
-						else 
+					{
+						if(!fileaway_utility::realpath($parents.'/'.$newsub,$rootpath,$chosenpath))
 						{
-							$status = "success"; 
-							$message = __('Your sub-directories have been successfully created.', 'file-away');
+							rmdir($final);
+							$response = array('status'=>'error', 'message' => __('Sorry, the directory location specified is invalid.', 'file-away'));
 						}
-						$response = array('status'=>$status, 'message'=>$message, 'uid'=>$uid);
+						else
+						{
+							fileaway_utility::indexmulti($rootpath.$parents.'/'.$newsub, $rootpath.$parents.'/'); 
+							if(!$first_exists)
+							{ 
+								$status = "insert";
+								$message = 
+									"<tr id='ssfa-dir-$uid-$count' class='ssfa-drawers'>".
+										"<td id='folder-ssfa-dir-$uid-$count' data-value=\"# # # # # $first\" class='ssfa-sorttype $class-first-column'>".
+											"<a href=\"".fileaway_utility::querystring(get_permalink($page), $querystring, array($drawerid => $drawer)).
+												"\" data-name=\"".$first."\" data-path=\"".$start."\">".
+												"<span style='font-size:20px; margin-left:3px;' class='ssfa-faminicon ssfa-icon-$drawericon ssfa-classic' aria-hidden='true'></span>".
+												"<br>"._x('dir', 'abbrv. of *directory*', 'file-away').
+											"</a>".
+										"</td>".
+										"<td id='name-ssfa-dir-$uid-$count' data-value='# # # # # $first' class='ssfa-sortname'>".
+											"<a class='ssfa-classic' href=\"".fileaway_utility::querystring(get_permalink($page), $querystring, array($drawerid => $drawer))."\">".
+												"<span class='ssfa-filename' ".(!empty($_POST['prettify'])?'':"style='text-transform:uppercase;'").">$prettyfolder</span>".
+											"</a>".
+											"<input type='text' id='rename-ssfa-dir-$uid-$count' type='text' value=\"$first\" ".
+												"style='width:90%; text-align:center; display:none'>".
+										"</td>"; 	
+								$icell = 1; 
+								while($icell < $cells)
+								{ 
+									$message .= "<td class='$class' data-value=\"# # # # # $first\"> &nbsp; </td>"; 
+									$icell++; 
+								}
+								$message .= 
+									"<td id='manager-ssfa-dir-$uid-$count' class=\"$class\" data-value=\"# # # # # $first\">".
+										"<a href='' id='rename-ssfa-dir-$uid-$count'>".__('Rename', 'file-away')."</a><br>".
+										"<a href='' id='delete-ssfa-dir-$uid-$count'>".__('Delete', 'file-away')."</a>".
+									"</td>";
+								$message .= "</tr>";
+							}
+							else 
+							{
+								$status = "success"; 
+								$message = __('Your sub-directories have been successfully created.', 'file-away');
+							}
+							$response = array('status'=>$status, 'message'=>$message, 'uid'=>$uid);
+						} 
 					}
 					else 
 					{
@@ -407,28 +421,31 @@ if(!class_exists('fileaway_management'))
 				$meta_table = fileaway_metadata::$db;
 				$meta_table_exists = $wpdb->get_var("SHOW TABLES LIKE '$meta_table'") != $meta_table ? false : true;
 				$metadata = $_POST['metadata'] == 'true' ? true : false;
-				$oldpath = stripslashes(trim(str_replace('..', '', $_POST['oldpath']), '/'));
-				$newname = stripslashes(str_replace(array('..','/'), '', $_POST['newname']));
+				$oldpath = trim(str_replace('..', '', fileaway_utility::stripslashes($_POST['oldpath'])), '/'); 
+				if(!fileaway_utility::realpath($oldpath,$rootpath,$chosenpath)) die($dm);
+				$newname = str_replace(array('..','/'), '', fileaway_utility::stripslashes($_POST['newname'])); 
 				$pp = explode('/', $oldpath);
 				$newpath = fileaway_utility::replacelast($oldpath, end($pp), $newname);
-				$olddata = $_POST['datapath'];
+				$olddata = $_POST['datapath']; // cf. inc.open-drawer.php
 				$datapp = explode('/', $olddata);
 				$newdata = fileaway_utility::replacelast($olddata, end($datapp), $newname);
-				$parents = stripslashes($_POST['parents']);
+				$parents = fileaway_utility::stripslashes($_POST['parents']); 
 				$old = $parents.'/'.end($pp);
 				$dst = $rootpath.$newpath;
 				$src = $rootpath.$old;
+				if(!fileaway_utility::verify_location_nonce($_POST['loc_nonce'],$oldpath,array($rootpath,$chosenpath))) die($dm);
 				$check_path = trim(str_replace('/', '', $newpath));
 				if(
 					$rootpath.$check_path == $rootpath || 
-					$rootpath.$check_path == $rootpath.'wp-content' || 
-					strpos($check_path, 'wp-admin') !== false ||
-					strpos($check_path, 'wp-includes') !== false
+					$rootpath.$check_path == WP_CONTENT_DIR || 
+					strpos($check_path, 'wp-admin') !== false || 
+					strpos($check_path, 'wp-includes') !== false ||
+					is_file($rootpath.$check_path.'/wp-config.php')
 				) die($dm); 
-				$page = $_POST['pg'];
-				$querystring = ltrim($_POST['querystring'], '?');
+				$page = (int)$_POST['pg'];
+				$querystring = ltrim($_POST['querystring'], '?'); 
 				$drawer = str_replace('/', '*', $newdata);
-				$drawerid = $_POST['drawerid'];
+				$drawerid = sanitize_html_class($_POST['drawerid']); 
 				$newurl = fileaway_utility::querystring(get_permalink($page), $querystring, array($drawerid => $drawer));
 				$response = false;
 				if(is_dir($dst)) $response = array('status'=>'error', 'message' => __('That directory already exists.', 'file-away'));
@@ -436,110 +453,121 @@ if(!class_exists('fileaway_management'))
 				else
 				{
 					if(!is_dir("$dst")) mkdir("$dst", 0755, true);
-					$dirs = fileaway_utility::recursivedirs($src);
-					if(is_array($dirs))
+					if(!fileaway_utility::realpath($newpath,$rootpath,$chosenpath))
 					{
-						$dirs = array_reverse($dirs);
-						$fcount = 0; $fscount = 0;
-						$dcount = 1; $dscount = 0;
-						foreach($dirs as $dir)
+						rmdir($dst);
+						$response = array('status'=>'error', 'message'=>__('Sorry, there was a problem creating that directory for you.', 'file-away'));
+					}
+					else
+					{
+						$dirs = fileaway_utility::recursivedirs($src);
+						if(is_array($dirs))
 						{
-							$dcount++;
-							$files = false;
-							$filedest = str_replace("$src","$dst","$dir");
-							if(!is_dir($filedest)) mkdir("$filedest", 0755, true);
-							$files = array_filter(glob("$dir"."/*"), 'is_file');
-							if(is_array($files))
-							{ 
-								foreach($files as $file)
+							$dirs = array_reverse($dirs);
+							$fcount = 0; $fscount = 0;
+							$dcount = 1; $dscount = 0;
+							foreach($dirs as $dir)
+							{
+								$dcount++;
+								$files = false;
+								$filedest = str_replace("$src","$dst","$dir");
+								if(!is_dir($filedest)) mkdir("$filedest", 0755, true);
+								$files = array_filter(glob("$dir"."/*"), 'is_file');
+								if(is_array($files))
 								{ 
-									$fcount++; 
-									$filename = fileaway_utility::basename($file); 
-									if(rename("$file", "$filedest"."/"."$filename"))
+									foreach($files as $file)
 									{ 
-										$fscount++; 
-										if($table_exists)				
-											fileaway_utility::updatestats(
-												'file', 
+										$fcount++; 
+										$filename = fileaway_utility::basename($file); 
+										if(rename("$file", "$filedest"."/"."$filename"))
+										{ 
+											$fscount++; 
+											if($table_exists)				
+												fileaway_utility::updatestats(
+													'file', 
+													fileaway_utility::replacefirst($file, $rootpath, ''), 
+													fileaway_utility::replacefirst($filedest.'/'.$filename, $rootpath, '')
+												);
+											if($metadata && $meta_table_exists)				
+												fileaway_utility::updatemetadata(
+												false,
 												fileaway_utility::replacefirst($file, $rootpath, ''), 
-												fileaway_utility::replacefirst($filedest.'/'.$filename, $rootpath, '')
-											);
-										if($metadata && $meta_table_exists)				
-											fileaway_utility::updatemetadata(
-											false,
-											fileaway_utility::replacefirst($file, $rootpath, ''), 
-											fileaway_utility::replacefirst($filedest.'/'.$filename, $rootpath, ''));
+												fileaway_utility::replacefirst($filedest.'/'.$filename, $rootpath, ''));
+										}
 									}
 								}
+								if(rmdir($dir)) $dscount++;
 							}
-							if(rmdir($dir)) $dscount++;
 						}
-					}
-					$basefiles = array_filter(glob("$src"."/*"), 'is_file');
-					if(is_array($basefiles))
-					{ 
-						foreach($basefiles as $file)
+						$basefiles = array_filter(glob("$src"."/*"), 'is_file');
+						if(is_array($basefiles))
 						{ 
-							$fcount++; 
-							$filename = fileaway_utility::basename($file); 
-							if(rename("$file", "$dst"."/"."$filename"))
+							foreach($basefiles as $file)
 							{ 
-								$fscount++; 
-								if($table_exists)				
-									fileaway_utility::updatestats(
-										'file', 
+								$fcount++; 
+								$filename = fileaway_utility::basename($file); 
+								if(rename("$file", "$dst"."/"."$filename"))
+								{ 
+									$fscount++; 
+									if($table_exists)				
+										fileaway_utility::updatestats(
+											'file', 
+											fileaway_utility::replacefirst($file, $rootpath, ''), 
+											fileaway_utility::replacefirst($dst.'/'.$filename, $rootpath, '')
+										);	
+									if($metadata && $meta_table_exists)				
+										fileaway_utility::updatemetadata(
+										false,
 										fileaway_utility::replacefirst($file, $rootpath, ''), 
-										fileaway_utility::replacefirst($dst.'/'.$filename, $rootpath, '')
-									);	
-								if($metadata && $meta_table_exists)				
-									fileaway_utility::updatemetadata(
-									false,
-									fileaway_utility::replacefirst($file, $rootpath, ''), 
-									fileaway_utility::replacefirst($dst.'/'.$filename, $rootpath, ''));															
+										fileaway_utility::replacefirst($dst.'/'.$filename, $rootpath, ''));															
+								}
 							}
 						}
-					}
-					if(rmdir($src)) $dscount++;
-					if($fcount > 0 && !$fscount) 
-						$response = array(
-							'status'=>'error', 
-							'message'=>__('We tried to move the files into the newly-named directory but none of them would budge.', 'file-away')
-						);
-					elseif($fcount > 0 && $fcount > $fscount)
-						$response = array(
-							'status'=>'error',
-							'message'=>
-								__('We tried to move the files into the newly-named directory, but there were some stragglers, so we couldn\'t remove the old directory.', 'file-away')
-						);
-					elseif(!is_dir($src))
+						if(rmdir($src)) $dscount++;
+						if($fcount > 0 && !$fscount) 
 							$response = array(
-								'status'=>'success', 
-								'url'=>$newurl, 
-								'newdata'=>$newdata, 
-								'newname'=>$newname
+								'status'=>'error', 
+								'message'=>__('We tried to move the files into the newly-named directory but none of them would budge.', 'file-away')
+							);
+						elseif($fcount > 0 && $fcount > $fscount)
+							$response = array(
+								'status'=>'error',
+								'message'=>
+									__('We tried to move the files into the newly-named directory, but there were some stragglers, so we couldn\'t remove the old directory.', 'file-away')
+							);
+						elseif(!is_dir($src))
+								$response = array(
+									'status'=>'success', 
+									'url'=>esc_url($newurl), 
+									'newdata'=>$newdata, 
+									'newname'=>$newname
+								); 
+						else
+							$response = array(
+								'status'=>'error', 
+								'message'=>__('An unspecified error occurred.', 'file-away')
 							); 
-					else
-						$response = array(
-							'status'=>'error', 
-							'message'=>__('An unspecified error occurred.', 'file-away')
-						); 
-				}
+					}
+				}	
 			}
 			// Delete Directory
 			elseif($action === 'deletedir')
 			{
 				if(!$li) die($dm);
 				if(!wp_verify_nonce($_POST['manager_nonce'], 'fileaway-manager-nonce')) die($dm);
-				$status = $_POST['status'];
-				$path1 = $_POST['path1'];
-				$path2 = $_POST['path2'];
-				$path = stripslashes($path1.'/'.$path2);
+				$status = $_POST['status']; 
+				$path1 = $_POST['path1']; 
+				$path2 = $_POST['path2']; 
+				$path = trim(str_replace('..','',fileaway_utility::stripslashes($path1.'/'.$path2)),'/');
+				if(!fileaway_utility::realpath($path,$rootpath,$chosenpath)) die($dm);
+				if(!fileaway_utility::verify_location_nonce($_POST['loc_nonce'],$path,array($rootpath,$chosenpath))) die($dm);
 				$src = $rootpath.$path;
 				if(
 					$src == $rootpath || 
-					$src == $rootpath.'wp-content' || 
+					$src == WP_CONTENT_DIR || 
 					strpos($src, 'wp-admin') !== false ||
-					strpos($src, 'wp-includes') !== false
+					strpos($src, 'wp-includes') !== false ||
+					is_file($src.'/wp-config.php')
 				) die($dm); 
 				$response = false;
 				if(!is_dir("$src")) $response = array('status'=>'error','message'=>__('The directory marked for deletion could not be found.', 'file-away').' '.$path); 
@@ -669,19 +697,30 @@ if(!class_exists('fileaway_management'))
 				$meta_table = fileaway_metadata::$db;
 				$meta_table_exists = $wpdb->get_var("SHOW TABLES LIKE '$meta_table'") != $meta_table ? false : true;
 				$metadata = $_POST['metadata'] == 'true' ? true : false;
-				$url = stripslashes($_POST['url']);	
-				$pp = $problemchild ? fileaway_utility::replacefirst(stripslashes($_POST['pp']), $install, '') : stripslashes($_POST['pp']);
-				$oldname = stripslashes($_POST['oldname']);	
-				$rawname = stripslashes($_POST['rawname']);
-				$ext = $_POST['ext'];
+				$url = fileaway_utility::stripslashes($_POST['url']);	
+				$pp = $problemchild ? fileaway_utility::replacefirst(fileaway_utility::stripslashes($_POST['pp']), $install, '') : fileaway_utility::stripslashes($_POST['pp']);
+				$oldname = str_replace('..','',fileaway_utility::stripslashes($_POST['oldname']));
+				$rawname = str_replace('..','',fileaway_utility::stripslashes($_POST['rawname'])); 
+				if(!fileaway_utility::realpath($pp,$rootpath,$chosenpath)) die($dm);
+				$ext = sanitize_html_class($_POST['ext']);
 				if(strpos(strtolower($ext), 'php') !== false) die($dm);
-				if(strpos($url, '.'.$ext.'?type=') !== false)
+				if(empty($ext)) die($dm);
+				if(strpos($url, '.'.$ext.'?') !== false)
 				{ 
 					list($url, $querystring) = explode('?', $url);	
 					$querystring = '?'.$querystring;
 				}
 				else $querystring = '';
 				$oldfile = $chosenpath."$pp/$oldname.$ext";
+				if(
+					$chosenpath.$pp == $rootpath || 
+					$chosenpath.$pp == WP_CONTENT_DIR || 
+					strpos($chosenpath.$pp, 'wp-admin') !== false ||
+					strpos($chosenpath.$pp, 'wp-includes') !== false ||
+					is_file($chosenpath.$pp.'/wp-config.php')
+				) die($dm); 				
+				if(!fileaway_utility::verify_location_nonce($_POST['loc_nonce'],$pp,array($rootpath,$chosenpath))) die($dm);
+				if(!fileaway_utility::realpath(fileaway_utility::dirname($pp.'/'.$oldname.'.'.$ext),$rootpath,$chosenpath)) die($dm);
 				$customdata = isset($_POST['customdata']) ? $_POST['customdata'] : array();
 				if(!$metadata)
 				{
@@ -691,11 +730,11 @@ if(!class_exists('fileaway_management'))
 						$customd = array();	
 						foreach($customdata as $datum)
 						{
-							$customd[] = stripslashes($datum);
-							if(stripslashes($datum) != '') $not_empty = true;
+							$customd[] = fileaway_utility::stripslashes($datum);
+							if(fileaway_utility::stripslashes($datum) != '') $not_empty = true;
 						}
 					}
-					$customd = $not_empty ? stripslashes(implode(',', $customdata)) : '';
+					$customd = $not_empty ? fileaway_utility::stripslashes(implode(',', $customdata)) : '';
 					if($customd !== '') $customd = " [$customd]"; 
 					else $customd = '';
 					$newfile = $chosenpath."$pp/$rawname$customd.$ext";
@@ -715,11 +754,12 @@ if(!class_exists('fileaway_management'))
 						}
 					}
 					if($customd !== '') $customd = " [".trim(ltrim(rtrim("$customd", "]"), " ["), " ")."]";
-					$newfile = $chosenpath."$pp/".trim("$rawname", ' ')."$customd.$ext";		
+					$newfilename = fileaway_utility::sanitize_filename(trim($rawname).$customd.'.'.$ext);
+					$newfile = $chosenpath."$pp/$newfilename";		
 					$newurl = str_replace("$pp/$oldname.$ext", "", fileaway_utility::urlesc("$url", true));
 					$newurl = fileaway_utility::urlesc("$newurl$pp/".trim("$rawname")."$customd.$ext");
-					$newoldname = trim("$rawname", ' ')."$customd";
-					$download = trim("$rawname", ' ')."$customd.$ext";		
+					$newoldname = fileaway_utility::replacelast($newfilename,'.'.$ext,'');
+					$download = $newfilename;		
 					if(is_file("$oldfile")) rename("$oldfile", "$newfile");
 					$errors = is_file("$newfile") ? '' : __('The file was not renamed.', 'file-away');
 					if(is_file($newfile) && $table_exists)				
@@ -736,8 +776,8 @@ if(!class_exists('fileaway_management'))
 						$customd = array();	
 						foreach($customdata as $datum)
 						{
-							$customd[] = stripslashes($datum);
-							if(stripslashes($datum) != '') $not_empty = true;
+							$customd[] = fileaway_utility::stripslashes($datum);
+							if(fileaway_utility::stripslashes($datum) != '') $not_empty = true;
 						}
 					}
 					$customdata = $not_empty ? $customd : '';	
@@ -757,11 +797,12 @@ if(!class_exists('fileaway_management'))
 							$newfile = $chosenpath."$pp/$rawname.$ext";
 						}
 					}
-					$newfile = $chosenpath."$pp/".trim("$rawname", ' ').".$ext";		
+					$newfilename = fileaway_utility::sanitize_filename(trim($rawname)).'.'.$ext;		
+					$newfile = $chosenpath."$pp/$newfilename";		
 					$newurl = str_replace("$pp/$oldname.$ext", "", fileaway_utility::urlesc("$url", true));
-					$newurl = fileaway_utility::urlesc("$newurl$pp/".trim("$rawname").".$ext");
-					$newoldname = trim("$rawname", ' ');
-					$download = trim("$rawname", ' ').".$ext";		
+					$newurl = fileaway_utility::urlesc("$newurl$pp/$newfilename");
+					$newoldname = fileaway_utility::replacelast($rawname,'.'.$ext,'');
+					$download = $newfilename;		
 					if(is_file("$oldfile")) rename("$oldfile", "$newfile");
 					$errors = is_file("$newfile") ? '' : __('The file was not renamed.', 'file-away');
 					if(is_file($newfile) && $table_exists)				
@@ -794,14 +835,23 @@ if(!class_exists('fileaway_management'))
 			{
 				if(!$li) die($dm);
 				if(!wp_verify_nonce($_POST['manager_nonce'], 'fileaway-manager-nonce')) die($dm);
-				$pp = $_POST["pp"];
-				$oldname = $_POST["oldname"];	
-				$ext = $_POST["ext"];
-				if(!in_array($ext, array('php','htaccess','htpasswd')) && strpos($oldname, 'wp-admin') === false && strpos($oldname, 'wp-config') === false && strpos($oldname, 'wp-includes') === false)
+				$pp = str_replace('..','',$_POST["pp"]);
+				$oldname = str_replace('..','',$_POST["oldname"]);
+				$ext = sanitize_html_class($_POST["ext"]);
+				if(!fileaway_utility::realpath($pp,$rootpath,$chosenpath)) die($dm);
+				if(!fileaway_utility::verify_location_nonce($_POST['loc_nonce'],$pp,array($rootpath,$chosenpath))) die($dm);
+				if(
+					!in_array($ext, array('php','htaccess','htpasswd')) && 
+					!is_file($chosenpath.$pp.'/wp-config.php') && 
+					!is_file($rootpath.$pp.'/wp-config.php') && 
+					strpos($oldname, 'wp-admin') === false && 
+					strpos($oldname, 'wp-config') === false && 
+					strpos($oldname, 'wp-includes') === false
+				)
 				{
 					$oldfile = "$rootpath$pp/$oldname.$ext";
-					if(!is_file("$oldfile")) $oldfile = stripslashes("$oldfile");
-					if(is_file("$oldfile"))
+					if(!is_file("$oldfile")) $oldfile = fileaway_utility::stripslashes("$oldfile");
+					if(is_file("$oldfile") && fileaway_utility::realpath(fileaway_utility::dirname("$pp/$oldname.$ext"),$rootpath,$chosenpath))
 					{ 
 						if(unlink("$oldfile")) $response = "success"; 
 						else $response = "error";
@@ -822,14 +872,17 @@ if(!class_exists('fileaway_management'))
 				{
 					foreach($files as $file)
 					{ 
+						$file = fileaway_utility::stripslashes($file);
 						if(strpos($file, '..') !== false) continue;
 						if(strpos($file, '/') === false) continue;
-						if(strpos($file, '.php') !== false) continue;
-						if(strpos($file, 'wp-config') !== false) continue;
-						if(strpos($file, 'wp-admin') !== false) continue;
-						if(strpos($file, 'wp-includes') !== false) continue;
-						
-						$file = $rootpath.stripslashes($file);
+						if(stripos($file, '.php') !== false) continue;
+						if(stripos($file, 'wp-config') !== false) continue;
+						if(stripos($file, 'wp-admin') !== false) continue;
+						if(stripos($file, 'wp-includes') !== false) continue;
+						if(is_file(fileaway_utility::dirname($rootpath.$file).'/wp-config.php')) continue;
+						if(!fileaway_utility::verify_location_nonce($_POST['loc_nonce'],$file,array($rootpath,$chosenpath))) continue;
+						if(!fileaway_utility::realpath(fileaway_utility::dirname($file),$rootpath,$chosenpath)) continue;
+						$file = $rootpath.$file;
 						if(file_exists($file))
 						{ 
 							$zipfiles[] = $file; 
@@ -843,7 +896,7 @@ if(!class_exists('fileaway_management'))
 				$time = uniqid();
 				$destination = fileaway_dir.'/temp'; 
 				if(!is_dir($destination)) mkdir($destination);
-				$filename = stripslashes($prefix).' '.$time.'.zip';
+				$filename = fileaway_utility::stripslashes($prefix).' '.$time.'.zip';
 				$link = fileaway_url.'/temp/'.$filename;
 				$filename = $destination.'/'.$filename;
 				if(count($zipfiles))
@@ -893,21 +946,31 @@ if(!class_exists('fileaway_management'))
 			{
 				if(!$li) die($dm);
 				if(!wp_verify_nonce($_POST['manager_nonce'], 'fileaway-manager-nonce')) die($dm);
-				$from = $_POST['from'];
-				$to = $_POST['to'];		
+				$from = is_array($_POST['from']) ? $_POST['from'] : array();
+				$to = is_array($_POST['to']) ? $_POST['to'] : array();
 				$ext = $_POST['exts'];				
 				$destination = $problemchild 
-					? fileaway_utility::replacefirst(stripslashes($_POST['destination']), $install, '')
-					: stripslashes($_POST['destination']);
+					? fileaway_utility::replacefirst(str_replace('..','',fileaway_utility::stripslashes($_POST['destination'])), $install, '')
+					: str_replace('..','',fileaway_utility::stripslashes($_POST['destination']));
 				$success = 0;
 				$total = 0;		
 				$renamers = 0;
 				foreach($from as $k => $fro)
 				{
-					$fro = stripslashes($fro);
-					$to[$k] = stripslashes($to[$k]);
+					$fro = str_replace('..','',fileaway_utility::stripslashes($fro));
+					$to[$k] = str_replace('..','',fileaway_utility::stripslashes($to[$k]));
 					$fro = $problemchild ? fileaway_utility::replacefirst("$fro", $install, '') : "$fro";
 					$to[$k] = $problemchild ? fileaway_utility::replacefirst("$to[$k]", $install, '') : "$to[$k]";
+					if(!fileaway_utility::verify_location_nonce($_POST['loc_nonce'],$fro,array($rootpath,$chosenpath))) continue;
+					if(!fileaway_utility::realpath(fileaway_utility::dirname($fro),$rootpath,$chosenpath)) continue;
+					if(strpos($fro, '..') !== false) continue;
+					if(strpos($fro, '/') === false) continue;
+					if(stripos($fro, '.php') !== false) continue;
+					if(stripos($fro, 'wp-config') !== false) continue;
+					if(stripos($fro, 'wp-admin') !== false) continue;
+					if(stripos($fro, 'wp-includes') !== false) continue;
+					if(is_file(fileaway_utility::dirname($chosenpath.$fro).'/wp-config.php')) continue;
+					if(!fileaway_utility::verify_location_nonce($_POST['loc_nonce'],$fro,array($rootpath,$chosenpath))) continue;					
 					$total++;
 					$newfile = $chosenpath."$to[$k]";
 					if(is_file($chosenpath."$fro") && is_file("$newfile"))
@@ -952,21 +1015,30 @@ if(!class_exists('fileaway_management'))
 				$meta_table = fileaway_metadata::$db;
 				$meta_table_exists = $wpdb->get_var("SHOW TABLES LIKE '$meta_table'") != $meta_table ? false : true;
 				$metadata = $_POST['metadata'] == 'true' ? true : false;
-				$from = $_POST["from"];
-				$to = $_POST["to"];		
-				$ext = $_POST['exts'];				
+				$from = is_array($_POST["from"]) ? $_POST['from'] : array();
+				$to = is_array($_POST['to']) ? $_POST["to"] : array();		
+				$ext = sanitize_html_class($_POST['exts']);
 				$destination = $problemchild 
-					? fileaway_utility::replacefirst(stripslashes($_POST["destination"]), $install, '') 
-					: stripslashes($_POST["destination"]);
+					? fileaway_utility::replacefirst(str_replace('..','',fileaway_utility::stripslashes($_POST["destination"])), $install, '') 
+					: str_replace('..','',fileaway_utility::stripslashes($_POST["destination"]));
 				$success = 0;
 				$total = 0;
 				$renamers = 0;		
 				foreach($from as $k => $fro)
 				{
-					$fro = stripslashes($fro);
-					$to[$k] = stripslashes($to[$k]);
+					$fro = str_replace('..','',fileaway_utility::stripslashes($fro));
+					$to[$k] = str_replace('..','',fileaway_utility::stripslashes($to[$k]));
 					$fro = $problemchild ? fileaway_utility::replacefirst("$fro", $install, '') : "$fro";
 					$to[$k] = $problemchild ? fileaway_utility::replacefirst("$to[$k]", $install, '') : "$to[$k]";
+					if(!fileaway_utility::verify_location_nonce($_POST['loc_nonce'],$fro,array($rootpath,$chosenpath))) continue;
+					if(!fileaway_utility::realpath(fileaway_utility::dirname($fro),$rootpath,$chosenpath)) continue;
+					if(strpos($fro, '..') !== false) continue;
+					if(strpos($fro, '/') === false) continue;
+					if(stripos($fro, '.php') !== false) continue;
+					if(stripos($fro, 'wp-config') !== false) continue;
+					if(stripos($fro, 'wp-admin') !== false) continue;
+					if(stripos($fro, 'wp-includes') !== false) continue;
+					if(is_file(fileaway_utility::dirname($chosenpath.$fro).'/wp-config.php')) continue;					
 					$total++;
 					$newfile = $chosenpath."$to[$k]";			
 					if(is_file($chosenpath."$fro") && is_file("$newfile"))
@@ -1024,14 +1096,18 @@ if(!class_exists('fileaway_management'))
 				$total = 0;
 				foreach($files as $k => $file)
 				{
-					$file = stripslashes($file);
-					if(
-						strpos($file, '.php') === false &&
-						strpos($file, 'htaccess') === false &&
-						strpos($file, 'htpasswd') === false &&
-						strpos($file, 'wp-admin') === false && 
-						strpos($file, 'wp-config') === false && 
-						strpos($file, 'wp-includes') === false
+					$file = str_replace('..','',fileaway_utility::stripslashes($file));
+					if(!fileaway_utility::realpath(fileaway_utility::dirname($file),$rootpath,$chosenpath)) continue;
+					if(!fileaway_utility::verify_location_nonce($_POST['loc_nonce'],$file,array($rootpath,$chosenpath))) continue;					
+					if
+					(
+						stripos($file, '.php') === false &&
+						stripos($file, 'htaccess') === false &&
+						stripos($file, 'htpasswd') === false &&
+						stripos($file, 'wp-admin') === false && 
+						stripos($file, 'wp-config') === false && 
+						stripos($file, 'wp-includes') === false &&
+						!is_file(fileaway_utility::dirname($rootpath.$file).'/wp-config.php')
 					)
 					{
 						$total++;
@@ -1060,9 +1136,9 @@ if(!class_exists('fileaway_management'))
 						echo 'system_error';
 						exit;	
 					}
-					$file_name = strip_tags(stripslashes($_FILES['upload_file']['name']));
-					$new_name = strip_tags(stripslashes($_POST['new_name']));
-					$extension = $_POST['extension'];
+					$file_name = str_replace('..','',strip_tags(fileaway_utility::stripslashes($_FILES['upload_file']['name'])));
+					$new_name = str_replace('..','',strip_tags(fileaway_utility::stripslashes($_POST['new_name'])));
+					$extension = sanitize_html_class($_POST['extension']);
 					$check_ext = str_replace('/', '', $extension);
 					$check_name = str_replace('/', '', $new_name);
 					if(empty($check_ext) || empty($check_name))
@@ -1070,27 +1146,31 @@ if(!class_exists('fileaway_management'))
 						echo 'system_error';
 						exit;	
 					}
-					$uploader = stripslashes($_POST['uploader']);
-					$file_id = strip_tags($_POST['upload_file_id']);
-					$file_size = $_FILES['upload_file']['size'];
+					$uploader = (int)fileaway_utility::stripslashes($_POST['uploader']);
+					$file_id = strip_tags($_POST['upload_file_id']); 
+					$file_size = (float)$_FILES['upload_file']['size'];
 					$max_file_size = (int)$_POST['max_file_size'];
-					$file_path = trim($_POST['upload_path'], '/');
+					$file_path = str_replace('..','',trim($_POST['upload_path'], '/'));
 					if($uploader)
 					{
 						$user = new WP_User($uploader);
-						$uploadedby = $_POST['identby'] == 'id' ? $user->ID : $user->display_name;
-						if(preg_match('/\[([^\]]+)\]/', $new_name)) $new_name =	fileaway_utility::replacelast($new_name, ']', ','.$uploadedby.']');
-						else $new_name = fileaway_utility::replacelast($new_name, '.'.$extension, ' ['.$uploadedby.'].'.$extension);
+						if($user)
+						{
+							$uploadedby = $_POST['identby'] == 'id' ? $user->ID : $user->display_name;
+							if(preg_match('/\[([^\]]+)\]/', $new_name)) $new_name =	fileaway_utility::replacelast($new_name, ']', ','.$uploadedby.']');
+							else $new_name = fileaway_utility::replacelast($new_name, '.'.$extension, ' ['.$uploadedby.'].'.$extension);
+						}
 					}
 					$location = str_replace('//','/',$chosenpath.$file_path.'/'.$new_name);
-					$location = stripslashes($location);
+					if(!fileaway_utility::verify_location_nonce($_POST['loc_nonce'],$file_path.'/'.$new_name,array($rootpath,$chosenpath))) die($dm);
+					$location = fileaway_utility::stripslashes($location);
 					$dir = fileaway_utility::dirname($location);
-					$_POST['size_check'] = $file_size > $max_file_size ? 'true' : 'false';
 					if($file_size > $max_file_size) echo 'system_error';
-					elseif(strpos($location, 'wp-admin') !== false) echo 'system_error';
-					elseif(strpos($location, 'wp-config') !== false) echo 'system_error';
-					elseif(strpos($location, '.php') !== false) echo 'system_error'; 
-					elseif(strpos($extension, 'php') !== false) echo 'system_error';
+					elseif(stripos($location, 'wp-admin') !== false) echo 'system_error';
+					elseif(stripos($location, 'wp-config') !== false) echo 'system_error';
+					elseif(is_file(fileaway_utility::dirname($location).'/wp-config.php')) echo 'sytem_error';
+					elseif(stripos($location, '.php') !== false) echo 'system_error'; 
+					elseif(stripos($extension, 'php') !== false) echo 'system_error';
 					elseif(strpos($dir, '..') !== false) echo 'system_error';
 					else
 					{
@@ -1115,7 +1195,7 @@ if(!class_exists('fileaway_management'))
 								$location = $p['dirname'].'/'.$name;		
 							}
 						}
-						$name = $filename.'.'.$p['extension'];
+						$name = fileaway_utility::sanitize_filename($filename.'.'.$p['extension']);
 						$location = $p['dirname'].'/'.$name;		
 						if(move_uploaded_file(strip_tags($_FILES['upload_file']['tmp_name']), $location)) echo $file_id;
 						else echo 'system_error';
@@ -1151,7 +1231,8 @@ if(!class_exists('fileaway_management'))
 				$security = $basename === $start ? false : true;
 				$nocrumbs = $security ? trim(fileaway_utility::replacelast("$start","$basename",''), '/') : null;
 				if(strpos($pathparts, '..') !== false) $pathparts = $start;
-				$dir = $chosenpath.$pathparts;	
+				if(!fileaway_utility::verify_location_nonce($_POST['loc_nonce'],$start,array($rootpath,$chosenpath))) die($dm);				
+				$dir = str_replace('..','',$chosenpath.$pathparts);	
 				$build .= "<option></option>";
 				$directories = glob($dir."/*", GLOB_ONLYDIR);
 				if($directories && is_array($directories))
@@ -1198,9 +1279,9 @@ if(!class_exists('fileaway_management'))
 					$breadcrumbs .= '<a href="javascript:" data-target="'.trim($piecelink[$k],'/').'" id="ssfa-'.$fileup.'action-pathpart-'.$k.'">'
 						.fileaway_utility::strtotitle($piece).'</a> / ';
 				}
-				$breadcrumbs = stripslashes($breadcrumbs); 
-				$pathparts = stripslashes($pathparts); 
-				$build = stripslashes($build);
+				$breadcrumbs = fileaway_utility::stripslashes($breadcrumbs); 
+				$pathparts = fileaway_utility::stripslashes($pathparts); 
+				$build = fileaway_utility::stripslashes($build);
 				$response = array
 				(
 					"ops" => $build, 
@@ -1212,7 +1293,7 @@ if(!class_exists('fileaway_management'))
 			elseif($action == 'deletecsv')
 			{
 				if(!wp_verify_nonce($_POST['values_nonce'], 'fileaway-values-nonce')) die($dm);
-				$src = base64_decode($_POST['src']);
+				$src = str_replace('..','',base64_decode($_POST['src']));
 				if(is_file($rootpath.$src))
 				{ 
 					if(unlink($rootpath.$src)) $response = array('status'=>'success');	
@@ -1227,8 +1308,8 @@ if(!class_exists('fileaway_management'))
 			elseif($action == 'makecsv')
 			{
 				if(!wp_verify_nonce($_POST['values_nonce'], 'fileaway-values-nonce')) die($dm);
-				$dir = base64_decode($_POST['path']);
-				$filename = trim($_POST['name'], '/');
+				$dir = str_replace('..','',base64_decode($_POST['path']));
+				$filename = str_replace('..','',trim($_POST['name'], '/'));
 				if(!fileaway_utility::endswith(strtolower($filename), '.csv')) 
 					$filename = $filename.'.csv';
 				if(is_file($rootpath.$dir.'/'.$filename)) 
@@ -1240,8 +1321,8 @@ if(!class_exists('fileaway_management'))
 					if(strpos($filename, '/') !== false && !is_dir($rootpath.$dir.'/'.fileaway_utility::dirname($filename)))
 						mkdir($rootpath.$dir.'/'.fileaway_utility::dirname($filename), 0775, true);
 					$csv = new fileaway_csv();
-					$read = $_POST['read'];
-					$write = $_POST['writ'];
+					$read = sanitize_html_class($_POST['read']);
+					$write = sanitize_html_class($_POST['writ']);
 					$csv->encoding($read, $write);
 					$rows = array();
 					$cols = array();
@@ -1254,10 +1335,10 @@ if(!class_exists('fileaway_management'))
 					{
 						$recursive = $_POST['recursive'] == 'true' ? true : false;
 						$fullpath = $rootpath.$dir;
-						$querystring = ltrim($_POST['querystring'], '?');
+						$querystring = ltrim($_POST['querystring'], '?'); 
 						$files = $recursive ? fileaway_utility::recursefiles($fullpath, array(), array(), '[cC][sS][vV]') : glob("{$fullpath}/*.[cC][sS][vV]"); 
 						$file_index = array_search($rootpath.$dir.'/'.$filename, $files);
-						$link = fileaway_utility::querystring(get_permalink($_POST['pg']), $querystring, array('fa_csv' => base64_encode(fileaway_utility::basename($filename)), 'fa_index' => $file_index));
+						$link = fileaway_utility::querystring(get_permalink((int)$_POST['pg']), esc_url($querystring), array('fa_csv' => base64_encode(fileaway_utility::basename($filename)), 'fa_index' => $file_index));
 						$response = array('status'=>'success','redirect'=>$link);
 					}
 					else $reponse = array('status'=>'error','message'=>sprintf(__('Sorry. There was a problem creating %s', 'file-away'), $filename));
@@ -1267,42 +1348,44 @@ if(!class_exists('fileaway_management'))
 			elseif($action == 'values')
 			{
 				if(!wp_verify_nonce($_POST['values_nonce'], 'fileaway-values-nonce')) die($dm);
-				$src = $rootpath.base64_decode($_POST['src']);
+				$src = $rootpath.str_replace('..','',base64_decode($_POST['src']));
+				if(!is_file($src)) die($dm);
 				$csv = new fileaway_csv();
 				$csv->sort_by = 'id';
 				$csv->auto($src);
-				$read = $_POST['read'];
-				$write = $_POST['writ'];
+				$read = sanitize_html_class($_POST['read']);
+				$write = sanitize_html_class($_POST['writ']);
 				$csv->encoding($read, $write);
-				$csv->data[$_POST['row']][$_POST['col']] = $_POST['newvalue'];
-				if($csv->save()) $response = array('status'=>'success');
-				else
-				{ 
-					$csv->data[$_POST['row']][$_POST['col']] = $_POST['oldvalue'];
-					if($csv->save()) $response = array('status'=>'error','message'=>__('Sorry about that, but your changes could not be saved.', 'file-away'));
+				if(isset($csv->data[$_POST['row']][$_POST['col']])) 
+				{
+					$csv->data[$_POST['row']][$_POST['col']] = $_POST['newvalue']; 
+					if($csv->save()) $response = array('status'=>'success');
 					else $response = array('status'=>'error','message'=>__('Sorry about that, but your changes could not be saved.', 'file-away'));
 				}
+				else $response = array('status'=>'error','message'=>__('Sorry about that, but your changes could not be saved.', 'file-away'));
 			}
 			// new csv row
 			elseif($action == 'newrow')
 			{
 				if(!wp_verify_nonce($_POST['values_nonce'], 'fileaway-values-nonce')) die($dm);
 				$response = array();
-				$src = $rootpath.base64_decode($_POST['src']);
+				$src = $rootpath.str_replace('..','',base64_decode($_POST['src']));
+				if(!is_file($src)) die($dm);
 				$data = array('test', 'test');
 				$csv = new fileaway_csv();
 				$csv->sort_by = 'id';
 				$csv->auto($src);
-				$read = $_POST['read'];
-				$write = $_POST['writ'];
+				$read = sanitize_html_class($_POST['read']);
+				$write = sanitize_html_class($_POST['writ']);
 				$csv->encoding($read, $write);
-				foreach($csv->titles as $col) $csv->data[$_POST['numrows']][$col] = '';
+				$count = count($csv->data);
+				foreach($csv->titles as $col) $csv->data[$count][$col] = '';
 				if($csv->save())
 				{ 
 					$response['status'] = 'success';
-					$k = $_POST['numrows'];
-					$uid = $_POST['uid'];
-					$theme = $_POST['theme'];
+					$k = $count;
+					$uid = is_numeric($_POST['uid']) ? $_POST['uid'] : (int)$_POST['uid'];
+					$theme = sanitize_html_class($_POST['theme']);
 					$headers = $csv->titles;
 					$html = "<tr id='ssfa-values-$uid-$k' class='ssfa-values-context' data-row='$k'>";
 					foreach($headers as $key=> $header)
@@ -1325,13 +1408,14 @@ if(!class_exists('fileaway_management'))
 			{
 				if(!wp_verify_nonce($_POST['values_nonce'], 'fileaway-values-nonce')) die($dm);
 				$src = $rootpath.base64_decode($_POST['src']);
+				if(!is_file($src)) die($dm);
 				$csv = new fileaway_csv();
 				$csv->sort_by = 'id';
 				$csv->auto($src);
-				$read = $_POST['read'];
-				$write = $_POST['writ'];
+				$read = sanitize_html_class($_POST['read']);
+				$write = sanitize_html_class($_POST['writ']);
 				$csv->encoding($read, $write);						
-				unset($csv->data[$_POST['row']]);
+				if(isset($csv->data[$_POST['row']])) unset($csv->data[$_POST['row']]);
 				if($csv->save()) $response = array('status'=>'success');
 				else $response = array('status'=>'error','message'=>__('Sorry about that, but your changes could not be saved.', 'file-away'));
 			}
@@ -1340,44 +1424,52 @@ if(!class_exists('fileaway_management'))
 			{
 				if(!wp_verify_nonce($_POST['values_nonce'], 'fileaway-values-nonce')) die($dm);
 				$src = $rootpath.base64_decode($_POST['src']);
+				if(!is_file($src)) die($dm);
 				$csv = new fileaway_csv();
 				$csv->sort_by = 'id';
 				$csv->auto($src);
-				$read = $_POST['read'];
-				$write = $_POST['writ'];
+				$read = sanitize_html_class($_POST['read']);
+				$write = sanitize_html_class($_POST['writ']);
 				$csv->encoding($read, $write);				
 				$headers = $csv->titles;
 				$rows = $csv->data;
 				if(count($headers) < 2) $csv->delimiter = ",";
-				foreach($rows as $k => $v) 
+				$_POST['colnum'] = (int)$_POST['colnum'];
+				if(!in_array((string)$_POST['col'], $csv->titles)) $response = array('status'=>'error','message'=>__('Sorry about that, but your changes could not be saved.', 'file-away'));
+				else
 				{
-					fileaway_utility::recreatecol($rows[$k], $_POST['colnum'], 0, $_POST['col']);
+					foreach($rows as $k => $v) fileaway_utility::recreatecol($rows[$k], $_POST['colnum'], 0, $_POST['col']);
+					array_splice($headers, $_POST['colnum'], 0, $_POST['col']);
+					$csv->titles = $headers;
+					$csv->data = $rows;
+					if($csv->save()) $response = array('status'=>'success');
+					else $response = array('status'=>'error','message'=>__('Sorry about that, but your changes could not be saved.', 'file-away'));
 				}
-				array_splice($headers, $_POST['colnum'], 0, $_POST['col']);
-				$csv->titles = $headers;
-				$csv->data = $rows;
-				if($csv->save()) $response = array('status'=>'success');
-				else $response = array('status'=>'error','message'=>__('Sorry about that, but your changes could not be saved.', 'file-away'));
 			}
 			// csv col rename
 			elseif($action == 'colrename')
 			{
 				if(!wp_verify_nonce($_POST['values_nonce'], 'fileaway-values-nonce')) die($dm);
 				$src = $rootpath.base64_decode($_POST['src']);
+				if(!is_file($src)) die($dm);
 				$csv = new fileaway_csv();
 				$csv->sort_by = 'id';
 				$csv->auto($src);
-				$read = $_POST['read'];
-				$write = $_POST['writ'];
+				$read = sanitize_html_class($_POST['read']);
+				$write = sanitize_html_class($_POST['writ']);
 				$csv->encoding($read, $write);
 				$headers = $csv->titles;
 				$rows = $csv->data;
+				$_POST['colnum'] = (int)$_POST['colnum'];
 				foreach($rows as $k => $v) 
 				{
-					fileaway_utility::recreatecol($rows[$k], $_POST['colnum'], 0, $_POST['newname'], $rows[$k][$_POST['oldname']]);
-					unset($rows[$k][$_POST['oldname']]);
+					if(isset($rows[$k][(string)$_POST['oldname']])) 
+					{
+						fileaway_utility::recreatecol($rows[$k], $_POST['colnum'], 0, (string)$_POST['newname'], $rows[$k][$_POST['oldname']]);
+						unset($rows[$k][(string)$_POST['oldname']]);
+					}
 				}			
-				$headers[$_POST['colnum']] = $_POST['newname'];
+				$headers[$_POST['colnum']] = (string)$_POST['newname']; 
 				$csv->titles = $headers;
 				$csv->data = $rows;
 				if($csv->save()) $response = array('status'=>'success');
@@ -1388,22 +1480,20 @@ if(!class_exists('fileaway_management'))
 			{
 				if(!wp_verify_nonce($_POST['values_nonce'], 'fileaway-values-nonce')) die($dm);
 				$src = $rootpath.base64_decode($_POST['src']);
+				if(!is_file($src)) die($dm);
 				$csv = new fileaway_csv();
 				$csv->sort_by = 'id';
 				$csv->auto($src);
-				$read = $_POST['read'];
-				$write = $_POST['writ'];
+				$read = sanitize_html_class($_POST['read']);
+				$write = sanitize_html_class($_POST['writ']);
 				$csv->encoding($read, $write);
 				$del_val = $_POST['col'];
-				$del_key = $_POST['colnum'];
+				$del_key = (int)$_POST['colnum'];
 				$headers = $csv->titles;
 				$rows = $csv->data;
-				unset($headers[$_POST['colnum']]);
+				if(isset($headers[$_POST['colnum']])) unset($headers[$_POST['colnum']]);
 				$headers = array_values($headers);
-				foreach($rows as $k => $v)
-				{
-					unset($rows[$k][$_POST['col']]);
-				}
+				foreach($rows as $k => $v) if(isset($rows[$k][$_POST['col']])) unset($rows[$k][$_POST['col']]);
 				$rows = array_values($rows);
 				$csv->titles = $headers;
 				$csv->data = $rows;				
@@ -1415,10 +1505,11 @@ if(!class_exists('fileaway_management'))
 			{
 				if(!wp_verify_nonce($_POST['values_nonce'], 'fileaway-values-nonce')) die($dm);
 				$src = $rootpath.base64_decode($_POST['src']);
+				if(!is_file($src)) die($dm);
 				$csv = new fileaway_csv();
 				$csv->auto($src);
-				$read = $_POST['read'];
-				$write = $_POST['writ'];
+				$read = sanitize_html_class($_POST['read']);
+				$write = sanitize_html_class($_POST['writ']);
 				$csv->encoding($read, $write);				
 				$bits = fileaway_utility::pathinfo($src);
 				$newfile = str_replace('.'.$bits['extension'], ' ['.date('Y-m-d H-i-s', current_time('timestamp')).'].'.$bits['extension'], $src);

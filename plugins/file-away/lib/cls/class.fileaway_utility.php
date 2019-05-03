@@ -60,7 +60,7 @@ if(!class_exists('fileaway_utility'))
 		public static function timezone()
 		{
 			$string = get_option('timezone_string');
-			if($string && $string != '') date_default_timezone_set($string);
+			if($string && $string != '') date_default_timezone_set($string); // the default timezone will always be set back to utc wherever this function is called, after work has been done in the temporarily user defined timezone
 			else
 			{
 				$offset = round(get_option('gmt_offset'));
@@ -68,6 +68,7 @@ if(!class_exists('fileaway_utility'))
 				$string = timezone_name_from_abbr(null, $offset * 3600, true);
 				$string = $string ? $string : timezone_name_from_abbr(null, $offset * 3600, false);
 				date_default_timezone_set($string);
+				// the default timezone will always be set back to utc wherever this function is called, after work has been done in the temporarily user defined timezone
 			}
 			return $string;
 		}
@@ -185,6 +186,47 @@ if(!class_exists('fileaway_utility'))
 		{
 			$user = new WP_User(get_current_user_id());	
 			return empty($user->roles) ? false : $user->roles;
+		}
+		public static function sanitize_filename($filename)
+		{
+				$filename_raw  = $filename;
+				$special_chars = array('?','/','\\',chr(0));
+				$filename = preg_replace("#\x{00a0}#siu",' ',$filename);
+				$filename = str_replace($special_chars,'',$filename);
+				$filename = preg_replace('/[\r\n\t]+/','-',$filename);
+				$filename = str_replace('%20',' ',$filename);				
+				$filename = trim(trim($filename, '.-_'));
+				if(false === strpos($filename, '.'))
+				{
+						$mime_types = wp_get_mime_types();
+						$filetype = wp_check_filetype('test.'.$filename, $mime_types);
+						if($filetype['ext'] === $filename) $filename = 'unnamed-file.'.$filetype['ext'];
+				}
+				$parts = explode( '.', $filename );
+ 				if(count($parts) <= 2) return $filename;
+				$filename = array_shift($parts);
+				$extension = array_pop($parts);
+				$mimes = get_allowed_mime_types();
+				foreach((array)$parts as $part)
+				{
+						$filename .= '.'.$part;
+						if(preg_match('/^[a-zA-Z]{2,5}\d?$/',$part))
+						{
+								$allowed = false;
+								foreach($mimes as $ext_preg => $mime_match)
+								{
+										$ext_preg = '!^('.$ext_preg.')$!i';
+										if(preg_match($ext_preg, $part))
+										{
+												$allowed = true;
+												break;
+										}
+								}
+								if(!$allowed) $filename .= '_';
+						}
+				}
+				$filename .= '.'.$extension;
+				return $filename;
 		}
 		public static function dynamicpaths($dir, $playbackpath = false)
 		{
@@ -579,6 +621,83 @@ if(!class_exists('fileaway_utility'))
 			elseif(!$row && $metadata !== false && !empty($metadata)) $success = $wpdb->insert($wpdb->prefix."fileaway_metadata", $data);
 			else $success = true;
 			return $success === false ? false : true;
+		}
+		public static function stripslashes($str)
+		{
+				if(DIRECTORY_SEPARATOR === '/') return stripslashes($str);
+				return str_replace('|*|*|','\\',stripslashes(str_replace('\\\\','|*|*|',$str)));
+		}
+		public static function realpath($path, $base1, $base2)
+		{
+			$check1 = realpath($base1.$path);
+			$check2 = realpath($base2.$path);	
+			if(trim($check1,'/') == trim(ABSPATH,'/') || trim($check2,'/') == trim(ABSPATH,'/')) return false;
+			if($check1 === false && $check2 === false) return false;
+			if(strpos($base1.$path,'..') !== false || strpos($base2.$path,'..') !== false) return false;
+			$maybeSym = false;
+			if((strpos($check1, $base1) !== 0 && strpos($check2, $base2) !== 0)) $maybeSym = true;
+			if($check1 != $base1.$path && $check2 != $base2.$path) $maybeSym = true;
+			if(!$maybeSym) return true;
+			if(!fileaway_definitions::symlinks()) return false;
+			$isSym = false;
+			$basename = '';
+			$dirname = $path;
+			while(false === $isSym)
+			{
+					if($dirname == '.' || $dirname == '/' || empty($dirname)) break;
+					$check3 = rtrim($base1.$dirname,'/');
+					$check4 = rtrim($base2.$dirname,'/');
+					if(is_link($check3))
+					{
+							if($check1 == rtrim(readlink($check3).'/'.$basename,'/'))
+							{
+									$isSym = true;
+									break;
+							}
+					}
+					if(is_link($check4))
+					{
+							if($check2 == rtrim(readlink($check4).'/'.$basename,'/'))
+							{
+									$isSym = true;
+									break;
+							}
+					}
+					$basename = rtrim(self::basename($dirname).'/'.$basename,'/');
+					$dirname = self::dirname($dirname);
+			}
+			return $isSym;
+		}		
+		public static function verify_location_nonce($nonce = '', $path = '', $bases = array())
+		{
+				if(!is_array($bases)) $bases = array($bases);
+				$bases = array_filter(array_unique($bases));
+				if(empty($bases)) return false;
+				$path = trim($path);
+				if(empty($path)) return false;
+				$path = trim($path,'/');
+				if(empty($path)) return false;
+				if(empty($nonce)) return false;
+				$passed = false;
+				foreach($bases as $base)
+				{
+						$count = 0;
+						while(strlen($path) > 1)
+						{
+								$count++;
+								if($count > 500) break;
+								$path = trim(trim($path,'/'),'\\');
+								$action = 'fileaway-location-nonce-'.base64_encode(trim(trim($base.$path,'/'),'\\'));
+								if(wp_verify_nonce($nonce, $action)) 
+								{
+										$passed = true;
+										break;
+								}
+								$path = self::dirname($path);
+						}
+						if($passed) break;
+				}	
+				return $passed;
 		}
 		public static function pathinfo($path_file, $options = NULL)
 	    {

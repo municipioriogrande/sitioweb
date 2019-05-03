@@ -378,7 +378,8 @@ jQuery(document).ready(function($)
 			ev.preventDefault();
 			var sfx = this.id.replace('save-',''),
 				cancel = $('a#cancel-'+sfx),
-				createinput = $('input#input-'+sfx);
+				createinput = $('input#input-'+sfx),
+				prettify = $('a#'+sfx).data('prettify');
 			$newsub = createinput.val();
 			if($newsub === '')
 			{
@@ -392,6 +393,8 @@ jQuery(document).ready(function($)
 				createinput.fadeOut(500).val('');					
 				var uid = sfx.replace('ssfa-create-dir-','');
 				var manager_nonce = $(this).parents('table').eq(0).data('mn');
+				var meta = $(this).parents('.ssfa-meta-container').eq(0).data('uid');
+				var loc_nonce = $('input#location_nonce_'+meta).val();				
 				var count = $('table.mngr-table tr[id^=ssfa-dir-]').length;
 				var cells = $(this).parents('tr').children('td').length;
 				var cls = $(this).parents('table').eq(0).data('cls');
@@ -400,27 +403,31 @@ jQuery(document).ready(function($)
 				var drawerid = $(this).parents('table').eq(0).data('drawer');
 				var dir = String($(this).parents('table').eq(0).data('dir'));
 				var base = String($(this).parents('table').eq(0).data('base'));
+				var args = 
+				{
+					action : 'fileaway-manager',
+					dataType : 'html',	
+					act : 'createdir',
+					newsub : $newsub,
+					parents : dir,
+					base : base,
+					uid : uid,
+					count : (+count+1),
+					cells : (+cells-2),
+					cls : cls,
+					pg : page,
+					drawer : drawer,
+					drawerid : drawerid,
+					querystring : location.search,
+					prettify : prettify,
+					nonce : fileaway_mgmt.nonce,
+					manager_nonce : manager_nonce,
+					loc_nonce : loc_nonce,				
+				}
 				$.post
 				(
 					fileaway_mgmt.ajaxurl,
-					{
-						action : 'fileaway-manager',
-						dataType : 'html',	
-						act : 'createdir',
-						newsub : $newsub,
-						parents : dir,
-						base : base,
-						uid : uid,
-						count : (+count+1),
-						cells : (+cells-2),
-						cls : cls,
-						pg : page,
-						drawer : drawer,
-						drawerid : drawerid,
-						querystring : location.search,
-						nonce : fileaway_mgmt.nonce,
-						manager_nonce : manager_nonce
-					},
+					args,
 					function(response)
 					{
 						if(response.status === 'error')
@@ -454,6 +461,7 @@ jQuery(document).ready(function($)
 				manager = $('td#manager-'+sfx);
 			del.fadeOut(500);
 			rename.fadeOut(500);				
+			var uid = sfx.replace('ssfa-dir-','');			
 			if(! $('a#canceldel-'+sfx).length) manager.prepend("<a href='javascript:' id='canceldel-"+sfx+"' style='display:none;'>"+fileaway_mgmt.cancel_link+"</a>")
 			if(! $('a#proceed-'+sfx).length) manager.prepend("<a href='javascript:' id='proceed-"+sfx+"' style='display:none;'>"+fileaway_mgmt.proceed_link+"<br></a>")
 			if(! $('span#confirm-'+sfx).length) manager.prepend("<span id='confirm-"+sfx+"' style='display:none;'>"+fileaway_mgmt.delete_check+"<br></span>")				
@@ -467,6 +475,8 @@ jQuery(document).ready(function($)
 			var dir = String($(this).parents('table').eq(0).data('dir'));
 			var base = String($(this).parents('table').eq(0).data('base'));
 			var manager_nonce = $(this).parents('table').eq(0).data('mn');
+			var meta = $(this).parents('.ssfa-meta-container').eq(0).data('uid');
+			var loc_nonce = $('input#location_nonce_'+meta).val();			
 			$path1 = dir;
 			$path2 = String($subdir);
 			$(canceldel).on('click', function(ev)
@@ -509,7 +519,8 @@ jQuery(document).ready(function($)
 							path1 : $path1,
 							path2 : $path2,
 							nonce : fileaway_mgmt.nonce,
-							manager_nonce : manager_nonce
+							manager_nonce : manager_nonce,
+							loc_nonce : loc_nonce,
 						},
 						function(response)
 						{			
@@ -545,6 +556,7 @@ jQuery(document).ready(function($)
 												path1 : $path1,
 												path2 : $path2,
 												nonce : fileaway_mgmt.nonce,
+												loc_nonce : loc_nonce,
 												manager_nonce : manager_nonce
 											},
 											function(response)
@@ -618,7 +630,10 @@ jQuery(document).ready(function($)
 			$page = $(this).parents('table').eq(0).data('pg');
 			$drawerid = $(this).parents('table').eq(0).data('drawer');
 			metadata = $(this).parents('table').eq(0).data('metadata');
+			var meta = $(this).parents('.ssfa-meta-container').eq(0);
+			var uid = $(meta).data('uid');
 			var manager_nonce = $(this).parents('table').eq(0).data('mn');
+			var loc_nonce = $('input#location_nonce_'+uid).val();			
 			$('a#save-'+sfx).fadeOut(500);
 			$('a#cancel-'+sfx).fadeOut(500);
 			$('input#rename-'+sfx).fadeOut(500);
@@ -650,7 +665,8 @@ jQuery(document).ready(function($)
 						drawerid : $drawerid,
 						querystring : location.search,
 						nonce : fileaway_mgmt.nonce,
-						manager_nonce : manager_nonce
+						manager_nonce : manager_nonce,
+						loc_nonce : loc_nonce,
 					},
 					function(response)
 					{ 
@@ -746,8 +762,9 @@ jQuery(document).ready(function($)
 			ev.preventDefault();				
 			$id = this.id;
 			var sfx = $id.replace('save-', '');
-				uid = $(this).parents('table:eq(0)').data('uid'),
+				uid = $(this).parents('table').eq(0).data('uid'),
 				manager_nonce = $(this).parents('table').eq(0).data('mn'),
+				loc_nonce = $('input#location_nonce_'+uid).val(),						
 				rename = $('a#rename-'+sfx),
 				del = $('a#delete-'+sfx),
 				save = $(this),
@@ -792,7 +809,8 @@ jQuery(document).ready(function($)
 					oldname : oldname,								
 					pp : dir,
 					nonce : fileaway_mgmt.nonce,
-					manager_nonce : manager_nonce
+					manager_nonce : manager_nonce,
+					loc_nonce : loc_nonce,
 				},
 				function(response)
 				{			
@@ -866,6 +884,7 @@ jQuery(document).ready(function($)
 			var sfx = $id.replace('proceed-', ''),
 				uid = $(this).parents('table').eq(0).data('uid'),
 				manager_nonce = $(this).parents('table').eq(0).data('mn'),
+				loc_nonce = $('input#location_nonce_'+uid).val(),				
 				rename = $('a#rename-'+sfx),
 				del = $('a#delete-'+sfx),
 				proceed = $(this),
@@ -889,7 +908,8 @@ jQuery(document).ready(function($)
 					oldname : oldname,								
 					pp : dir,
 					nonce : fileaway_mgmt.nonce,
-					manager_nonce : manager_nonce
+					manager_nonce : manager_nonce,
+					loc_nonce: loc_nonce,
 				},
 				function(response)
 				{			
@@ -1010,6 +1030,7 @@ jQuery(document).ready(function($)
 		function bulkactionpath($pathparts, $basename, $start, $loading, $uid)
 		{
 			var manager_nonce = $('table[data-uid="'+$uid+'"]').data('mn');
+			var loc_nonce = $('input#location_nonce_'+$uid).val();					
 			$loading.show();
 			$.post(
 				fileaway_mgmt.ajaxurl,
@@ -1022,7 +1043,8 @@ jQuery(document).ready(function($)
 					basename : $basename,
 					start : $start,
 					nonce : fileaway_mgmt.nonce,
-					manager_nonce : manager_nonce
+					manager_nonce : manager_nonce,
+					loc_nonce : loc_nonce,
 				},
 				function(response)
 				{
@@ -1046,6 +1068,7 @@ jQuery(document).ready(function($)
 			$loading = $('img#ssfa-engage-ajax-loading-'+$uid);
 			var bulkdownload_nonce = $('table#ssfa-table-'+$uid).data('bd');
 			var manager_nonce = $('table#ssfa-table-'+$uid).data('mn');
+			var loc_nonce = $('input#location_nonce_'+$uid).val();					
 			var stats = $('table#ssfa-table-'+$uid).data('stats') ? 'true' : 'false';
 			var selectedAction = $('select#ssfa-bulk-action-select-'+$uid).val();
 			var selectedPath = String($('input#ssfa-actionpath-'+$uid).val());
@@ -1102,7 +1125,8 @@ jQuery(document).ready(function($)
 								exts : selectedExts,
 								stats : stats,
 								nonce : fileaway_mgmt.nonce,
-								bulkdownload_nonce : bulkdownload_nonce					
+								bulkdownload_nonce : bulkdownload_nonce,
+								loc_nonce : loc_nonce,			
 							},
 							function(response)
 							{
@@ -1136,7 +1160,8 @@ jQuery(document).ready(function($)
 								exts : selectedExts,
 								destination : selectedPath,
 								nonce : fileaway_mgmt.nonce,
-								manager_nonce : manager_nonce					
+								manager_nonce : manager_nonce,
+								loc_nonce : loc_nonce,					
 							},
 							function(response)
 							{
@@ -1163,7 +1188,8 @@ jQuery(document).ready(function($)
 								exts : selectedExts,
 								destination : selectedPath,
 								nonce : fileaway_mgmt.nonce,
-								manager_nonce : manager_nonce						
+								manager_nonce : manager_nonce,
+								loc_nonce : loc_nonce,						
 							},
 							function(response)
 							{
@@ -1199,7 +1225,8 @@ jQuery(document).ready(function($)
 										act : 'bulkdelete',
 										files : selectedFilesFrom,
 										nonce : fileaway_mgmt.nonce,
-										manager_nonce : manager_nonce						
+										manager_nonce : manager_nonce,
+										loc_nonce : loc_nonce,						
 									},
 									function(response)
 									{
@@ -1493,6 +1520,7 @@ jQuery(document).ready(function($)
 					rawname = file.name.substr(0, file.name.lastIndexOf('.')) || file.name,
 					extension = ext(file.name, false),
 					path = initSettings.fixed ? initSettings.fixed : String($('input#ssfa-upload-actionpath-'+uid).val()),
+					loc_nonce = $('input#location_nonce_'+uid).val(),
 					pathcheck = String(initSettings.pathcheck),
 					removed_file = $("#"+id).val(),
 					newname = String($("input#rename_ssfa_upfile_id_"+id).val()),
@@ -1506,6 +1534,7 @@ jQuery(document).ready(function($)
 				{
 					var fileupData = new FormData();
 					fileupData.append('upload_nonce',initSettings.nonce);
+					fileupData.append('loc_nonce',loc_nonce);
 					fileupData.append('upload_file',file);
 					fileupData.append('upload_file_id',id);
 					fileupData.append('max_file_size',initSettings.maxsize);
@@ -1671,6 +1700,7 @@ jQuery(document).ready(function($)
 		function upactionpath($pathparts, $basename, $start, $loading, $uid)
 		{
 			var manager_nonce = $('div.ssfa_fileup_container[data-uid="'+$uid+'"]').data('mn');
+			var loc_nonce = $('input#location_nonce_'+$uid).val();					
 			$loading.show();
 			$.post(
 				fileaway_mgmt.ajaxurl,
@@ -1683,7 +1713,8 @@ jQuery(document).ready(function($)
 					basename : $basename,					
 					start : $start,							
 					nonce : fileaway_mgmt.nonce,
-					manager_nonce : manager_nonce						
+					manager_nonce : manager_nonce,
+					loc_nonce : loc_nonce,					
 				},
 				function(response)
 				{

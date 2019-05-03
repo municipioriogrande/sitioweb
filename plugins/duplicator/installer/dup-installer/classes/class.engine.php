@@ -150,6 +150,8 @@ class DUPX_UpdateEngine
             'err_all' => 0
         );
 
+        $nManager = DUPX_NOTICE_MANAGER::getInstance();
+        
 		function set_sql_column_safe(&$str) {
 			$str = "`$str`";
 		}
@@ -163,9 +165,11 @@ class DUPX_UpdateEngine
 
                 // Get a list of columns in this table
                 $fields = mysqli_query($conn, 'DESCRIBE ' . mysqli_real_escape_string($conn, $table));
-                while ($column = mysqli_fetch_array($fields)) {
-                    $columns[$column['Field']] = $column['Key'] == 'PRI' ? true : false;
-                }
+				if (DUPX_U::isTraversable($fields)) {
+					while ($column = mysqli_fetch_array($fields)) {
+						$columns[$column['Field']] = $column['Key'] == 'PRI' ? true : false;
+					}
+				}
 
                 // Count the number of rows we have in the table if large we'll split into blocks
                 $row_count = mysqli_query($conn, "SELECT COUNT(*) FROM `".mysqli_real_escape_string($conn, $table)."`");
@@ -188,7 +192,7 @@ class DUPX_UpdateEngine
                 if (!$fullsearch) {
                     $colList = self::getTextColumns($conn, $table);
                     if ($colList != null && is_array($colList)) {
-                        array_walk($colList, set_sql_column_safe);
+                        array_walk($colList, 'set_sql_column_safe');
                         $colList = implode(',', $colList);
                     }
                     $colMsg = (empty($colList)) ? '*' : '~';
@@ -230,6 +234,9 @@ class DUPX_UpdateEngine
                         //Loops every cell
                         foreach ($columns as $column => $primary_key) {
                             $report['scan_cells']++;
+                            if (!isset($row[$column]))  continue;
+
+                            $safe_column = '`'.mysqli_real_escape_string($conn, $column).'`';
                             $edited_data = $data_to_fix = $row[$column];
                             $base64converted = false;
                             $txt_found = false;
@@ -238,7 +245,7 @@ class DUPX_UpdateEngine
                             //Added this here to add all columns to $where_sql
                             //The if statement with $txt_found would skip additional columns -TG
                             if($is_unkeyed && ! empty($data_to_fix)) {
-                                $where_sql[] = $column . ' = "' . mysqli_real_escape_string($conn, $data_to_fix) . '"';
+                                $where_sql[] = $safe_column . ' = "' . mysqli_real_escape_string($conn, $data_to_fix) . '"';
                             }
 
                             //Only replacing string values
@@ -272,35 +279,40 @@ class DUPX_UpdateEngine
                                     }
                                 }
 
-                                //Replace logic - level 1: simple check on any string or serlized strings
-                                foreach ($list as $item) {
-									$objArr = array();
-                                    $edited_data = self::recursiveUnserializeReplace($item['search'], $item['replace'], $edited_data, false, $objArr);
-                                }
-
-                                //Replace logic - level 2: repair serialized strings that have become broken
-                                $serial_check = self::fixSerialString($edited_data);
-                                if ($serial_check['fixed']) {
-                                    $edited_data = $serial_check['data'];
-                                } elseif ($serial_check['tried'] && !$serial_check['fixed']) {
+                                if (self::isSerialized($edited_data) && strlen($edited_data) > MAX_STRLEN_SERIALIZED_CHECK) {
+                                     // skip search and replace for too big serialized string
                                     $serial_err++;
+                                } else {
+                                    //Replace logic - level 1: simple check on any string or serlized strings
+                                    foreach ($list as $item) {
+                                        $objArr = array();
+                                        $edited_data = self::recursiveUnserializeReplace($item['search'], $item['replace'], $edited_data, false, $objArr);
+                                    }
+
+                                    //Replace logic - level 2: repair serialized strings that have become broken
+                                    $serial_check = self::fixSerialString($edited_data);
+                                    if ($serial_check['fixed']) {
+                                        $edited_data = $serial_check['data'];
+                                    } elseif ($serial_check['tried'] && !$serial_check['fixed']) {
+                                        $serial_err++;
+                                    }
                                 }
                             }
 
                             //Change was made
-                            if ($edited_data != $data_to_fix || $serial_err > 0) {
+                            if ($serial_err > 0 || $edited_data != $data_to_fix) {
                                 $report['updt_cells']++;
                                 //Base 64 encode
                                 if ($base64converted) {
                                     $edited_data = base64_encode($edited_data);
                                 }
-                                $upd_col[] = $column;
-                                $upd_sql[] = $column . ' = "' . mysqli_real_escape_string($conn, $edited_data) . '"';
+                                $upd_col[] = $safe_column;
+                                $upd_sql[] = $safe_column . ' = "' . mysqli_real_escape_string($conn, $edited_data) . '"';
                                 $upd = true;
                             }
 
                             if ($primary_key) {
-                                $where_sql[] = $column . ' = "' . mysqli_real_escape_string($conn, $data_to_fix) . '"';
+                                $where_sql[] = $safe_column . ' = "' . mysqli_real_escape_string($conn, $data_to_fix) . '"';
                             }
                         }
 
@@ -310,22 +322,46 @@ class DUPX_UpdateEngine
 							$result	= mysqli_query($conn, $sql);
                             if ($result) {
                                 if ($serial_err > 0) {
-                                    $report['errser'][] = "SELECT " . implode(', ',
+                                    $errMsg = "SELECT " . implode(', ',
                                             $upd_col) . " FROM `".mysqli_real_escape_string($conn, $table)."`  WHERE " . implode(' AND ',
                                             array_filter($where_sql)) . ';';
+                                    $report['errser'][] = $errMsg;
+
+                                    $nManager->addFinalReportNotice(array(
+                                        'shortMsg' => 'DATA-REPLACE ERROR: Serialization',
+                                        'level' => DUPX_NOTICE_ITEM::SOFT_WARNING,
+                                        'longMsg' => $errMsg,
+                                        'sections' => 'search_replace'
+                                    ));
                                 }
                                 $report['updt_rows']++;
                             } else {
+                                $errMsg = mysqli_error($conn);
 								$report['errsql'][]	= ($GLOBALS['LOGGING'] == 1)
-									? 'DB ERROR: ' . mysqli_error($conn)
-									: 'DB ERROR: ' . mysqli_error($conn) . "\nSQL: [{$sql}]\n";
+									? 'DB ERROR: ' . $errMsg
+									: 'DB ERROR: ' . $errMsg . "\nSQL: [{$sql}]\n";
+
+                                $nManager->addFinalReportNotice(array(
+                                    'shortMsg' => 'DATA-REPLACE ERRORS: MySQL',
+                                    'level' => DUPX_NOTICE_ITEM::SOFT_WARNING,
+                                    'longMsg' => $errMsg,
+                                    'sections' => 'search_replace'
+                                ));
 							}
 
 							//DEBUG ONLY:
                             DUPX_Log::info("\t{$sql}\n", 3);
 
                         } elseif ($upd) {
-                            $report['errkey'][] = sprintf("Row [%s] on Table [%s] requires a manual update.", $current_row, $table);
+                            $errMsg = sprintf("Row [%s] on Table [%s] requires a manual update.", $current_row, $table);
+                            $report['errkey'][] = $errMsg;
+
+                            $nManager->addFinalReportNotice(array(
+                                    'shortMsg' => 'DATA-REPLACE ERROR: Key',
+                                    'level' => DUPX_NOTICE_ITEM::SOFT_WARNING,
+                                    'longMsg' => $errMsg,
+                                    'sections' => 'search_replace'
+                                ));
                         }
                     }
                     //DUPX_U::fcgiFlush();
@@ -341,12 +377,15 @@ class DUPX_UpdateEngine
         @mysqli_commit($conn);
         @mysqli_autocommit($conn, true);
 
+        $nManager->saveNotices();
+
         $profile_end = DUPX_U::getMicrotime();
         $report['time'] = DUPX_U::elapsedTime($profile_end, $profile_start);
         $report['errsql_sum'] = empty($report['errsql']) ? 0 : count($report['errsql']);
         $report['errser_sum'] = empty($report['errser']) ? 0 : count($report['errser']);
         $report['errkey_sum'] = empty($report['errkey']) ? 0 : count($report['errkey']);
         $report['err_all'] = $report['errsql_sum'] + $report['errser_sum'] + $report['errkey_sum'];
+
         return $report;
     }
 
@@ -365,6 +404,7 @@ class DUPX_UpdateEngine
     {
         // some unseriliased data cannot be re-serialised eg. SimpleXMLElements
         try {
+            DUPX_Handler::$should_log = false;
             if (is_string($data) && ($unserialized = @unserialize($data)) !== false) {
                 $data = self::recursiveUnserializeReplace($from, $to, $unserialized, true, $objArr, $fixpartials);
             } elseif (is_array($data)) {
@@ -406,6 +446,7 @@ class DUPX_UpdateEngine
                         if (isset($_tmp->$key)) {
                             $_tmp->$key = self::recursiveUnserializeReplace($from, $to, $value, false, $objArr);
                         } else {
+
                             // $key is like \0
                             $int_key = intval($key);
                             if ($key == $int_key && isset($_tmp->$int_key)) {
@@ -424,6 +465,7 @@ class DUPX_UpdateEngine
                 }
             }
 
+            DUPX_Handler::$should_log = true;
             if ($serialised) {
                 return serialize($data);
             }

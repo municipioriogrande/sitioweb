@@ -88,10 +88,6 @@ if (!wfConfig::liveTrafficEnabled($overridden)):
 			<div class="wf-block-content">
 				<div class="wf-container-fluid">
 					<div class="wf-row">
-						<?php
-						// $rightRail = new wfView('marketing/rightrail');
-						// echo $rightRail;
-						?>
 						<div class="<?php echo wfStyle::contentClasses(); ?>">
 							<div id="wf-live-traffic-legend">
 								<ul>

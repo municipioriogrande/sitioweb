@@ -1,4 +1,7 @@
 <?php
+
+defined("ABSPATH") or die("");
+
 global $wp_version;
 global $wpdb;
 
@@ -20,6 +23,9 @@ if (isset($_POST['action']) && $_POST['action'] == 'save') {
 
 	DUP_Settings::Set('wpfront_integrate', isset($_POST['wpfront_integrate']) ? "1" : "0");
 	DUP_Settings::Set('package_debug', isset($_POST['package_debug']) ? "1" : "0");
+    
+    $skip_archive_scan = filter_input(INPUT_POST, 'skip_archive_scan' , FILTER_VALIDATE_BOOLEAN);
+    DUP_Settings::Set('skip_archive_scan', $skip_archive_scan);
 
     if(isset($_REQUEST['trace_log_enabled'])) {
 
@@ -44,16 +50,15 @@ if (isset($_POST['action']) && $_POST['action'] == 'save') {
 	DUP_Util::initSnapshotDirectory();
 }
 
-$trace_log_enabled = DUP_Settings::Get('trace_log_enabled');
-$uninstall_settings = DUP_Settings::Get('uninstall_settings');
-$uninstall_files = DUP_Settings::Get('uninstall_files');
-$uninstall_tables = DUP_Settings::Get('uninstall_tables');
+$trace_log_enabled    = DUP_Settings::Get('trace_log_enabled');
+$uninstall_settings   = DUP_Settings::Get('uninstall_settings');
+$uninstall_files      = DUP_Settings::Get('uninstall_files');
+$uninstall_tables     = DUP_Settings::Get('uninstall_tables');
 $storage_htaccess_off = DUP_Settings::Get('storage_htaccess_off');
-
-$wpfront_integrate = DUP_Settings::Get('wpfront_integrate');
-$wpfront_ready = apply_filters('wpfront_user_role_editor_duplicator_integration_ready', false);
-$package_debug = DUP_Settings::Get('package_debug');
-
+$wpfront_integrate    = DUP_Settings::Get('wpfront_integrate');
+$wpfront_ready        = apply_filters('wpfront_user_role_editor_duplicator_integration_ready', false);
+$package_debug        = DUP_Settings::Get('package_debug');
+$skip_archive_scan    = DUP_Settings::Get('skip_archive_scan');
 ?>
 
 <style>
@@ -70,7 +75,7 @@ $package_debug = DUP_Settings::Get('package_debug');
 
     <?php if ($action_updated) : ?>
         <div id="message" class="notice notice-success is-dismissible dup-wpnotice-box"><p><?php echo esc_html($action_response); ?></p></div>
-    <?php endif; ?>	
+    <?php endif; ?>
 
 
     <h3 class="title"><?php esc_html_e("Plugin", 'duplicator') ?> </h3>
@@ -78,15 +83,18 @@ $package_debug = DUP_Settings::Get('package_debug');
     <table class="form-table">
         <tr valign="top">
             <th scope="row"><label><?php esc_html_e("Version", 'duplicator'); ?></label></th>
-            <td><?php echo DUPLICATOR_VERSION ?></td>
-        </tr>	
+            <td>
+				<?php echo DUPLICATOR_VERSION ?> &nbsp;
+				<i><small>(<?php echo DUPLICATOR_VERSION_BUILD ?>)</small></i>
+			</td>
+        </tr>
         <tr valign="top">
             <th scope="row"><label><?php esc_html_e("Uninstall", 'duplicator'); ?></label></th>
             <td>
-                <input type="checkbox" name="uninstall_settings" id="uninstall_settings" <?php echo ($uninstall_settings) ? 'checked="checked"' : ''; ?> /> 
+                <input type="checkbox" name="uninstall_settings" id="uninstall_settings" <?php echo ($uninstall_settings) ? 'checked="checked"' : ''; ?> />
                 <label for="uninstall_settings"><?php esc_html_e("Delete Plugin Settings", 'duplicator') ?> </label><br/>
 
-                <input type="checkbox" name="uninstall_files" id="uninstall_files" <?php echo ($uninstall_files) ? 'checked="checked"' : ''; ?> /> 
+                <input type="checkbox" name="uninstall_files" id="uninstall_files" <?php echo ($uninstall_files) ? 'checked="checked"' : ''; ?> />
                 <label for="uninstall_files"><?php esc_html_e("Delete Entire Storage Directory", 'duplicator') ?></label><br/>
 
             </td>
@@ -94,9 +102,9 @@ $package_debug = DUP_Settings::Get('package_debug');
         <tr valign="top">
             <th scope="row"><label><?php esc_html_e("Storage", 'duplicator'); ?></label></th>
             <td>
-                <?php esc_html_e("Full Path", 'duplicator'); ?>: 
+                <?php esc_html_e("Full Path", 'duplicator'); ?>:
                 <?php echo DUP_Util::safePath(DUPLICATOR_SSDIR_PATH); ?><br/><br/>
-                <input type="checkbox" name="storage_htaccess_off" id="storage_htaccess_off" <?php echo ($storage_htaccess_off) ? 'checked="checked"' : ''; ?> /> 
+                <input type="checkbox" name="storage_htaccess_off" id="storage_htaccess_off" <?php echo ($storage_htaccess_off) ? 'checked="checked"' : ''; ?> />
                 <label for="storage_htaccess_off"><?php esc_html_e("Disable .htaccess File In Storage Directory", 'duplicator') ?> </label>
                 <p class="description">
                     <?php esc_html_e("Disable if issues occur when downloading installer/archive files.", 'duplicator'); ?>
@@ -155,20 +163,134 @@ $package_debug = DUP_Settings::Get('package_debug');
         </tr>
     </table><br/>
 
+    <!-- ===============================
+    ADVANCED SETTINGS -->
+    <h3 class="title"><?php esc_html_e('Advanced', 'duplicator'); ?> </h3>
+    <hr size="1" />
+    <table class="form-table">
+        <tr>
+            <th scope="row"><label><?php esc_html_e("Settings", 'duplicator'); ?></label></th>
+            <td>
+                <button class="button"  onclick="Duplicator.Pack.ConfirmResetAll(); return false;">
+                    <i class="fa fa-repeat"></i> <?php esc_html_e('Reset Packages', 'duplicator'); ?>
+                </button>
+                <p class="description" style="width:700px">
+                    <?php esc_html_e("This process will reset all packages by deleting those without a completed status, reset the active package id and perform a "
+						. "cleanup of the build tmp file.", 'duplicator'); ?>
+                    <i class="fa fa-question-circle"
+                        data-tooltip-title="<?php esc_attr_e("Reset Settings", 'duplicator'); ?>"
+                        data-tooltip="<?php esc_attr_e('This action should only be used if the packages screen is having issues or a build is stuck.', 'duplicator'); ?>"></i>
+                </p>
+            </td>
+        </tr>
+        <tr valign="top">
+		<th scope="row"><label><?php esc_html_e('Archive scan', 'duplicator'); ?></label></th>
+		<td>
+			<input type="checkbox" name="skip_archive_scan" id="_skip_archive_scan" <?php checked( $skip_archive_scan , true ); ?> value="1" />
+			<label for="_skip_archive_scan"><?php esc_html_e("Skip", 'duplicator') ?> </label><br/>
+			<p class="description">
+				<?php esc_html_e('If enable skip all files check on scan before package creation.', 'duplicator'); ?>
+			</p>
+		</td>
+    </tr>
+    </table>
+
     <p class="submit" style="margin: 20px 0px 0xp 5px;">
 		<br/>
 		<input type="submit" name="submit" id="submit" class="button-primary" value="<?php esc_attr_e("Save General Settings", 'duplicator') ?>" style="display: inline-block;" />
 	</p>
-	
+
 </form>
 
+<!-- ==========================================
+THICK-BOX DIALOGS: -->
+<?php
+$reset_confirm                 = new DUP_UI_Dialog();
+$reset_confirm->title          = __('Reset Packages ?', 'duplicator');
+$reset_confirm->message        = __('This will clear and reset all of the current temporary packages.  Would you like to continue?', 'duplicator');
+$reset_confirm->progressText   = __('Resetting settings, Please Wait...', 'duplicator');
+$reset_confirm->jscallback     = 'Duplicator.Pack.ResetAll()';
+$reset_confirm->progressOn = false;
+$reset_confirm->okText         = __('Yes', 'duplicator');
+$reset_confirm->cancelText     = __('No', 'duplicator');
+$reset_confirm->closeOnConfirm = true;
+$reset_confirm->initConfirm();
+
+$msg_ajax_error               = new DUP_UI_Messages(__('AJAX ERROR!', 'duplicator').'<br>'.__('Ajax request error', 'duplicator'), DUP_UI_Messages::ERROR);
+$msg_ajax_error->hide_on_init = true;
+$msg_ajax_error->is_dismissible = true;
+$msg_ajax_error->initMessage();
+
+$msg_response_error                   = new DUP_UI_Messages(__('RESPONSE ERROR!', 'duplicator'), DUP_UI_Messages::ERROR);
+$msg_response_error->hide_on_init     = true;
+$msg_response_error->is_dismissible = true;
+$msg_response_error->initMessage();
+
+$msg_response_success                 = new DUP_UI_Messages('', DUP_UI_Messages::NOTICE);
+$msg_response_success->hide_on_init   = true;
+$msg_response_success->is_dismissible = true;
+$msg_response_success->initMessage();
+?>
 <script>
-jQuery(document).ready(function($) 
+jQuery(document).ready(function($)
 {
-	// which: 0=installer, 1=archive, 2=sql file, 3=log
-	Duplicator.Pack.DownloadTraceLog = function () {
-		var actionLocation = ajaxurl + '?action=DUP_CTRL_Tools_getTraceLog&nonce=' + '<?php echo wp_create_nonce('DUP_CTRL_Tools_getTraceLog'); ?>';
-		location.href = actionLocation;
-	};
+    var msgDebug = <?php echo DUP_Util::isWpDebug() ? 'true' : 'false'; ?>;
+
+    // which: 0=installer, 1=archive, 2=sql file, 3=log
+    Duplicator.Pack.DownloadTraceLog = function ()
+    {
+        var actionLocation = ajaxurl + '?action=DUP_CTRL_Tools_getTraceLog&nonce=' + '<?php echo wp_create_nonce('DUP_CTRL_Tools_getTraceLog'); ?>';
+        location.href = actionLocation;
+    };
+
+    Duplicator.Pack.ConfirmResetAll = function ()
+    {
+		<?php $reset_confirm->showConfirm(); ?>
+    };
+
+    Duplicator.Pack.ResetAll = function ()
+    {
+        $.ajax({
+            type: "POST",
+            url: ajaxurl,
+            dataType: "json",
+            data: {
+                action: 'duplicator_reset_all_settings',
+                nonce: '<?php echo wp_create_nonce('duplicator_reset_all_settings'); ?>'
+            },
+            success: function (result) {
+                if (msgDebug) {
+                    console.log(result);
+                }
+
+                if (result.success) {
+                    var message = '<?php _e('Packages successfully reset', 'duplicator'); ?>';
+                    if (msgDebug) {
+						console.log(result.data.message);
+						console.log(result.data.html);
+                    }
+				<?php
+				$msg_response_success->updateMessage('message');
+				$msg_response_success->showMessage();
+				?>
+                } else {
+                    var message = '<?php _e('RESPONSE ERROR!', 'duplicator'); ?>'+ '<br><br>' + result.data.message;
+                    if (msgDebug) {
+                        message += '<br><br>' + result.data.html;
+                    }
+				<?php
+				$msg_response_error->updateMessage('message');
+				$msg_response_error->showMessage();
+				?>
+                }
+            },
+            error: function (result) {
+                if (msgDebug) {
+                    console.log(result);
+                }
+                <?php $msg_ajax_error->showMessage(); ?>
+            }
+        });
+    };
 });
 </script>

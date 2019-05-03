@@ -299,6 +299,10 @@ if(class_exists('fileaway_admin') && !class_exists('fileaway_tutorials'))
 				'heading' => 'Directory Column Label',
 				'info' => "The column heading for the Directory Names and File Names. Default: Drawer/File."
 			);			
+			$optioninfo['parentlabel'] = array(
+				'heading' => 'Parent Directory Pseudonym',
+				'info' => "If you don't want people to easily see the real name of the topmost directory in a Directory Tree Nav table, you can apply a pseudonym for that directory here. Leave blank/omit from shortcode to show the real directory name on the nav menu."
+			);			
 			$optioninfo['excludedirs'] = array(
 				'heading' => 'Exclude Directories',
 				'info' => "In addition to any permanent directory exclusions specified on the File Away Options config tab, here you can include a comma-separated list of directory names you wish to exclude from this specific Directory Tree table or Recursive table/list. Do not include the forward slashes ('/'). The names listed here must match your directory names exactly, and are case-sensitive. Example:<br /><br /><code>My Private Files, Weird_Server_Directory_Name, etc.</code>"
@@ -558,6 +562,10 @@ if(class_exists('fileaway_admin') && !class_exists('fileaway_tutorials'))
 				'heading' => 'Set Root Directory',
 				'info' => "If your WordPress URL and Site URL are one and the same, you can disregard this setting. If your WordPress installation is in a subdirectory of your domain root directory, this option is for you. Choose whether your absolute path is relative to the WordPress Installation directory (default), or the domain root directory.<br><br>Note: if you choose the latter, be sure to refresh the Config page after changes finish saving, so the abspath in your Base Directory options will be updated to reflect your selection."
 			);
+			$helplinks['symlinks'] = array(
+				'heading' => 'Allow Symlinks',
+				'info' => "Disabled by default. If enabled, File Away will allow symlinks in your Base or Sub paths to validate. If you enable this setting, be sure you have measures in place to prevent against symlink attacks. File Away is not responsible for any unwanted eventualities."
+			);			
 			$helplinks['baseurl'] = array(
 				'heading' => 'Base URL',
 				'info' => "Determine the Base File-Download URL for your site."

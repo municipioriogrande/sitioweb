@@ -1,4 +1,7 @@
 <?php
+defined("ABSPATH") or die("");
+
+
 class DUPX_CSRF {
 	
 	/** Session var name

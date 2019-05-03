@@ -7,9 +7,11 @@ if(!class_exists('fileaway_definitions'))
 		private $options;
 		public $pathoptions, $filegroups, $imagetypes, $codexts, $nevershows, $file_exclusions, $dir_exclusions, $is_opera, $is_mobile;
 		public static $s2member, $pathinfo;
+		private static $symlinks = false;
 		public function __construct()
 		{
 			$this->options = get_option('fileaway_options');
+			self::$symlinks = empty($this->options['symlinks']) ? 0 : 1;
 			self::$pathinfo = isset($this->options['pathinfo']) && $this->options['pathinfo'] == 'enabled' ? true : false;
 			self::$s2member = fileaway_utility::active('s2member/s2member.php');
 			$this->pathoptions = array(); 
@@ -107,9 +109,7 @@ if(!class_exists('fileaway_definitions'))
 					false
 				)
 			);
-			//$agent = $_SERVER['HTTP_USER_AGENT'];
-			$agent = isset($_SERVER['HTTP_USER_AGENT']) ? strtolower($_SERVER['HTTP_USER_AGENT']) : '';
-
+			$agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
 			$this->is_opera = stripos($agent, 'opr') !== false || stripos($agent, 'opera') !== false ? true : false; 
 			$mobiles = array(
 				'mobile', 'iphone','ipod', 'ipad', 'android', 'tablet', 'wOSBrowser', 'TouchPad', 'Nook', 'Pad', 'blackberry', 'opera mobi', 
@@ -152,5 +152,12 @@ if(!class_exists('fileaway_definitions'))
 		{
 			return self::$s2member;
 		}
+		public static function symlinks()
+		{
+			if(false !== self::$symlinks) return self::$symlinks;
+			$ops = get_option('fileaway_options');
+			self::$symlinks = empty($ops['symlinks']) ? 0 : 1;
+			return self::$symlinks;
+		}		
 	}
 }

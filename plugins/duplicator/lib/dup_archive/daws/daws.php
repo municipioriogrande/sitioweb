@@ -1,4 +1,5 @@
 <?php
+defined("ABSPATH") or die("");
 /** Absolute path to the DAWS directory. - necessary for php protection */
 if ( !defined('ABSPATH') )
 	define('ABSPATH', dirname(__FILE__) . '/');
@@ -7,6 +8,19 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 error_reporting(E_ALL);
 set_error_handler("terminate_missing_variables");
+
+if (!defined('KB_IN_BYTES')) { define('KB_IN_BYTES', 1024); }
+if (!defined('MB_IN_BYTES')) { define('MB_IN_BYTES', 1024 * KB_IN_BYTES); }
+if (!defined('GB_IN_BYTES')) { define('GB_IN_BYTES', 1024 * MB_IN_BYTES); }
+if (!defined('DUPLICATOR_PHP_MAX_MEMORY')) { define('DUPLICATOR_PHP_MAX_MEMORY', 4096 * MB_IN_BYTES); }
+
+date_default_timezone_set('UTC'); // Some machines don’t have this set so just do it here.
+@ignore_user_abort(true);
+@set_time_limit(3600);
+@ini_set('memory_limit', DUPLICATOR_PHP_MAX_MEMORY);
+@ini_set('max_input_time', '-1');
+@ini_set('pcre.backtrack_limit', PHP_INT_MAX);
+@ini_set('default_socket_timeout', 3600);
 
 require_once(dirname(__FILE__) . '/class.daws.constants.php');
 
@@ -282,16 +296,14 @@ function generateCallTrace()
 
 function terminate_missing_variables($errno, $errstr, $errfile, $errline)
 {
-    echo "<br/>ERROR: $errstr $errfile $errline<br/>";
-    //  if (($errno == E_NOTICE) and ( strstr($errstr, "Undefined variable"))) die("$errstr in $errfile line $errline");
-
-
     SnapLibLogger::log("ERROR $errno, $errstr, {$errfile}:{$errline}");
     SnapLibLogger::log(generateCallTrace());
     //  DaTesterLogging::clearLog();
 
-    exit(1);
-    //return false; // Let the PHP error handler handle all the rest
+    /**
+     * INTERCEPT ON processRequest AND RETURN JSON STATUS
+     */
+    throw new Exception("ERROR:{$errfile}:{$errline} | ".$errstr , $errno);
 }
 
 $daws = new DAWS();

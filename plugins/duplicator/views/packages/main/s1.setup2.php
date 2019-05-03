@@ -274,7 +274,6 @@ ARCHIVE -->
                     <a href="javascript:void(0)" id="dbnone" onclick="jQuery('#dup-dbtables .checkbox').prop('checked', false).trigger('click');">[ <?php esc_html_e('Exclude All', 'duplicator'); ?> ]</a>
                     <div style="white-space:nowrap">
 					<?php
-						$coreTables = DUP_Util::getWPCoreTables();
 						$tables = $wpdb->get_results("SHOW FULL TABLES FROM `" . DB_NAME . "` WHERE Table_Type = 'BASE TABLE' ", ARRAY_N);
 						$num_rows = count($tables);
 						$next_row = round($num_rows / 4, 0);
@@ -284,7 +283,7 @@ ARCHIVE -->
 						echo '<table id="dup-dbtables"><tr><td valign="top">';
 						foreach ($tables as $table) {
 
-							if (in_array($table[0], $coreTables)) {
+							if (DUP_Util::isWPCoreTable($table[0])) {
 								$core_css = 'core-table';
 								$core_note = '*';
 							} else {
@@ -492,7 +491,7 @@ INSTALLER -->
 
 
 <div class="dup-button-footer">
-    <input type="button" value="<?php esc_attr_e("Reset", 'duplicator') ?>" class="button button-large" <?php echo ($dup_tests['Success']) ? '' :'disabled="disabled"'; ?> onclick="Duplicator.Pack.ConfirmReset()" />
+    <input type="button" value="<?php esc_attr_e("Reset", 'duplicator') ?>" class="button button-large" <?php echo ($dup_tests['Success']) ? '' :'disabled="disabled"'; ?> onclick="Duplicator.Pack.ConfirmReset();" />
     <input type="submit" value="<?php esc_html_e("Next", 'duplicator') ?> &#9654;" class="button button-primary button-large" <?php echo ($dup_tests['Success']) ? '' :'disabled="disabled"'; ?> />
 </div>
 
@@ -594,9 +593,8 @@ jQuery(document).ready(function ($)
 	Duplicator.Pack.ResetSettings = function () 
 	{
 		var key = 'duplicator_package_active';
-
 		jQuery('#dup-form-opts-action').val(key);
-		jQuery('#dup-form-opts').attr('action', '?page=duplicator&tab=new1')
+		jQuery('#dup-form-opts').attr('action', '');
 		jQuery('#dup-form-opts').submit();
 	}
 

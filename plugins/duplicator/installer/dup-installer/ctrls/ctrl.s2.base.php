@@ -21,7 +21,7 @@ if (isset($_POST['dbname'])) {
 }
 
 $_POST['dbuser'] = isset($_POST['dbuser']) ? DUPX_U::sanitize_text_field($_POST['dbuser']) : null;
-$_POST['dbpass'] = isset($_POST['dbpass']) ? trim(DUPX_U::wp_unslash($_POST['dbpass'])) : null;
+$_POST['dbpass'] = isset($_POST['dbpass']) ? trim($_POST['dbpass']) : null;
 
 if (isset($_POST['dbhost'])) {
     $post_db_host = DUPX_U::sanitize_text_field($_POST['dbhost']);
@@ -74,7 +74,7 @@ $dbTestIn->mode		 = DUPX_U::sanitize_text_field($_POST['view_mode']);
 $dbTestIn->dbaction	 = DUPX_U::sanitize_text_field($_POST['dbaction']);
 $dbTestIn->dbhost	 = DUPX_U::sanitize_text_field($_POST['dbhost']);
 $dbTestIn->dbuser	 = DUPX_U::sanitize_text_field($_POST['dbuser']);
-$dbTestIn->dbpass	 = trim(DUPX_U::wp_unslash($_POST['dbpass']));
+$dbTestIn->dbpass    = trim($_POST['dbpass']);
 $dbTestIn->dbname	 = DUPX_U::sanitize_text_field($_POST['dbname']);
 $dbTestIn->dbport	 = DUPX_U::sanitize_text_field($_POST['dbport']);
 $dbTestIn->dbcollatefb = DUPX_U::sanitize_text_field($_POST['dbcollatefb']);
@@ -117,7 +117,6 @@ if($not_yet_logged){
 $dbinstall = new DUPX_DBInstall($_POST, $ajax2_start);
 if ($_POST['dbaction'] != 'manual') {
     if(!isset($_POST['continue_chunking'])){
-        // $dbinstall->prepareSQL();
         $dbinstall->prepareDB();
     } else if($_POST['first_chunk'] == 1) {
         $dbinstall->prepareDB();
@@ -150,14 +149,16 @@ if ($_POST['dbaction'] == 'manual') {
 	DUPX_Log::info("\n** SQL EXECUTION IS IN MANUAL MODE **");
 	DUPX_Log::info("- No SQL script has been executed -");
 	$JSON['pass'] = 1;
-} /*elseif(isset($_POST['continue_chunking']) && $_POST['continue_chunking'] === 'true') {
-    print_r(json_encode($dbinstall->writeInChunks()));
-    die();
-} */ elseif(isset($_POST['continue_chunking']) && ($_POST['continue_chunking'] === 'false' && $_POST['pass'] == 1)) {
-    $JSON['pass'] = 1;
 } elseif(!isset($_POST['continue_chunking'])) {
-	$dbinstall->writeInDB();
-    $JSON['pass'] = 1;
+    $dbinstall->writeInDB();
+	$rowCountMisMatchTables = $dbinstall->getRowCountMisMatchTables();
+    if (empty($rowCountMisMatchTables)) {
+		$JSON['pass'] = 1;
+	} else {
+		$JSON['error'] = 1;
+		$JSON['error_message'] = 'ERROR: Database Table row count verification was failed for table(s):'
+                                    .implode(', ', $rowCountMisMatchTables).'.';
+	}
 }
 
 $dbinstall->profile_end = DUPX_U::getMicrotime();

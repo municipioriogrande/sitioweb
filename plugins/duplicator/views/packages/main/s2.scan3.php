@@ -11,6 +11,8 @@
 	$archive_type_label		=  DUP_Settings::Get('archive_build_mode') == DUP_Archive_Build_Mode::ZipArchive ? "ZipArchive" : "DupArchive (beta)";
 	$archive_type_extension =  DUP_Settings::Get('archive_build_mode') == DUP_Archive_Build_Mode::ZipArchive ? "zip" : "daf";
 	$duparchive_max_limit   = DUP_Util::readableByteSize(DUPLICATOR_MAX_DUPARCHIVE_SIZE);
+    $skip_archive_scan    = DUP_Settings::Get('skip_archive_scan');
+
 ?>
 
 <!-- ================================================================
@@ -46,6 +48,23 @@ ARCHIVE -->
 		<div class="dup-data-size-uncompressed"><?php esc_html_e("uncompressed"); ?></div>
 	</div>
 </div>
+
+<?php
+if ($skip_archive_scan) { ?>
+<div class="scan-item ">
+	<div class='title' onclick="Duplicator.Pack.toggleScanItem(this);">
+		<div class="text"><i class="fa fa-caret-right"></i> <?php esc_html_e('Skip archive scan enabled', 'duplicator');?></div>
+		<div id="skip-archive-scan-status"><div class="badge badge-warn"><?php esc_html_e("Notice", 'duplicator'); ?></div></div>
+	</div>
+    <div class="info">
+        <?php esc_html_e("All file checks are skipped. This could cause problems during extraction if problematic files are included.", 'duplicator'); ?>
+        <br><br>
+        <b><?php esc_html_e(" Disable the advanced option to re-enable file controls.", 'duplicator'); ?></b>
+    </div>
+</div>
+<?php
+} else {
+?>
 
 <!-- ============
 TOTAL SIZE -->
@@ -108,7 +127,7 @@ TOTAL SIZE -->
 									<input type="checkbox" name="dir_paths[]" value="{{directory.dir}}" id="lf_dir_{{@index}}" onclick="Duplicator.Pack.filesOff(this)" />
 								{{/if}}
 								<label for="lf_dir_{{@index}}" title="{{directory.dir}}">
-									<i class="size">[{{directory.size}}]</i> /{{directory.sdir}}/
+									<i class="size">[{{directory.size}}]</i> {{directory.sdir}}/
 								</label> <br/>
 								<div class="files">
 									{{#each directory.files as |file|}}	
@@ -250,7 +269,7 @@ FILE NAME CHECKS -->
 								
 								<label for="nc1_dir_{{@index}}" title="{{directory.dir}}">
 									<i class="count">({{directory.count}})</i>
-									/{{directory.sdir}}/
+									{{directory.sdir}}/
 								</label> <br/>
 								<div class="files">
 									{{#each directory.files}}
@@ -325,7 +344,7 @@ UNREADABLE FILES -->
     </div>
 </div>
 
-
+<?php } ?>
 
 <!-- ============
 DATABASE -->
@@ -444,7 +463,7 @@ DATABASE -->
 			echo '</div>';
 			echo '<br/>';
 
-			$lnk = '<a href="https://snapcreek.com/duplicator/docs/quick-start#quick-060-q" target="_blank">' . esc_html__('covered here.', 'duplicator') . '</a>';
+			$lnk = '<a href="https://snapcreek.com/duplicator/docs/quick-start?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=da_size_two_part&utm_campaign=duplicator_pro#quick-060-q" target="_blank">' . esc_html__('covered here.', 'duplicator') . '</a>';
 			printf(__("- Perform a two part install %s", 'duplicator'), $lnk);
 			echo '<br/><br/>';
 
@@ -776,34 +795,42 @@ jQuery(document).ready(function($)
 		$('#data-arc-dirs').text(data.ARC.DirCount || errMsg);
 
 		//LARGE FILES
-		var template = $('#hb-files-large').html();
-		var templateScript = Handlebars.compile(template);
-		var html = templateScript(data);
-		$('#hb-files-large-result').html(html);
-
+        if ($('#hb-files-large').length > 0) {
+            var template = $('#hb-files-large').html();
+            var templateScript = Handlebars.compile(template);
+            var html = templateScript(data);
+            $('#hb-files-large-result').html(html);
+        }
 		//ADDON SITES
-        var template = $('#hb-addon-sites').html();
-        var templateScript = Handlebars.compile(template);
-        var html = templateScript(data);
-        $('#hb-addon-sites-result').html(html);
-
+        if ($('#hb-addon-sites').length > 0) {
+            var template = $('#hb-addon-sites').html();
+            var templateScript = Handlebars.compile(template);
+            var html = templateScript(data);
+            $('#hb-addon-sites-result').html(html);
+        }
 		//NAME CHECKS
-		var template = $('#hb-files-utf8').html();
-		var templateScript = Handlebars.compile(template);
-		var html = templateScript(data);
-		$('#hb-files-utf8-result').html(html);
+        if ($('#hb-files-utf8').length > 0) {
+            var template = $('#hb-files-utf8').html();
+            var templateScript = Handlebars.compile(template);
+            var html = templateScript(data);
+            $('#hb-files-utf8-result').html(html);
+        }
 
         //NAME CHECKS
-        var template = $('#unreadable-files').html();
-        var templateScript = Handlebars.compile(template);
-        var html = templateScript(data);
-        $('#unreadable-files-result').html(html);
+        if ($('#unreadable-files').length > 0) {
+            var template = $('#unreadable-files').html();
+            var templateScript = Handlebars.compile(template);
+            var html = templateScript(data);
+            $('#unreadable-files-result').html(html);
+        }
 
 		//SCANNER DETAILS: Dirs
-		var template = $('#hb-filter-file-list').html();
-		var templateScript = Handlebars.compile(template);
-		var html = templateScript(data);
-		$('div.hb-filter-file-list-result').html(html);
+        if ($('#hb-filter-file-list').length > 0) {
+            var template = $('#hb-filter-file-list').html();
+            var templateScript = Handlebars.compile(template);
+            var html = templateScript(data);
+            $('div.hb-filter-file-list-result').html(html);
+        }
 
 		Duplicator.UI.loadQtip();
 	}

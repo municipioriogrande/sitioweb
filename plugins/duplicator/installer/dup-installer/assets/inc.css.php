@@ -9,6 +9,7 @@
 	select {padding-left:0; width:99%}
 	select:disabled {background:#EBEBE4}
 	input.readonly {background-color:#efefef;}
+    .no-display { display: none; }
 
 	/* ============================
 	COMMON VIEWS
@@ -58,13 +59,91 @@
 	div.toggle-hdr:hover {cursor:pointer; background-color:#f1f1f1; border:1px solid #dcdcdc; }
 	div.toggle-hdr:hover a{color:#000}
 
+     [data-type="toggle"] > i.fa,
+    i.fa.fa-toggle-empty { min-width: 8px; }
+
+	/* ============================
+	NOTICES
+	============================ */
+    /* step messages */
+    #step-messages { padding: 10px 25px 0; }
+    .notice {
+        background: #fff;
+        border:1px solid #dfdfdf;
+        border-left: 4px solid #fff;
+        margin: 4px;
+        padding: 2px;
+        border-radius: 4px;
+    }
+
+    .notice-report {
+        border-left: 4px solid #fff;
+        padding-left: 0;
+        padding-right: 0;
+        margin-bottom: 4px;
+    }
+
+    .notice-report .title {
+        padding: 0 10px;
+    }
+
+    .notice-report .info {
+        border-top: 1px solid #dedede;
+        padding: 10px;
+        font-size: 10px;
+        background: #FAFAFA;
+    }
+
+    .notice.l-info,
+    .notice.l-notice {border-left-color: #197b19;}
+    .notice.l-swarning {border-left-color: #636363;}
+    .notice.l-hwarning {border-left-color: #636363;}
+    .notice.l-critical {border-left-color: maroon;}
+    .notice.l-fatal {border-left-color: #000000;}
+
+    .report-sections-list .section {
+        border: 1px solid #DFDFDF;
+        margin-bottom: 25px;
+		box-shadow: 4px 8px 11px -8px rgba(0,0,0,0.41);
+    }
+
+    .report-sections-list .section > .section-title {
+        background-color: #efefef;
+        padding: 3px;
+        font-weight: bold;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .report-sections-list .section > .section-content {
+        padding: 5px;
+    }
+
+    .notice-level-status {
+        border-radius: 4px;
+        padding: 2px;
+        margin: 1px;
+        font-size: 10px;
+        display: inline-block;
+        color: #FFF;
+        font-weight: bold;
+        min-width:55px;
+    }
+
+    .notice-level-status.l-info,
+    .notice-level-status.l-notice {background: #197b19;}
+    .notice-level-status.l-swarning {background: #636363;}
+    .notice-level-status.l-hwarning {background: #636363;}
+    .notice-level-status.l-critical {background: maroon;}
+    .notice-level-status.l-fatal {background: #000000;}
+
     /*Adv Opts */
     table.dupx-opts {width:100%; border:0px;}
-	table.dupx-opts td{white-space:nowrap; padding:3px;}
+	table.dupx-opts td{padding:3px;}
 	table.dupx-opts td:first-child{width:125px; font-weight: bold}
 	table.dupx-advopts td:first-child{width:125px;}
 	table.dupx-advopts label.radio {width:50px; display:inline-block}
-	table.dupx-advopts label {cursor:pointer}
+	table.dupx-advopts label {white-space:nowrap; cursor:pointer}
 	table.dupx-advopts-space {line-height:24px}
 
 	div.error-pane {border:1px solid #efefef; border-left:4px solid #D54E21; padding:0 0 0 10px; margin:2px 0 10px 0}
@@ -238,10 +317,10 @@
 	div.s4-final-title {color:#BE2323; font-size:18px}
 	div.s4-connect {font-size:12px; text-align:center; font-style:italic; position:absolute; bottom:10px; padding:10px; width:100%; margin-top:20px}
 	table.s4-report-results,
-	table.s4-report-errs {border-collapse:collapse;}
+	table.s4-report-errs {border-collapse:collapse; box-shadow: 4px 8px 11px -8px rgba(0,0,0,0.41);}
 	table.s4-report-errs  td {text-align:center; width:33%}
-	table.s4-report-results th, table.s4-report-errs th {background-color:#efefef; padding:0; font-size:12px; padding:0}
-	table.s4-report-results td, table.s4-report-errs td {padding:0; white-space:nowrap; border:1px solid #dfdfdf; text-align:center; font-size:11px}
+	table.s4-report-results th, table.s4-report-errs th {background-color:#d0d0d0; padding:3px; font-size:14px;}
+	table.s4-report-results td, table.s4-report-errs td {padding:3px; white-space:nowrap; border:1px solid #dfdfdf; text-align:center; font-size:11px}
 	table.s4-report-results td:first-child {text-align:left; font-weight:bold; padding-left:3px}
 	div.s4-err-title {background-color:#dfdfdf; font-weight: bold; margin:-3px 0 15px 0; padding:5px; border-radius:3px; font-size:13px}
 
@@ -252,7 +331,7 @@
 	table.s4-final-step {width:100%;}
 	table.s4-final-step td {padding:5px 15px 5px 5px;font-size:13px; }
 	table.s4-final-step td:first-child {white-space:nowrap; width:165px}
-	div.s4-go-back {border-top:1px dotted #dfdfdf; margin:auto; font-style:italic; font-size:11px; color:#333; padding-top:4px}
+	div.s4-go-back {border-top:1px dotted #dfdfdf; margin:auto;font-size:11px; color:#333; padding-top:4px}
 	div.s4-go-back ul {line-height:18px}
 	button.s4-final-btns {cursor:pointer; color:#fff; font-size:16px; border-radius:5px; padding:7px; background-color:#13659C; border:1px solid gray; width:145px;}
 	button.s4-final-btns:hover {background-color: #dfdfdf;}
@@ -263,15 +342,13 @@
 	/* ============================
 	STEP 5 HELP
 	============================	*/
-	div.help-target {float:right;}
+    div.help-target {float:right;}
 	div.help-target a {float:right; font-size:16px; color:#13659C}
 	div#main-help sup {font-size:11px; font-weight:normal; font-style:italic; color:blue}
 	div.help-online {text-align:center; font-size:18px; padding:10px 0 0 0; line-height:24px}
 	div.help {color:#555; font-style:italic; font-size:11px; padding:4px; border-top:1px solid #dfdfdf}
-	div.help-page {padding:5px 0 0 5px}
 	div.help-page fieldset {margin-bottom:25px}
     div#main-help {font-size:13px; line-height:17px}
-	div#main-help h2 {background-color:#F1F1F1; border:1px solid silver; border-radius:4px; padding:15px; margin:28px 0 8px 0; font-size:24px; }
 	div#main-help h3 {border-bottom:1px solid silver; padding:8px; margin:4px 0 8px 0; font-size:20px}
     div#main-help span.step {color:#DB4B38}
 	table.help-opt {width: 100%; border: none; border-collapse: collapse;  margin:5px 0 0 0;}
@@ -279,6 +356,66 @@
 	table.help-opt td, th {padding:7px; border:1px solid silver;}
 	table.help-opt td:first-child {font-weight:bold; padding-right:10px; white-space:nowrap}
 	table.help-opt th {background: #333; color: #fff;border:1px solid #333; padding:3px}
+
+    #main-help section {
+        border: 1px solid silver;
+        margin-top: 28px;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    #main-help section h2.header {
+        background-color:#F1F1F1;
+        padding:15px;
+        margin:0;
+        font-size:20px;
+    }
+
+    #main-help section .content {
+        padding: 10px;
+    }
+
+    /* ============================
+    Expandable section
+	============================	*/
+    .expandable.close .expand-header {
+        cursor:pointer;
+    }
+
+    .expandable.open .expand-header {
+         cursor:pointer;
+    }
+
+    .expandable .expand-header::before {
+        font-family: FontAwesome;
+        margin-right: 10px;
+    }
+
+    .expandable.close .expand-header::before {
+        content: "\f0fe";
+    }
+
+    .expandable.open .expand-header::before {
+        content: "\f146";
+    }
+
+    .expandable.close .content {
+        display: none;
+    }
+
+    .expandable.open .content {
+        display: block;
+    }
+
+    /* ============================
+    VIEW EXCEPTION
+	============================	*/
+    .exception-trace {
+        overflow: auto;
+        border: 1px solid lightgray;
+        padding: 10px;
+        margin: 0;
+    }
 
 
 	/*!

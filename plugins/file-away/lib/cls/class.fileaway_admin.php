@@ -178,6 +178,11 @@ if(!class_exists('fileaway_admin'))
 				exit;
 			}
 			$settings = $_POST['settings']; 
+			if(!is_array($settings)) 
+			{
+				echo 'error';
+				exit;
+			}
 			if($settings['reset_options'] === 'reset')
 			{
 				$this->initialize(); 
@@ -467,6 +472,12 @@ if(!class_exists('fileaway_admin'))
 				'choices'	=> array('install' => 'WP Install Directory', 'siteurl' => 'Site Root Directory'),
 				'dflt'		=> 'install'
 			);	
+			$this->settings['symlinks'] = array(
+				'title'		=> 'Allow Symlinks',
+				'type'		=> 'select',
+				'choices'	=> array('0' => 'No', '1' => 'Yes'),
+				'dflt'		=> '0'
+			);			
 			$this->settings['strictlogin'] = array(
 				'title'		=> 'Dynamic Usernames',
 				'type'		=> 'select',

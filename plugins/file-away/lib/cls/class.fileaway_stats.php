@@ -51,8 +51,9 @@ if(!class_exists('fileaway_stats'))
 			if(!wp_verify_nonce($_POST['nonce'], 'fileaway-stats-nonce')) 
 				die('Go directly to jail. Do not pass GO. Do not collect $200 dollars.');
 			extract($this->pathoptions);
-			$action = $_POST['act'];
-			if($_POST['type'] == 's2member')
+			$action = sanitize_html_class($_POST['act']);
+			$type = sanitize_html_class($_POST['type']);
+			if($type == 's2member')
 			{
 				list($trash, $file) = explode("?s2member_file_download=", $_POST['file']);
 				$pre = fileaway_utility::replacefirst(WP_PLUGIN_DIR.'/s2member-files', $rootpath, '');
@@ -60,9 +61,9 @@ if(!class_exists('fileaway_stats'))
 				$file = str_replace('&s2member_skip_confirmation', '', $file);
 				$response = $_POST['file'];
 			}
-			elseif($_POST['type'] == 'encrypted')
+			elseif($type == 'encrypted')
 			{
-				list($trash, $file) = explode("fileaway_downloader.php?", $_POST['file']);
+				list($trash, $file) = explode("?", $_POST['file']);
 				parse_str($file);
 				$file = fileaway_utility::replacefirst($this->decrypt($fileaway), $rootpath, '');
 				$response = $_POST['file'];
@@ -71,7 +72,7 @@ if(!class_exists('fileaway_stats'))
 			{ 
 				$crypt = new fileaway_encrypted;
 				$file = fileaway_utility::urlesc(fileaway_utility::replacefirst($_POST['file'], rtrim($this->ops['baseurl'], '/').'/', ''), true);
-				$response = fileaway_url.'/lib/cls/class.fileaway_downloader.php?fileaway='.$crypt->encrypt($rootpath.$file).'&nonce='.wp_create_nonce('fileaway-download');
+				$response = $this->ops['baseurl'].'?fileaway_download=1&fileaway='.$crypt->encrypt($rootpath.$file).'&nonce='.wp_create_nonce('fileaway-download');
 			}
 			if($action == 'insert') $response = $this->insert($file) ? $response : 'error';
 			$response = json_encode($response); 
@@ -84,6 +85,7 @@ if(!class_exists('fileaway_stats'))
 			if($this->ops['instant_stats'] != 'true') return false;
 			$sender = $this->ops['instant_sender'] ? $this->ops['instant_sender'] : (get_option('admin_email') ? get_option('admin_email') : false);
 			if(!$sender || !$this->ops['instant_recipients']) return false;
+			$original_timezone = date_default_timezone_get();			
 			fileaway_utility::timezone();
 			$sendername = $this->ops['instant_sender_name'] ? $this->ops['instant_sender_name'] : stripslashes(get_bloginfo('site_name'));
 			$recipients = preg_split('/(, |,)/', trim($this->ops['instant_recipients']), -1, PREG_SPLIT_NO_EMPTY);
@@ -95,7 +97,7 @@ if(!class_exists('fileaway_stats'))
 			);
 			$message = ''; foreach($data as $key => $value) $message .= strtoupper($key).": ".$value."\r\n\r\n";	
 			$headers[] = 'From: '.$sendername.' <'.$sender.'>';
-			date_default_timezone_set('UTC');
+			date_default_timezone_set($original_timezone);
 			return wp_mail($recipients, $subject, $message, $headers) ? true : false;
 		}
 		public function cmail()
@@ -108,17 +110,16 @@ if(!class_exists('fileaway_stats'))
 			elseif($this->ops['compiled_stats'] == 'fortnightly') $offset = '-2 weeks';
 			elseif($offset == null) return;
 			$datestring = $this->ops['daymonth'] == 'md' ? 'm/d/Y' : 'd/m/Y'; 
-			$timezone = fileaway_utility::timezone();
+			$original_timezone = date_default_timezone_get();
+			fileaway_utility::timezone();
 			$begin = date('Y-m-d H:i:s', strtotime(date('Y-m-d 00:00:00').' '.$offset));
 			$end = date('Y-m-d H:i:s', strtotime(date('Y-m-d 23:59:59').' -1 day'));
-			date_default_timezone_set('UTC');
 			$sender = $this->ops['compiled_sender'] ? $this->ops['compiled_sender'] : (get_option('admin_email') ? get_option('admin_email') : false);
 			if(!$sender || !$this->ops['compiled_recipients']) return false;
 			$sendername = $this->ops['compiled_sender_name'] ? $this->ops['compiled_sender_name'] : stripslashes(get_bloginfo('site_name'));
 			$headers[] = 'From: '.$sendername.' <'.$sender.'>';
 			$recipients = preg_split('/(, |,)/', trim($this->ops['compiled_recipients']), -1, PREG_SPLIT_NO_EMPTY);
 			$subject = $this->ops['compiled_subject'] ? $this->ops['compiled_subject'] : '%blog% - Download Stats for %dates%';
-			date_default_timezone_set($timezone);
 			$dates = $this->ops['compiled_stats'] == 'daily' 
 				? date($datestring, strtotime(date('Y-m-d').' -1 day')) 
 				: date($datestring, strtotime(date('Y-m-d').' '.$offset)).' - '.date($datestring, strtotime(date('Y-m-d').' -1 day'));
@@ -151,12 +152,13 @@ if(!class_exists('fileaway_stats'))
 				$message .= __('TOTAL DOWNLOADS:', 'file-away').' '.count($records);
 			}
 			wp_mail($recipients, $subject, $message, $headers);
-			date_default_timezone_set('UTC');
+			date_default_timezone_set($original_timezone);
 			exit;
 		}
 		public function insert($file, $notify = true)
 		{
 			if(!$file) return false;
+			$original_timezone = date_default_timezone_get();
 			fileaway_utility::timezone();
 			global $wpdb;
 			$current = wp_get_current_user();
@@ -170,7 +172,7 @@ if(!class_exists('fileaway_stats'))
 			);
 			if($this->ops['instant_stats'] == 'true' && $notify && $this->imail($data)) $data['notified'] = 1; 
 			elseif($this->ops['instant_stats'] == 'true' && !$notify) $data['notified'] = 1; 
-			date_default_timezone_set('UTC');
+			date_default_timezone_set($original_timezone);
 			return $wpdb->insert(self::$db, $data) ? true : false;
 		}
 		public function limitpurge()
@@ -195,9 +197,10 @@ if(!class_exists('fileaway_stats'))
 		{
 			global $wpdb;
 			if($this->ops['recordlifespan'] == 'forever') return;
+			$original_timezone = date_default_timezone_get();
 			fileaway_utility::timezone();
 			$cutoff = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s').' -'.$this->ops['recordlifespan']));
-			date_default_timezone_set('UTC');
+			date_default_timezone_set($original_timezone);
 			$records = $wpdb->get_results($wpdb->prepare("SELECT id FROM ".self::$db." WHERE timestamp <= %s", $cutoff), ARRAY_N);
 			if(!$records) return;
 			foreach($records as $record) $wpdb->delete(self::$db, array('id' => $record[0]));

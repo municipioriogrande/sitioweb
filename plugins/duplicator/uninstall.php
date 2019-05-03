@@ -24,6 +24,7 @@ if (DUP_Settings::Get('uninstall_files')) {
 
 	$ssdir = DUP_Util::safePath(DUPLICATOR_SSDIR_PATH);
 	$ssdir_tmp = DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP);
+	$ssdir_installer = DUP_Util::safePath(DUPLICATOR_SSDIR_PATH . '/installer');
 
 	//Sanity check for strange setup
 	$check = glob("{$ssdir}/wp-config.php");
@@ -38,8 +39,12 @@ if (DUP_Settings::Get('uninstall_files')) {
 			if (strstr($file, '_installer.php'))
 				@unlink("{$file}");
 		}
-		foreach (glob("{$ssdir}/*_archive.zip") as $file) {
+		foreach (glob("{$ssdir}/*_archive.zip*") as $file) {
 			if (strstr($file, '_archive.zip')) 
+				@unlink("{$file}");
+		}
+		foreach (glob("{$ssdir}/*_archive.daf") as $file) {
+			if (strstr($file, '_archive.daf'))
 				@unlink("{$file}");
 		}
 		foreach (glob("{$ssdir}/*_scan.json") as $file) {
@@ -48,6 +53,10 @@ if (DUP_Settings::Get('uninstall_files')) {
 		}
 		foreach (glob("{$ssdir}/*.log") as $file) {
 			if (strstr($file, '.log')) 
+				@unlink("{$file}");
+		}
+        foreach (glob("{$ssdir}/*.log1") as $file) {
+			if (strstr($file, '.log1'))
 				@unlink("{$file}");
 		}
 
@@ -64,8 +73,18 @@ if (DUP_Settings::Get('uninstall_files')) {
 					@unlink("{$file}");
 				}
 				@unlink("{$ssdir}/.htaccess");
-				@rmdir($ssdir_tmp);
-				@rmdir($ssdir);
+
+				//installer log from previous install
+				foreach (glob("{$ssdir_installer}/*.txt") as $file) {
+					if (strstr($file, '.txt'))
+						@unlink("{$file}");
+				}
+
+				if (strstr($ssdir, 'wp-snapshots')) {
+					@rmdir($ssdir_installer);
+					@rmdir($ssdir_tmp);
+					@rmdir($ssdir);
+				}
 			}
 		} 
 	}
@@ -76,5 +95,6 @@ if (DUP_Settings::Get('uninstall_settings')) {
 	DUP_Settings::Delete();
 	delete_option('duplicator_ui_view_state');
 	delete_option('duplicator_package_active');
+	delete_option("duplicator_exe_safe_mode");
 }
 ?>

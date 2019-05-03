@@ -22,7 +22,7 @@ if($directories)
 		$thefiles .= 
 			"<tr id='row-ssfa-create-dir-$uid' class='ssfa-drawers'>".
 				"<td id='folder-ssfa-create-dir-$uid' data-value='# # # #' class='ssfa-sorttype $theme-first-column'>".
-					"<a id='ssfa-create-dir-$uid' href='javascript:'>".
+					"<a id='ssfa-create-dir-$uid' href='javascript:' data-prettify='".(empty($prettify)?0:1)."'>".
 						"<span style='font-size:20px; margin-left:3px;' class='ssfa-icon-chart-alt' aria-hidden='true'></span>".
 						"<br>".__('new', 'file-away').
 					"</a>".
@@ -108,11 +108,15 @@ if($directories)
 				}
 				$dirtext = $subrsslink ? null : _x('dir', 'abbrv. of *directory*', 'file-away');
 				$folder = str_replace("$dir".'/', '', "$folder");
-				$prettyfolder = str_replace(array('~', '--', '_', '.', '*'), ' ', "$folder"); 
-				$prettyfolder = preg_replace('/(?<=\D)-(?=\D)/', ' ', "$prettyfolder");
-				$prettyfolder = preg_replace('/(?<=\D)-(?=\d)/', ' ', "$prettyfolder");
-				$prettyfolder = preg_replace('/(?<=\d)-(?=\D)/', ' ', "$prettyfolder");
-				$prettyfolder = fileaway_utility::strtotitle($prettyfolder);
+				$prettyfolder = $folder;
+				if(!$prettify)
+				{
+					$prettyfolder = str_replace(array('~', '--', '_', '.', '*'), ' ', "$prettyfolder"); 
+					$prettyfolder = preg_replace('/(?<=\D)-(?=\D)/', ' ', "$prettyfolder");
+					$prettyfolder = preg_replace('/(?<=\D)-(?=\d)/', ' ', "$prettyfolder");
+					$prettyfolder = preg_replace('/(?<=\d)-(?=\D)/', ' ', "$prettyfolder");
+					$prettyfolder = fileaway_utility::strtotitle($prettyfolder);
+				}
 				$dpath = ltrim("$dlink", '/'); 
 				$dlink = str_replace('/', '*', "$dpath");
 				$managedir = $manager && $dirman 
@@ -133,7 +137,7 @@ if($directories)
 						"</td>".
 						"<td id='name-ssfa-dir-$uid-$f' data-value=\"# # # # # $folder\" class='ssfa-sortname'>".
 							"<a href=\"".fileaway_utility::querystring(get_permalink(), $_SERVER["QUERY_STRING"], array("drawer".$drawerid => $dlink))."\" class=\"$dir_colors\">".
-								"<span class='ssfa-filename' style='text-transform:uppercase;'>$prettyfolder</span>".
+								"<span class='ssfa-filename' ".($prettify?'':"style='text-transform:uppercase;'").">$prettyfolder</span>".
 							"</a>".$renamedir.
 						"</td>"; 			
 				$icell = 0;

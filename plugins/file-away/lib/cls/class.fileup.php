@@ -35,6 +35,7 @@ if(class_exists('fileaway_attributes') && !class_exists('fileup'))
 			if(!is_dir("$dir") && $makedir && (!$private_content || ($private_content && $logged_in && stripos($dir, 'fa-nullmeta') === false)))
 				if(mkdir($rootpath.$dir, 0775, true)) fileaway_utility::indexmulti($rootpath.$dir, $chosenpath);
 			if($private_content && !is_dir("$dir")) return;
+			if(!fileaway_utility::realpath($dir,$rootpath,$chosenpath)) return;
 			$start = "$dir"; 
 			if($matchdrawer)
 			{
@@ -48,6 +49,8 @@ if(class_exists('fileaway_attributes') && !class_exists('fileup'))
 			$fixed = $start; 
 			$fixed = $fixedlocation ? ($problemchild ? fileaway_utility::replacefirst($fixed, $install, '') : $fixed) : null;
 			$path = '<input type="hidden" id="ssfa-upload-actionpath-'.$uid.'" value="'.$fixed.'" data-basename="'.$basename.'" data-start="'.$start.'" />';
+			$location_nonce = 'fileaway-location-nonce-'.base64_encode(trim(trim($rootpath.$start,'/'),'\\'));
+			$path .= '<input type="hidden" id="location_nonce_'.$uid.'" data-uid="'.$uid.'" value="'.wp_create_nonce($location_nonce).'" />';			
 			// File Type Permissions
 			$types = array(); 
 			if($filetypes)

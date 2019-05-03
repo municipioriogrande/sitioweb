@@ -30,7 +30,7 @@ class DUP_Zip extends DUP_Archive
             $timerAllStart     = DUP_Util::getMicrotime();
             $package_zip_flush = DUP_Settings::Get('package_zip_flush');
 
-            self::$compressDir  = rtrim(DUP_Util::safePath($archive->PackDir), '/');
+            self::$compressDir  = rtrim(wp_normalize_path(DUP_Util::safePath($archive->PackDir)), '/');
             self::$sqlPath      = DUP_Util::safePath("{$archive->Package->StorePath}/{$archive->Package->Database->File}");
             self::$zipPath      = DUP_Util::safePath("{$archive->Package->StorePath}/{$archive->File}");
             self::$zipArchive   = new ZipArchive();
@@ -54,11 +54,8 @@ class DUP_Zip extends DUP_Archive
             $isZipOpen = (self::$zipArchive->open(self::$zipPath, ZIPARCHIVE::CREATE) === TRUE);
             if (!$isZipOpen) {
                 $error_message = "Cannot open zip file with PHP ZipArchive.";
-
                 $buildProgress->set_failed($error_message);
-
                 DUP_Log::Error($error_message, "Path location [".self::$zipPath."]", Dup_ErrorBehavior::LogOnly);
-
                 return;
             }
             DUP_Log::Info("ARCHIVE DIR:  ".self::$compressDir);
@@ -76,6 +73,7 @@ class DUP_Zip extends DUP_Archive
             //ADD SQL
             $sql_ark_file_path = $archive->Package->getSqlArkFilePath();
             $isSQLInZip = self::$zipArchive->addFile(self::$sqlPath, $sql_ark_file_path);
+
             if ($isSQLInZip) {
                 DUP_Log::Info("SQL ADDED: ".basename(self::$sqlPath));
             } else {
@@ -92,7 +90,9 @@ class DUP_Zip extends DUP_Archive
             //ZIP DIRECTORIES
             $info = '';
             foreach (self::$scanReport->ARC->Dirs as $dir) {
-                if (is_readable($dir) && self::$zipArchive->addEmptyDir(ltrim(str_replace(self::$compressDir, '', $dir), '/'))) {
+                $emptyDir = $archive->getLocalDirPath($dir);
+
+                if (is_readable($dir) && self::$zipArchive->addEmptyDir($emptyDir)) {
                     self::$countDirs++;
                     $lastDirSuccess = $dir;
                 } else {
@@ -110,6 +110,11 @@ class DUP_Zip extends DUP_Archive
                 DUP_Log::Info($info);
             }
 
+            /**
+             * count update for integrity check
+             */
+            $sumItems   = (self::$countDirs + self::$countFiles);
+
             /* ZIP FILES: Network Flush
              *  This allows the process to not timeout on fcgi
              *  setups that need a response every X seconds */
@@ -117,7 +122,9 @@ class DUP_Zip extends DUP_Archive
             $info = '';
             if (self::$networkFlush) {
                 foreach (self::$scanReport->ARC->Files as $file) {
-                    if (is_readable($file) && self::$zipArchive->addFile($file, ltrim(str_replace(self::$compressDir, '', $file), '/'))) {
+                    $localFileName = $archive->getLocalFilePath($file);
+
+                    if (is_readable($file) && self::$zipArchive->addFile($file, $localFileName)) {
                         Dup_Log::Info("Adding {$file} to zip");
                         self::$limitItems++;
                         self::$countFiles++;
@@ -126,7 +133,6 @@ class DUP_Zip extends DUP_Archive
                     }
                     //Trigger a flush to the web server after so many files have been loaded.
                     if (self::$limitItems > DUPLICATOR_ZIP_FLUSH_TRIGGER) {
-                        $sumItems         = (self::$countDirs + self::$countFiles);
                         self::$zipArchive->close();
                         self::$zipArchive->open(self::$zipPath);
                         self::$limitItems = 0;
@@ -144,7 +150,9 @@ class DUP_Zip extends DUP_Archive
             //Normal
             else {
                 foreach (self::$scanReport->ARC->Files as $file) {
-                    if (is_readable($file) && self::$zipArchive->addFile($file, ltrim(str_replace(self::$compressDir, '', $file), '/'))) {
+                    $localFileName = $archive->getLocalFilePath($file);
+
+                    if (is_readable($file) && self::$zipArchive->addFile($file, $localFileName)) {
                         self::$countFiles++;
                     } else {
                         $info .= "FILE: [{$file}]\n";
@@ -167,6 +175,13 @@ class DUP_Zip extends DUP_Archive
 
             DUP_Log::Info(print_r(self::$zipArchive, true));
 
+            /**
+             * count update for integrity check
+             */
+            $archive->file_count = self::$countDirs + self::$countFiles;
+            DUP_Log::Info("FILE ADDED TO ZIP: ".$archive->file_count);
+
+
             //--------------------------------
             //LOG FINAL RESULTS
             DUP_Util::fcgiFlush();
@@ -177,8 +192,10 @@ class DUP_Zip extends DUP_Archive
                 $error_message = "ZipArchive close failure.";
 
                 DUP_Log::Error($error_message,
-                        "This hosted server may have a disk quota limit.\nCheck to make sure this archive file can be stored.",
-                        Dup_ErrorBehavior::LogOnly);
+					"The ZipArchive engine is having issues zipping up the files on this server. For more details visit the FAQ\n"
+					. "I'm getting a ZipArchive close failure when building. How can I resolve this?\n"
+					. "[https://snapcreek.com/duplicator/docs/faqs-tech/#faq-package-165-q]",
+                      Dup_ErrorBehavior::LogOnly);
 
                 $buildProgress->set_failed($error_message);
                 return;
@@ -187,16 +204,16 @@ class DUP_Zip extends DUP_Archive
             $timerAllEnd = DUP_Util::getMicrotime();
             $timerAllSum = DUP_Util::elapsedTime($timerAllEnd, $timerAllStart);
 
-
             self::$zipFileSize = @filesize(self::$zipPath);
             DUP_Log::Info("COMPRESSED SIZE: ".DUP_Util::byteSize(self::$zipFileSize));
             DUP_Log::Info("ARCHIVE RUNTIME: {$timerAllSum}");
             DUP_Log::Info("MEMORY STACK: ".DUP_Server::getPHPMemory());
+            
+
+            
         } catch (Exception $e) {
             $error_message = "Runtime error in class.pack.archive.zip.php constructor.";
-
             DUP_Log::Error($error_message, "Exception: {$e}", Dup_ErrorBehavior::LogOnly);
-
             $buildProgress->set_failed($error_message);
             return;
         }

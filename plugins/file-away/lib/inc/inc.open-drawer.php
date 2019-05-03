@@ -14,13 +14,14 @@ else
 if(isset($_REQUEST['drawer'.$drawerid]))
 { 
 	$rawdrawer = $_GET['drawer'.$drawerid];
-	$aposdrawer = stripslashes("$rawdrawer");
+	$aposdrawer = fileaway_utility::stripslashes("$rawdrawer");
 	if($aposdrawer === "/") $aposdrawer = trim($start, '/');
 	$dir = "$basebase"."/"."$aposdrawer"; 
 	$dir = str_replace('*', '/', "$dir");
 	if($rawdrawer === '') $dir = "$start";
 	if(!is_dir("$dir")) $dir = "$start";
 	if(strpos("$dir", '..') !== false) $dir = "$start";
+	if(!fileaway_utility::realpath($dir,$rootpath,$chosenpath)) $dir = $start;
 	if(strpos("$dir", trim($subbase, '/')) === false) $dir = "$start"; // experimental
 }
 if($private_content)

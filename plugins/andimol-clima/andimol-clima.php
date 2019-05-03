@@ -49,12 +49,13 @@ class Andimol_Clima extends WP_Widget {
 			//$json_file = file_get_contents('http://api.openweathermap.org/data/2.5/weather?lat='.$openweathermap_lat.'&lon='.$openweathermap_long.'&lang='.$openweathermap_lang.'&appid='.$openweathermap_api_id.'&units=metric');
 			
 			//FIXED: segun documentacion (https://openweathermap.org/appid) es mas preciso llamar por cityID que por geocoord
-
-			$url_ws = 'http://api.openweathermap.org/data/2.5/weather?';
-			$url_ws .= ( isset( $openweathermap_id ) ) ? 'id='.$openweathermap_id : 'lat='.$openweathermap_lat.'&lon='.$openweathermap_long;
-			$url_ws .= '&appid='.$openweathermap_api_id.'&';
-
-
+			if(isset($openweathermap_id)) {
+				$url_ws = 'http://api.openweathermap.org/data/2.5/weather?id='.$openweathermap_id.'&appid='.$openweathermap_api_id.'&';
+			}
+			else {
+				$url_ws = 'http://api.openweathermap.org/data/2.5/weather?lat='.$openweathermap_lat.'&lon='.$openweathermap_long.'&appid='.$openweathermap_api_id.'&';
+			}
+			
 
 			# JSON DE CLIMA FISICO LOCAL
 			$name_file 	= dirname(__FILE__).'/json/data_clima.json';

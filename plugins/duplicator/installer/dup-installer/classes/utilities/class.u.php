@@ -61,7 +61,34 @@ class DUPX_U
         }
     }
 
-	/**
+    /**
+     * Add replace strings to substitute old url to new url
+     * 1) no protocol old url to no protocol new url (es. //www.hold.url  => //www.new.url)
+     * 2) wrong protocol new url to right protocol new url (es. http://www.new.url => https://www.new.url)
+     *
+     * @param string $old
+     * @param string $new
+     */
+    public static function replacmentUrlOldToNew($old, $new)
+    {
+        //SEARCH WITH NO PROTOCOL: RAW "//"
+        $url_old_raw = str_ireplace(array('http://', 'https://'), '//', $old);
+        $url_new_raw = str_ireplace(array('http://', 'https://'), '//', $new);
+        DUPX_U::queueReplacementWithEncodings($url_old_raw, $url_new_raw);
+
+        //FORCE NEW PROTOCOL "//"
+        $url_new_info   = parse_url($new);
+        $url_new_domain = $url_new_info['scheme'].'://'.$url_new_info['host'];
+
+        if ($url_new_info['scheme'] == 'http') {
+            $url_new_wrong_protocol = 'https://'.$url_new_info['host'];
+        } else {
+            $url_new_wrong_protocol = 'http://'.$url_new_info['host'];
+        }
+        DUPX_U::queueReplacementWithEncodings($url_new_wrong_protocol, $url_new_domain);
+    }
+
+    /**
 	 * Does one string contain other
 	 *
 	 * @param string $haystack		The full string to search
@@ -132,21 +159,117 @@ class DUPX_U
      */
     public static function isURLActive($url, $port, $timeout = 5)
     {
-        if (function_exists('fsockopen')) {
-            @ini_set("default_socket_timeout", 5);
-            $port      = isset($port) && is_integer($port) ? $port : 80;
-            $connected = @fsockopen($url, $port, $errno, $errstr, $timeout); //website and port
-            if ($connected) {
-                @fclose($connected);
-                return true;
-            }
-            return false;
-        } else {
+		 $exists = false;
+		 if (function_exists('get_headers')) {
+			$url =  is_integer($port) ? $url . ':' . $port 	: $url;
+			DUPX_Handler::$should_log = false;
+			@ini_set("default_socket_timeout", $timeout);
+			$headers = @get_headers($url);
+			DUPX_Handler::$should_log = true;
+			if (is_array($headers) && strpos($headers[0], '404') === false) {
+				 $exists = true;
+			}
+		} else {
+			if (function_exists('fsockopen')) {
+				@ini_set("default_socket_timeout", $timeout);
+				$port = isset($port) && is_integer($port) ? $port : 80;
+				$host = parse_url($url, PHP_URL_HOST);
+				$connected = @fsockopen($host, $port, $errno, $errstr, $timeout); //website and port
+				if ($connected) {
+					@fclose($connected);
+					$exists = true;
+				}
+			}
+		}
+		return $exists;
+    }
+
+    /**
+     * move all folder content up to parent
+     *
+     * @param string $subFolderName full path
+     * @param boolean $deleteSubFolder if true delete subFolder after moved all
+     * @return boolean
+     * 
+     */
+    public static function moveUpfromSubFolder($subFolderName, $deleteSubFolder = false)
+    {
+        if (!is_dir($subFolderName)) {
             return false;
         }
+
+        $parentFolder = dirname($subFolderName);
+        if (!is_writable($parentFolder)) {
+            return false;
+        }
+
+        $success = true;
+        if (($subList = glob(rtrim($subFolderName, '/').'/*', GLOB_NOSORT)) === false) {
+            DUPX_Log::info("Problem glob folder ".$subFolderName);
+            return false;
+        } else {
+            foreach ($subList as $cName) {
+                $destination = $parentFolder.'/'.basename($cName);
+                if (file_exists($destination)) {
+                    $success = self::deletePath($destination);
+                }
+
+                if ($success) {
+                    $success = rename($cName, $destination);
+                } else {
+                    break;
+                }
+            }
+
+            if ($success && $deleteSubFolder) {
+                $success = self::deleteDirectory($subFolderName, true);
+            }
+        }
+
+        if (!$success) {
+            DUPX_Log::info("Problem om moveUpfromSubFolder subFolder:".$subFolderName);
+        }
+
+        return $success;
     }
-    
-	/**
+
+    /**
+     * @param string $archive_filepath  full path of zip archive
+     * 
+     * @return boolean|string  path of dup-installer folder of false if not found
+     */
+    public static function findDupInstallerFolder($archive_filepath)
+    {
+        $zipArchive = new ZipArchive();
+        $result     = false;
+
+        if ($zipArchive->open($archive_filepath) === true) {
+            for ($i = 0; $i < $zipArchive->numFiles; $i++) {
+                $stat     = $zipArchive->statIndex($i);
+                $safePath = rtrim(self::setSafePath($stat['name']), '/');
+                if (substr_count($safePath, '/') > 2) {
+                    continue;
+                }
+
+                $exploded = explode('/',$safePath);
+                if (($dup_index = array_search('dup-installer' , $exploded)) !== false) {
+                    $result = implode('/' , array_slice($exploded , 0 , $dup_index));
+                    break;
+                }
+            }
+            if ($zipArchive->close() !== true) {
+                DUPX_Log::info("Can't close ziparchive:".$archive_filepath);
+                return false;
+            }
+        } else {
+            DUPX_Log::info("Can't open zip archive:".$archive_filepath);
+            return false;
+        }
+
+        return $result;
+    }
+
+    /**
 	 *  A safe method used to copy larger files
 	 *
 	 * @param string $source		The path to the file being copied
@@ -169,42 +292,67 @@ class DUPX_U
 	}
 
 	/**
-	 * Safely remove a directory and recursively if needed
-	 *
-	 * @param string $directory The full path to the directory to remove
-	 * @param string $recursive recursively remove all items
-	 *
-	 * @return bool Returns true if all content was removed
-	 */
-	public static function deleteDirectory($directory, $recursive)
-	{
-		$success = true;
+     * Safely remove a directory and recursively if needed
+     *
+     * @param string $directory The full path to the directory to remove
+     * @param string $recursive recursively remove all items
+     *
+     * @return bool Returns true if all content was removed
+     */
+    public static function deleteDirectory($directory, $recursive)
+    {
+        $success = true;
 
-		if ($excepted_subdirectories = null) {
-			$excepted_subdirectories = array();
-		}
+        $filenames = array_diff(scandir($directory), array('.', '..'));
 
-		$filenames = array_diff(scandir($directory), array('.', '..'));
+        foreach ($filenames as $filename) {
+            $fullPath = $directory.'/'.$filename;
 
-		foreach ($filenames as $filename) {
-			if (is_dir("$directory/$filename")) {
-				if ($recursive) {
-					$success = self::deleteDirectory("$directory/$filename", true);
-				}
-			} else {
-				$success = @unlink("$directory/$filename");
-			}
+            if (is_dir($fullPath)) {
+                if ($recursive) {
+                    $success = self::deleteDirectory($fullPath, true);
+                }
+            } else {
+                $success = @unlink($fullPath);
+                if ($success === false) {
+                    DUPX_Log::info( __FUNCTION__.": Problem deleting file:".$fullPath);
+                }
+            }
 
-			if ($success === false) {
-				//self::log("Problem deleting $directory/$filename");
-				break;
-			}
-		}
+            if ($success === false) {
+                DUPX_Log::info("Problem deleting dir:".$directory);
+                break;
+            }
+        }
 
-		return $success && rmdir($directory);
-	}
+        return $success && rmdir($directory);
+    }
 
-	/**
+    /**
+     * Safely remove a file or directory and recursively if needed
+     *
+     * @param string $directory The full path to the directory to remove
+     *
+     * @return bool Returns true if all content was removed
+     */
+    public static function deletePath($path)
+    {
+        $success = true;
+
+        if (is_dir($path)) {
+            $success = self::deleteDirectory($path, true);
+        } else {
+            $success = @unlink($path);
+
+            if ($success === false) {
+                DUPX_Log::info( __FUNCTION__.": Problem deleting file:".$path);
+            }
+        }
+
+        return $success;
+    }
+
+    /**
 	 * Dumps a variable for debugging
 	 *
 	 * @param string $var The variable to view
@@ -341,6 +489,21 @@ class DUPX_U
 		return preg_match('/[^\x20-\x7f]/', $string);
 	}
 
+	/**
+	 * Is an object traversable
+	 *
+	 * @param object $obj The object to evaluate
+	 *
+	 * @return bool Returns true if the object can be looped over safely
+	 */
+	public static function isTraversable($obj)
+	{
+		if (is_null($obj))
+			return false;
+
+		return (is_array($obj) || $obj instanceof Traversable);
+	}
+
     /**
      * Is the server running Windows operating system
      *
@@ -398,6 +561,7 @@ class DUPX_U
 	{
 		$val	 = trim($val);
 		$last	 = strtolower($val[strlen($val) - 1]);
+		$val	 = intval($val);
 		switch ($last) {
 			// The 'G' modifier is available since PHP 5.1.0
 			case 'g':
@@ -462,23 +626,6 @@ class DUPX_U
     }
 
 	/**
-	 * Tests a CDN URL to see if it responds
-	 *
-	 * @param string $url	The URL to ping
-	 * @param string $port	The URL port to use
-	 *
-	 * @return bool Returns true if the CDN URL is active
-	 */
-	public static function tryCDN($url, $port)
-	{
-		if ($GLOBALS['FW_USECDN']) {
-			return DUPX_HTTP::is_url_active($url, $port);
-		} else {
-			return false;
-		}
-	}
-
-	/**
 	 *  Makes path unsafe for any OS for PHP used primarily to show default
 	 *  Windows OS path standard
 	 *
@@ -489,8 +636,8 @@ class DUPX_U
 	public static function unsetSafePath($path)
 	{
 		return str_replace("/", "\\", $path);
-	}	 
-	
+	}
+
 	/**
      *  Check PHP version
      *
@@ -502,8 +649,34 @@ class DUPX_U
     {
         return (version_compare(PHP_VERSION, $version) >= 0);
 	}
-	
-	// START ESCAPING AND SANITIZATION
+
+
+    /**
+     * @param $url string The URL whichs domain you want to get
+     * @return string The domain part of the given URL
+     *                  www.myurl.co.uk     => myurl.co.uk
+     *                  www.google.com      => google.com
+     *                  my.test.myurl.co.uk => myurl.co.uk
+     *                  www.myurl.localweb  => myurl.localweb
+     *
+     */
+    public static function getDomain($url)
+    {
+        $pieces = parse_url($url);
+        $domain = isset($pieces['host']) ? $pieces['host'] : '';
+        if (strpos($domain, ".") !== false) {
+            if (preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', $domain, $regs)) {
+                return $regs['domain'];
+            } else {
+                $exDomain = explode('.', $domain);
+                return implode('.', array_slice($exDomain, -2, 2));
+            }
+        } else {
+            return $domain;
+        }
+    }
+
+    // START ESCAPING AND SANITIZATION
 	/**
 	 * Escaping for HTML blocks.
 	 *
@@ -584,7 +757,7 @@ class DUPX_U
 	 */
 	public static function esc_textarea( $text )
 	{
-		$safe_text = htmlspecialchars( $text, ENT_QUOTES, 'UTF-8' );		
+		$safe_text = htmlspecialchars( $text, ENT_QUOTES, 'UTF-8' );
 		/**
 		 * Filters a string cleaned and escaped for output in a textarea element.
 		 *
@@ -911,7 +1084,7 @@ class DUPX_U
 		return ( ! in_array( $i, $allowedentitynames ) ) ? "&amp;$i;" : "&$i;";
 	}
 
-    
+
     /**
     * Helper function to determine if a Unicode value is valid.
     *
@@ -924,7 +1097,7 @@ class DUPX_U
                 ($i >= 0xe000 && $i <= 0xfffd) ||
                 ($i >= 0x10000 && $i <= 0x10ffff) );
     }
-        
+
 	/**
 	 * Callback for wp_kses_normalize_entities() regular expression.
 	 *
@@ -1104,7 +1277,7 @@ class DUPX_U
 		return $good_protocol_url;
 	}
 
-	
+
 	/**
 	 * Removes any invalid control characters in $string.
 	 *
@@ -1239,11 +1412,12 @@ class DUPX_U
 		$string2 = strtolower($string2);
 
 		$allowed = false;
-		foreach ( (array) $allowed_protocols as $one_protocol )
+		foreach ( (array) $allowed_protocols as $one_protocol ) {
 			if ( strtolower($one_protocol) == $string2 ) {
 				$allowed = true;
 				break;
 			}
+		}
 
 		if ($allowed)
 			return "$string2:";
@@ -1263,7 +1437,7 @@ class DUPX_U
 	}
 
 	// SANITIZE Functions
-	
+
 	/**
 	 * Normalize EOL characters and strip duplicate whitespace.
 	 *
@@ -1420,7 +1594,7 @@ class DUPX_U
 		return $matches[0];
 	}
 
-	
+
 	/**
 	 * Remove slashes from a string or array of strings.
 	 *
@@ -1486,7 +1660,7 @@ class DUPX_U
 		return is_string($value) ? stripslashes($value) : $value;
 	}
 
-	
+
 	/**
 	 * Normalize a filesystem path.
 	 *

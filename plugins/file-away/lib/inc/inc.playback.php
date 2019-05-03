@@ -75,4 +75,3 @@ if(!$skipthis && in_array($oext, $sources))
 	}
  	$used[] = $rawname; 
 }
-if($skipthis) continue; 

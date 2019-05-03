@@ -48,7 +48,7 @@ if(!class_exists('feedaway'))
 			extract($this->definitions->pathoptions);
 			$basedirs = fileaway_utility::feeds();
 			$excluded_dirs = fileaway_utility::feeds(true);
-			$wp_excludes = array('wp-admin', 'wp-includes', 'wp-content/themes', 'wp-content/upgrade');
+			$wp_excludes = array('wp-admin', 'wp-includes', basename(WP_CONTENT_DIR).'/themes', basename(WP_CONTENT_DIR).'/upgrade');
 			$startswith = array('fa-feed-logo', '_thumb_', 'fileaway-url-parser', 'fileaway-banner-parser', 'index.htm', 'index.php', '.ht');
 			$endswith = array('ini', 'php');
 			if(isset($this->options['feed_excluded_exts']) && !empty($this->options['feed_excluded_exts']))
@@ -61,6 +61,7 @@ if(!class_exists('feedaway'))
 				$excludestrings = preg_split('/(, |,)/', trim($this->options['feed_excluded_files']), -1, PREG_SPLIT_NO_EMPTY);
 			}
 			if(!isset($this->options['feeds']) || !$this->options['feeds'] || trim($this->options['feeds']) == '' || trim($this->options['feeds']) == '/') return;
+			$original_timezone = date_default_timezone_get();
 			fileaway_utility::timezone();
 			$storage = $rootpath.trim(trim($this->options['feeds']), '/');
 			if(!is_dir($storage)) if(mkdir($storage, 0775, true)) fileaway_utility::indexmulti($storage, $chosenpath);
@@ -293,7 +294,7 @@ if(!class_exists('feedaway'))
 					}	
 				}
 			}
-			date_default_timezone_set('UTC');
+			date_default_timezone_set($original_timezone);
 			exit;
 		}
 	}

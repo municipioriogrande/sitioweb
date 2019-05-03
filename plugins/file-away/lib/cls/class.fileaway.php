@@ -28,6 +28,7 @@ if(class_exists('fileaway_attributes') && !class_exists('fileaway'))
 			if(!is_dir("$dir") && $makedir && (!$private_content || ($private_content && $logged_in && stripos($dir, 'fa-nullmeta') === false)))
 				if(mkdir($rootpath.$dir, 0775, true)) fileaway_utility::indexmulti($rootpath.$dir, $chosenpath); 
 			if(!is_dir("$dir")) return;
+			if(!fileaway_utility::realpath($dir,$rootpath,$chosenpath)) return;
 			$start = "$dir";
 			$uid = rand(0, 9999); 
 			$name = ($name ? $name : "ssfa-meta-container-$uid" );
@@ -49,6 +50,8 @@ if(class_exists('fileaway_attributes') && !class_exists('fileaway'))
 			$flightbox_nonce = !empty($flightbox) ? 'data-fbn="'.wp_create_nonce('fileaway-flightbox-nonce').'"' : '';
 			$flightbox_class = !empty($flightbox) ? 'flightbox-parent' : '';
 			$thefiles .= "$clearfix<div id='$name' class='ssfa-meta-container $flightbox_class $mobileclass $class' data-uid='$uid' $flightbox_nonce style='margin: 10px 0 20px; $fadeit $howshouldiputit'>";
+			$location_nonce = 'fileaway-location-nonce-'.base64_encode(trim(trim($rootpath.$dir,'/'),'\\'));
+			$thefiles .= '<input type="hidden" id="location_nonce_'.$uid.'" data-uid="'.$uid.'" value="'.wp_create_nonce($location_nonce).'" />';
 			if($directories)
 			{ 
 				$recursive = false;
@@ -62,10 +65,11 @@ if(class_exists('fileaway_attributes') && !class_exists('fileaway'))
 			include fileaway_dir.'/lib/inc/inc.directories.php';
 			$files = $recursive ? fileaway_utility::recursefiles($dir, $onlydirs, $excludedirs) : scandir($dir); 
 			$count = 0; 
+			$original_timezone = date_default_timezone_get();
 			fileaway_utility::timezone();
 			include fileaway_dir.'/lib/inc/inc.file-array.php';
 			include fileaway_dir.'/lib/inc/inc.dynamic-links.php';
-			$fcount = count($rawnames);
+			$fcount = empty($rawnames) ? 0 : count($rawnames);
 			if($fcount < 1 && !$directories) return; 
 			if($playback)
 			{ 
@@ -140,7 +144,11 @@ if(class_exists('fileaway_attributes') && !class_exists('fileaway'))
 					if($flightbox && !$bannerad && !fileaway_utility::startswith($file, '_thumb_')) 
 						include fileaway_dir.'/lib/inc/inc.flightbox.php';
 					$audiocorrect = null;
-					if($playback) include fileaway_dir.'/lib/inc/inc.playback.php'; 
+					if($playback) 
+					{
+						include fileaway_dir.'/lib/inc/inc.playback.php'; 
+						if($skipthis) continue; 						
+					}
 					else
 					{ 
 						$player = null; 
@@ -282,7 +290,7 @@ if(class_exists('fileaway_attributes') && !class_exists('fileaway'))
 				if(count($boximages) > 0) $thefiles .= implode(' ', $boximages);
 				$thefiles .= '</script>';
 			}
-			date_default_timezone_set('UTC');
+			date_default_timezone_set($original_timezone);
 			if($private_content && $logged_in && $count > 0) return $thefiles; 	
 			elseif(!$private_content && $count > 0) return $thefiles; 
 			elseif($directories && (!$private_content || ($logged_in && $private_content))) return $thefiles;

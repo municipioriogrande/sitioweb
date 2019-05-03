@@ -12,7 +12,7 @@ require_once(DUPLICATOR_PLUGIN_PATH.'/classes/package/duparchive/class.pack.arch
 /**
  *  DUPLICATOR_PACKAGE_SCAN
  *  Returns a JSON scan report object which contains data about the system
- *  
+ *
  *  @return json   JSON report object
  *  @example	   to test: /wp-admin/admin-ajax.php?action=duplicator_package_scan
  */
@@ -23,8 +23,10 @@ function duplicator_package_scan()
 		die('An unathorized security request was made to this page. Please try again!');
 	}
 
-    header('Content-Type: application/json;');
     DUP_Util::hasCapability('export');
+
+    header('Content-Type: application/json;');
+    @ob_flush();
 
     @set_time_limit(0);
     $errLevel = error_reporting();
@@ -45,7 +47,7 @@ function duplicator_package_scan()
 /**
  *  duplicator_package_build
  *  Returns the package result status
- *  
+ *
  *  @return json   JSON object of package results
  */
 function duplicator_package_build()
@@ -101,12 +103,12 @@ function duplicator_duparchive_package_build()
     DUP_Util::hasCapability('export');
     check_ajax_referer('duplicator_duparchive_package_build', 'nonce');
     header('Content-Type: application/json');
-        
+
     @set_time_limit(0);
     $errLevel = error_reporting();
     error_reporting(E_ERROR);
 
-    // The DupArchive build process always works on a saved package so the first time through save the active package to the package table. 
+    // The DupArchive build process always works on a saved package so the first time through save the active package to the package table.
     // After that, just retrieve it.
     $active_package_id = DUP_Settings::Get('active_package_id');
 
@@ -145,15 +147,15 @@ function duplicator_duparchive_package_build()
             $hasCompleted = true;
         }
     }
-    
+
     $json = array();
     $json['failures'] = array_merge($package->BuildProgress->build_failures, $package->BuildProgress->validation_failures);
     DUP_LOG::traceObject("#### failures", $json['failures']);
-    
+
     //JSON:Debug Response
     //Pass = 1, Warn = 2, 3 = Failure, 4 = Not Done
     if ($hasCompleted) {
-        
+
         Dup_Log::Trace('#### completed');
 
         if($package->Status == DUP_PackageStatus::ERROR) {
@@ -271,6 +273,60 @@ function duplicator_package_delete()
 }
 
 /**
+ *  Active package info
+ *  Returns a JSON scan report active package info or
+ *  active_package_present == false if no active package is present.
+ *
+ *  @return json
+ */
+function duplicator_active_package_info()
+{
+    ob_start();
+    try {
+        global $wpdb;
+
+        $error  = false;
+        $result = array(
+            'active_package' => array(
+                'present' => false,
+                'status' => 0,
+                'size' => 0
+            ),
+            'html' => '',
+            'message' => ''
+        );
+
+        $nonce = sanitize_text_field($_POST['nonce']);
+        if (!wp_verify_nonce($nonce, 'duplicator_active_package_info')) {
+             throw new Exception(__('An unathorized security request was made to this page. Please try again!','duplicator'));
+        }
+
+        $result['active_package']['present'] = DUP_Package::is_active_package_present();
+
+        if ($result['active_package']['present']) {
+            $id = DUP_Settings::Get('active_package_id');
+            $package = DUP_Package::getByID($id);
+            if (is_null($package)) {
+                throw new Exception(__('Active package object error','duplicator'));
+            }
+            $result['active_package']['status'] = $package->Status;
+            $result['active_package']['size'] = $package->getArchiveSize();
+            $result['active_package']['size_format'] = DUP_Util::byteSize($package->getArchiveSize());
+        }
+    } catch (Exception $e) {
+        $error             = true;
+        $result['message'] = $e->getMessage();
+    }
+
+    $result['html'] = ob_get_clean();
+    if ($error) {
+        wp_send_json_error($result);
+    } else {
+        wp_send_json_success($result);
+    }
+}
+
+/**
  * Controller for Tools
  * @package Duplicator\ctrls
  */
@@ -306,14 +362,14 @@ class DUP_CTRL_Package extends DUP_CTRL_Base
             $package = DUP_Package::getActive();
 
             //DIRS
-            $dir_filters = ($package->Archive->FilterOn) 
-                                ? $package->Archive->FilterDirs.';'.sanitize_text_field($post['dir_paths']) 
+            $dir_filters = ($package->Archive->FilterOn)
+                                ? $package->Archive->FilterDirs.';'.sanitize_text_field($post['dir_paths'])
                                 : sanitize_text_field($post['dir_paths']);
             $dir_filters = $package->Archive->parseDirectoryFilter($dir_filters);
             $changed     = $package->Archive->saveActiveItem($package, 'FilterDirs', $dir_filters);
 
             //FILES
-            $file_filters = ($package->Archive->FilterOn) 
+            $file_filters = ($package->Archive->FilterOn)
                                 ? $package->Archive->FilterFiles.';'.sanitize_text_field($post['file_paths'])
                                 : sanitize_text_field($post['file_paths']);
             $file_filters = $package->Archive->parseFileFilter($file_filters);
@@ -351,20 +407,16 @@ class DUP_CTRL_Package extends DUP_CTRL_Base
     function getPackageFile($post)
     {
         $params = $this->postParamMerge($post);
-
         $nonce = sanitize_text_field($_GET['nonce']);
         if (!wp_verify_nonce($nonce, 'DUP_CTRL_Package_getPackageFile')) {
             die('An unathorized security request was made to this page. Please try again!');
         }
 
         $params = $this->getParamMerge($params);
-//       check_ajax_referer($post['action'], 'nonce');
-
         $result = new DUP_CTRL_Result($this);
 
         try {
             //CONTROLLER LOGIC
-
             DUP_Util::hasCapability('export');
 
             $request   = stripslashes_deep($_REQUEST);
@@ -376,6 +428,12 @@ class DUP_CTRL_Package extends DUP_CTRL_Base
 
             //OUTPUT: Installer, Archive, SQL File
             if ($isBinary) {
+                @session_write_close();
+                // @ob_flush();
+				//flush seems to cause issues on some PHP version where the download prompt
+ 				//is no longer called but the contents of the installer are dumped to the browser.
+                //@flush();
+
                 header("Pragma: public");
                 header("Expires: 0");
                 header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
@@ -392,17 +450,18 @@ class DUP_CTRL_Package extends DUP_CTRL_Base
                             $fileName = basename($filePath);
                         }
 
-                        header("Content-Type: application/octet-stream");
-                        header("Content-Disposition: attachment; filename=\"{$fileName}\";");
+						header("Content-Type: application/octet-stream");
+						header("Content-Disposition: attachment; filename=\"{$fileName}\";");
 
-                        @ob_end_clean(); // required or large files wont work
-                        DUP_Log::Trace("streaming $filePath");
+                        DUP_LOG::trace("streaming $filePath");
 
-                        if (fpassthru($fp) === false) {
-                            DUP_Log::Trace("Error with fpassthru for {$filePath}");
-                        }
+						while(!feof($fp)) {
+							$buffer = fread($fp, 2048);
+							print $buffer;
+						}
+
                         fclose($fp);
-                        die(); //Supress additional ouput
+						exit;
                     } else {
                         header("Content-Type: text/plain");
                         header("Content-Disposition: attachment; filename=\"error.txt\";");
@@ -437,50 +496,47 @@ class DUP_CTRL_Package extends DUP_CTRL_Base
             $result->processError($exc);
         }
     }
-    
-    /** 
+
+    /**
      * Get active package status
-     * 
+     *
 	 * <code>
 	 * //JavaScript Ajax Request
 	 * Duplicator.Package.getActivePackageStatus()
 	 * </code>
      */
-	public function getActivePackageStatus($post) 
+	public function getActivePackageStatus($post)
 	{
         $post = $this->postParamMerge($post);
         $nonce = sanitize_text_field($post['nonce']);
         if (!wp_verify_nonce($nonce, 'DUP_CTRL_Package_getActivePackageStatus')) {
             die('An unathorized security request was made to this page. Please try again!');
-        }        
+        }
 		$result = new DUP_CTRL_Result($this);
-	
-		try 
+
+		try
 		{
 			//CONTROLLER LOGIC
 			$post  = stripslashes_deep($_POST);
-            
             $active_package_id = DUP_Settings::Get('active_package_id');
-           
             $package = DUP_Package::getByID($active_package_id);
-
             $payload = array();
-            
+
             if($package != null) {
                 $test = DUP_CTRL_Status::SUCCESS;
-   
+
                 $payload['status']  = $package->Status;
             } else {
                 $test = DUP_CTRL_Status::FAILED;
             }
-			
+
 			//RETURN RESULT
 			return $result->process($payload, $test);
-		} 
-		catch (Exception $exc) 
+		}
+		catch (Exception $exc)
 		{
 			$result->processError($exc);
 		}
     }
-    
+
 }

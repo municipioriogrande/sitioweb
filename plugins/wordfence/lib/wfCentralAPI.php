@@ -253,7 +253,7 @@ class wfCentralAuthenticatedAPIRequest extends wfCentralAPIRequest {
 	}
 
 	public function fetchToken() {
-		require_once WORDFENCE_PATH . '/vendor/paragonie/sodium_compat/autoload.php';
+		require_once WORDFENCE_PATH . '/vendor/paragonie/sodium_compat/autoload-fast.php';
 
 		$defaultArgs = array(
 			'timeout' => 6,
@@ -321,6 +321,13 @@ class wfCentral {
 	 */
 	public static function isConnected() {
 		return self::isSupported() && ((bool) wfConfig::get('wordfenceCentralConnected', false));
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function isPartialConnection() {
+		return !wfConfig::get('wordfenceCentralConnected') && wfConfig::get('wordfenceCentralSiteID');
 	}
 
 	/**

@@ -397,7 +397,12 @@ if(class_exists('fileaway_admin') && !class_exists('fileaway_modal'))
 			$fileaway['drawerlabel']['label'] = 'Drawer Col Label';
 			$fileaway['drawerlabel']['element'] = 'text';
 			$fileaway['drawerlabel']['style'] = 'display:none';
-			$fileaway['drawerlabel']['class'] = 'fileaway-half';			
+			$fileaway['drawerlabel']['class'] = 'fileaway-half';
+			$fileaway['parentlabel']['section'] = 'modes';
+			$fileaway['parentlabel']['label'] = 'Parent Dir Pseudonym';
+			$fileaway['parentlabel']['element'] = 'text';
+			$fileaway['parentlabel']['style'] = 'display:none';
+			$fileaway['parentlabel']['class'] = '';									
 			$fileaway['password']['section'] = 'modes';
 			$fileaway['password']['label'] = 'Override Password';
 			$fileaway['password']['element'] = 'text';

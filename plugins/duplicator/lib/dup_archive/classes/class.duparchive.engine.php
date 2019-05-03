@@ -62,10 +62,12 @@ if(!class_exists('DupArchiveEngine')) {
 class DupArchiveEngine
 {
 
-    public static function init($logger, $profilingFunction = null)
+    public static $archive;
+    public static function init($logger, $profilingFunction = null, $archive = null)
     {
         DupArchiveUtil::$logger = $logger;
         DupArchiveUtil::$profilingFunction = $profilingFunction;
+        self::$archive = $archive;
     }
 
     public static function getNextHeaderType($archiveHandle)
@@ -280,10 +282,14 @@ class DupArchiveEngine
                 if (isset($scanFSInfo->DirectoryAliases) && array_key_exists($directory, $scanFSInfo->DirectoryAliases)) {
                     $relativeDirectoryPath = $scanFSInfo->DirectoryAliases[$directory];
                 } else {
-                    $relativeDirectoryPath = substr($directory, $basepathLength);
-                    $relativeDirectoryPath = ltrim($relativeDirectoryPath, '/');
-                    if ($createState->newBasePath !== null) {
-                        $relativeDirectoryPath = $createState->newBasePath . $relativeDirectoryPath;
+                    if (null === self::$archive) {
+                        $relativeDirectoryPath = substr($directory, $basepathLength);
+                        $relativeDirectoryPath = ltrim($relativeDirectoryPath, '/');
+                        if ($createState->newBasePath !== null) {
+                            $relativeDirectoryPath = $createState->newBasePath . $relativeDirectoryPath;
+                        }
+                    } else {
+                        $relativeDirectoryPath = self::$archive->getLocalDirPath($directory, $createState->newBasePath);
                     }
                 }
 
@@ -317,10 +323,14 @@ class DupArchiveEngine
                 if (isset($scanFSInfo->FileAliases) && array_key_exists($filepath, $scanFSInfo->FileAliases)) {
                     $relativeFilePath = $scanFSInfo->FileAliases[$filepath];
                 } else {
-                    $relativeFilePath = substr($filepath, $basepathLength);
-                    $relativeFilePath = ltrim($relativeFilePath, '/');
-                    if ($createState->newBasePath !== null) {
-                        $relativeFilePath = $createState->newBasePath . $relativeFilePath;
+                    if (null === self::$archive) {
+                        $relativeFilePath = substr($filepath, $basepathLength);
+                        $relativeFilePath = ltrim($relativeFilePath, '/');
+                        if ($createState->newBasePath !== null) {
+                            $relativeFilePath = $createState->newBasePath . $relativeFilePath;
+                        }
+                    } else {
+                        $relativeFilePath = self::$archive->getLocalFilePath($filepath, $createState->newBasePath);
                     }
                 }
 
@@ -464,19 +474,13 @@ class DupArchiveEngine
     // Single-threaded file expansion
     public static function expandFiles($archiveFilePath, $relativeFilePaths, $destPath)
     {
-        DUP_PRO_LOG::trace("Opening archive: {$archiveFilePath}");
-        
         // Not setting timeout timestamp so it will never timeout
         DupArchiveUtil::tlog("opening archive {$archiveFilePath}");
 
         $archiveHandle = SnapLibIOU::fopen($archiveFilePath, 'r');
 
-        DUP_PRO_LOG::trace("archiveHandle: ".var_export($archiveHandle,true));
-
         /* @var $expandState DupArchiveSimpleExpandState */
         $expandState = new DupArchiveSimpleExpandState();
-
-        DUP_PRO_LOG::trace("Initialize class DupArchiveSimpleExpandState(): ".var_export($expandState,true));
 
         $expandState->archiveHeader = DupArchiveHeader::readFromArchive($archiveHandle);
         $expandState->isCompressed  = $expandState->archiveHeader->isCompressed;
@@ -487,8 +491,6 @@ class DupArchiveEngine
 //        $expandState->basePath    = $destPath . '/tempExtract';   // RSR remove once extract works
         $expandState->basePath      = $destPath;   // RSR remove once extract works
         
-        DUP_PRO_LOG::trace("expandState Setup: ".var_export($expandState,true));
-
         // TODO: Filter out all directories/files except those in the list
         self::expandItems($expandState, $archiveHandle);
 

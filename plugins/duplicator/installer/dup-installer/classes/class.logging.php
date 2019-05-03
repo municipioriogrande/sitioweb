@@ -1,7 +1,6 @@
 <?php
 defined("ABSPATH") or die("");
 
-define('ERR_CONFIG_FOUND', 'A wp-config.php already exists in this location.  This error prevents users from accidentally overwriting a WordPress site or trying to install on top of an existing one.  Extracting an archive on an existing site will overwrite existing files and intermix files causing site incompatibility issues.<br/><br/>  It is highly recommended to place the installer and archive in an empty directory. If you have already manually extracted the archive file that is associated with this installer then choose option #1 below; other-wise consider the other options: <ol><li>Click &gt; Try Again &gt; Options &gt; choose "Manual Archive Extraction".</li><li>Empty the directory except for the archive.zip/daf and installer.php and try again.</li><li>Advanced users only can remove the existing wp-config.php file and try again.</li></ol>');
 define('ERR_ZIPNOTFOUND', 'The packaged zip file was not found or has become unreadable. Be sure the zip package is in the same directory as the installer file.  If you are trying to reinstall a package you can copy the package from the "' . DUPLICATOR_SSDIR_NAME . '" directory back up to your root which is the same location as your installer file.');
 define('ERR_SHELLEXEC_ZIPOPEN', 'Failed to extract archive using shell_exec unzip');
 define('ERR_ZIPOPEN', 'Failed to open zip archive file. Please be sure the archive is completely downloaded before running the installer. Try to extract the archive manually to make sure the file is not corrupted.');
@@ -30,6 +29,7 @@ class DUPX_Log
 	 *  Used to write debug info to the text log file
 	 *  @param string $msg		Any text data
 	 *  @param int $loglevel	Log level
+	 *	1 = Light, 2 = Detailed, 3 = Debug
 	 */
 	public static function info($msg, $logging = 1)
 	{
@@ -55,9 +55,61 @@ class DUPX_Log
 		$log_msg = strip_tags($log_msg);
 		@fwrite($GLOBALS["LOG_FILE_HANDLE"], "\nINSTALLER ERROR:\n{$log_msg}\n");
 		@fclose($GLOBALS["LOG_FILE_HANDLE"]);
-		die("<div class='dupx-ui-error'><hr size='1' /><b style='color:#B80000;'>INSTALL ERROR!</b><br/>{$errorMessage}</div>");
+		die("<div class='dupx-ui-error'><hr size='1' /><b style='color:#B80000;'><i class='fa fa-exclamation-circle'></i> INSTALL ERROR!</b><br/>{$errorMessage}</div>");
 	}
 
 }
 
+class DUPX_Handler {
 
+	public static $should_log = true;
+
+	/**
+	 * Error handler
+	 *
+	 * @param  integer $errno   Error level
+	 * @param  string  $errstr  Error message
+	 * @param  string  $errfile Error file
+	 * @param  integer $errline Error line
+	 * @return void
+	 */
+	public static function error($errno, $errstr, $errfile, $errline) {
+		if (self::$should_log) {
+			$msg = $errstr.' (Code: '.$errno.', line '.$errline.' in '.$errfile.')';
+			switch ($errno) {
+				case E_ERROR :		
+					$log_message = '*** PHP Fatal Error Message: ' . $msg;
+					DUPX_Log::error($log_message);
+					break;
+				case E_WARNING :	
+					$log_message = '*** PHP Warning Message: ' . $msg;
+					DUPX_Log::info($log_message);
+					break;
+				case E_NOTICE  :
+					if ($GLOBALS["LOGGING"] > 2) {
+						$log_message = '*** PHP Notice Message: ' . $msg;
+						DUPX_Log::info($log_message);
+					}
+					break;
+				default :
+					$log_message = "***  PHP Issue Message ({$errno}): " . $msg;
+					DUPX_Log::info($log_message);
+					break;
+			}
+		}
+	}
+
+	/**
+	 * Shutdown handler
+	 *
+	 * @return void
+	 */
+	public static function shutdown() {
+		if (($error = error_get_last())) {
+			DUPX_Handler::error($error['type'], $error['message'], $error['file'], $error['line']);
+		}
+	}
+}
+
+@set_error_handler('DUPX_Handler::error');
+@register_shutdown_function('DUPX_Handler::shutdown');

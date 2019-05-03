@@ -68,6 +68,10 @@ class WPConfigTransformer {
 			throw new Exception( 'wp-config.php file is empty.' );
 		}
 
+		// SnapCreek custom change
+		// Normalize the newline to prevent an issue coming from OSX
+		$wp_config_src = str_replace(array("\n\r", "\r"), array("\n", "\n"), $wp_config_src);
+
 		$this->wp_config_src = $wp_config_src;
 		$this->wp_configs    = $this->parse_wp_config( $this->wp_config_src );
 
@@ -91,10 +95,14 @@ class WPConfigTransformer {
 	 */
 	public function get_value( $type, $name ) {
 		$wp_config_src = file_get_contents( $this->wp_config_path );
-
 		if ( ! trim( $wp_config_src ) ) {
 			throw new Exception( 'wp-config.php file is empty.' );
 		}
+
+		// SnapCreek custom change
+		// Normalize the newline to prevent an issue coming from OSX
+		$wp_config_src = str_replace(array("\n\r", "\r"), array("\n", "\n"), $wp_config_src);
+
 
 		$this->wp_config_src = $wp_config_src;
 		$this->wp_configs    = $this->parse_wp_config( $this->wp_config_src );
@@ -148,6 +156,68 @@ class WPConfigTransformer {
 		$anchor    = (string) $anchor;
 		$separator = (string) $separator;
 		$placement = (string) $placement;
+
+		// Custom code by the SnapCreek Team
+		if ( false === strpos( $this->wp_config_src, $anchor ) ) {
+			$other_anchor_points = array(
+				'/** Absolute path to the WordPress directory',
+				// ABSPATH defined check with single quote
+				"if ( !defined('ABSPATH') )",
+				"if ( ! defined( 'ABSPATH' ) )",
+				"if (!defined('ABSPATH') )",
+				"if(!defined('ABSPATH') )",
+				"if(!defined('ABSPATH'))",
+				"if ( ! defined( 'ABSPATH' ))",
+				"if ( ! defined( 'ABSPATH') )",
+				"if ( ! defined('ABSPATH' ) )",
+				"if (! defined( 'ABSPATH' ))",
+				"if (! defined( 'ABSPATH') )",
+				"if (! defined('ABSPATH' ) )",
+				"if ( !defined( 'ABSPATH' ))",
+				"if ( !defined( 'ABSPATH') )",
+				"if ( !defined('ABSPATH' ) )",
+				"if( !defined( 'ABSPATH' ))",
+				"if( !defined( 'ABSPATH') )",
+				"if( !defined('ABSPATH' ) )",
+				// ABSPATH defined check with double quote
+				'if ( !defined("ABSPATH") )',
+				'if ( ! defined( "ABSPATH" ) )',
+				'if (!defined("ABSPATH") )',
+				'if(!defined("ABSPATH") )',
+				'if(!defined("ABSPATH"))',
+				'if ( ! defined( "ABSPATH" ))',
+				'if ( ! defined( "ABSPATH") )',
+				'if ( ! defined("ABSPATH" ) )',
+				'if (! defined( "ABSPATH" ))',
+				'if (! defined( "ABSPATH") )',
+				'if (! defined("ABSPATH" ) )',
+				'if ( !defined( "ABSPATH" ))',
+				'if ( !defined( "ABSPATH") )',
+				'if ( !defined("ABSPATH" ) )',
+				'if( !defined( "ABSPATH" ))',
+				'if( !defined( "ABSPATH") )',
+				'if( !defined("ABSPATH" ) )',
+				
+				'/** Sets up WordPress vars and included files',
+				'require_once(ABSPATH',
+				'require_once ABSPATH',
+				'require_once( ABSPATH',
+				'require_once',
+				"define( 'DB_NAME'",
+				'define( "DB_NAME"',
+				"define('DB_NAME'",
+				'define("DB_NAME"',
+				'require',
+				'include_once',				
+			);
+			foreach ($other_anchor_points as $anchor_point) {
+				$anchor_point    = (string) $anchor_point;
+				if ( false !== strpos( $this->wp_config_src, $anchor_point ) ) {
+					$anchor = $anchor_point;
+					break;
+				}
+			}
+		}
 
 		if ( false === strpos( $this->wp_config_src, $anchor ) ) {
 			throw new Exception( 'Unable to locate placement anchor.' );
@@ -293,8 +363,9 @@ class WPConfigTransformer {
 			}
 		}
 
-		preg_match_all( '/(?<=^|;|<\?php\s|<\?\s)(\h*define\s*\(\s*[\'"](\w*?)[\'"]\s*)(,\s*([\'"].*?[\'"]|.*?)\s*)((?:,\s*(?:true|false)\s*)?\)\s*;)/ims', $src, $constants );
-		preg_match_all( '/(?<=^|;|<\?php\s|<\?\s)(\h*\$(\w+)\s*=)(\s*([\'"].*?[\'"]|.*?)\s*;)/ims', $src, $variables );
+		preg_match_all( '/(?<=^|;|<\?php\s|<\?\s)(\h*define\s*\(\s*[\'"](\w*?)[\'"]\s*)(,\s*(\'\'|""|\'.*?[^\\\\]\'|".*?[^\\\\]"|.*?)\s*)((?:,\s*(?:true|false)\s*)?\)\s*;)/ims', $src, $constants );
+        preg_match_all( '/(?<=^|;|<\?php\s|<\?\s)(\h*\$(\w+)\s*=)(\s*(\'\'|""|\'.*?[^\\\\]\'|".*?[^\\\\]"|.*?)\s*;)/ims', $src, $variables );
+
 
 		if ( ! empty( $constants[0] ) && ! empty( $constants[1] ) && ! empty( $constants[2] ) && ! empty( $constants[3] ) && ! empty( $constants[4] ) && ! empty( $constants[5] ) ) {
 			foreach ( $constants[2] as $index => $name ) {

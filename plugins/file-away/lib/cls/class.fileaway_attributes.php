@@ -712,6 +712,12 @@ if(!class_exists('fileaway_attributes'))
 							'options' => false,
 						),
 					),
+					'parentlabel' => array(
+						'table' => array(
+							'default' => false,
+							'options' => false,
+						),
+					),					
 					'password' => array(
 						'table' => array(
 							'default' => false,

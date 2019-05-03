@@ -9,7 +9,8 @@ if(!class_exists('fileaway_encrypted'))
 			if(!$file) return false;	
 			$file = fileaway_utility::urlesc($file);
 			$nonce = wp_create_nonce('fileaway-download');
-			return fileaway_url.'/lib/cls/class.fileaway_downloader.php?fileaway='.$this->encrypt($file).'&nonce='.$nonce;	
+			$ops = get_option('fileaway_options');
+			return $ops['baseurl'].'?fileaway_download=1&fileaway='.$this->encrypt($file).'&nonce='.$nonce;	
 		}
 		public function encrypt($file)
 		{ 

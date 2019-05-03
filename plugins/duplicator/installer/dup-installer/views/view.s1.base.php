@@ -18,7 +18,8 @@ $installer_state	  = DUPX_InstallerState::getInstance();
 if ($GLOBALS['DUPX_AC']->installSiteOverwriteOn) {
 	$is_wpconfarc_present = file_exists("{$root_path}/dup-wp-config-arc__{$GLOBALS['DUPX_AC']->package_hash}.txt");	
 } else {
-	$is_wpconfarc_present = file_exists("{$root_path}/wp-config.php");
+	$outer_root_path = dirname($root_path); 
+	$is_wpconfarc_present = file_exists("{$root_path}/wp-config.php") || (@file_exists("{$outer_root_path}/wp-config.php") && !@file_exists("{$outer_root_path}/wp-settings.php"));
 }
 
 $is_overwrite_mode    =  ($installer_state->mode === DUPX_InstallerMode::OverwriteInstall);
@@ -54,9 +55,31 @@ if ($is_dbonly) {
 }
 $notice['30'] = $fulldays <= 180					? 'Good' : 'Warn';
 $notice['40'] = DUPX_Server::$php_version_53_plus	? 'Good' : 'Warn';
+
+$packagePHP = $GLOBALS['DUPX_AC']->version_php;
+$currentPHP = DUPX_Server::$php_version;
+$packagePHPMajor = intval($packagePHP);
+$currentPHPMajor = intval($currentPHP);
+$notice['45'] = ($packagePHPMajor === $currentPHPMajor || $GLOBALS['DUPX_AC']->exportOnlyDB) ? 'Good' : 'Warn';
+
 $notice['50'] = empty($openbase)					? 'Good' : 'Warn';
 $notice['60'] = !$max_time_warn						? 'Good' : 'Warn';
 $notice['70'] = $GLOBALS['DUPX_AC']->mu_mode == 0	? 'Good' : 'Warn';
+$notice['80'] = !$GLOBALS['DUPX_AC']->is_outer_root_wp_config_file	? 'Good' : 'Warn';
+if ($GLOBALS['DUPX_AC']->exportOnlyDB) {
+	$notice['90'] = 'Good';
+} else {
+	$notice['90'] = (!$GLOBALS['DUPX_AC']->is_outer_root_wp_content_dir) 
+						? 'Good' 
+						: 'Warn';
+}
+
+$space_free = @disk_free_space($GLOBALS['DUPX_ROOT']); 
+$archive_size = filesize($GLOBALS['FW_PACKAGE_PATH']);
+$notice['100'] = ($space_free && $archive_size > $space_free) 
+                    ? 'Warn'
+					: 'Good';
+
 $all_notice	  = in_array('Warn', $notice)			? 'Warn' : 'Good';
 
 //SUMMATION
@@ -75,7 +98,7 @@ $archive_config  = DUPX_ArchiveConfig::getInstance();
 <input type="hidden" name="view" value="step1" />
 <input type="hidden" name="csrf_token" value="<?php echo DUPX_CSRF::generate('step1'); ?>"> 
 <input type="hidden" name="ctrl_action" value="ctrl-step1" />
-<input type="hidden" name="ctrl_csrf_token" value="<?php echo DUPX_CSRF::generate('ctrl-step1'); ?>"> 
+<input type="hidden" name="ctrl_csrf_token" value="<?php echo DUPX_U::esc_attr(DUPX_CSRF::generate('ctrl-step1')); ?>"> 
 <input type="hidden" name="secure-pass" value="<?php echo DUPX_U::esc_html($_POST['secure-pass']); ?>" />
 <input type="hidden" name="bootloader" value="<?php echo DUPX_U::esc_attr($GLOBALS['BOOTLOADER_NAME']); ?>" />
 <input type="hidden" name="archive" value="<?php echo DUPX_U::esc_attr($GLOBALS['FW_PACKAGE_PATH']); ?>" />
@@ -343,7 +366,8 @@ VALIDATION
 					<b>Options:</b>
 					<ul style="margin-bottom: 0">
 						<li>If the archive was already manually extracted then <a href="javascript:void(0)" onclick="DUPX.getManaualArchiveOpt()">[Enable Manual Archive Extraction]</a></li>
-						<li>If the wp-config file is not needed then remove it.</li>
+						<li>Empty the directory of all files, except for the installer.php and archive.zip/daf files.</li>
+						<li>Advanced Users: Can attempt to manually remove the wp-config file only if the archive was manually extracted.</li>
 					</ul>
 				<?php
                 }
@@ -351,7 +375,7 @@ VALIDATION
 			</div>
 
 		<!-- NOTICE 20: ARCHIVE EXTRACTED -->
-		<?php elseif ($is_wpconfarc_present) :?>
+		<?php elseif ($is_wpconfarc_present && file_exists('{$root_path}/dup-installer')) :?>
 			<div class="status fail">Warn</div>
 			<div class="title" data-type="toggle" data-target="#s1-notice20"><i class="fa fa-caret-right"></i> Archive Extracted</div>
 			<div class="info" id="s1-notice20">
@@ -409,7 +433,6 @@ VALIDATION
 		<div class="title" data-type="toggle" data-target="#s1-notice40"><i class="fa fa-caret-right"></i> PHP Version 5.2</div>
 		<div class="info" id="s1-notice40">
 			<?php
-				$currentPHP = DUPX_Server::$php_version;
 				$cssStyle   = DUPX_Server::$php_version_53_plus	 ? 'color:green' : 'color:red';
 				echo "<b style='{$cssStyle}'>This server is currently running PHP version [{$currentPHP}]</b>.<br/>"
 				. "Duplicator allows PHP 5.2 to be used during install but does not officially support it.  If you're using PHP 5.2 we strongly recommend NOT using it and having your "
@@ -422,6 +445,18 @@ VALIDATION
 			?>
 		</div>
 
+		<!-- NOTICE 45 -->
+		<div class="status <?php echo ($notice['45'] == 'Good') ? 'pass' : 'fail' ?>"><?php echo $notice['45']; ?></div>
+		<div class="title" data-type="toggle" data-target="#s1-notice45"><i class="fa fa-caret-right"></i> PHP Version Mismatch</div>
+		<div class="info" id="s1-notice45">
+			<?php
+                $cssStyle   = $notice['45'] == 'Good' ? 'color:green' : 'color:red';
+				echo "<b style='{$cssStyle}'>You are migrating site from the PHP {$packagePHP} to the PHP {$currentPHP}</b>.<br/>"
+                    ."If this servers PHP version is different to the PHP version of your package was created it might cause problems with proper functioning of your website
+						and/or plugins and themes.   It is highly recommended to try and use the same version of PHP if you are able to do so. <br/>";
+                ?>
+            </div>
+
 		<!-- NOTICE 50 -->
 		<div class="status <?php echo ($notice['50'] == 'Good') ? 'pass' : 'fail' ?>"><?php echo DUPX_U::esc_html($notice['50']); ?></div>
 		<div class="title" data-type="toggle" data-target="#s1-notice50"><i class="fa fa-caret-right"></i> PHP Open Base</div>
@@ -429,7 +464,7 @@ VALIDATION
 			<b>Open BaseDir:</b> <i><?php echo $notice['50'] == 'Good' ? "<i class='dupx-pass'>Disabled</i>" : "<i class='dupx-fail'>Enabled</i>"; ?></i>
 			<br/><br/>
 
-			If <a href="http://www.php.net/manual/en/ini.core.php#ini.open-basedir" target="_blank">open_basedir</a> is enabled and your
+			If <a href="http://php.net/manual/en/ini.core.php#ini.open-basedir" target="_blank">open_basedir</a> is enabled and your
 			having issues getting your site to install properly; please work with your host and follow these steps to prevent issues:
 			<ol style="margin:7px; line-height:19px">
 				<li>Disable the open_basedir setting in the php.ini file</li>
@@ -479,6 +514,38 @@ VALIDATION
 
 			 <i><a href='https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_is_mu_warn_exe&utm_campaign=duplicator_pro' target='_blank'>[upgrade to pro]</a></i>
 		</div>
+
+		<!-- NOTICE 80 -->
+		<div class="status <?php echo ($notice['80'] == 'Good') ? 'pass' : 'fail' ?>"><?php echo DUPX_U::esc_html($notice['80']); ?></div>
+		<div class="title" data-type="toggle" data-target="#s1-notice80"><i class="fa fa-caret-right"></i> WordPress wp-config Location</div>
+		<div class="info" id="s1-notice80">
+			If the wp-config.php file was moved up one level and out of the WordPress root folder in the package creation site then this test will show a warning.
+			<br/><br/>
+			This Duplicator installer will place this wp-config.php file in the WordPress setup root folder of this installation site to help stabilize the install process.
+			This process will not break anything in your installation site, but the details are here for your information.
+		</div>
+
+		<!-- NOTICE 90 -->
+		<div class="status <?php echo ($notice['90'] == 'Good') ? 'pass' : 'fail' ?>"><?php echo DUPX_U::esc_html($notice['90']); ?></div>
+		<div class="title" data-type="toggle" data-target="#s1-notice90"><i class="fa fa-caret-right"></i> WordPress wp-content Location</div>
+		<div class="info" id="s1-notice90">
+			If the wp-content directory was moved and not located at the WordPress root folder in the package creation site then this test will show a warning.
+			<br/><br/>
+			Duplicator Installer will place this wp-content directory in the WordPress setup root folder of this installation site. It will not break anything in your installation
+			site. It is just for your information.
+		</div>
+
+		<!-- NOTICE 100 -->
+		<div class="status <?php echo ($notice['100'] == 'Good') ? 'pass' : 'fail' ?>"><?php echo DUPX_U::esc_html($notice['100']); ?></div>
+		<div class="title" data-type="toggle" data-target="#s1-notice100"><i class="fa fa-caret-right"></i> Sufficient disk space</div>
+		<div class="info" id="s1-notice100">
+        <?php
+        echo ($notice['100'] == 'Good')
+                ? 'You have sufficient disk space in your machine to extract the archive.'
+                : 'You don’t have sufficient disk space in your machine to extract the archive. Ask your host to increase disk space.'
+        ?>
+		</div>
+
 	</div>
 
 </div>
@@ -861,7 +928,6 @@ DUPX.pingDAWS = function ()
 	}
 
 	console.log("pingDAWS:action=" + request.action);
-	console.log("daws url=" + DUPX.DAWS.Url);
 
 	$.ajax({
 		type: "POST",
@@ -990,20 +1056,6 @@ DUPX.kickOffDupArchiveExtract = function ()
 	var request = new Object();
 	var isClientSideKickoff = DUPX.isClientSideKickoff();
 
-	<?php
-	if (!$GLOBALS['DUPX_AC']->installSiteOverwriteOn && file_exists($root_path.'/wp-config.php')) {
-		?>
-		$('#s1-input-form').hide();
-		$('#s1-result-form').show();
-		var errorString = "<div class='dupx-ui-error'><b style='color:#B80000;'>INSTALL ERROR!</b><br/>"+'<?php echo ERR_CONFIG_FOUND;?>'+"</div>";
-		$('#ajaxerr-data').html(errorString);
-		DUPX.hideProgressBar();
-		return false;
-		<?php
-	}
-	?>
-	
-
 	request.action = "start_expand";
 	request.archive_filepath = '<?php echo DUPX_U::esc_js($archive_path); ?>';
 	request.restore_directory = '<?php echo DUPX_U::esc_js($root_path); ?>';
@@ -1033,7 +1085,7 @@ DUPX.kickOffDupArchiveExtract = function ()
 	$.ajax({
 		type: "POST",
 		timeout: DUPX.DAWS.KickoffWorkerTimeInSec * 2000,  // Double worker time and convert to ms
-		url: DUPX.DAWS.Url,
+		url: DUPX.DAWS.Url + '&daws_action=start_expand',
 		data: requestString,
 		beforeSend: function () {
 			DUPX.showProgressBar();
@@ -1083,9 +1135,14 @@ DUPX.kickOffDupArchiveExtract = function ()
 					DUPX.DAWSProcessingFailed(errorString);
 				}
 			} else {
-				var errorString = 'kickOffDupArchiveExtract:Error Processing Step 1<br/>';
-				errorString += data.error;
-				DUPX.handleDAWSProcessingProblem(errorString, false);
+				if ('undefined' !== typeof data.isWPAlreadyExistsError
+				&& data.isWPAlreadyExistsError) {
+					DUPX.DAWSProcessingFailed(data.error);
+				} else {
+					var errorString = 'kickOffDupArchiveExtract:Error Processing Step 1<br/>';
+					errorString += data.error;
+					DUPX.handleDAWSProcessingProblem(errorString, false);
+				}
 			}
 		},
 		error: function (xHr, textStatus) {
@@ -1300,15 +1357,9 @@ DUPX.onSafeModeSwitch = function ()
 };
 
 //DOCUMENT LOAD
-$(document).ready(function ()
-{
-    DUPX.FILEOPS = new Object();
-
-    DUPX.FILEOPS.url = document.URL.substr(0, document.URL.lastIndexOf('/')) + '/lib/fileops/fileops.php';
-    DUPX.FILEOPS.standardTimeoutInSec = 25;
-
+$(document).ready(function() {
 	DUPX.DAWS = new Object();
-	DUPX.DAWS.Url = document.URL.substr(0,document.URL.lastIndexOf('/')) + '/lib/dup_archive/daws/daws.php';
+	DUPX.DAWS.Url = window.location.href + '?is_daws=1&daws_csrf_token=<?php echo urlencode(DUPX_CSRF::generate('daws'));?>';
 	DUPX.DAWS.StatusPeriodInMS = 5000;
 	DUPX.DAWS.PingWorkerTimeInSec = 9;
 	DUPX.DAWS.KickoffWorkerTimeInSec = 6; // Want the initial progress % to come back quicker
@@ -1324,8 +1375,15 @@ $(document).ready(function ()
 	$("*[data-type='toggle']").click(DUPX.toggleClick);
 	$("#tabs").tabs();
 	DUPX.acceptWarning();
-	$('#set_file_perms').trigger("click");
-	$('#set_dir_perms').trigger("click");
+	<?php
+    $isWindows = DUPX_U::isWindows();
+    if (!$isWindows) {
+    ?>
+		$('#set_file_perms').trigger("click");
+		$('#set_dir_perms').trigger("click");
+	<?php
+    }
+    ?>
 	DUPX.toggleSetupType();
 
 	<?php echo ($arcCheck == 'Fail') ? "$('#s1-area-archive-file-link').trigger('click');" : ""; ?>

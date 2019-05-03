@@ -21,6 +21,7 @@ if(class_exists('fileaway_attributes') && !class_exists('stataway'))
 			if(!fileaway_utility::visibility($hidefrom, $showto)) return;
 			if($this->op['javascript'] == 'footer') $GLOBALS['fileaway_add_scripts'] = true;
 			if($this->op['stylesheet'] == 'footer') $GLOBALS['fileaway_add_styles'] = true;
+			$original_timezone = date_default_timezone_get();
 			fileaway_utility::timezone();
 			include fileaway_dir.'/lib/inc/inc.stataway-declarations.php';
 			include fileaway_dir.'/lib/inc/inc.declarations.php';
@@ -45,7 +46,7 @@ if(class_exists('fileaway_attributes') && !class_exists('stataway'))
 				if(count($boximages) > 0) $thefiles .= implode(' ', $boximages);
 				$thefiles .= '</script>';
 			}			
-			date_default_timezone_set('UTC');
+			date_default_timezone_set($original_timezone);
 			return $thefiles;
 		}
 		public function userstats($atts)
@@ -55,6 +56,7 @@ if(class_exists('fileaway_attributes') && !class_exists('stataway'))
 			global $wpdb;
 			$userid = $user && is_numeric($user) ? $user : get_current_user_id();
 			if(!get_userdata($userid)) return false;
+			$original_timezone = date_default_timezone_get();
 			fileaway_utility::timezone();
 			$now = date('Y-m-d H:i:s');
 			switch($scope)
@@ -88,7 +90,7 @@ if(class_exists('fileaway_attributes') && !class_exists('stataway'))
 			);
 			if(!$records || count($records) < 1) $count = 0;
 			else $count = count($records);
-			date_default_timezone_set('UTC');
+			date_default_timezone_set($original_timezone);
 			if($output == 'total') return '<span class="'.$class.'">'.$count.'</span>';
 			if($count < 1) return false;
 			$datestring = $this->op['daymonth'] == 'md' ? 'm/d/Y' : 'd/m/Y'; 

@@ -155,6 +155,8 @@ jQuery(document).ready(function($)
 	$drawericon = $('select#fileaway_table_drawericon');
 	$drawerlabel_container = $('div[id^="fileaway-container-fileaway_table_modes_drawerlabel_"]');
 	$drawerlabel = $('input#fileaway_table_drawerlabel');
+	$parentlabel_container = $('div[id^="fileaway-container-fileaway_table_modes_parentlabel_"]');
+	$parentlabel = $('input#fileaway_table_parentlabel');	
 	$dirman_access_container = $('div[id^="fileaway-container-fileaway_table_modes_dirman_access_"]');
 	$dirman_access = $('select#fileaway_table_dirman_access');
 	$role_override_container = $('div[id^="fileaway-container-fileaway_table_modes_role_override_"]');
@@ -418,6 +420,7 @@ jQuery(document).ready(function($)
 			$table_onlydirs_container.fadeIn(500);
 			$drawericon_container.fadeIn(500);
 			$drawerlabel_container.fadeIn(500);
+			$parentlabel_container.fadeIn(500);			
 			if($table_base.val() == 's2member-files') $table_base.find('option:first').attr('selected','selected').trigger('chozed:updated').trigger('change');
 			$table_recursive.find('option:first').attr('selected','selected').trigger('chozed:updated').trigger('change');
 		}
@@ -428,9 +431,11 @@ jQuery(document).ready(function($)
 				$drawerid_container.fadeOut(500);
 				$drawericon_container.fadeOut(500);
 				$drawerlabel_container.fadeOut(500);
+				$parentlabel_container.fadeOut(500);				
 				$drawerid.val('');
 				$drawericon.find('option:first').attr('selected','selected').trigger('chozed:updated');
 				$drawerlabel.val('');
+				$parentlabel.val('');				
 			}
 			else if($manager.val() != '')
 			{
@@ -446,8 +451,9 @@ jQuery(document).ready(function($)
 				$table_onlydirs.val('');
 				$drawericon_container.fadeOut(500);
 				$drawerlabel_container.fadeOut(500);
+				$parentlabel_container.fadeOut(500);				
 				$drawericon.find('option:first').attr('selected','selected').trigger('chozed:updated');
-				$drawerlabel.val('');
+				$parentlabel.val('');
 			}
 		}
 	});
@@ -460,6 +466,7 @@ jQuery(document).ready(function($)
 			$table_onlydirs_container.fadeIn(500);
 			$drawericon_container.fadeIn(500);
 			$drawerlabel_container.fadeIn(500);
+			$parentlabel_container.fadeIn(500);			
 			$dirman_access_container.fadeIn(500);
 			$role_override_container.fadeIn(500);
 			$user_override_container.fadeIn(500);
@@ -477,8 +484,10 @@ jQuery(document).ready(function($)
 				$drawerid.val('');
 				$drawericon_container.fadeOut(500);
 				$drawerlabel_container.fadeOut(500);
+				$parentlabel_container.fadeOut(500);				
 				$drawericon.find('option:first').attr('selected','selected').trigger('chozed:updated');
 				$drawerlabel.val('');
+				$parentlabel.val('');				
 				$dirman_access_container.fadeOut(500);
 				$role_override_container.fadeOut(500);
 				$user_override_container.fadeOut(500);
@@ -509,8 +518,10 @@ jQuery(document).ready(function($)
 				$table_onlydirs.val('');
 				$drawericon_container.fadeOut(500);
 				$drawerlabel_container.fadeOut(500);
+				$parentlabel_container.fadeOut(500);				
 				$drawericon.find('option:first').attr('selected','selected').trigger('chozed:updated');
 				$drawerlabel.val('');
+				$parentlabel.val('');
 				$dirman_access_container.fadeOut(500);
 				$role_override_container.fadeOut(500);
 				$user_override_container.fadeOut(500);

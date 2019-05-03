@@ -28,8 +28,7 @@ defined("ABSPATH") or die("");
 	}
 	
 	if (isset($_POST['dbpass'])) {
-		$post_db_pass = DUPX_U::wp_unslash($_POST['dbpass']);
-		$_POST['dbpass'] = trim($post_db_pass);
+		$_POST['dbpass'] = $_POST['dbpass'];
 	} else {
 		$_POST['dbpass'] = null;
 	}
@@ -253,10 +252,18 @@ VIEW: STEP 3- INPUT -->
 						</div><br style="clear:both" />
 						<select id="plugins" name="plugins[]" multiple="multiple" style="width:315px; height:100px" <?php echo ($_POST['exe_safe_mode'] > 0) ? 'disabled="true"' : ''; ?>>
 							<?php
+							$exclude_plugins = array(
+								'really-simple-ssl/rlrsssl-really-simple-ssl.php',
+								'simple-google-recaptcha/simple-google-recaptcha.php',
+							);
 							$selected_string = ($_POST['exe_safe_mode'] > 0) ? '' : 'selected="selected"';
 							foreach ($active_plugins as $plugin) {
-								$plugin_dirname = dirname($plugin);
-								echo "<option {$selected_string} value='" . DUPX_U::esc_attr( $plugin ) . "'>" . DUPX_U::esc_attr($plugin_dirname) . '</option>';
+								$label = dirname($plugin) == '.' ? $plugin : dirname($plugin);
+                                if (in_array($plugin, $exclude_plugins)) {
+                                    echo "<option value='" . DUPX_U::esc_attr($plugin) . "'>" . DUPX_U::esc_html($label) . '</option>';
+                                } else {
+									echo "<option {$selected_string} value='" . DUPX_U::esc_attr( $plugin ) . "'>" . DUPX_U::esc_html($label) . '</option>';
+								}
 							}
 							?>
 						</select>
@@ -264,6 +271,7 @@ VIEW: STEP 3- INPUT -->
 				</tr>
 			</table>
 			<br/>
+			<input type="checkbox" name="search_replace_email_domain" id="search_replace_email_domain" value="1" /> <label for="search_replace_email_domain">Update email domains</label><br/>
 			<input type="checkbox" name="fullsearch" id="fullsearch" value="1" /> <label for="fullsearch">Use Database Full Search Mode</label><br/>
 			<input type="checkbox" name="postguid" id="postguid" value="1" /> <label for="postguid">Keep Post GUID Unchanged</label><br/>
 			<br/><br/>
@@ -277,32 +285,44 @@ VIEW: STEP 3- INPUT -->
 			</div><br/>
 			<div class="hdr-sub3">WP-Config File</div>
 			<?php
-				require_once($GLOBALS['DUPX_INIT'].'/classes/config/class.wp.config.tranformer.php');
-				$root_path		= $GLOBALS['DUPX_ROOT'];
-				$root_path = $GLOBALS['DUPX_ROOT'];
-				$wpconfig_ark_path	= ($GLOBALS['DUPX_AC']->installSiteOverwriteOn) ? "{$root_path}/dup-wp-config-arc__{$GLOBALS['DUPX_AC']->package_hash}.txt" : "{$root_path}/wp-config.php";
+            require_once($GLOBALS['DUPX_INIT'].'/classes/config/class.wp.config.tranformer.php');
+			$root_path		= $GLOBALS['DUPX_ROOT'];
+			$root_path = $GLOBALS['DUPX_ROOT'];
+			$wpconfig_ark_path	= ($GLOBALS['DUPX_AC']->installSiteOverwriteOn) ? "{$root_path}/dup-wp-config-arc__{$GLOBALS['DUPX_AC']->package_hash}.txt" : "{$root_path}/wp-config.php";
+
+            if (file_exists($wpconfig_ark_path)) {
 				$config_transformer = new WPConfigTransformer($wpconfig_ark_path);
+            } else {
+                $config_transformer = null;
+            }
+            
 			?>
 			<table class="dupx-opts dupx-advopts">
+                <?php
+                if (file_exists($wpconfig_ark_path)) { ?>
 				<tr>
 					<td>Cache:</td>
-					<td style="width:100px">
+					<td>
 						<?php
 						$wp_cache_val = false;
-						if ($config_transformer->exists('constant', 'WP_CACHE')) {
+						if (!is_null($config_transformer) && $config_transformer->exists('constant', 'WP_CACHE')) {
 							$wp_cache_val = $config_transformer->get_value('constant', 'WP_CACHE');
 						}
 						?>
 						<input type="checkbox" name="cache_wp" id="cache_wp" <?php SnapLibUIU::echoChecked($wp_cache_val);?> /> <label for="cache_wp">Keep Enabled</label>
 					</td>
-					<td>
+				</tr>
+                <tr>
+					<td></td>
+                    <td>
 						<?php
 						$wpcachehome_val = '';
-						if ($config_transformer->exists('constant', 'WPCACHEHOME')) {
+						if (!is_null($config_transformer) && $config_transformer->exists('constant', 'WPCACHEHOME')) {
 							$wpcachehome_val = $config_transformer->get_value('constant', 'WPCACHEHOME');
 						}
 						?>
 						<input type="checkbox" name="cache_path" id="cache_path" <?php SnapLibUIU::echoChecked($wpcachehome_val);?> /> <label for="cache_path">Keep Home Path</label>
+                        <br><br>
 					</td>
 				</tr>
 				<tr>
@@ -310,14 +330,20 @@ VIEW: STEP 3- INPUT -->
 					<td>
 						<?php
 						$force_ssl_admin_val = false;
-						if ($config_transformer->exists('constant', 'FORCE_SSL_ADMIN')) {
+						if (!is_null($config_transformer) && $config_transformer->exists('constant', 'FORCE_SSL_ADMIN')) {
 							$force_ssl_admin_val = $config_transformer->get_value('constant', 'FORCE_SSL_ADMIN');
 						}
 						?>
 						<input type="checkbox" name="ssl_admin" id="ssl_admin" <?php SnapLibUIU::echoChecked($force_ssl_admin_val);?> /> <label for="ssl_admin">Enforce on Admin</label>
 					</td>
-					<td></td>
 				</tr>
+                <?php } else { ?>
+                <tr>
+                    <td>wp-config.php not found</td>
+                    <td>No action on the wp-config is possible.<br>
+                        After migration, be sure to insert a properly modified wp-config for correct wordpress operation.</td>
+                </tr>
+                <?php } ?>
 			</table><br/>
 			<i>
 				Need more control? With <a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=duplicator_pro&utm_content=wpconfig" target="_blank">Duplicator Pro</a> 
@@ -465,9 +491,9 @@ DUPX.runUpdate = function()
             } catch(err) {
                 console.error(err);
                 console.error('JSON parse failed for response data: ' + respData);
-				var status  = "<b>Server Code:</b> "	+ xhr.status		+ "<br/>";
+				var status  = "<b>Server Code:</b> "	+ xHr.status		+ "<br/>";
 				status += "<b>Status:</b> "			+ textStatus	+ "<br/>";
-				status += "<b>Response:</b> "		+ xhr.responseText  + "<hr/>";
+				status += "<b>Response:</b> "		+ xHr.responseText  + "<hr/>";
 				status += "<b>Additional Troubleshooting Tips:</b><br/>";
 				status += "- Check the <a href='./<?php echo DUPX_U::esc_attr($GLOBALS["LOG_FILE_NAME"]);?>' target='dup-installer'>dup-installer-log.txt</a> file for warnings or errors.<br/>";
 				status += "- Check the web server and PHP error logs. <br/>";

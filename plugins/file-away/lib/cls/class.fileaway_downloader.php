@@ -1,7 +1,4 @@
 <?php
-isset($_REQUEST['fileaway']) or die('Water, water everywhere, but not a drop to drink.');
-$parse_uri = explode('wp-content', $_SERVER['SCRIPT_FILENAME']);
-require_once($parse_uri[0].'wp-load.php');
 defined('fileaway') or die('Water, water everywhere, but not a drop to drink.');
 if(!class_exists('fileaway_downloader'))
 {
@@ -9,10 +6,11 @@ if(!class_exists('fileaway_downloader'))
 	{
 		public function __construct()
 		{
-			$this->download();	
+			add_action('wp', array($this, 'download'));
 		}
 		public function download()
 		{
+			if(empty($_REQUEST['fileaway_download'])) return;
 			$file = $this->decrypt($_GET['fileaway']);
 			$file = fileaway_utility::urlesc($file, true);
 			if(!is_file($file)) die('Sorry. That file could not be found.');
@@ -761,4 +759,3 @@ if(!class_exists('fileaway_downloader'))
 		}
 	}	
 }
-new fileaway_downloader;
