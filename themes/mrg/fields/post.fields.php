@@ -84,7 +84,8 @@ function post_type_slider() {
     	'hierarchical' => false,
     	'menu_position' => null,
     	'supports' => array('title','editor', 'thumbnail', 'excerpt'),
-    	'menu_icon' => get_template_directory_uri().'/functions/images/sign.png'
+		 'menu_icon' => get_template_directory_uri().'/functions/images/sign.png',
+		 'taxonomies' => array('post_tag')
 	); 		
 
 	register_post_type( 'slider', $args );

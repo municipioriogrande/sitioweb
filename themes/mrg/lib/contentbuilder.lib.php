@@ -1480,7 +1480,15 @@ function ppb_header_gallery_slider_func($atts, $content) {
 			$slider_text_day 			= get_post_meta($slider_ID, 'slider_text_day', true);
 			$slider_text_afternoon 		= get_post_meta($slider_ID, 'slider_text_afternoon', true);
 			$slider_text_night 			= get_post_meta($slider_ID, 'slider_text_night', true);
+
+			$slider_tags = "";
+			$tmp = wp_get_post_tags($slider_ID, array( "fields" => "names" ));
+
+			if ( $tmp ) {
+				$slider_tags  = " tag-" . implode(" tag-", $tmp) ;
+			}
 			
+
 			if(!empty($slider_show_greeting))
 			{
 				date_default_timezone_set('UTC');
@@ -1536,7 +1544,7 @@ function ppb_header_gallery_slider_func($atts, $content) {
 		    $image_desc 	= get_post_field('post_content', $image);*/
 			
 			//$return_html.= '<li class="slide" style="background-image: url('.$small_image_url[0].'); height:'.$height.'px;">';
-			$return_html.= '<li class="slide" style="background-image: -webkit-linear-gradient(270deg, rgba(0, 0, 0, .40), rgba(7, 112, 183, .5)), url('.$small_image_url[0].'); background-image: linear-gradient(180deg, rgba(0, 0, 0, .40), rgba(7, 112, 183, .5)), url('.$small_image_url[0].'); height:'.$height.'px;">';
+			$return_html.= '<li class="slide '.$slider_tags.'" style="background-image: -webkit-linear-gradient(270deg, rgba(0, 0, 0, .40), rgba(7, 112, 183, .5)), url('.$small_image_url[0].'); background-image: linear-gradient(180deg, rgba(0, 0, 0, .40), rgba(7, 112, 183, .5)), url('.$small_image_url[0].'); height:'.$height.'px;">';
 			
 			if(!empty($slider_title))
 			{
