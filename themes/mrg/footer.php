@@ -15,8 +15,10 @@
 	
 	if(!empty($pp_ga_code))
 	{
-		if (defined(DEV_ENV) && !DEV_ENV) {
-			echo stripslashes($pp_ga_code);
+		if (defined(DEV_ENV)) {
+			if ( !DEV_ENV ) {
+				echo stripslashes($pp_ga_code);
+			}
 		}
 	}
 	
@@ -1150,5 +1152,28 @@ if(!empty($pp_hamburguesa_menu))
 
 	wp_footer();
 ?>
+
+<script>
+
+
+jQuery(document).ready(function(){
+
+	// defer embeded videos (better loading speed for metrics )
+	// src: https://varvy.com/pagespeed/defer-videos.html
+	var videos_defer = document.getElementsByClassName("defer-video");
+	var videos_defer_total = videos_defer.length;
+
+	for (var i=0; i < videos_defer_total; i++) {
+		if(videos_defer[i].getAttribute('data-src')) {
+			videos_defer[i].setAttribute('src',videos_defer[i].getAttribute('data-src'));
+		} 
+	}
+	//end defering 
+});
+
+</script>
+
+
+
 </body>
 </html>
