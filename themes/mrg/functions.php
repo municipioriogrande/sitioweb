@@ -2183,9 +2183,20 @@ function js_css_control() {
 	wp_dequeue_style( 'contact-form-7' );
 
 
-	wp_dequeue_script('fileaway-soundmanager2');
-	wp_dequeue_script('fileaway-management');
-	wp_dequeue_script('fileaway-stats');
+	$fileaway_scripts = array(
+		'fileaway-soundmanager2',
+		'fileaway-management',
+		'fileaway-stats',
+		'fileaway-alphanum',
+		'fileaway-chozed',
+		'fileaway-contextmenu',
+		'fileaway-footable',
+		'fileaway-filertify'
+	);
+
+	foreach($fileaway_scripts as $script) {
+		wp_dequeue_script($script);
+	}
 
 	/*
    // URL TO WORDPRESS PLUGIN DIR:
@@ -2215,9 +2226,9 @@ function js_css_control() {
 		wp_enqueue_script ('bbspoiler');
 	*/
 	if (has_shortcode($content, 'fileaway')) {
-		wp_enqueue_script('fileaway-soundmanager2');
-		wp_enqueue_script('fileaway-management');
-		wp_enqueue_script('fileaway-stats');
+		foreach($fileaway_scripts as $script) {
+			wp_dequeue_script($script);
+		}
 
 	}
         
