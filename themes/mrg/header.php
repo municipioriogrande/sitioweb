@@ -5,7 +5,7 @@
  * @package WordPress
  */
  
- 
+ /*
 // load contact form 7 when it's needed
 
 if ( is_page( 
@@ -27,8 +27,7 @@ if ( is_page(
 	}
 
 }
-
-
+*/
 
 if (!isset( $content_width ) ) $content_width = 1170;
 
@@ -176,6 +175,7 @@ if ( get_the_excerpt($post) ) {
 	wp_head();
 ?>
 
+<link rel='dns-prefetch' href='//mautic.dir.riogrande.gob.ar/' />
 
 </head>
 

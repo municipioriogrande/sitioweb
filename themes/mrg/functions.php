@@ -2167,4 +2167,58 @@ function get_attachment_metadata_from_url($attachment_url, $meta="all"){
 }
 
 
+// ------------------------------------------
+// CONTROL THE INCLUSION OF JS AND CSS FILES
+// ------------------------------------------
+//add_filter( 'wpcf7_load_js', '__return_false' ); //not working...
+//add_filter( 'wpcf7_load_css', '__return_false' ); //not working...
 
+add_action('wp_enqueue_scripts', 'js_css_control');
+function js_css_control() {
+	// GET THE CURRENT POST'S CONTENT
+	global $post;
+	$content = $post->post_content;
+
+	wp_dequeue_script( 'contact-form-7' );
+	wp_dequeue_style( 'contact-form-7' );
+
+
+	wp_dequeue_script('fileaway-soundmanager2');
+	wp_dequeue_script('fileaway-management');
+	wp_dequeue_script('fileaway-stats');
+
+	/*
+   // URL TO WORDPRESS PLUGIN DIR:
+   $pluginDir = plugins_url();
+ 
+   // URL TO OUR THEME
+   $themeDir = get_template_directory_uri();
+	*/
+
+	
+	if (has_shortcode($content, 'contact-form-7')) {
+			  
+		if ( function_exists( 'wpcf7_enqueue_scripts' ) ) {
+			wpcf7_enqueue_scripts();
+		}
+		
+		if ( function_exists( 'wpcf7_enqueue_styles' ) ) {
+			wpcf7_enqueue_styles();
+		}
+	}
+	
+	
+	/*
+		wp_register_style ('bbspoiler', $pluginDir.'/bbspoiler/inc/bbspoiler.css' );
+		wp_register_script('bbspoiler', $pluginDir.'/bbspoiler/inc/bbspoiler.js', array(), '', true);  
+		wp_enqueue_style  ('bbspoiler');
+		wp_enqueue_script ('bbspoiler');
+	*/
+	if (has_shortcode($content, 'fileaway')) {
+		wp_enqueue_script('fileaway-soundmanager2');
+		wp_enqueue_script('fileaway-management');
+		wp_enqueue_script('fileaway-stats');
+
+	}
+        
+}
