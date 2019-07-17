@@ -936,12 +936,10 @@ function pp_enqueue_front_page_scripts() {
 	    }
 	}
 	
-	//Enqueue javascripts
-	//wp_enqueue_script("jquery");
-	
-   wp_deregister_script( 'jquery' );
-   wp_register_script( 'jquery', includes_url( '/js/jquery/jquery.js' ), false, NULL, true );
-   wp_enqueue_script( 'jquery' );
+	//Enqueue javascripts --> just use wp's
+   //wp_deregister_script( 'jquery' );
+   //wp_register_script( 'jquery', includes_url( '/js/jquery/jquery.js' ), false, NULL, true );
+   //wp_enqueue_script( 'jquery' );
 
    wp_deregister_script( 'jquery-migrate' );
    wp_register_script( 'jquery-migrate', includes_url( '/js/jquery/jquery-migrate.min.js' ), false, NULL, true );
@@ -2090,7 +2088,7 @@ add_filter( 'body_class', 'add_slug_body_class' );
 add_action( 'wp_enqueue_scripts', 'enqueue_styles_scripts',12 );
 	function enqueue_styles_scripts() {
 		wp_enqueue_script( "flexslider-js", get_template_directory_uri()."/js/flexslider/jquery.flexslider-min.js", false, '20180815', true);
-		wp_enqueue_script( "sitio", get_stylesheet_directory_uri() . "/js/sitio.js", array(), '20180815', true );
+		wp_enqueue_script( "sitio", get_stylesheet_directory_uri() . "/js/sitio.js", array("jquery"), '20180815', true );
 		
 		wp_enqueue_script( "fancybox", "https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.1/dist/jquery.fancybox.min.js", array(), '3.5.1', true );
 		 wp_enqueue_style( "fancybox", "https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.1/dist/jquery.fancybox.min.css" );
