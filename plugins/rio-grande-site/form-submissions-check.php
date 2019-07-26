@@ -63,7 +63,7 @@ function is_already_submitted($formName, $fieldName, $fieldValue) {
  */
 function ecomaraton_validate_dni($result, $tag) {
     $formName = 'inscripcion ecomaraton'; // Change to name of the form containing this field
-    $fieldName = 'dni_2da_ecomaraton'; // Change to your form's unique field name. Must be unique (global)
+    $fieldName = 'dni_ecomaraton_2019'; // Change to your form's unique field name. Must be unique (global)
     $errorMessage = 'El DNI ya está ingresado'; // Change to your error message
     $name = $tag['name'];
     if ($name == $fieldName) {

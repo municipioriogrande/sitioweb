@@ -5389,7 +5389,7 @@ ul.flickr li
 					position: relative;
 				}
 					.modulecontact_content .title{
-						ext-align: left;
+						text-align: left;
 						display: table-cell;
 						vertical-align: middle;
 					}
@@ -6642,7 +6642,7 @@ ul.flickr li
 	}
 	
 	.bilder_modul .page_content_wrapper .col-md-4 .content ul li {	
-		argin-top: 0px;
+		margin-top: 0px;
 		margin-bottom: 25px;
 		padding-right: 2px;
 		padding-bottom: 0%;
