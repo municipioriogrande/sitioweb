@@ -189,5 +189,3 @@ function ppb_blog_latest_posts_func($atts, $content) {
 	
    print_external_blog_posts($remote_posts, $titulo);
 }
-
-

@@ -163,5 +163,14 @@ function list_centros_salud( ) {
 }
 
 
+add_shortcode('mrg_list_centros_salud', 'mrg_list_centros_salud_func');
+function mrg_list_centros_salud_func() {
+  return list_centros_salud();
+  
+} 
+
+
+
+
 
 ?>

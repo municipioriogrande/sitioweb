@@ -127,42 +127,60 @@ function get_external_blog_posts($filter_categories=array()){
 
 
 function print_external_blog_posts($posts, $section_title=""){
+	echo return_external_blog_posts($posts, $section_title);
+}
+
+
+function return_external_blog_posts($posts, $section_title=""){
 	
 	$remote_posts = $posts;
 	$remote_categories_cache = get_external_blog_categories();
 	$ctr = 0;
-	?>
+
+	$output = "";
 	
-	<section class="mini-posts-container blog-latest wrapper_max_width">
-		<h2 class="title"><?php echo ( $section_title ) ? $section_title : "Mantenete bien informado";?></h2>
+	$output .= '<section class="mini-posts-container blog-latest wrapper_max_width">';
+	$output .= '	<h2 class="title">';
+	if ( $section_title ) {
+		$output .= $section_title;
+	}
+	else {
+		$output .= "Mantenete bien informado";
+	}
+	$output .= '</h2>';
 	
-		<!-- mfunc FRAGMENT_CACHING -->
-		<?php foreach( $remote_posts as $remote_post ) : 
+	$output .= '<!-- mfunc FRAGMENT_CACHING -->';
+
+		foreach( $remote_posts as $remote_post ) : 
 			$ctr ++;
 			if ( $ctr == 1 ) {
-				echo '<div class="row">';
+				$output .= '<div class="row">';
 			}
 
 			if ( $ctr == 4 ) {
-				echo '<div class="row column-bigger">';
-					echo '<div class="post column smaller">';
+				$output .= '<div class="row column-bigger">';
+				$output .= '<div class="post column smaller">';
 			}
 			if ( $ctr == 5 ) {
-				echo '<div class="post column bigger">';
+				$output .= '<div class="post column bigger">';
 			}
 
 			if ( $ctr < 4 ) {
-				echo '<div class="column">';
+				$output .= '<div class="column">';
 			}
-			?>
-				<div class="mini-article effect-enlarge-shadow">
-					<div>
-						<div <?php if ( !empty( $remote_post['_embedded']['wp:featuredmedia'][0]['media_details']['sizes']['medium_large']['source_url'] ) ) { echo 'style="background-image:url(' . $remote_post['_embedded']['wp:featuredmedia'][0]['media_details']['sizes']['medium_large']['source_url'] . ')"'; } ?> class="image"></div>
+			
+			$output .= '<div class="mini-article effect-enlarge-shadow">';
+			$output .= '<div><div ';
 
-						<h3 class="title"><a href="<?php echo esc_url( $remote_post['link'] );?>"><?php echo $remote_post['title']['rendered'];?></a></h3>
-					</div>
+			if ( !empty( $remote_post['_embedded']['wp:featuredmedia'][0]['media_details']['sizes']['medium_large']['source_url'] ) ) { 
+				$output .= 'style="background-image:url(' . $remote_post['_embedded']['wp:featuredmedia'][0]['media_details']['sizes']['medium_large']['source_url'] . ')"'; 
+			} 
+						
+			$output .= 'class="image"></div>';
 
-					<?php 
+				$output .= '<h3 class="title"><a href="' . esc_url( $remote_post['link'] ) . '">' . $remote_post['title']['rendered'] . '</a></h3>';
+				$output .= '</div>';
+
 					$categories_list = array();
 
 					foreach ($remote_post['categories'] as $cat) {
@@ -181,30 +199,33 @@ function print_external_blog_posts($posts, $section_title=""){
 						}
 					}
 
-					if ( $categories_list ) : ?>
-							<p class="category uppercase">
-								<?php echo implode( ", ", $categories_list );?>
-							</p>
-					<?php	endif; ?>
-				</div> <?php //article ?>
-			</div> <?php //end column ?>
+					if ( $categories_list ) {
 
-			<?php
+						$output .= '<p class="category uppercase">' . implode( ", ", $categories_list ) . '</p>';
+					}
+					
+					$output .= '</div>'; //end article 
+				$output .= '</div>'; //end column 
+			
+
+			
 			if ( $ctr == 3 || $ctr == 5 ) {
-				echo '</div>'; //end row
+				$output .= '</div>'; //end row
 			}
 		endforeach;	
 		
 		if ( $ctr == 4 ) {
-				echo '</div>'; //end row
+			$output .= '</div>'; //end row
 		}
-		?>
+		
 
-		<!-- /mfunc FRAGMENT_CACHING -->
-		<p style="text-align: center;width:100%;"><a class="button-blog" href="http://info.riogrande.gob.ar/"><img src="https://riogrande.gob.ar/wp-content/themes/mrg/images/globa_blog.svg" alt="Blog" width="73"></a></p>
-	</section>
-<?php
+		$output .= '<!-- /mfunc FRAGMENT_CACHING -->';
+		$output .= '<p style="text-align: center;width:100%;"><a class="button-blog" href="http://info.riogrande.gob.ar/"><img src="https://riogrande.gob.ar/wp-content/themes/mrg/images/globa_blog.svg" alt="Blog" width="73"></a></p>';
+		$output .= '</section>';
+
+	return $output;
 }
+
 
 
 function print_external_blog_posts_holder($section_title="", $filtered_cats=array()){

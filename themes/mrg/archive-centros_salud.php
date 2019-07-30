@@ -44,7 +44,7 @@ get_header();
 </div>
 
 
-<div class="ppb_wrapper wrapper_max_width">
+<div id="content" class="ppb_wrapper wrapper_max_width">
 
 	<?php 
 	//taken from mrg\lib\contentbuilder.lib.php:3102 (ppb_module_header_full_func)

@@ -3259,16 +3259,13 @@ h2.ppb_title
 	border-left: 1px solid #e1e1e1;
 }
 
-
 /*------------------------------------------------------------------
 [5. Social Sharing]
 */
 
-
 /*------------------------------------------------------------------
 [6. Sidebar]
 */
-
 
 #page_content_wrapper .inner .sidebar_content
 {
@@ -3789,7 +3786,6 @@ input[type=submit]:hover, input[type=button]:hover, .button:hover, input[type=su
 {
 	border-color: #000;
 }
-
 
 input[type=submit].left, input[type=button].left, a.button.left
 {
@@ -4414,11 +4410,6 @@ ul.flickr li
     display: table;
 }
 
-
-
-
-
-
 /* THISNEW { */
 
   /* CTA { */
@@ -4895,7 +4886,6 @@ ul.flickr li
 		margin-right: 0;
 	}
 
-	
 	/*#pre_footer .sidebar_widget .last-child{
 		width:33.3% !important;
 		margin: 0!important;
@@ -4926,7 +4916,6 @@ ul.flickr li
 	#pre_footer .sidebar_widget .last-child ul li {
 		float: right !important;
 	}
-	
 	
 	.wpcf7-form {
 		display: table;
@@ -5019,7 +5008,6 @@ ul.flickr li
 		line-height: 20px;
 		font-size: 25px;
 	}
-	
 	
 	#footer .footer_content{
 		width: 100%;
@@ -5353,10 +5341,7 @@ ul.flickr li
 		width: 100%;
 	}
 
-
 	/* } Pre Footer */
-
-
 
 	/* } HOME */
 	
@@ -5536,8 +5521,8 @@ ul.flickr li
 							margin: 0 0 30px 0;
 						}
 						#contact-form .two_cols .cols.one .detail h4,
-						#contact-form .two_cols .cols.one .detail p,
-						#page_content_wrapper p{
+						#contact-form .two_cols .cols.one .detail p {
+						/*/#page_content_wrapper p{*/
 							font-weight: 300;
 							font-size: 20px;
 							/*margin-top: 5%;*/
@@ -5709,7 +5694,6 @@ ul.flickr li
 			font-size: 35px;
 		}
 		/* } Thank You Page */
-		
 		
 	/* } CONTACTO */
 
@@ -6588,9 +6572,7 @@ ul.flickr li
 	width: 65.6666666% !important;
 }
 
-
 /* } MODULES */
-
 
 /* BILDER MODULES { */
 .bilder_modul {
@@ -6689,8 +6671,6 @@ ul.flickr li
 		line-height: 34px;
 	}
 
-
-
 .indice_anclas {
     margin:0;
 	display: table;
@@ -6736,7 +6716,6 @@ ul.flickr li
 		line-height: 20px;
 	}
 	
-
 .titular_bajada_c1_c2 {
     margin:0;
 	display: table;
@@ -6805,7 +6784,6 @@ ul.flickr li
 		border-radius: 10px;
 	}
 	
-
 .subtitulo1_c1_subtitulo2_c2 {
     margin:0;
 	display: table;
@@ -6982,8 +6960,6 @@ ul.flickr li
 		border-radius: 10px;
 	}
 
-
-
 .module_titular_bajada_c1_img {
     margin:0;
 	display: table;
@@ -7072,8 +7048,6 @@ ul.flickr li
 		font-weight: 400;
 		text-align: left;
 	}
-
-
 
 .ppb_module_titular_bajada_full_c1_c2 {
     margin:0;
@@ -7272,7 +7246,6 @@ ul.flickr li
 		border-radius: 10px;
 	}
 
-
 .bilder_modul_full {
     margin:0;
 	display: table;
@@ -7315,8 +7288,6 @@ ul.flickr li
 		padding:0px;
 	}
 	
-
-
 .ppb_module_subtitle_bajada_search {
     margin:0;
 	display: table;
@@ -7393,7 +7364,6 @@ ul.flickr li
 		text-align: center;
 	}
 
-
 .titular_bajada_c1_bajada_c2 {
     margin:0;
 	display: table;
@@ -7468,7 +7438,6 @@ ul.flickr li
 		height:auto;
 		border-radius: 10px;
 	}
-
 
 .titular_bajada_c1_bajada_c2_2 {
     margin:0;
@@ -7598,7 +7567,6 @@ ul.flickr li
 		display:none !important;
 	}
 
-
 .ppb_module_titular_recuadro_1_recuadro_1_grey {
     margin:0;
 	display: table;
@@ -7663,7 +7631,6 @@ ul.flickr li
 		font-weight: 400;
 		text-align: left;	
 	}
-
 
 .ppb_module_titular_bajada_cta_2 {
     margin:0;
@@ -7769,7 +7736,6 @@ ul.flickr li
 		color: #ff6a00;
 	}
 	
-
 .ppb_module_mapa_sube {
     margin:0;
 	display: table;
@@ -7949,7 +7915,6 @@ ul.flickr li
 		height:auto;
 		border-radius: 10px;
 	}
-
 
 .ppb_module_cta_imagen_texto_boton {
     margin:0;
@@ -8477,7 +8442,6 @@ ul.flickr li
 		}
 		.ppb_module_titular_bajada_full_c4_titulo_bajada .page_content_wrapper .col-md-3 .content {}
 		
-		
 		.ppb_module_titular_bajada_full_c4_titulo_bajada .page_content_wrapper .col-md-12 .content .title,
 		.ppb_module_titular_bajada_full_c4_titulo_bajada .page_content_wrapper .col-md-6 .content .title,
 		.ppb_module_titular_bajada_full_c4_titulo_bajada .page_content_wrapper .col-md-4 .content .title,
@@ -8560,7 +8524,6 @@ ul.flickr li
 			font-weight: 400;
 			text-align: left;
 		}
-		
 		
 		.ppb_module_titular_bajada_full_box_image_bajada .page_content_wrapper .col-md-12 .content,
 		.ppb_module_titular_bajada_full_box_image_bajada .page_content_wrapper .col-md-6 .content,
@@ -8807,8 +8770,6 @@ ul.flickr li
 	display:none !important;
 }
 
-
-
 /* Style checkbox */
 /**/.ppb_module_imagen_formulario input[type="checkbox"] {
   position: absolute;
@@ -8859,19 +8820,6 @@ ul.flickr li
           transform: rotate(45deg);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
 .hs-fieldtype-checkbox label legend{
 	font-weight: 700;
@@ -8907,7 +8855,6 @@ form div .hs-field-desc {
 	color: #fff;
 	font-weight: 400;
 }
-
 
 .input ul li {
     width: 50%;
@@ -9034,7 +8981,6 @@ form div .hs-field-desc {
 		}
 		.ppb_module_people_social .page_content_wrapper .col-md-3 .content {}
 		
-		
 		.ppb_module_people_social .page_content_wrapper .col-md-12 .content .title,
 		.ppb_module_people_social .page_content_wrapper .col-md-6 .content .title,
 		.ppb_module_people_social .page_content_wrapper .col-md-4 .content .title,
@@ -9145,7 +9091,6 @@ form div .hs-field-desc {
 		}
 		.ppb_module_titular_bajada_full_c4_titulo_imagen_bajada .page_content_wrapper .col-md-3 .content {}
 		
-		
 		.ppb_module_titular_bajada_full_c4_titulo_imagen_bajada .page_content_wrapper .col-md-12 .content .title,
 		.ppb_module_titular_bajada_full_c4_titulo_imagen_bajada .page_content_wrapper .col-md-6 .content .title,
 		.ppb_module_titular_bajada_full_c4_titulo_imagen_bajada .page_content_wrapper .col-md-4 .content .title,
@@ -9193,8 +9138,6 @@ form div .hs-field-desc {
 /*---------------------------- WORK AREA {-------------------------------*/
 /*-----------------------------------------------------------------------*/
 
-
-		
 .ppb_module_eventbrite {
     margin:0;
 	display: table;
@@ -9266,7 +9209,6 @@ form div .hs-field-desc {
 			text-align: left;
 		}
 		.ppb_module_eventbrite .page_content_wrapper .col-md-3 .content {}
-		
 		
 		.ppb_module_eventbrite .page_content_wrapper .col-md-12 .content .title,
 		.ppb_module_eventbrite .page_content_wrapper .col-md-6 .content .title,
@@ -9351,7 +9293,6 @@ form div .hs-field-desc {
 /*-----------------------------------------------------------------------*/
 /*----------------------------} WORK AREA -------------------------------*/
 /*-----------------------------------------------------------------------*/
-
 
 		.page-template-page_mrg_eventbrite_fullwidth .page-title-wrapper h1{
 			margin: 0px;
@@ -9487,7 +9428,6 @@ form div .hs-field-desc {
 	}
 
 /* } BILDER MODULES */
-
 
 /* PAGES { */
 .page-breadcrumb{
@@ -9873,7 +9813,6 @@ form div .hs-field-desc {
 		min-height: 45px;
 	}
 	
-	
 	/* MODULES { */
 	.ppb_module_tramites .page_content_wrapper a {
 		width: 100%;
@@ -9911,8 +9850,6 @@ form div .hs-field-desc {
 	.bilder_modul .page_content_wrapper .col-md-8 .content h2 {
 		margin: 25px 0;
 	}
-	
-	
 	
 	.bilder_modul .page_content_wrapper .col-md-4 .content h5 {
 		margin-top: 30px;
@@ -10017,7 +9954,6 @@ form div .hs-field-desc {
 		padding: 0 6% 0 6%;
 	}
 	
-
 	.ppb_gestion_municipal .page_content_wrapper .box .image {
 		padding: 12% 23px 3%;
 	}
@@ -10034,7 +9970,6 @@ form div .hs-field-desc {
 	.ppb_content_blog .box-flex-variant {
 		height: auto !important;
 	}
-	
 	
 	.ppb_module_subtitle_bajada_search .page_content_wrapper .col-md-12 .content h2,
 	.ppb_module_tramites .page_content_wrapper .col-md-12 h2{
@@ -10072,7 +10007,6 @@ form div .hs-field-desc {
 		margin-top: 25px;
 	}
 
-	
 	/* weather { */
 	.content-weather {
 		float: right !important;
@@ -10253,7 +10187,6 @@ form div .hs-field-desc {
 		margin-bottom:0px !important;
 	}
 	
-	
 	.ppb_module_imagen_formulario .page_content_wrapper .col-md-12 .content .box-image,
 	.ppb_module_imagen_formulario .page_content_wrapper .col-md-12 .content .box-cta {
 		width:100% !important;
@@ -10286,7 +10219,6 @@ form div .hs-field-desc {
 		margin-bottom:0px !important;
 	}
 	
-	
 	.ppb_module_imagen_formulario .form-columns-2 input {
 		width: 95% !important;
 	}
@@ -10303,11 +10235,6 @@ form div .hs-field-desc {
 		margin: 0 0 25px 0; !important;
 	}
 	
-	
-	
-	
-	
-
 	.footer .content_logo {
 		text-align: center;
 		margin: 20px 0 0 0;
@@ -10354,11 +10281,9 @@ form div .hs-field-desc {
 		display: none;
 	}
 	
-	
 	.flex-direction-nav{
 		display:none;
 	}
-	
 	
 	/*.bilder_modul_full,
 	.ppb_module_subtitle_bajada_search,
@@ -10390,7 +10315,6 @@ form div .hs-field-desc {
 	.page-breadcrumb{
 		display:none;
 	}
-	
 	
 	.ss_form .ss_text h2 {
 		font-size: 42px !important;

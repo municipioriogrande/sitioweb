@@ -814,61 +814,6 @@ function new_meta_box() {
 
 }
 
-function save_postdata( $post_id ) {
-
-	global $postmetas;
-
-	// Viewify this came from the our screen and with proper authorization,
-	// because save_post can be triggered at other times
-
-	if ( isset($_POST['pp_meta_form']) && !wp_verify_nonce( $_POST['pp_meta_form'], plugin_basename(__FILE__) )) {
-		return $post_id;
-	}
-
-	// Viewify if this is an auto save routine. If it is our form has not been submitted, so we dont want to do anything
-
-	if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) return $post_id;
-
-	// Check permissions
-
-	if ( isset($_POST['post_type']) && 'page' == $_POST['post_type'] ) {
-		if ( !current_user_can( 'edit_page', $post_id ) )
-			return $post_id;
-		} else {
-		if ( !current_user_can( 'edit_post', $post_id ) )
-			return $post_id;
-	}
-
-	// OK, we're authenticated
-
-	if ( $parent_id = wp_is_post_revision($post_id) )
-	{
-		$post_id = $parent_id;
-	}
-	
-	if ( isset($_POST['pp_meta_form']))
-	{
-		foreach ( $postmetas as $postmeta ) {
-			foreach ( $postmeta as $each_meta ) {
-		
-				if (isset($_POST[$each_meta['id']]) && $_POST[$each_meta['id']]) {
-					update_custom_meta($post_id, $_POST[$each_meta['id']], $each_meta['id']);
-				}
-				
-				if (isset($_POST[$each_meta['id']]) && $_POST[$each_meta['id']] == "") {
-					delete_post_meta($post_id, $each_meta['id']);
-				}
-				
-				if (!isset($_POST[$each_meta['id']])) {
-					delete_post_meta($post_id, $each_meta['id']);
-				}
-			
-			}
-		}
-	}
-
-}
-
 function update_custom_meta($postID, $newvalue, $field_name) {
 
 	if (!get_post_meta($postID, $field_name)) {
@@ -882,7 +827,6 @@ function update_custom_meta($postID, $newvalue, $field_name) {
 //init
 
 add_action('admin_menu', 'create_meta_box'); 
-add_action('save_post', 'save_postdata');  
 
 /*
 	End creating custom fields

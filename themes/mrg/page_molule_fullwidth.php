@@ -85,6 +85,7 @@ if(empty($page_hide_header))
 	$ppb_enable = get_post_meta($current_page_id, 'ppb_enable', true);
 	
 	global $global_pp_topbar;
+	$ppb_enable = "";
 ?>
 <?php
 	if(!empty($ppb_enable))

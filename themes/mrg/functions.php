@@ -893,6 +893,12 @@ function pp_enqueue_front_page_scripts() {
 
 
 
+	wp_enqueue_style("jquery_donuth_css", get_template_directory_uri()."/js/donuth/donuth.css", false, THEMEVERSION, "all");
+	wp_enqueue_script("jquery_donuth_lib_script", get_template_directory_uri()."/js/donuth/jquery.circliful.min.js", false, THEMEVERSION, true);
+
+
+
+
 	wp_enqueue_style("main", get_template_directory_uri()."/css/fixes.min.css", false, THEMEVERSION);
 
 
@@ -2165,6 +2171,50 @@ function get_attachment_metadata_from_url($attachment_url, $meta="all"){
 }
 
 
+
+
+add_action( 'after_setup_theme', function () {
+	//Register support for Gutenberg wide images in your theme
+	add_theme_support( 'align-wide' );
+
+	add_theme_support( 'responsive-embeds' );
+ } );
+
+
+ 
+
+
+
+
+ add_shortcode('mrg_blog_latest_posts', 'mrg_blog_latest_posts_func');
+ function mrg_blog_latest_posts_func($atts, $content) {
+ 
+	 //extract short code attr
+	 extract(shortcode_atts(array(
+		 'layout' => 'fixedwidth',
+		 'titulo' => '',
+		 'ancla' 	=> '',
+		 'show_items' => '',
+		 'category_id' => '11',
+		 
+	 ), $atts));
+	  
+	  
+	 $remote_posts = ( $category_id != "all" ) ? get_external_blog_posts($category_id) : get_external_blog_posts();
+	 
+	 if ( empty( $remote_posts ) ) {
+		 return "";
+	 }
+
+
+	 $titulo = ( !empty($titulo) ) ? $titulo : "Leé las últimas noticias";
+	
+	 return return_external_blog_posts($remote_posts, $titulo);
+	
+ } 
+
+
+
 // ------------------------------------------
 // CONTROL THE INCLUSION OF JS AND CSS FILES
 // ------------------------------------------
@@ -2180,7 +2230,6 @@ function js_css_control() {
 	wp_dequeue_script( 'contact-form-7' );
 	wp_dequeue_style( 'contact-form-7' );
 
-
 	$fileaway_scripts = array(
 		'fileaway-soundmanager2',
 		'fileaway-management',
@@ -2195,6 +2244,7 @@ function js_css_control() {
 	foreach($fileaway_scripts as $script) {
 		wp_dequeue_script($script);
 	}
+
 
 	/*
    // URL TO WORDPRESS PLUGIN DIR:

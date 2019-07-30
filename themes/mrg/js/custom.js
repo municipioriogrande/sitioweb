@@ -1,15 +1,6 @@
 jQuery(document).ready(function(){ 
 	"use strict";
-	
-	// jQuery for page scrolling feature - requires jQuery Easing plugin
-    jQuery('a.page-scroll').bind('click', function(event) {
-        var $anchor = jQuery(this);
-        jQuery('html, body').stop().animate({
-            scrollTop: (jQuery($anchor.attr('href')).offset().top - 72)
-        }, 1250, 'easeInOutExpo');
-        event.preventDefault();
-    });
-	
+
 	var calScreenWidth = jQuery(window).width();
 	
 	if(calScreenWidth >= 960)
@@ -229,7 +220,6 @@ jQuery(document).ready(function(){
 	    return ( this.masonry.cols !== prevSegments );
 	};*/
 	
-  
 	// cache jQuery window
 	var $window = jQuery(window);
 	
@@ -241,7 +231,6 @@ jQuery(document).ready(function(){
 	  	jQuery(this).addClass('active');
 	  	return false;
 	});
-	
 	
 	jQuery('.portfolio_filters li a').click(function(){
 	  	var selector = jQuery(this).attr('data-filter');
@@ -549,7 +538,6 @@ jQuery(document).ready(function(){
 			}
 	    }
 		
-		
 		if(jQuery(this).scrollTop() >= 500){
 			if(jQuery(this).width()>768)
 			{
@@ -564,8 +552,6 @@ jQuery(document).ready(function(){
 			jQuery('.bilder_modul').removeClass('fixed');
 			jQuery('.page-breadcrumb').removeClass('fixed');
 	    }
-		
-		
 		
 	});
 	
@@ -860,9 +846,11 @@ jQuery(document).ready(function(){
 	
 	// jQuery for page scrolling feature - requires jQuery Easing plugin
     jQuery('a.page-scroll').bind('click', function(event) {
-        var $anchor = jQuery(this);
+		var $anchor = jQuery(this);
+		var amount_scroll = ( jQuery(".indice_anclas").hasClass("fixed") ) ? 150 : 300;
+		
         jQuery('html, body').stop().animate({
-            scrollTop: (jQuery($anchor.attr('href')).offset().top - 150)
+            scrollTop: (jQuery($anchor.attr('href')).offset().top - amount_scroll)
         }, 1250, 'easeInOutExpo');
         event.preventDefault();
     });

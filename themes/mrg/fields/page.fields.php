@@ -198,120 +198,6 @@ function page_new_meta_box() {
 
 }
 
-function page_save_postdata( $post_id ) {
-
-	global $page_postmetas;
-
-	// verify this came from the our screen and with proper authorization,
-	// because save_post can be triggered at other times
-
-	if ( isset($_POST['pp_meta_form']) && !wp_verify_nonce( $_POST['pp_meta_form'], plugin_basename(__FILE__) )) {
-		return $post_id;
-	}
-
-	// verify if this is an auto save routine. If it is our form has not been submitted, so we dont want to do anything
-
-	if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) return $post_id;
-
-	// Check permissions
-
-	if ( isset($_POST['post_type']) && 'page' == $_POST['post_type'] ) {
-		if ( !current_user_can( 'edit_page', $post_id ) )
-			return $post_id;
-		} else {
-		if ( !current_user_can( 'edit_post', $post_id ) )
-			return $post_id;
-	}
-
-	// OK, we're authenticated
-
-	if ( $parent_id = wp_is_post_revision($post_id) )
-	{
-		$post_id = $parent_id;
-	}
-
-	if (isset($_POST['pp_meta_form'])) 
-	{
-		foreach ( $page_postmetas as $postmeta ) {
-		
-			if (isset($_POST[$postmeta['id']]) && $_POST[$postmeta['id']]) {
-				page_update_custom_meta($post_id, $_POST[$postmeta['id']], $postmeta['id']);
-			}
-	
-			if (isset($_POST[$postmeta['id']]) && $_POST[$postmeta['id']] == "") {
-				delete_post_meta($post_id, $postmeta['id']);
-			}
-			
-			if (!isset($_POST[$postmeta['id']])) {
-				delete_post_meta($post_id, $postmeta['id']);
-			}
-		}
-		
-		// Saving Page Builder Data
-		if(isset($_POST['ppb_enable']) && !empty($_POST['ppb_enable']))
-		{
-			page_update_custom_meta($post_id, $_POST['ppb_enable'], 'ppb_enable');
-		}
-		else
-		{
-			delete_post_meta($post_id, 'ppb_enable');
-		}
-
-		if(isset($_POST['ppb_form_data_order']) && !empty($_POST['ppb_form_data_order']))
-		{
-			page_update_custom_meta($post_id, $_POST['ppb_form_data_order'], 'ppb_form_data_order');
-			
-			$ppb_item_arr = explode(',', $_POST['ppb_form_data_order']);
-			if(is_array($ppb_item_arr) && !empty($ppb_item_arr))
-			{
-				foreach($ppb_item_arr as $key => $ppb_item_arr)
-				{
-					if(isset($_POST[$ppb_item_arr.'_data']) && !empty($_POST[$ppb_item_arr.'_data']))
-					{
-						page_update_custom_meta($post_id, $_POST[$ppb_item_arr.'_data'], $ppb_item_arr.'_data');
-					}
-					
-					if(isset($_POST[$ppb_item_arr.'_size']) && !empty($_POST[$ppb_item_arr.'_size']))
-					{
-						page_update_custom_meta($post_id, $_POST[$ppb_item_arr.'_size'], $ppb_item_arr.'_size');
-					}
-				}
-			}
-		}
-		//If content builder is empty
-		else
-		{
-			page_update_custom_meta($post_id, '', 'ppb_form_data_order');
-		}
-		
-		//If enable Content Builder then also copy its content to standard page content
-		if (isset($_POST['ppb_enable']) && !empty($_POST['ppb_enable']) && ! wp_is_post_revision( $post_id ) )
-		{
-			//unhook this function so it doesn't loop infinitely
-			remove_action('save_post', 'page_save_postdata');
-		
-			//update the post, which calls save_post again
-			$ppb_page_content = tg_apply_builder($post_id, 'page', FALSE);
-			
-			$current_post = array (
-		      'ID'           => $post_id,
-		      'post_content' => $ppb_page_content,
-		    );
-		    
-		    wp_update_post($current_post);
-		    if (is_wp_error($post_id)) {
-				$errors = $post_id->get_error_messages();
-				foreach ($errors as $error) {
-					echo esc_html($error);
-				}
-			}
-	
-			//re-hook this function
-			add_action('save_post', 'page_save_postdata');
-		}
-	}
-}
-
 function page_update_custom_meta($postID, $newvalue, $field_name) {
 
 	if (isset($_POST['pp_meta_form'])) 
@@ -328,7 +214,7 @@ function page_update_custom_meta($postID, $newvalue, $field_name) {
 //init
 
 add_action('admin_menu', 'page_create_meta_box'); 
-add_action('save_post', 'page_save_postdata');  
+
 
 /*
 	End creating custom fields

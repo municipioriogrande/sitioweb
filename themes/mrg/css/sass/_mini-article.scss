@@ -1,10 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Muli:300,400,600,700,800');
 
-
 $deep-blue: #002855;
 $orange:  #ff6a00;
 $light-grey: #f0f0f0;
-$mobile-width: 400px;
+$mobile-width: 600px;
 $main-font: 'Muli', Arial, sans-serif;
 $font-awesome-normal: "Font Awesome 5 Free";
 $font-awesome-brands: "Font Awesome 5 Brands";
@@ -39,8 +38,6 @@ $font-awesome-brands: "Font Awesome 5 Brands";
 				transition: $property;
 }
 
-
-
 .effect-enlarge-shadow:hover{
 	@include transform(scale(1.015));
 	@include box-shadow(0 10px 50px -5px rgba(0,0,0,.30));
@@ -48,8 +45,6 @@ $font-awesome-brands: "Font Awesome 5 Brands";
 	-webkit-backface-visibility: hidden;
 	backface-visibility: hidden;
 }
-
-
 
 .mini-posts-container {
 	.row {
@@ -74,7 +69,6 @@ $font-awesome-brands: "Font Awesome 5 Brands";
 	}
 }
 
-
 .mini-article {
 	background-color: $light-grey;
 	overflow: hidden;
@@ -84,7 +78,6 @@ $font-awesome-brands: "Font Awesome 5 Brands";
 	flex-direction: column;
 	justify-content: space-between;
 	width:  100%;
-
 
 	@media screen and (max-width: $mobile-width) {
 		width: 100%;
@@ -101,7 +94,7 @@ $font-awesome-brands: "Font Awesome 5 Brands";
 		font-size: 1.6em;
 		margin-top: 1.3em;
 		padding: 0 0.7em;
-
+		border: 0;
 		margin-top: 0.8em;
 		font-weight: 700;
 		font-family: $main-font;
@@ -139,7 +132,6 @@ $font-awesome-brands: "Font Awesome 5 Brands";
 	
 }
 
-
 .mini-posts-container .column-bigger {
 	.bigger {
 		width: 64%;
@@ -164,7 +156,6 @@ $font-awesome-brands: "Font Awesome 5 Brands";
 		}
 	}
 }
-
 
 .mini-posts-container .column {
 	@media screen and (max-width: $mobile-width) {
