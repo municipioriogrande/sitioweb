@@ -37,7 +37,8 @@ if(session_id() == '') {
  
 global $pp_homepage_style;
 ?><!DOCTYPE html>
-<html <?php language_attributes(); ?> <?php if(isset($pp_homepage_style) && !empty($pp_homepage_style)) { echo 'data-style="'.$pp_homepage_style.'"'; } ?>>
+<html <?php language_attributes(); ?> <?php if(isset($pp_homepage_style) && !empty($pp_homepage_style)) { echo 'data-style="'.$pp_homepage_style.'"'; } ?> class="<?php
+echo ( wp_is_mobile() ) ? "in-mobile" : "in-desktop";?>">
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />

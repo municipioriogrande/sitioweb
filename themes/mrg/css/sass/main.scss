@@ -39,6 +39,19 @@ h4 {
 	margin-top: 1em;
 }
 
+q {
+	//quotes: "«" "»" "‹" "›";
+	quotes: "“" "”" "‘" "’";
+
+	&:before {
+		content: open-quote;
+	}
+	&:after {
+		content: close-quote;
+  	}
+
+}
+
 .visually-hide {
 	position: absolute !important;
 	display: inline-block;

@@ -30,6 +30,16 @@ h4 {
   margin-top: 1em;
 }
 
+q {
+  quotes: "“" "”" "‘" "’";
+}
+q:before {
+  content: open-quote;
+}
+q:after {
+  content: close-quote;
+}
+
 .visually-hide {
   position: absolute !important;
   display: inline-block;
@@ -1690,6 +1700,9 @@ body.page-municipio table {
 }
 .page-template p, .page-template dl {
   padding: 0.5em;
+}
+.page-template p {
+  hyphens: auto;
 }
 
 @media screen and (max-width: 700px) {
