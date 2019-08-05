@@ -540,13 +540,19 @@
 	}
 }
 
-body.home #gestion-municipal.mrg-section-grey-boxes-links {
+.mrg-section-grey-boxes-links {
 	display: flex;
-	flex-wrap: wrap;
-	max-width: 1080px;
+	
+	&:not(.section-featured) {
+		flex-wrap: wrap;
+		max-width: 1080px;
+		.wp-block-column {
+			max-width: 270px;
+		}
+
+	}
 
 	.wp-block-column {
-		max-width: 270px;
 		margin: 0;
 
 		@media screen and (max-width: 600px) {
@@ -645,7 +651,7 @@ body.home {
 	@media screen and (max-width:600px) {
 		.wp-block-columns.has-5-columns.mrg-section-grey-boxes-links.section-featured {
 			.wp-block-column {
-				width: 49.5%;
+				width: 49%;
 				display: inline-flex;
 				margin-bottom: 0.3em;
 
@@ -669,7 +675,7 @@ body.home {
 		.wp-block-columns.has-4-columns.mrg-section-blue-alt-boxes-links {
 
 			.wp-block-column {
-				width: 49.5%;
+				width: 49%;
 				display: inline-flex;
 				margin-bottom: 0.4em;
 
@@ -735,6 +741,47 @@ body.page-transporte {
 				flex: auto !important;
 			}
 			
+		}
+	}
+}
+
+.page-template-page_mrg_simple_fullwidth .page-content {
+	@media screen and (max-width: 600px){
+		padding: 0;
+	}
+}
+
+body.page-mis-tramites {
+
+	#tramites-populares {
+
+		margin-bottom: 3em;
+		justify-content: center;
+
+		.wp-block-column {
+			max-width: 300px;
+		}
+
+		.box .title {
+			line-height: 1em !important;
+		}
+
+		@media screen and (max-width: 600px){
+			.wp-block-column {
+				width: 40%;
+			}
+			
+			.box {
+				margin: .1em;
+			}
+		}
+	}
+}
+
+body.page-formularios {
+	@media screen and (max-width: 600px){
+		.mrg-section-grey-boxes-links .wp-block-column {
+			width: 45%;
 		}
 	}
 }

@@ -222,10 +222,6 @@ dl.inline-wrapped dt {
   top: 80px;
 }
 
-#wrapper {
-  float: none;
-}
-
 #page_content_wrapper .search_form_wrapper {
   float: none;
   width: auto;
@@ -261,7 +257,7 @@ dl.inline-wrapped dt {
   padding: 0px;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   body.home .ppb_wrapper .ppb_gestion_municipal .box {
     width: 150px !important;
     margin: 0.3em !important;
@@ -290,6 +286,11 @@ body.page-ciudad #page_content_wrapper .inner .sidebar_content img {
 body.page-ciudad #page_content_wrapper .row {
   margin-bottom: 6em;
   clear: both;
+}
+
+body.page-ciudad #page_content_wrapper, body.page-ciudad #page_content_wrapper .inner {
+  width: auto;
+  display: block;
 }
 
 body.page-ciudad .row-full-border {
@@ -357,13 +358,34 @@ body.page-ciudad .row.with-image > * {
 body.page-ciudad .slider {
   position: relative;
 }
+@media screen and (max-width: 600px) {
+  body.page-ciudad .slider {
+    margin-left: calc( -100vw / 2 + 100% / 2 );
+    margin-right: calc( -100vw / 2 + 100% / 2 );
+    max-width: 100vw;
+    width: auto;
+  }
+}
 body.page-ciudad .slider div {
   min-height: 400px;
   min-width: 400px;
 }
+@media screen and (max-width: 600px) {
+  body.page-ciudad .slider div {
+    max-height: 420px;
+  }
+}
 body.page-ciudad .slider img {
   display: block;
   margin: 0 auto;
+}
+@media screen and (max-width: 600px) {
+  body.page-ciudad .slider + .thumbnails {
+    margin-left: calc( -100vw / 2 + 100% / 2 );
+    margin-right: calc( -100vw / 2 + 100% / 2 );
+    max-width: 100vw;
+    width: auto;
+  }
 }
 
 body.page-ciudad .thumbnails {
@@ -423,7 +445,7 @@ form.form-subscribe {
   max-width: 700px;
   display: block;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   form.form-subscribe {
     margin-top: 1em;
   }
@@ -551,7 +573,7 @@ form.form-subscribe-cleaner {
   max-width: 700px;
   display: block;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   form.form-subscribe-cleaner {
     margin-top: 1em;
     max-width: none;
@@ -733,7 +755,7 @@ body.page-medioambiente #wpcf7-f3292-p508-o1 p, body.page-medioambiente #wpcf7-f
   overflow: hidden;
   background-color: #f0f0f0;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   .ppb_module_centros-salud .centro-salud {
     width: 100%;
     display: block;
@@ -744,7 +766,7 @@ body.page-medioambiente #wpcf7-f3292-p508-o1 p, body.page-medioambiente #wpcf7-f
   height: 300px;
   overflow: hidden;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   .ppb_module_centros-salud .centro-salud .featured-image {
     height: 210px;
   }
@@ -776,7 +798,7 @@ body.single-centros_salud #page_caption {
   background-position: center;
   background-repeat: no-repeat;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   body.single-centros_salud #page_caption {
     position: relative;
   }
@@ -789,14 +811,14 @@ body.single-centros_salud #page_caption .title {
   color: #fff;
   font-size: 3em;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   body.single-centros_salud #page_caption .title {
     width: 100vw;
     font-size: 2em !important;
     position: relative;
   }
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   body.single-centros_salud .inner_wrapper {
     padding: 6em 1em;
   }
@@ -822,7 +844,7 @@ body.single-centros_salud .post_wrapper h4 {
 body.single-centros_salud .post_wrapper ul {
   margin: 0 0 1em 0 !important;
 }
-@media screen and (min-width: 500px) {
+@media screen and (min-width: 400px) {
   body.single-centros_salud .post_wrapper .cols {
     display: flex;
     flex-wrap: wrap;
@@ -833,7 +855,7 @@ body.single-centros_salud .post_wrapper .cols .col {
   margin: 3em 2em;
   width: 40%;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   body.single-centros_salud .post_wrapper .cols .col {
     margin: 2em 0.7em;
     width: 100%;
@@ -852,12 +874,12 @@ body.post-type-archive-centros_salud #list-centros_salud ul li {
   margin: 2em auto;
   max-width: 900px;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   body.post-type-archive-centros_salud #list-centros_salud ul li {
     flex-direction: column;
   }
 }
-@media screen and (min-width: 500px) {
+@media screen and (min-width: 400px) {
   body.post-type-archive-centros_salud #list-centros_salud ul li .featured-image {
     min-width: 300px;
     width: 300px;
@@ -1009,7 +1031,7 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
   max-width: 700px;
   width: 70%;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   .nnice-cta.vertical-cta .row > .col {
     width: 100%;
   }
@@ -1022,7 +1044,7 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
   height: 250px;
   /* hardcoded for salud > asperger */
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   .nnice-cta.vertical-cta .box-image {
     height: 150px;
     /* hardcoded for salud > asperger */
@@ -1039,7 +1061,7 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
   border-radius: 1em;
   overflow: hidden;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   .nnice-cta.nnice-cta-form {
     margin-top: 1em;
   }
@@ -1047,7 +1069,7 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
 .nnice-cta.nnice-cta-form .text {
   margin: 0;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   .nnice-cta.nnice-cta-form .text {
     width: auto;
   }
@@ -1062,7 +1084,7 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
   min-height: 300px;
   height: 100%;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   .nnice-cta.nnice-cta-form .box-image {
     display: none;
   }
@@ -1073,7 +1095,7 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
   max-width: 540px;
   margin: 0;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   .nnice-cta.nnice-cta-form form.form-subscribe {
     max-width: 300px;
     padding: 0.4em;
@@ -1095,7 +1117,7 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
 .nnice-cta.nnice-cta-form form.form-subscribe .row.inline .inline {
   width: 47% !important;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   .nnice-cta.nnice-cta-form form.form-subscribe .row.inline .inline {
     width: 100% !important;
     margin: 0.2em 0;
@@ -1105,7 +1127,7 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
   text-align: center;
   margin-top: 2em;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   .nnice-cta.nnice-cta-form .mauticform-row {
     width: 100%;
   }
@@ -1157,7 +1179,7 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
   width: 208px;
   margin: 0 4px;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   .agenda-congreso-educacion-wrapper .congreso-educacion-accordion .mesas-container .mesa {
     width: 100%;
   }
@@ -1176,7 +1198,7 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
   padding-bottom: 0;
   margin-top: 2em;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   .agenda-congreso-educacion-wrapper .congreso-educacion-accordion .mesas-container .mesa .place {
     min-height: 40px;
   }
@@ -1247,7 +1269,7 @@ body.page-espacio-tecnologico .form-edlt-info-wrapper #mauticform_edltinformacio
   justify-content: space-between;
   flex-wrap: wrap;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   .box_pic-text-caption-wrapper {
     flex-direction: column;
     align-content: center;
@@ -1262,7 +1284,7 @@ body.page-espacio-tecnologico .form-edlt-info-wrapper #mauticform_edltinformacio
   min-width: 500px;
   margin: 1.4em 0;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   .box_pic-text-caption {
     width: 100%;
     min-width: 320px;
@@ -1283,7 +1305,7 @@ body.page-espacio-tecnologico .form-edlt-info-wrapper #mauticform_edltinformacio
   line-height: 1.2em !important;
   height: 100%;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   .box_pic-text-caption .text {
     font-size: 1.6em !important;
   }
@@ -2117,37 +2139,41 @@ body.page-municipio table {
   font-size: 1.2em;
 }
 
-body.home #gestion-municipal.mrg-section-grey-boxes-links {
+.mrg-section-grey-boxes-links {
   display: flex;
+}
+.mrg-section-grey-boxes-links:not(.section-featured) {
   flex-wrap: wrap;
   max-width: 1080px;
 }
-body.home #gestion-municipal.mrg-section-grey-boxes-links .wp-block-column {
+.mrg-section-grey-boxes-links:not(.section-featured) .wp-block-column {
   max-width: 270px;
+}
+.mrg-section-grey-boxes-links .wp-block-column {
   margin: 0;
 }
 @media screen and (max-width: 600px) {
-  body.home #gestion-municipal.mrg-section-grey-boxes-links .wp-block-column {
+  .mrg-section-grey-boxes-links .wp-block-column {
     width: 33.3%;
     flex-basis: auto;
   }
 }
-body.home #gestion-municipal.mrg-section-grey-boxes-links .box {
+.mrg-section-grey-boxes-links .box {
   margin: 0.5em;
   hyphens: auto;
 }
 @media screen and (max-width: 600px) {
-  body.home #gestion-municipal.mrg-section-grey-boxes-links .box {
+  .mrg-section-grey-boxes-links .box {
     margin: 0.2em;
   }
 }
 @media screen and (max-width: 600px) and (max-width: 600px) {
-  body.home #gestion-municipal.mrg-section-grey-boxes-links .box .image {
+  .mrg-section-grey-boxes-links .box .image {
     width: 80px;
   }
 }
 @media screen and (max-width: 600px) {
-  body.home #gestion-municipal.mrg-section-grey-boxes-links .box .title {
+  .mrg-section-grey-boxes-links .box .title {
     letter-spacing: 0.02em;
     font-size: 0.9em !important;
   }
@@ -2211,7 +2237,7 @@ body.home #gestion-municipal.mrg-section-grey-boxes-links .box {
 
 @media screen and (max-width: 600px) {
   body.home .wp-block-columns.has-5-columns.mrg-section-grey-boxes-links.section-featured .wp-block-column {
-    width: 49.5%;
+    width: 49%;
     display: inline-flex;
     margin-bottom: 0.3em;
   }
@@ -2228,7 +2254,7 @@ body.home #gestion-municipal.mrg-section-grey-boxes-links .box {
     width: 90px;
   }
   body.home .wp-block-columns.has-4-columns.mrg-section-blue-alt-boxes-links .wp-block-column {
-    width: 49.5%;
+    width: 49%;
     display: inline-flex;
     margin-bottom: 0.4em;
   }
@@ -2274,6 +2300,37 @@ body.home #gestion-municipal.mrg-section-grey-boxes-links .box {
   body.page-transporte .mrg-section-boxes .mrg-block-column-spaces-vertical {
     width: 100%;
     flex: auto !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .page-template-page_mrg_simple_fullwidth .page-content {
+    padding: 0;
+  }
+}
+
+body.page-mis-tramites #tramites-populares {
+  margin-bottom: 3em;
+  justify-content: center;
+}
+body.page-mis-tramites #tramites-populares .wp-block-column {
+  max-width: 300px;
+}
+body.page-mis-tramites #tramites-populares .box .title {
+  line-height: 1em !important;
+}
+@media screen and (max-width: 600px) {
+  body.page-mis-tramites #tramites-populares .wp-block-column {
+    width: 40%;
+  }
+  body.page-mis-tramites #tramites-populares .box {
+    margin: 0.1em;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  body.page-formularios .mrg-section-grey-boxes-links .wp-block-column {
+    width: 45%;
   }
 }
 
