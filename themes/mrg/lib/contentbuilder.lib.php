@@ -5031,7 +5031,7 @@ function ppb_module_eventbrite_func($atts, $content) {
 		'bajada' 			=> '',
 		'numero_de_eventos' => '3',
 		'column_number' 	=> '3',
-		'leer_mas' 			=> get_site_url().'/eventos',
+		'leer_mas' 			=> 'https://www.eventbrite.com.ar/o/espacio-para-el-desarrollo-laboral-y-tecnologico-edlt-municipio-de-rio-grande-17204344257',
 		'leer_mas_string' 	=> 'LEER MÁS',
 		'target' 			=> '_blank',
 		'seconds_expire' 	=> 3600,
