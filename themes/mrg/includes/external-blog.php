@@ -34,6 +34,41 @@ function make_file_from_external_blog($wp_response, $name_file, $context=""){
 
 
 /**
+ * Check if external blog cache (json file) is older or newer than now
+ * 
+ * @param string $file_path the path of the file to compare to
+ * 
+ * @returns bool
+ */
+
+function is_external_blog_cache_old($file_path){
+
+	if ( !file_exists($file_path) ) {
+		return true;
+	}
+
+	$tz = "America/Argentina/Ushuaia";
+	$hrs_expira = 5;
+	
+	$date_now  = new DateTime("now", new DateTimeZone($tz));		
+	$date_file = new DateTime(null, new DateTimeZone($tz));
+	$date_file->setTimestamp(filemtime($file_path));
+	
+	if ( 
+		($date_now->format('Y-m-d') > $date_file->format('Y-m-d') )
+		||
+		( $date_now->format('Y-m-d') == $date_file->format('Y-m-d') && ( $date_now->format('H') - $date_file->format('H') ) >= $hrs_expira )
+		//( $date_now->format('Y-m-d') == $date_file->format('Y-m-d') && date_diff($date_now, $date_file)->format("%h") >= $hrs_expira ) 
+		) {
+			return true;
+	}
+
+	return false;
+}
+
+
+
+/**
  *  Get blog (WP, external) categories using REST API
  *  
  *  @return array. id => array(name, link )
@@ -55,18 +90,7 @@ function get_external_blog_categories(){
 		$make_file = true;
 	}
 	else {
-		date_default_timezone_set('UTC');
-		date_default_timezone_set("America/Argentina/Ushuaia");
-		setlocale(LC_ALL,"es_ES");
-		
-		$hora 				= getdate();
-		$segundos_menos 	= 3600*3; 									// Diferencia horaria (3hs Argentina)
-		$segundos_validos = 3600; 										// Segundos validos para el archivo (5hs)
-		$hora_actual 		= gmdate("H:i:s", ($hora[0]-$segundos_menos));	// Formateamos hora de sistema
-		$hora_archivo 		= date("H:i:s.", filemtime($name_file));	// Formateamos hora de sistema
-		$horas_resta 		= MRG_normalice_fecha($hora_actual) - MRG_normalice_fecha($hora_archivo);
-		
-		$make_file = ($horas_resta <= $segundos_validos) ? false : true;
+		$make_file = is_external_blog_cache_old($name_file);
 	}
 	
 	if ( !$make_file ) {
@@ -105,18 +129,7 @@ function get_external_blog_posts($filter_categories=array()){
 		$make_file = true;
 	}
 	else {
-		date_default_timezone_set('UTC');
-		date_default_timezone_set("America/Argentina/Ushuaia");
-		setlocale(LC_ALL,"es_ES");
-		
-		$hora 				= getdate();
-		$segundos_menos 	= 3600*3; 		// Diferencia horaria (3hs Argentina)
-		$segundos_validos = 3600; 		// Segundos validos para el archivo (5hs)
-		$hora_actual 		= gmdate("H:i:s", ($hora[0]-$segundos_menos));	// Formateamos hora de sistema
-		$hora_archivo 		= date("H:i:s.", filemtime($name_file));	// Formateamos hora de sistema
-		$horas_resta 		= MRG_normalice_fecha($hora_actual) - MRG_normalice_fecha($hora_archivo);
-		
-		$make_file = ($horas_resta <= $segundos_validos) ? false : true;
+		$make_file = is_external_blog_cache_old($name_file);
 	}
 	
 	if ( !$make_file ) {
@@ -237,3 +250,4 @@ function print_external_blog_posts_holder($section_title="", $filtered_cats=arra
 	
    print_external_blog_posts($remote_posts, $section_title);	
 }
+
