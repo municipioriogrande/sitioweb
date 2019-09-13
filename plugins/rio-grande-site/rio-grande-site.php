@@ -390,7 +390,7 @@ function load_points_in_osm($code, $atts=false){
 	<div id="<?php echo $map_id;?>" style='height:600px;width:100%;margin-bottom: 3em;'></div>
 	<script type="text/javascript">
 	jQuery(document).ready(function() {
-		var map = L.map("<?php echo $map_id;?>").setView([-53.78903, -67.69588], 14);
+		var map = L.map("<?php echo $map_id;?>").setView([-53.78903, -67.69588], 12);
 		var tile_url = 'https://tiles.dir.riogrande.gob.ar/carto/{z}/{x}/{y}.png';
 
 		var map_icon = L.icon({
