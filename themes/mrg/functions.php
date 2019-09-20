@@ -2178,6 +2178,13 @@ add_action( 'after_setup_theme', function () {
 	add_theme_support( 'align-wide' );
 
 	add_theme_support( 'responsive-embeds' );
+
+
+	// crb_load()
+	require_once( 'vendor/autoload.php' );
+	\Carbon_Fields\Carbon_Fields::boot();
+
+
  } );
 
 
@@ -2225,6 +2232,11 @@ add_action('wp_enqueue_scripts', 'js_css_control');
 function js_css_control() {
 	// GET THE CURRENT POST'S CONTENT
 	global $post;
+	
+	if( !is_object($post) ) {
+		return;
+	}
+	
 	$content = $post->post_content;
 
 	wp_dequeue_script( 'contact-form-7' );

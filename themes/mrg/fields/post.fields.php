@@ -1,5 +1,8 @@
 <?php
 
+use Carbon_Fields\Container;
+use Carbon_Fields\Field;
+
 function post_type_galleries() {
 	$labels = array(
     	'name' => _x('Galleries', 'post type general name', THEMEDOMAIN),
@@ -119,65 +122,52 @@ function post_type_slider() {
 								  
 add_action('init', 'post_type_slider');
 
-/* THISNEW { */
-function post_type_habitaciones() {
-	$labels = array(
-    	'name' => _x('Rooms', 'post type general name', THEMEDOMAIN),
-    	'singular_name' => _x('Room', 'post type singular name', THEMEDOMAIN),
-    	'add_new' => _x('Add New Room', 'book', THEMEDOMAIN),
-    	'add_new_item' => __('Add New Room', THEMEDOMAIN),
-    	'edit_item' => __('Edit Room', THEMEDOMAIN),
-    	'new_item' => __('New Room', THEMEDOMAIN),
-    	'view_item' => __('View Room', THEMEDOMAIN),
-    	'search_items' => __('Search Room', THEMEDOMAIN),
-    	'not_found' =>  __('No Room found', THEMEDOMAIN),
-    	'not_found_in_trash' => __('No Room found in Trash', THEMEDOMAIN), 
-    	'parent_item_colon' => ''
-	);		
-	$args = array(
-    	'labels' => $labels,
-    	'public' => true,
-    	'publicly_queryable' => true,
-    	'show_ui' => true, 
-    	'query_var' => true,
-    	'rewrite' => true,
-    	'capability_type' => 'post',
-    	'hierarchical' => false,
-    	'menu_position' => null,
-    	'supports' => array('title','editor', 'excerpt', 'thumbnail',  'revisions', 'comments'),
-    	'menu_icon' => get_template_directory_uri().'/functions/images/sign.png'
-	); 		
+add_action( 'carbon_fields_register_fields', 'crb_attach_post_meta_slider' );
+function crb_attach_post_meta_slider() {
 
-	register_post_type( 'habitaciones', $args );
-	
-  	$labels = array(			  
-  	  'name' => _x( 'Room Categories', 'taxonomy general name', THEMEDOMAIN ),
-  	  'singular_name' => _x( 'Room Category', 'taxonomy singular name', THEMEDOMAIN ),
-  	  'search_items' =>  __( 'Search Room Categories', THEMEDOMAIN ),
-  	  'all_items' => __( 'All Room Categories', THEMEDOMAIN ),
-  	  'parent_item' => __( 'Parent Room Category', THEMEDOMAIN ),
-  	  'parent_item_colon' => __( 'Parent Room Category:', THEMEDOMAIN ),
-  	  'edit_item' => __( 'Edit Room Category', THEMEDOMAIN ), 
-  	  'update_item' => __( 'Update Room Category', THEMEDOMAIN ),
-  	  'add_new_item' => __( 'Add New Room Category', THEMEDOMAIN ),
-  	  'new_item_name' => __( 'New Room Category Name', THEMEDOMAIN ),
-  	); 							  
-  	
-  	register_taxonomy(
-		'habitacionescats',
-		'habitaciones',
-		array(
-			'public'=>true,
-			'hierarchical' => true,
-			'labels'=> $labels,
-			'query_var' => 'habitacionescats',
-			'show_ui' => true,
-			'rewrite' => array( 'slug' => 'habitacionescats', 'with_front' => false ),
-		)
-	);		  
-} 
-add_action('init', 'post_type_habitaciones');
-/* } THISNEW */
+	Container::make( 'post_meta', __( 'Botón', 'crb' ) )
+        ->where( 'post_type', '=', 'slider' )
+        ->set_context( 'carbon_fields_after_title' )
+        ->add_fields( array(
+
+				Field::make( 'checkbox', 'mrg_slider_btn_show', __( '¿Mostrar botón?' ) )
+					->set_option_value( 'no' )
+				,
+				Field::make( 'text', 'mrg_slider_btn_url', 'URL' )
+					->set_attribute( 'type', 'url' )
+					->set_width (50)
+
+					->set_conditional_logic( array(
+						'relation' => 'AND', // Optional, defaults to "AND"
+						array(
+							 'field' => 'mrg_slider_btn_show',
+							 'value' => true,
+						)
+				  ) )
+
+				,
+				Field::make( 'text', 'mrg_slider_btn_text', 'Texto' )
+					->set_attribute( 'type', 'text' )
+					->set_width (50)
+
+					->set_conditional_logic( array(
+						'relation' => 'AND', // Optional, defaults to "AND"
+						array(
+							 'field' => 'mrg_slider_btn_show',
+							 'value' => true,
+						)
+				  ) )
+
+			) );
+}
+
+
+
+
+
+
+
+
 
 /* THISNEW MRG { */
 
@@ -606,21 +596,7 @@ $postmetas =
 			array("section" => "Header", "id" => "post_header_background", "type" => "image", "title" => "Single Post Page Header Background", "description" => "Upload background image for this post and it displays as header in single post page"),
 		),
 		
-		/* THISNEW { */
-		'habitaciones' => array(
-			array("section" => "Room Option", 	"id" => "habitacion_price", 									"title" => "Precio", 					"description" => "Ingrese el precio de la habitación (numero)"),
-			array("section" => "Room Option", 	"id" => "habitacion_price_currency", 	"type" => "text", 		"title" => "Moneda", 					"description" => "Introduzca la moneda del precio de la habitación ejemplo USD"),
-			//array("section" => "Room Option", 	"id" => "habitacion_availability", 								"title" => "Huéspedes", 				"description" => "Introduzca la cantidad de Huéspedes que admite la habitación (en número)"),
-			array("section" => "Room Option", 	"id" => "habitacion_booking_url", 		"type" => "text", 		"title" => "Reserva URL", 				"description" => "Introduzca la URL para los formularios de reserva. Cuando los usuarios hacen clic en el botón de reserva, serán redirigidos a esta URL"),
-			array("section" => "Room Option", 	"id" => "habitacion_booking_hotel_id", 	"type" => "text", 		"title" => "Reserva Hotel ID ", 		"description" => "Introduzca el ID de otel del sitema de reservas"),
-			//array("section" => "Room Option", 	"id" => "habitacion_gallery_detail", 	"type" => "textarea", 		"title" => "Galería Resumen (Short-Code)", 	"description" => "Ingresar Short-code de galería de Pitch de venta"),
-			//array("section" => "Room Option", 	"id" => "habitacion_gallery_photo", 	"type" => "text", 		"title" => "Galería Fotos (Short-Code)", 	"description" => "Ingresar Short-code de galería de fotos"),
-			array("section" => "Room Option", 	"id" => "habitacion_tamano", 			"type" => "text", 		"title" => "Tamaño", 	"description" => "Ingresar la descripción del tamaño de la habitación"),
-			array("section" => "Room Option", 	"id" => "habitacion_foto_plano", 		"type" => "image", 		"title" => "Foto (modulo plano)", 		"description" => "Carge la 'Foto' a mostrar en el detalle"),
-			array("section" => "Room Option", 	"id" => "habitacion_url_plano", 		"type" => "text", 		"title" => "Plano (modulo plano)", "description" => "Ingresar la URL de el plano (archivo)"),
-			array("section" => "Room Option", 	"id" => "habitacion_amenities_foto", 		"type" => "image", 		"title" => "Foto (modulo amenities)", 		"description" => "Carge la 'Foto' a mostrar en el modulo de amenities"),
-		),
-		/* } THISNEW */
+
 		
 		/* THISNEW MRG {*/
 		/*
@@ -636,17 +612,6 @@ $postmetas =
 					"Gallery Fullscreen" => "Gallery Fullscreen",
 				)),
 			array("section" => "Menu", "id" => "page_menu_transparent", "type" => "checkbox", "title" => "Make Menu Transparent", "description" => "Check this option if you want to display menu in transparent (support only when you upload gallery page header image using set featured image box)"),
-		),
-		'slider' => array(
-			array("section" => "Show button", 				"id" => "slider_show_button", 		"type" => "checkbox", "title" => "Show button interno", 	"description" => "Check this option if you want to display the button"),
-			array("section" => "Url Button", 				"id" => "slider_url_button",		"type" => "text", 	  "title" => "URL Button", 				"description" => "Ingresar la URL para el boton"),
-			array("section" => "Url Button Text", 			"id" => "slider_url_button_text",	"type" => "text", 	  "title" => "URL Button Text", 		"description" => "Ingresar el texto para el boton"),
-			array("section" => "Show CTA", 					"id" => "slider_show_cta", 			"type" => "checkbox", "title" => "Show CTA HubSpot", 		"description" => "Marcar esta opción si quiere mostrar el CTA de HubSpot (tiene que haber pegado el codigo)"),
-			array("section" => "HubSpot CTA Code", 			"id" => "slider_cta_code", 			"type" => "textarea", "title" => "Codigo CTA", 				"description" => "Ingresar el código de Hubspot"),
-			array("section" => "Show greeting", 			"id" => "slider_show_greeting", 	"type" => "checkbox", "title" => "Show Greeting", 			"description" => "Check this option if you want to use Greeting"),
-			array("section" => "Text for Good Day", 		"id" => "slider_text_day", 			"type" => "textarea", "title" => "Text for Good Day", 		"description" => "Ingresar the Text for Good Day"),
-			array("section" => "Text for Good Afternoon", 	"id" => "slider_text_afternoon", 	"type" => "textarea", "title" => "Text for Good Afternoon", "description" => "Ingresar the Text for Good Afternoon"),
-			array("section" => "Text for Good Night", 		"id" => "slider_text_night", 		"type" => "textarea", "title" => "Text for Good Night", 	"description" => "Ingresar the Text for Good Night"),
 		),
 		'sube' => array(
 			array("section" => "Latitud", 		"id" => "sube_latitud", 	"type" => "text", 	  "title" => "Latitud", 		"description" => "Ingresar la Latitud"),

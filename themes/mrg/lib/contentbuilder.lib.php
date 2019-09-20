@@ -1434,7 +1434,7 @@ function ppb_header_gallery_slider_func($atts, $content) {
             break;
     }
 
-    //Get habitacion items
+    //Get slider items
     $args = array(
         //'numberposts' => $items,
         'order' => $slider_order,
@@ -1480,6 +1480,14 @@ function ppb_header_gallery_slider_func($atts, $content) {
 			$slider_text_day 			= get_post_meta($slider_ID, 'slider_text_day', true);
 			$slider_text_afternoon 		= get_post_meta($slider_ID, 'slider_text_afternoon', true);
 			$slider_text_night 			= get_post_meta($slider_ID, 'slider_text_night', true);
+
+
+			//-------------
+			$slider_show_button     = get_post_meta( $slider_ID, '_mrg_slider_btn_show', true );
+			$slider_url_button      = get_post_meta( $slider_ID, '_mrg_slider_btn_url', true );
+			$slider_url_button_text = get_post_meta( $slider_ID, '_mrg_slider_btn_text', true );
+
+
 
 			$slider_tags = "";
 			$tmp = wp_get_post_tags($slider_ID, array( "fields" => "names" ));
@@ -1563,7 +1571,7 @@ function ppb_header_gallery_slider_func($atts, $content) {
 				}
 				else
 				{
-					if(!empty($slider_url_button_text))
+					if( $slider_show_button && !empty($slider_url_button_text)     )
 					{
 						$return_html.= '<a href="'.$slider_url_button.'" class="button">'.$slider_url_button_text.'</a>';
 					}
