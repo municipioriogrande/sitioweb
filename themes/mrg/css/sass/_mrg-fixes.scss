@@ -1566,3 +1566,75 @@ body.page-municipio {
 		padding: 1em;
 	}
 }
+
+.table-to-mobile-repeat-headers-vertical {
+	// usado en exhumaciones2019, recordar los nombres de campos usando data en la misma página
+	// ejemplo:  .table-to-mobile td:nth-of-type(1):before { content: "Fecha"; }
+	
+	td:before {
+		//hide labels in desktop
+		display: none;
+	}
+	
+	@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px)  {
+		// Force table to not be like tables anymore
+		display: block; 
+		thead, tbody, th, td, tr { 
+			display: block; 
+		}
+
+		// Hide table headers 
+		th { 
+			position: absolute;
+			top: -9999px;
+			left: -9999px;
+		}
+	
+		tr {
+			border-bottom: 2px solid #8a8a8a; 
+			position: relative;
+
+			&:first-of-type {
+				border: 0;
+			}
+		}
+		
+		td { 
+			// Behave like a "row" 
+			border: none;
+			position: relative;
+			border-bottom: 1px solid #e3e3e3 !important;
+			padding: 10px 0 10px 90px !important;
+			line-height: 1em !important;
+			font-size:0.9em;
+			overflow:hidden;
+			
+			&:before { 
+				display: block;
+				// Behave like a table header
+				position: absolute;
+				// Top/left values mimic padding 
+				top: 0;
+				left: 0;
+				width: 60px;
+				padding: 11px;
+				white-space: nowrap;
+				background-color: $deep-blue;
+				color: #fff;
+				height: 100%;
+			}
+
+			// for exumaciones, to "merge" two lines into one 
+			&.col2 {
+				position: absolute;
+				left: 150px;
+		  	}	
+		  	&.row1.col2 {
+				top: 0;
+		  	}
+			&.row2.col2 {
+				top: 38px;
+			}
+		}
+	}
+}
