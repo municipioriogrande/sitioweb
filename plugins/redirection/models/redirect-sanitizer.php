@@ -62,7 +62,7 @@ class Red_Item_Sanitize {
 
 			// Remove defaults
 			$data['match_data']['source'] = $flags->get_json_without_defaults( $defaults );
-			$data['regex'] = $flags->is_regex();
+			$data['regex'] = $flags->is_regex() ? 1 : 0;
 		}
 
 		// If match_data is empty then don't save anything
@@ -73,7 +73,7 @@ class Red_Item_Sanitize {
 		$data['match_data'] = array_filter( $data['match_data'] );
 
 		if ( empty( $data['match_data'] ) ) {
-			unset( $data['match_data'] );
+			$data['match_data'] = null;
 		}
 
 		// Parse URL
@@ -215,6 +215,14 @@ class Red_Item_Sanitize {
 		// Ensure a slash at start
 		if ( substr( $url, 0, 1 ) !== '/' && (bool) $regex === false ) {
 			$url = '/' . $url;
+		}
+
+		// Ensure we URL decode any i10n characters
+		$url = rawurldecode( $url );
+
+		// Try and remove bad decoding
+		if ( function_exists( 'iconv' ) ) {
+			$url = @iconv( 'UTF-8', 'UTF-8//IGNORE', $url );
 		}
 
 		return $url;

@@ -163,11 +163,12 @@ if(!class_exists('fileaway_utility'))
 			{
 				$res = $result && $result != '' && $result != null ? trim($result) : '10M'; 
 				$last = strtolower($res[strlen($res)-1]);
+				$res = trim(preg_replace('[\D]', '', $res));
 				switch($last)
 				{ 
-					case 'g': $res *= 1024; 
-					case 'm': $res *= 1024; 
-					case 'k': $res *= 1024; 
+					case 'g': $res *= 1073741824; break; 
+					case 'm': $res *= 1048576; break; 
+					case 'k': $res *= 1024; break; 
 				}
 				return $res;
 			}
@@ -500,6 +501,7 @@ if(!class_exists('fileaway_utility'))
 		public static function urlesc($string = false, $reverse = false, $spec = false)
 		{
 			if(!$string) return false;
+			if($string == 'javascript:') return $string;
 			$chars = array('#'=>'%23', ' '=>'%20', "'"=>'%27', '['=>'%5b', ']'=>'%5d', '?'=>'%3F', '('=>'%28', ')'=>'%29', '&'=>'%26', ','=>'%2C');	
 			if($reverse) $chars = array_flip($chars);
 			if($spec)
@@ -624,19 +626,20 @@ if(!class_exists('fileaway_utility'))
 		}
 		public static function stripslashes($str)
 		{
-				if(DIRECTORY_SEPARATOR === '/') return stripslashes($str);
-				return str_replace('|*|*|','\\',stripslashes(str_replace('\\\\','|*|*|',$str)));
+			if(DIRECTORY_SEPARATOR === '/') return stripslashes($str);
+			return stripslashes(str_replace('\\\\','/',$str));
 		}
 		public static function realpath($path, $base1, $base2)
 		{
-			$check1 = realpath($base1.$path);
-			$check2 = realpath($base2.$path);	
-			if(trim($check1,'/') == trim(ABSPATH,'/') || trim($check2,'/') == trim(ABSPATH,'/')) return false;
+			$path = str_replace('\\','/',$path);
+			$check1 = str_replace('\\','/',realpath($base1.$path));
+			$check2 = str_replace('\\','/',realpath($base2.$path));	
+			if(trim($check1,'/') == trim(str_replace('\\','/',ABSPATH),'/') || trim($check2,'/') == trim(str_replace('\\','/',ABSPATH),'/')) return false;
 			if($check1 === false && $check2 === false) return false;
 			if(strpos($base1.$path,'..') !== false || strpos($base2.$path,'..') !== false) return false;
 			$maybeSym = false;
-			if((strpos($check1, $base1) !== 0 && strpos($check2, $base2) !== 0)) $maybeSym = true;
-			if($check1 != $base1.$path && $check2 != $base2.$path) $maybeSym = true;
+			if((strpos($check1, $base1) !== 0 && strpos($check2, $base2) !== 0)) $maybeSym = true;			
+			if($check1 != $base1.$path && $check2 != $base2.$path) $maybeSym = true;			
 			if(!$maybeSym) return true;
 			if(!fileaway_definitions::symlinks()) return false;
 			$isSym = false;
@@ -644,85 +647,84 @@ if(!class_exists('fileaway_utility'))
 			$dirname = $path;
 			while(false === $isSym)
 			{
-					if($dirname == '.' || $dirname == '/' || empty($dirname)) break;
-					$check3 = rtrim($base1.$dirname,'/');
-					$check4 = rtrim($base2.$dirname,'/');
-					if(is_link($check3))
+				if($dirname == '.' || $dirname == '/' || empty($dirname)) break;
+				$check3 = rtrim($base1.$dirname,'/');
+				$check4 = rtrim($base2.$dirname,'/');
+				if(is_link($check3))
+				{
+					if($check1 == rtrim(readlink($check3).'/'.$basename,'/'))
 					{
-							if($check1 == rtrim(readlink($check3).'/'.$basename,'/'))
-							{
-									$isSym = true;
-									break;
-							}
+						$isSym = true;
+						break;
 					}
-					if(is_link($check4))
+				}
+				if(is_link($check4))
+				{
+					if($check2 == rtrim(readlink($check4).'/'.$basename,'/'))
 					{
-							if($check2 == rtrim(readlink($check4).'/'.$basename,'/'))
-							{
-									$isSym = true;
-									break;
-							}
+						$isSym = true;
+						break;
 					}
-					$basename = rtrim(self::basename($dirname).'/'.$basename,'/');
-					$dirname = self::dirname($dirname);
+				}
+				$basename = rtrim(self::basename($dirname).'/'.$basename,'/');
+				$dirname = self::dirname($dirname);
 			}
 			return $isSym;
 		}		
 		public static function verify_location_nonce($nonce = '', $path = '', $bases = array())
 		{
-				if(!is_array($bases)) $bases = array($bases);
-				$bases = array_filter(array_unique($bases));
-				if(empty($bases)) return false;
-				$path = trim($path);
-				if(empty($path)) return false;
-				$path = trim($path,'/');
-				if(empty($path)) return false;
-				if(empty($nonce)) return false;
-				$passed = false;
-				foreach($bases as $base)
-				{
-						$count = 0;
-						while(strlen($path) > 1)
-						{
-								$count++;
-								if($count > 500) break;
-								$path = trim(trim($path,'/'),'\\');
-								$action = 'fileaway-location-nonce-'.base64_encode(trim(trim($base.$path,'/'),'\\'));
-								if(wp_verify_nonce($nonce, $action)) 
-								{
-										$passed = true;
-										break;
-								}
-								$path = self::dirname($path);
-						}
-						if($passed) break;
-				}	
-				return $passed;
-		}
-		public static function pathinfo($path_file, $options = NULL)
-	    {
-			if(fileaway_definitions::$pathinfo)
+			$path = str_replace('\\','/',$path);
+			if(!is_array($bases)) $bases = array($bases);
+			$bases = array_filter(array_unique($bases));
+			if(empty($bases)) return false;
+			$path = trim($path);
+			if(empty($path)) return false;
+			$path = trim($path,'/');
+			if(empty($path)) return false;
+			if(empty($nonce)) return false;
+			$passed = false;
+			foreach($bases as $base)
 			{
-				$path_file = strtr($path_file, array('\\'=>'/'));
-				preg_match("~[^/]+$~", $path_file, $file);
-				preg_match("~([^/]+)[.$]+(.*)~", $file[0], $file_ext);
-				preg_match("~(.*)[/$]+~", $path_file, $dirname);
-				if(!$dirname[1]) $dirname[1]='.';
-				$result = array
-				(
-					'dirname' => $dirname[1],
-					'basename' => $file[0],
-					'extension' => isset($file_ext[2]) ? $file_ext[2] : false,
-					'filename' => isset($file_ext[1]) ? $file_ext[1] : $file[0]
-				);
-				if($options & PATHINFO_DIRNAME) return $result['dirname'];
-				if($options & PATHINFO_BASENAME) return $result['basename'];
-				if($options & PATHINFO_EXTENSION) return $result['extension'];
-				if($options & PATHINFO_FILENAME) return $result['filename'];
-				return $result;
-			}
-			else return $options ? pathinfo($path_file, $options) : pathinfo($path_file); 
-	    }
+				$p = $path;
+				$count = 0;
+				while(strlen($p) >= 1)
+				{
+					if($p == '.' || $p == '/' || empty($p)) break;
+					$count++;
+					if($count > 500) break;
+					$p = trim(trim($p,'/'),'\\');
+					$action = 'fileaway-location-nonce-'.base64_encode(trim(trim($base.$p,'/'),'\\'));
+					if(wp_verify_nonce($nonce, $action)) 
+					{
+						$passed = true;
+						break;
+					}
+					$p = self::dirname($p);
+				}
+				if($passed) break;
+			}	
+			return $passed;
+		}		
+		public static function pathinfo($path_file, $options = NULL)
+	  	{
+			$path_file = strtr($path_file, array('\\'=>'/'));
+			preg_match("~[^/]+$~", $path_file, $file);
+			preg_match("~([^/]+)[.$]+(.*)~", $file[0], $file_ext);
+			preg_match("~(.*)[/$]+~", $path_file, $dirname);
+			if(!isset($dirname[1])) $dirname[1]='.';
+			$result = array
+			(
+				'dirname' => $dirname[1],
+				'basename' => $file[0],
+				'extension' => isset($file_ext[2]) ? $file_ext[2] : false,
+				'filename' => isset($file_ext[1]) ? $file_ext[1] : $file[0]
+			);
+			if($options & PATHINFO_DIRNAME) return $result['dirname'];
+			if($options & PATHINFO_BASENAME) return $result['basename'];
+			if($options & PATHINFO_EXTENSION) return $result['extension'];
+			if($options & PATHINFO_FILENAME) return $result['filename'];
+			return $result;
+	  	}
 		public static function basename($path_file)
 		{
 			return fileaway_definitions::$pathinfo ? self::pathinfo($path_file, PATHINFO_BASENAME) : basename($path_file);	

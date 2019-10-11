@@ -39,13 +39,14 @@ if($directories)
 			else $thefiles .= "<td id='manager-ssfa-create-dir-$uid' class='$theme' data-value='# # # #'> &nbsp; </td>";
 		}
 	}
-	$subdircheck = glob("$dir"."/*"); 
+	$subdircheck = glob($dir.'/*'); 
 	$checksubdirs = is_array($subdircheck) ? array_filter($subdircheck, 'is_dir') : array();
 	if(count($checksubdirs) > 0)
 	{ 
 		$f = 0;
-		foreach(glob("$dir"."/*", GLOB_ONLYDIR) as $k=> $folder)
+		foreach(glob($dir.'/*', GLOB_ONLYDIR) as $k=> $folder)
 		{
+			$folder = str_replace('\\','/',$folder);
 			if($iconcolor) $dir_icocol = " ssfa-$iconcolor"; 
 			if($color && !$accent)
 			{ 
@@ -75,7 +76,7 @@ if($directories)
 				$direxcluded = 1; 
 				foreach($onlydirs as $onlydir)
 				{ 
-					if(strripos("$folder", "$onlydir") !== false)
+					if(strripos($folder, str_replace('\\','/',$onlydir)) !== false)
 					{
 						$direxcluded = 0; 
 						continue;
@@ -84,30 +85,29 @@ if($directories)
 			}
 			if($excludedirs)
 			{ 
-				foreach($excludedirs as $exclude) if(strripos("$folder", "$exclude") !== false) continue 2; 
+				foreach($excludedirs as $exclude) if(strripos($folder, str_replace('\\','/',$exclude)) !== false) continue 2; 
 			}
 			if(!$direxcluded)
 			{			
 				$f++; 
-				$dlink = fileaway_utility::replacefirst("$folder", "$basebase", '');
+				$dlink = fileaway_utility::replacefirst($folder, $basebase, '');
 				if($getrss)
 				{
-					$inilocation = is_file($rootpath.$basebase.'/'.trim($dlink, '/').'/_fa.feed.id.ini') 
-						? $rootpath.$basebase.'/'.trim($dlink, '/').'/_fa.feed.id.ini' : false;
+					$inilocation = is_file($rootpath.$basebase.'/'.trim($dlink, '/').'/_fa.feed.id.ini') ? $rootpath.$basebase.'/'.trim($dlink, '/').'/_fa.feed.id.ini' : false;
 					if($inilocation)
 					{
 						$subini = parse_ini_file($inilocation);
 						$subfeedid = $subini['id'];
-						$subfeedfile = $rootpath.trim($this->op['feeds'], '/').'/_feed_'.$subfeedid.'.xml';
+						$subfeedfile = $rootpath.trim(str_replace('\\','/',$this->op['feeds']), '/').'/_feed_'.$subfeedid.'.xml';
 						if(is_file($subfeedfile))
 						{
-							$subfeedurl = fileaway_utility::replacefirst($subfeedfile, $rootpath, rtrim($this->op['baseurl'], '/').'/');
+							$subfeedurl = fileaway_utility::replacefirst($subfeedfile, $rootpath, rtrim(str_replace('\\','/',$this->op['baseurl']), '/').'/');
 							$subrsslink = '<span class="ssfa-rssmini '.$dir_colors.'" data-href="'.$subfeedurl.'">rss</span>';
 						}
 					}		
 				}
 				$dirtext = $subrsslink ? null : _x('dir', 'abbrv. of *directory*', 'file-away');
-				$folder = str_replace("$dir".'/', '', "$folder");
+				$folder = str_replace($dir.'/', '', $folder);
 				$prettyfolder = $folder;
 				if(!$prettify)
 				{
@@ -117,8 +117,8 @@ if($directories)
 					$prettyfolder = preg_replace('/(?<=\d)-(?=\D)/', ' ', "$prettyfolder");
 					$prettyfolder = fileaway_utility::strtotitle($prettyfolder);
 				}
-				$dpath = ltrim("$dlink", '/'); 
-				$dlink = str_replace('/', '*', "$dpath");
+				$dpath = ltrim($dlink, '/'); 
+				$dlink = str_replace('/', '*', $dpath);
 				$managedir = $manager && $dirman 
 					? 	"<a href='' id='rename-ssfa-dir-$uid-$f'>".__('Rename', 'file-away')."</a><br>".
 						"<a href='' id='delete-ssfa-dir-$uid-$f'>".__('Delete', 'file-away')."</a></td>" 

@@ -14,25 +14,15 @@ if(!class_exists('fileaway_encrypted'))
 		}
 		public function encrypt($file)
 		{ 
+			if(empty($file)) return '';
 			$op = get_option('fileaway_options');
 			if(!isset($op['encryption_key']) || strlen($op['encryption_key']) < 16) $key = $this->key($op);
 			else $key = $op['encryption_key'];	
-        	if(function_exists('mcrypt_encrypt'))
-			{
-				return urlencode(trim(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $key, $file, MCRYPT_MODE_ECB, 
-					mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND)))));
-			}
-			else
-			{
-				$encrypted = '';
-				$keys = array_values(array_unique(str_split($key)));
-				$keyr = array_reverse($keys);
-				foreach(str_split(strrev(base64_encode(fileaway_utility::urlesc($file)))) as $s)
-				{
-					$encrypted .= in_array($s, $keys) ? $keyr[array_search($s, $keys)] : $s;
-				}
-				return urlencode($encrypted);
-			}
+			$encrypted = '';
+			$keys = array_values(array_unique(str_split($key)));
+			$keyr = array_reverse($keys);
+			foreach(str_split(strrev(base64_encode($file))) as $s) $encrypted .= in_array($s, $keys) ? $keyr[array_search($s, $keys)] : $s;
+			return fileaway_utility::urlesc($encrypted);
 		}
 		private function key($options)
 		{

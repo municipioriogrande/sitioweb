@@ -291,6 +291,7 @@ class wfWAFUtils {
 			}
 		}
 		if (function_exists('mcrypt_create_iv')) {
+			// phpcs:ignore PHPCompatibility.FunctionUse.RemovedFunctions.mcrypt_create_ivDeprecatedRemoved,PHPCompatibility.Extensions.RemovedExtensions.mcryptDeprecatedRemoved,PHPCompatibility.Constants.RemovedConstants.mcrypt_dev_urandomDeprecatedRemoved
 			$rand = @mcrypt_create_iv($bytes, MCRYPT_DEV_URANDOM);
 			if (is_string($rand) && wfWAFUtils::strlen($rand) === $bytes) {
 				return $rand;
@@ -345,6 +346,7 @@ class wfWAFUtils {
 	 * @return array|string
 	 */
 	public static function stripMagicQuotes($subject) {
+		// phpcs:ignore PHPCompatibility.IniDirectives.RemovedIniDirectives.magic_quotes_sybaseDeprecatedRemoved
 		$sybase = ini_get('magic_quotes_sybase');
 		$sybaseEnabled = ((is_numeric($sybase) && $sybase) ||
 			(is_string($sybase) && $sybase && !in_array(wfWAFUtils::strtolower($sybase), array(
@@ -401,11 +403,12 @@ class wfWAFUtils {
 		static $encodings = array();
 		static $overloaded = null;
 
-		if (is_null($overloaded))
-			$overloaded = function_exists('mb_internal_encoding') && (ini_get('mbstring.func_overload') & 2);
+		if (is_null($overloaded)) {
+			// phpcs:ignore PHPCompatibility.IniDirectives.RemovedIniDirectives.mbstring_func_overloadDeprecated
+			$overloaded = function_exists('mb_internal_encoding') && (ini_get('mbstring.func_overload') & 2); 
+		}
 
-		if (false === $overloaded)
-			return;
+		if (false === $overloaded) { return; }
 
 		if (!$reset) {
 			$encoding = mb_internal_encoding();
@@ -528,7 +531,7 @@ class wfWAFUtils {
 		$args = func_get_args();
 		return self::callMBSafeStrFunction('strrpos', $args);
 	}
-	
+
 	/**
 	 * @param string $val An ini byte size value (e.g., 20M)
 	 * @return int
@@ -538,7 +541,7 @@ class wfWAFUtils {
 		if (preg_match('/^\d+$/', $val)) {
 			return (int) $val;
 		}
-		
+
 		$last = strtolower(substr($val, -1));
 		$val = (int) substr($val, 0, -1);
 		switch ($last) {
@@ -549,10 +552,10 @@ class wfWAFUtils {
 			case 'k':
 				$val *= 1024;
 		}
-		
+
 		return $val;
 	}
-	
+
 	public static function reverseLookup($IP) {
 		$IPn = self::inet_pton($IP);
 		// This function works for IPv4 or IPv6
@@ -566,7 +569,7 @@ class wfWAFUtils {
 			} else if (filter_var($IP, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) !== false) {
 				$ptr = implode(".", array_reverse(str_split(bin2hex($IPn)))) . ".ip6.arpa";
 			}
-			
+
 			if ($ptr && function_exists('dns_get_record')) {
 				$host = @dns_get_record($ptr, DNS_PTR);
 				if ($host) {
@@ -579,28 +582,28 @@ class wfWAFUtils {
 		}
 		return $host;
 	}
-	
+
 	public static function patternToRegex($pattern, $mod = 'i', $sep = '/') {
 		$pattern = preg_quote(trim($pattern), $sep);
 		$pattern = str_replace(' ', '\s', $pattern);
 		return $sep . '^' . str_replace('\*', '.*', $pattern) . '$' . $sep . $mod;
 	}
-	
+
 	public static function isUABlocked($uaPattern, $ua) { // takes a pattern using asterisks as wildcards, turns it into regex and checks it against the visitor UA returning true if blocked
 		return fnmatch($uaPattern, $ua, FNM_CASEFOLD);
 	}
-	
+
 	public static function isRefererBlocked($refPattern, $referer) {
 		return fnmatch($refPattern, $referer, FNM_CASEFOLD);
 	}
-	
+
 	public static function extractBareURI($URL) {
 		$URL = preg_replace('/^https?:\/\/[^\/]+/i', '', $URL); //strip of method and host
 		$URL = preg_replace('/\#.*$/', '', $URL); //strip off fragment
 		$URL = preg_replace('/\?.*$/', '', $URL); //strip off query string
 		return $URL;
 	}
-	
+
 	public static function extractHostname($str) {
 		if (preg_match('/https?:\/\/([a-zA-Z0-9\.\-]+)(?:\/|$)/i', $str, $matches)) {
 			return strtolower($matches[1]);
@@ -609,29 +612,29 @@ class wfWAFUtils {
 			return false;
 		}
 	}
-	
+
 	public static function redirect($location, $status = 302) {
 		$is_apache = (strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false || strpos($_SERVER['SERVER_SOFTWARE'], 'LiteSpeed') !== false);
 		$is_IIS = !$is_apache && (strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') !== false || strpos($_SERVER['SERVER_SOFTWARE'], 'ExpressionDevServer') !== false);
-		
+
 		self::doNotCache();
-		
+
 		if (!$is_IIS && PHP_SAPI != 'cgi-fcgi') {
 			self::statusHeader($status); // This causes problems on IIS and some FastCGI setups
 		}
-		
+
 		header("Location: {$location}", true, $status);
 		exit;
 	}
-	
+
 	public static function statusHeader($code) {
 		$code = abs(intval($code));
-		
+
 		$statusCodes = array(
 			100 => 'Continue',
 			101 => 'Switching Protocols',
 			102 => 'Processing',
-			
+
 			200 => 'OK',
 			201 => 'Created',
 			202 => 'Accepted',
@@ -641,7 +644,7 @@ class wfWAFUtils {
 			206 => 'Partial Content',
 			207 => 'Multi-Status',
 			226 => 'IM Used',
-			
+
 			300 => 'Multiple Choices',
 			301 => 'Moved Permanently',
 			302 => 'Found',
@@ -651,7 +654,7 @@ class wfWAFUtils {
 			306 => 'Reserved',
 			307 => 'Temporary Redirect',
 			308 => 'Permanent Redirect',
-			
+
 			400 => 'Bad Request',
 			401 => 'Unauthorized',
 			402 => 'Payment Required',
@@ -680,7 +683,7 @@ class wfWAFUtils {
 			429 => 'Too Many Requests',
 			431 => 'Request Header Fields Too Large',
 			451 => 'Unavailable For Legal Reasons',
-			
+
 			500 => 'Internal Server Error',
 			501 => 'Not Implemented',
 			502 => 'Bad Gateway',
@@ -692,18 +695,18 @@ class wfWAFUtils {
 			510 => 'Not Extended',
 			511 => 'Network Authentication Required',
 		);
-			
+
 		$description = (isset($statusCodes[$code]) ? $statusCodes[$code] : '');
-		
+
 		$protocol = $_SERVER['SERVER_PROTOCOL'];
 		if (!in_array($protocol, array( 'HTTP/1.1', 'HTTP/2', 'HTTP/2.0'))) {
 			$protocol = 'HTTP/1.0';
 		}
-		
+
 		$header = "{$protocol} {$code} {$description}";
 		@header($header, true, $code);
 	}
-	
+
 	public static function doNotCache() {
 		header("Pragma: no-cache");
 		header("Cache-Control: no-cache, must-revalidate, private");
@@ -713,7 +716,7 @@ class wfWAFUtils {
 		if (!defined('DONOTCDN')) { define('DONOTCDN', true); }
 		if (!defined('DONOTCACHEOBJECT')) { define('DONOTCACHEOBJECT', true); }
 	}
-	
+
 	/**
 	 * Check if an IP address is in a network block
 	 *
@@ -723,18 +726,18 @@ class wfWAFUtils {
 	 */
 	public static function subnetContainsIP($subnet, $ip) {
 		list($network, $prefix) = array_pad(explode('/', $subnet, 2), 2, null);
-		
+
 		if (filter_var($network, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
 			// If no prefix was supplied, 32 is implied for IPv4
 			if ($prefix === null) {
 				$prefix = 32;
 			}
-			
+
 			// Validate the IPv4 network prefix
 			if ($prefix < 0 || $prefix > 32) {
 				return false;
 			}
-			
+
 			// Increase the IPv4 network prefix to work in the IPv6 address space
 			$prefix += 96;
 		} else {
@@ -742,13 +745,13 @@ class wfWAFUtils {
 			if ($prefix === null) {
 				$prefix = 128;
 			}
-			
+
 			// Validate the IPv6 network prefix
 			if ($prefix < 1 || $prefix > 128) {
 				return false;
 			}
 		}
-		
+
 		$bin_network = wfWAFUtils::substr(self::inet_pton($network), 0, ceil($prefix / 8));
 		$bin_ip = wfWAFUtils::substr(self::inet_pton($ip), 0, ceil($prefix / 8));
 		if ($prefix % 8 != 0) { //Adjust the last relevant character to fit the mask length since the character's bits are split over it
@@ -757,13 +760,13 @@ class wfWAFUtils {
 			$bin_network[$pos] = ($bin_network[$pos] & $adjustment);
 			$bin_ip[$pos] = ($bin_ip[$pos] & $adjustment);
 		}
-		
+
 		return ($bin_network === $bin_ip);
 	}
-	
+
 	/**
 	 * Behaves exactly like PHP's parse_url but uses WP's compatibility fixes for early PHP 5 versions.
-	 * 
+	 *
 	 * @param string $url
 	 * @param int $component
 	 * @return mixed
@@ -771,7 +774,7 @@ class wfWAFUtils {
 	public static function parse_url($url, $component = -1) {
 		$to_unset = array();
 		$url = strval($url);
-		
+
 		if (substr($url, 0, 2) === '//') {
 			$to_unset[] = 'scheme';
 			$url = 'placeholder:' . $url;
@@ -781,22 +784,22 @@ class wfWAFUtils {
 			$to_unset[] = 'host';
 			$url = 'placeholder://placeholder' . $url;
 		}
-		
+
 		$parts = @parse_url($url);
-		
+
 		if ($parts === false) { // Parsing failure
 			return $parts;
 		}
-		
+
 		// Remove the placeholder values
 		foreach ($to_unset as $key) {
 			unset($parts[$key]);
 		}
-		
+
 		if ($component === -1) {
 			return $parts;
 		}
-		
+
 		$translation = array(
 			PHP_URL_SCHEME   => 'scheme',
 			PHP_URL_HOST     => 'host',
@@ -807,40 +810,42 @@ class wfWAFUtils {
 			PHP_URL_QUERY    => 'query',
 			PHP_URL_FRAGMENT => 'fragment',
 		);
-		
+
 		$key = false;
 		if (isset($translation[$component])) {
 			$key = $translation[$component];
 		}
-		
+
 		if ($key !== false && is_array($parts) && isset($parts[$key])) {
 			return $parts[$key];
 		}
-		
+
 		return null;
 	}
-	
+
 	/**
 	 * Validates the URL, supporting both scheme-relative and path-relative formats.
-	 * 
+	 *
 	 * @param $url
 	 * @return mixed
 	 */
 	public static function validate_url($url) {
 		$url = strval($url);
-		
+
 		if (substr($url, 0, 2) === '//') {
 			$url = 'placeholder:' . $url;
 		}
 		elseif (substr($url, 0, 1) === '/') {
 			$url = 'placeholder://placeholder' . $url;
 		}
-		
+
 		return filter_var($url, FILTER_VALIDATE_URL);
 	}
-	
+
 	public static function rawPOSTBody() {
+		// phpcs:ignore PHPCompatibility.Variables.RemovedPredefinedGlobalVariables.http_raw_post_dataDeprecatedRemoved
 		global $HTTP_RAW_POST_DATA;
+		// phpcs:ignore PHPCompatibility.Variables.RemovedPredefinedGlobalVariables.http_raw_post_dataDeprecatedRemoved
 		if (empty($HTTP_RAW_POST_DATA)) { //Defined if always_populate_raw_post_data is on, PHP < 7, and the encoding type is not multipart/form-data
 			$avoidPHPInput = false;
 			try {
@@ -859,19 +864,21 @@ class wfWAFUtils {
 				
 				//For our purposes, we don't currently need the raw POST body if it's multipart/form-data since the data will be in $_POST/$_FILES. If we did, we could reconstruct the body here.
 				
+				// phpcs:ignore PHPCompatibility.Variables.RemovedPredefinedGlobalVariables.http_raw_post_dataDeprecatedRemoved
 				$HTTP_RAW_POST_DATA = $data;
 			}
 		}
 		else {
+			// phpcs:ignore PHPCompatibility.Variables.RemovedPredefinedGlobalVariables.http_raw_post_dataDeprecatedRemoved
 			$data =& $HTTP_RAW_POST_DATA;
 		}
 		return $data;
 	}
-	
+
 	/**
 	 * Returns the current timestamp, adjusted as needed to get close to what we consider a true timestamp. We use this
 	 * because a significant number of servers are using a drastically incorrect time.
-	 * 
+	 *
 	 * @return int
 	 */
 	public static function normalizedTime() {
@@ -887,6 +894,112 @@ class wfWAFUtils {
 			//Ignore
 		}
 		return time() + $offset;
+	}
+
+	/**
+	 * @param $file
+	 * @return array|bool
+	 */
+	public static function extractCredentialsWPConfig($file) {
+		$configContents = file_get_contents($file);
+		$tokens = token_get_all($configContents);
+		$tokens = array_values(array_filter($tokens, 'wfWAFUtils::_removeUnneededTokens'));
+
+		$parsedConstants = array();
+		$parsedVariables = array();
+		for ($i = 0; $i < count($tokens); $i++) {
+			$token = $tokens[$i];
+			if (is_array($token)) {
+				if (token_name($token[0]) === 'T_STRING' && strtolower($token[1]) === 'define') {
+					$startParenToken = $tokens[$i + 1];
+					$constantNameToken = $tokens[$i + 2];
+					$commaToken = $tokens[$i + 3];
+					$constantValueToken = $tokens[$i + 4];
+					$endParenToken = $tokens[$i + 5];
+					if (
+						!is_array($startParenToken) && $startParenToken === '(' &&
+						is_array($constantNameToken) && token_name($constantNameToken[0]) === 'T_CONSTANT_ENCAPSED_STRING' &&
+						!is_array($commaToken) && $commaToken === ',' &&
+						is_array($constantValueToken) && token_name($constantValueToken[0]) === 'T_CONSTANT_ENCAPSED_STRING' &&
+						!is_array($endParenToken) && $endParenToken === ')'
+					) {
+						$parsedConstants[self::substr($constantNameToken[1], 1, -1)] = self::substr($constantValueToken[1], 1, -1);
+					}
+				}
+				if (token_name($token[0]) === 'T_VARIABLE') {
+					$assignmentToken = $tokens[$i + 1];
+					$variableValueToken = $tokens[$i + 2];
+					if (
+						!is_array($assignmentToken) && $assignmentToken === '=' &&
+						is_array($variableValueToken) && token_name($variableValueToken[0]) === 'T_CONSTANT_ENCAPSED_STRING'
+					) {
+						$parsedVariables[$token[1]] = self::substr($variableValueToken[1], 1, -1);
+					}
+				}
+			}
+		}
+
+		$constants = array(
+			'user'      => 'DB_USER',
+			'pass'      => 'DB_PASSWORD',
+			'database'  => 'DB_NAME',
+			'host'      => 'DB_HOST',
+			'charset'   => 'DB_CHARSET',
+			'collation' => 'DB_COLLATE',
+		);
+		$return = array();
+		foreach ($constants as $key => $constant) {
+			if (array_key_exists($constant, $parsedConstants)) {
+				$return[$key] = $parsedConstants[$constant];
+			} else {
+				return false;
+			}
+		}
+
+		/**
+		 * @see \wpdb::parse_db_host
+		 */
+		$socketPos = self::strpos($return['host'], ':/');
+		if ($socketPos !== false) {
+			$return['socket'] = self::substr($return['host'], $socketPos + 1);
+			$return['host'] = self::substr($return['host'], 0, $socketPos);
+		}
+
+		if ( self::substr_count( $return['host'], ':' ) > 1 ) {
+			$pattern = '#^(?:\[)?(?P<host>[0-9a-fA-F:]+)(?:\]:(?P<port>[\d]+))?#';
+			$return['ipv6'] = true;
+		} else {
+			$pattern = '#^(?P<host>[^:/]*)(?::(?P<port>[\d]+))?#';
+		}
+
+		$matches = array();
+		$result = preg_match($pattern, $return['host'], $matches);
+
+		if (1 !== $result) {
+			return false;
+		}
+
+		foreach (array('host', 'port') as $component) {
+			if (!empty($matches[$component])) {
+				$return[$component] = $matches[$component];
+			}
+		}
+
+		if (array_key_exists('$table_prefix', $parsedVariables)) {
+			$return['tablePrefix'] = $parsedVariables['$table_prefix'];
+		} else {
+			return false;
+		}
+		return $return;
+	}
+
+	protected static function _removeUnneededTokens($token) {
+		if (is_array($token)) {
+			return !in_array(token_name($token[0]), array(
+				'T_DOC_COMMENT', 'T_WHITESPACE'
+			));
+		}
+		return true;
 	}
 }
 }

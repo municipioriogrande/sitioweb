@@ -3,7 +3,13 @@
 Plugin Name: WP Sitemap Page
 Plugin URI: http://tonyarchambeau.com/
 Description: Add a sitemap on any page/post using the simple shortcode [wp_sitemap_page]
+<<<<<<< .mine
+Version: 1.6.2
+||||||| .r1142557
+Version: 1.5.4
+=======
 Version: 1.6.1
+>>>>>>> .r2114646
 Author: Tony Archambeau
 Author URI: http://tonyarchambeau.com/
 Text Domain: wp-sitemap-page

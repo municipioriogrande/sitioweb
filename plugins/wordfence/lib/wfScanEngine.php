@@ -1,11 +1,11 @@
 <?php
-require_once('wordfenceClass.php');
-require_once('wordfenceHash.php');
-require_once('wfAPI.php');
-require_once('wordfenceScanner.php');
-require_once('wfIssues.php');
-require_once('wfDB.php');
-require_once('wfUtils.php');
+require_once(dirname(__FILE__) . '/wordfenceClass.php');
+require_once(dirname(__FILE__) . '/wordfenceHash.php');
+require_once(dirname(__FILE__) . '/wfAPI.php');
+require_once(dirname(__FILE__) . '/wordfenceScanner.php');
+require_once(dirname(__FILE__) . '/wfIssues.php');
+require_once(dirname(__FILE__) . '/wfDB.php');
+require_once(dirname(__FILE__) . '/wfUtils.php');
 class wfScanEngine {
 	const SCAN_MANUALLY_KILLED = -999;
 	
@@ -146,7 +146,7 @@ class wfScanEngine {
 		$this->api = new wfAPI($this->apiKey, $this->wp_version);
 		$this->malwarePrefixesHash = $malwarePrefixesHash;
 		$this->coreHashesHash = $coreHashesHash;
-		include('wfDict.php'); //$dictWords
+		include(dirname(__FILE__) . '/wfDict.php'); //$dictWords
 		$this->dictWords = $dictWords;
 		$this->scanMode = $scanMode;
 		
@@ -179,7 +179,7 @@ class wfScanEngine {
 	public function __wakeup(){
 		$this->cycleStartTime = time();
 		$this->api = new wfAPI($this->apiKey, $this->wp_version);
-		include('wfDict.php'); //$dictWords
+		include(dirname(__FILE__) . '/wfDict.php'); //$dictWords
 		$this->dictWords = $dictWords;
 		$this->scanController = new wfScanner($this->scanMode);
 	}
@@ -617,6 +617,7 @@ class wfScanEngine {
 			wfCommonBackupFileTest::createFromRootPath('.user.ini'),
 //			wfCommonBackupFileTest::createFromRootPath('.htaccess'),
 			wfCommonBackupFileTest::createFromRootPath('wp-config.php.bak'),
+			wfCommonBackupFileTest::createFromRootPath('wp-config.php.bak.a2'),
 			wfCommonBackupFileTest::createFromRootPath('wp-config.php.swo'),
 			wfCommonBackupFileTest::createFromRootPath('wp-config.php.save'),
 			new wfCommonBackupFileTest(home_url('%23wp-config.php%23'), ABSPATH . '#wp-config.php#'),
@@ -1297,7 +1298,7 @@ class wfScanEngine {
 	public function scanUserPassword($userID){
 		$suspended = wp_suspend_cache_addition();
 		wp_suspend_cache_addition(true);
-		require_once( ABSPATH . 'wp-includes/class-phpass.php');
+		require_once(ABSPATH . 'wp-includes/class-phpass.php');
 		$passwdHasher = new PasswordHash(8, TRUE);
 		$userDat = get_userdata($userID);
 		if ($userDat === false) {
@@ -1719,38 +1720,39 @@ class wfScanEngine {
 						unset($allPlugins[$slug]);
 					}
 				}
-				else if ($status !== false && is_wp_error($status) && isset($status->error_data['plugins_api_failed']) && $status->error_data['plugins_api_failed'] == 'N;') { //The plugin does not exist in the wp.org repo
+				else if ($status !== false && is_wp_error($status) && isset($status->errors['plugins_api_failed'])) { //The plugin does not exist in the wp.org repo
 					$knownFiles = $this->getKnownFilesLoader()->getKnownFiles();
-					$requestedPlugins = $this->getPlugins();
-					foreach ($requestedPlugins as $key => $data) {
-						$testKey = trailingslashit($data['FullDir']) . '.';
-						if ($data['ShortDir'] == $slug && isset($knownFiles['plugins'][$testKey])) { //It existed in the repo at some point and was removed
-							$pluginFile = wfUtils::getPluginBaseDir() . $key;
-							$pluginData = get_plugin_data($pluginFile);
-							$pluginData['wpRemoved'] = true;
-							$pluginData['vulnerable'] = false;
-							$vulnerable = $this->updateCheck->isPluginVulnerable($slug, $pluginData['Version']);
-							if ($vulnerable) {
-								$pluginData['vulnerable'] = true;
-								if (is_string($vulnerable)) {
-									$pluginData['vulnerabilityLink'] = $vulnerable;
+					if (isset($knownFiles['status']) && is_array($knownFiles['status']) && isset($knownFiles['status']['plugins']) && is_array($knownFiles['status']['plugins'])) {
+						$requestedPlugins = $this->getPlugins();
+						foreach ($requestedPlugins as $key => $data) {
+							if ($data['ShortDir'] == $slug && isset($knownFiles['status']['plugins'][$slug]) && $knownFiles['status']['plugins'][$slug] == 'r') { //It existed in the repo at some point and was removed
+								$pluginFile = wfUtils::getPluginBaseDir() . $key;
+								$pluginData = get_plugin_data($pluginFile);
+								$pluginData['wpRemoved'] = true;
+								$pluginData['vulnerable'] = false;
+								$vulnerable = $this->updateCheck->isPluginVulnerable($slug, $pluginData['Version']);
+								if ($vulnerable) {
+									$pluginData['vulnerable'] = true;
+									if (is_string($vulnerable)) {
+										$pluginData['vulnerabilityLink'] = $vulnerable;
+									}
 								}
+								
+								$key = "wfPluginRemoved {$slug} {$pluginData['Version']}";
+								$shortMsg = 'The Plugin "' . (empty($pluginData['Name']) ? $slug : $pluginData['Name']) . '" has been removed from wordpress.org.';
+								if ($pluginData['vulnerable']) {
+									$longMsg = 'It has unpatched security issues and may have compatibility problems with the current version of WordPress.';
+								}
+								else {
+									$longMsg = 'It may have compatibility problems with the current version of WordPress or unknown security issues.';
+								}
+								$longMsg .= ' <a href="' . wfSupportController::esc_supportURL(wfSupportController::ITEM_SCAN_RESULT_PLUGIN_REMOVED) . '" target="_blank" rel="noopener noreferrer">Get more information.</a>';
+								$added = $this->addIssue('wfPluginRemoved', wfIssues::SEVERITY_CRITICAL, $key, $key, $shortMsg, $longMsg, $pluginData);
+								if ($added == wfIssues::ISSUE_ADDED || $added == wfIssues::ISSUE_UPDATED) { $haveIssues = wfIssues::STATUS_PROBLEM; }
+								else if ($haveIssues != wfIssues::STATUS_PROBLEM && ($added == wfIssues::ISSUE_IGNOREP || $added == wfIssues::ISSUE_IGNOREC)) { $haveIssues = wfIssues::STATUS_IGNORED; }
+								
+								unset($allPlugins[$slug]);
 							}
-							
-							$key = "wfPluginRemoved {$slug} {$pluginData['Version']}";
-							$shortMsg = 'The Plugin "' . (empty($pluginData['Name']) ? $slug : $pluginData['Name']) . '" has been removed from wordpress.org.';
-							if ($pluginData['vulnerable']) {
-								$longMsg = 'It has unpatched security issues and may have compatibility problems with the current version of WordPress.';
-							}
-							else {
-								$longMsg = 'It may have compatibility problems with the current version of WordPress or unknown security issues.';
-							}
-							$longMsg .= ' <a href="' . wfSupportController::esc_supportURL(wfSupportController::ITEM_SCAN_RESULT_PLUGIN_REMOVED) . '" target="_blank" rel="noopener noreferrer">Get more information.</a>';
-							$added = $this->addIssue('wfPluginRemoved', wfIssues::SEVERITY_CRITICAL, $key, $key, $shortMsg, $longMsg, $pluginData);
-							if ($added == wfIssues::ISSUE_ADDED || $added == wfIssues::ISSUE_UPDATED) { $haveIssues = wfIssues::STATUS_PROBLEM; }
-							else if ($haveIssues != wfIssues::STATUS_PROBLEM && ($added == wfIssues::ISSUE_IGNOREP || $added == wfIssues::ISSUE_IGNOREC)) { $haveIssues = wfIssues::STATUS_IGNORED; }
-							
-							unset($allPlugins[$slug]);
 						}
 					}
 				}
@@ -2124,7 +2126,7 @@ class wfScanEngine {
 		}
 		
 		if(! function_exists( 'get_plugins')){
-			require_once ABSPATH . '/wp-admin/includes/plugin.php';
+			require_once(ABSPATH . '/wp-admin/includes/plugin.php');
 		}
 		$pluginData = get_plugins();
 		$plugins = array();
@@ -2156,7 +2158,7 @@ class wfScanEngine {
 		}
 		
 		if (!function_exists('wp_get_themes')) {
-			require_once ABSPATH . '/wp-includes/theme.php';
+			require_once(ABSPATH . '/wp-includes/theme.php');
 		}
 		$themeData = wp_get_themes();
 		$themes = array();

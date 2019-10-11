@@ -5,7 +5,7 @@ Tags: files, attachments, upload, statistics, tables, directory, monetize, light
 Requires at least: 3.7
 Tested up to: 5.1.1
 Requires PHP: 5.4
-Stable tag: 3.9.8.2
+Stable tag: 3.9.9.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,6 +15,28 @@ Upload, manage, and display files from your server directories or page attachmen
 Upload, manage, and display files from your server directories or page attachments in stylized lists or sortable data tables. And much, much more. 
 
 == Changelog ==
+= 3.9.9.0.1 =
+* Fixed download error when stats and encryption are enabled, was caused by previous sanitization update 3.9.7.
+= 3.9.8.9 =
+* Bugfix for intermittent bug with filename encryption
+= 3.9.8.8 =
+* Added show_wp_thumbs attribute to [fileaway] shortcode. Omit for default behavior (hide). show_wp_thumbs="true" to show them.
+* Modified bulk action select all behavior to only select files on the current page if the file table is paginated
+= 3.9.8.7 =
+* Fixed bug with location nonce verification for setups where Site URL and WP Url are different
+= 3.9.8.6 =
+* Fixed Flightbox navigation which was broken by an earlier update
+* Removed deprecated encryption method
+= 3.9.8.5 =
+* Forgot to include a file update for Windows compat in the last update. This time it's for real.
+* Made alt pathinfo method the only pathinfo. Should fix most issues with multibyte filenames (e.g., Chinese, Russian, etc.)
+= 3.9.8.4 =
+* Full compat with Windows/iis/xampp
+* Fixed maxsize bug with fileup shortcode
+= 3.9.8.3 =
+* Important bugfix for timezone handling. 
+* Improved error handling for ajax functions: more descriptive for troubleshooting purposes.
+* Increased speed of animations in manager mode. 
 = 3.9.8.2 =
 * Added the parentlabel attribute to the fileaway shortcode, allowing you to specify a pseudonym for the topmost directory in a Directory Tree Nav or Manager Mode table
 = 3.9.8.1 =

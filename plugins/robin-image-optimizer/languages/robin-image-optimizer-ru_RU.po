@@ -1,0 +1,610 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Image optimizer\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-08-26 01:25+0300\n"
+"PO-Revision-Date: 2018-08-26 01:34+0300\n"
+"Last-Translator: Alexander Parfilov <alexparfilov@gmail.com>\n"
+"Language-Team: \n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.1.1\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: libs\n"
+"X-Poedit-SearchPathExcluded-1: .git\n"
+
+#: admin/pages/log.php:41 admin/pages/log.php:84 admin/pages/log.php:95
+#: admin/pages/settings.php:257
+msgid "Error Log"
+msgstr "Журнал ошибок"
+
+#: admin/pages/log.php:83 admin/pages/statistic.php:84
+#: includes/classes/class.media-library.php:387
+msgid "Image optimizer"
+msgstr "Оптим. изображений"
+
+#: admin/pages/log.php:98
+msgid ""
+"In this section, you can track image optimization errors. Sending this log "
+"to us, will help in solving possible optimization issues."
+msgstr ""
+"В этом разделе вы можете отследить ошибки оптимизации изображений. Отправка "
+"этого лога нам, поможет в решении возможных проблем с оптимизацией."
+
+#: admin/pages/settings.php:40 admin/pages/settings.php:167
+msgid "Main Settings"
+msgstr "Основные настройки"
+
+#: admin/pages/settings.php:143
+msgid "Folder wp-content/uploads/ is unavailable for writing"
+msgstr "Папка wp-content/uploads/ недоступна для записи"
+
+#: admin/pages/settings.php:147
+msgid "Folder wp-content/uploads/wio-backup/ is unavailable for writing"
+msgstr "Папка wp-content/uploads/wio-backup/ недоступна для записи"
+
+#: admin/pages/settings.php:150
+msgid "Cron is disabled in wp-config.php"
+msgstr "Crom отключен в wp-config.php"
+
+#: admin/pages/settings.php:167
+msgid "This section you can set main images optimization settings."
+msgstr ""
+"В этом разделе вы можете настроить основные параметры оптимизации "
+"изображений."
+
+#: admin/pages/settings.php:173
+msgid "Optimization server"
+msgstr "Сервер оптимизации"
+
+#: admin/pages/settings.php:177
+msgid "Server 1 (recommended) - image size limit up to 5 MB"
+msgstr "Сервер 1 (рекомендуется) - вес изображений не должен превышать 5МБ"
+
+#: admin/pages/settings.php:182
+msgid "Server 2 - image size limit up to 1 MB"
+msgstr "Сервер 2 - вес изображений не должен превышать 1МБ"
+
+#: admin/pages/settings.php:186
+msgid ""
+"We use several free servers for image optimization and can’t fully guarantee "
+"their stable performance. The server can be not available in some countries "
+"due to the political reasons. There is a solution: if one of the servers is "
+"not available or can’t optimize the image, you can try to switch to the "
+"alternative server. Each server has individual limitations for image weight "
+"and optimization level. By default, you have the best server with minimum "
+"limitations."
+msgstr ""
+"Мы используем несколько бесплатных серверов для оптимизации изображений и не "
+"можем полностью гарантировать их работу. В некоторых странах сервер может "
+"быть недоступен из-за политических причин. Мы предусмотрели несколько "
+"вариантов, в случае если один из серверов недоступен или не может "
+"оптимизировать изображения, вы можете попробовать переключиться на "
+"альтернативный сервер. Каждый сервер имеет индивидуальные ограничения на вес "
+"оптимизированных изображений и на уровень оптимизации. По умолчанию всегда "
+"установлен самый лучший сервер с наименьшими ограничениями."
+
+#: admin/pages/settings.php:195
+msgid "Compression mode"
+msgstr "Режим сжатия"
+
+#: admin/pages/settings.php:199 admin/pages/statistic.php:353
+#: includes/classes/class.media-library.php:462
+#: includes/classes/class.media-library.php:489
+msgid "Normal"
+msgstr "Нормальный"
+
+#: admin/pages/settings.php:200
+msgid ""
+"This mode provides lossless compression and your images will be optimized "
+"without visible changes. If you want an ideal image quality, we recommend "
+"this mode. The size of the files will be reduced approximately 2 times. If "
+"this is not enough for you, try other modes."
+msgstr ""
+"Этот режим обеспечивает сжатие без потерь и ваши изображения будут "
+"оптимизированы без видимых изменений. Если вы хотите идеальное качество "
+"изображений, мы рекомендуем этот режим. Размер фалов уменьшится "
+"приблизительно в 2 раза. Если вам этого недостаточно, попробуйте другие "
+"режимы."
+
+#: admin/pages/settings.php:204 admin/pages/statistic.php:354
+#: includes/classes/class.media-library.php:464
+#: includes/classes/class.media-library.php:495
+msgid "Medium"
+msgstr "Средний"
+
+#: admin/pages/settings.php:205
+msgid ""
+"This mode provides an ideal optimization of your images without significant "
+"quality loss. The file size will be reduced approximately 5 times with a "
+"slight decrease in image quality. In most cases that cannot be seen with the "
+"naked eye."
+msgstr ""
+"Этот режим обеспечивает идеальную оптимизацию ваших изображений без "
+"существенных потерь качества. Размер файлов уменьшиться приблизительно в 5 "
+"раз при незначительном снижении качества изображений. Чаще всего, "
+"невооружённым взглядом это даже не заметно."
+
+#: admin/pages/settings.php:209 admin/pages/statistic.php:355
+#: includes/classes/class.media-library.php:466
+#: includes/classes/class.media-library.php:501
+msgid "High"
+msgstr "Высокий"
+
+#: admin/pages/settings.php:210
+msgid ""
+"This mode will use all available optimization methods for maximum image "
+"compression. The file size will be reduced approximately 7 times. The "
+"quality of some images may deteriorate slightly. Use this mode if you need "
+"the maximum weight reduction, and you are ready to accept the loss of image "
+"quality."
+msgstr ""
+"Этот режим будет использовать все доступные методы оптимизации для "
+"максимального сжатия изображения. Размер файлов уменьшится приблизительно в "
+"7 раз. Качество некоторых изображений может немного ухудшиться. Используйте "
+"этот режим, если вам требуется максимальное снижение веса, и вы готовы "
+"смириться с потерей качества изображений."
+
+#: admin/pages/settings.php:214
+msgid "Select the compression mode appropriate for your case."
+msgstr "Выберите режим сжатия, подходящий для вашей ситуации."
+
+#: admin/pages/settings.php:235
+msgid "Auto optimization on upload"
+msgstr "Автоматическая оптимизация изображений при загрузке"
+
+#: admin/pages/settings.php:237
+msgid ""
+"Automatically compress all images that you upload directly to the WordPress "
+"media library, when editing pages and posts or using themes and plugins."
+msgstr ""
+"Автоматическое сжатие всех изображений, которые вы загружаете в "
+"медиабиблиотеку WordPress напрямую, при редактировании страниц и записей или "
+"с использованием тем и плагинов."
+
+#: admin/pages/settings.php:246
+msgid "Backup images"
+msgstr "Резервное копирование изображений"
+
+#: admin/pages/settings.php:248
+msgid ""
+"Before optimizing, all your images will be saved in a separate folder for "
+"future recovery."
+msgstr ""
+"Перед началом оптимизации, все ваши изображения будут сохранены в отдельной "
+"папке для возможности восстановления в будущем."
+
+#: admin/pages/settings.php:259
+msgid "Enable error logging. The log will be displayed on a separate tab."
+msgstr ""
+"Включить ведение журнала ошибок. Он будет отображаться на отдельной вкладке."
+
+#: admin/pages/settings.php:274
+msgid "Leave EXIF data"
+msgstr "Оставлять данные EXIF"
+
+#: admin/pages/settings.php:276
+msgid ""
+"EXIF is information stored in photos: camera model, shutter speed, exposure "
+"compensation, ISO, GPS, etc. By default, the plugin removes EXIF extended "
+"data. If your project is dedicated to photography and you need to display "
+"this data, then enable this option."
+msgstr ""
+"EXIF - это информация, хранящаяся в фотографиях: модель камеры, скорость "
+"затвора, компенсация экспозиции, ISO, GPS и т. Д. По умолчанию плагин "
+"удаляет расширенные данные EXIF. Если ваш проект посвящён фотографии и вам "
+"нужно отображать эти данные, то включите эту опцию."
+
+#: admin/pages/settings.php:282
+msgid "Optimization"
+msgstr "Оптимизация"
+
+#: admin/pages/settings.php:282
+msgid "Here you can specify additional image optimization options."
+msgstr ""
+"Здесь вы можете задать дополнительные параметры оптимизации изображений."
+
+#: admin/pages/settings.php:290
+msgid "Resizing large images"
+msgstr "Изменение размера больших изображений"
+
+#: admin/pages/settings.php:292
+msgid ""
+"When you upload images from a camera or stock, they may be too high "
+"resolution and it is not necessary for web. The option allows you to "
+"automatically change images resolution on upload."
+msgstr ""
+"Когда вы закачиваете изображения с камеры или фотостока, они могут быть "
+"слишком высокого разрешения и для веба это не нужно. Опция позволяет "
+"автоматически изменять разрешение изображений при загрузке."
+
+#: admin/pages/settings.php:308
+msgid "Enter the maximum size (px)"
+msgstr "Введите максимальный размер (px)"
+
+#: admin/pages/settings.php:310
+msgid ""
+"Set the maximum images resolution on the long side. For horizontal images, "
+"this will be the width, and for vertical images - the height. The resolution "
+"of the images will be changed proportionally according to the set value."
+msgstr ""
+"Задайте максимальное разрешение изображений по длинной стороне. Для "
+"горизонтальных изображений это будет ширина, а для вертикальных — высота. "
+"Разрешение изображений будет изменено пропорционально в соответствии с "
+"заданным значением."
+
+#: admin/pages/settings.php:328
+msgid "Optimize thumbnails"
+msgstr "Оптимизировать миниатюры"
+
+#: admin/pages/settings.php:331
+msgid ""
+"Choose which sizes of thumbnails should be optimized and uncheck those that "
+"do not need optimization."
+msgstr ""
+"Выберите какие размеры миниатюр следует оптимизировать и снимите галочки с "
+"тех, оптимизация которых не нужна."
+
+#: admin/pages/settings.php:338
+msgid "Scheduled optimization"
+msgstr "Оптимизация по расписанию"
+
+#: admin/pages/settings.php:338
+msgid "Schedule your images optimization."
+msgstr "Настройка оптимизации изображений по расписанию."
+
+#: admin/pages/settings.php:346
+msgid "Enable Scheduled Optimization"
+msgstr "Включить оптимизацию по расписанию"
+
+#: admin/pages/settings.php:348
+msgid ""
+"You can enable image optimization on schedule. The plugin will optimize "
+"specified number of images automatically after selected time."
+msgstr ""
+"Вы можете включить оптимизацию изображений по расписанию. Через выбранное "
+"время плагин будет оптимизировать заданное количество изображений "
+"автоматически."
+
+#: admin/pages/settings.php:363 includes/classes/class.cron.php:56
+msgid "1 min"
+msgstr "1 мин"
+
+#: admin/pages/settings.php:364 includes/classes/class.cron.php:60
+msgid "2 min"
+msgstr "2 мин"
+
+#: admin/pages/settings.php:365 includes/classes/class.cron.php:64
+msgid "5 min"
+msgstr "5 мин"
+
+#: admin/pages/settings.php:366 includes/classes/class.cron.php:68
+msgid "10 min"
+msgstr "10 мин"
+
+#: admin/pages/settings.php:367 includes/classes/class.cron.php:72
+msgid "30 min"
+msgstr "30 мин"
+
+#: admin/pages/settings.php:368
+msgid "Hour"
+msgstr "1 час"
+
+#: admin/pages/settings.php:369
+msgid "Day"
+msgstr "1 день"
+
+#: admin/pages/settings.php:372
+msgid "Run every"
+msgstr "Запускать через"
+
+#: admin/pages/settings.php:373
+msgid "Select time at which the task will be repeated."
+msgstr "Выберите время, через которое будет повторяться задание."
+
+#: admin/pages/settings.php:380
+msgid "Images per iteration"
+msgstr "Количество изображений за итерацию"
+
+#: admin/pages/settings.php:382
+msgid ""
+"Specify the number of images that will be optimized during the job. For "
+"example, if you enter 5 and select 5 min, the plugin will optimize 5 images "
+"every 5 minutes."
+msgstr ""
+"Задайте количество изображений, которое будут оптимизировано во время "
+"выполнения задания. Например, если вы введёте 5 и выберете 5 мин., то плагин "
+"будет оптимизировать 5 изображений каждые 5 минут."
+
+#: admin/pages/settings.php:411
+msgid "Manage backups"
+msgstr "Управление резервными копиями"
+
+#: admin/pages/settings.php:412
+msgid "You can restore the original images from a backup or clear them."
+msgstr ""
+"Вы можете восстановить оригинальные изображения из резервной копии или "
+"очистить их."
+
+#: admin/pages/settings.php:419
+msgid "Are you sure?"
+msgstr "Вы уверены?"
+
+#: admin/pages/settings.php:419
+msgid "Restore"
+msgstr "Восстановить"
+
+#: admin/pages/settings.php:420
+msgid "Are you sure that you want to clear image backups folder?"
+msgstr ""
+"Вы действительно хотите очистить папку с резервными копиями изображений?"
+
+#: admin/pages/settings.php:420
+msgid "Clear Backup"
+msgstr "Очистить резервные копии"
+
+#: admin/pages/settings.php:427
+msgid "Restore completed."
+msgstr "Восстановление завершено."
+
+#: admin/pages/settings.php:428
+msgid "The backup folder was cleared."
+msgstr "Папка с резервными копиями очищена."
+
+#: admin/pages/statistic.php:46
+msgid "Robin image optimizer"
+msgstr ""
+
+#: admin/pages/statistic.php:85
+msgid "General"
+msgstr "Основные"
+
+#: admin/pages/statistic.php:165
+msgid "Image optimization dashboard"
+msgstr "Панель управления оптимизацией изображений"
+
+#: admin/pages/statistic.php:168
+msgid ""
+"Monitor image optimization statistics and run on demand or scheduled "
+"optimization."
+msgstr ""
+"Отслеживайте статистику оптимизации изображений и запускайте оптимизацию по "
+"требованию или по расписанию."
+
+#: admin/pages/statistic.php:176
+msgid ""
+"There are limitations for the specified server (server 1) – you can’t "
+"optimize images with the size greater than <span style=\"color:red\">5MB</"
+"span>. But you can enable the “Resizing large images” feature to reduce the "
+"image weight due to the proportional resizing before sending the file to the "
+"optimization server. "
+msgstr ""
+"Для выбранного вами сервера (сервер 1) есть ограничения, вы не можете "
+"оптимизировать изображения весом более <span style=\"color:red\">5МБ</span>. "
+"Но вы можете включить опцию \"Изменение размера больших изображений\", чтобы "
+"уменьшить вес изображений за счет пропорционального изменения размера, до "
+"его отправки на сервер оптимизации"
+
+#: admin/pages/statistic.php:178
+msgid ""
+"There are limitations for the specified server (server 2) – you can’t "
+"optimize images with the size greater than <span style=\"color:red\">1MB</"
+"span>. But you can enable the “Resizing large images” feature to reduce the "
+"image weight due to the proportional resizing before sending the file to the "
+"optimization server. Note: this server supports only one compression mode – "
+"“Normal”."
+msgstr ""
+"Для выбранного вами сервера (сервер 2) есть ограничения, вы не можете "
+"оптимизировать изображения весом более <span style=\"color:red\">1МБ</span>. "
+"Но вы можете включить опцию \"Изменение размера больших изображений\", чтобы "
+"уменьшить вес изображений за счет пропорционального изменения размера, до "
+"его отправки на сервер оптимизации. Также данный сервер поддерживает только "
+"один режим сжатия \"Нормальный\"."
+
+#: admin/pages/statistic.php:189
+msgid "You optimized"
+msgstr "Вы оптимизировали"
+
+#: admin/pages/statistic.php:189
+msgid "of your website's images"
+msgstr "изображений сайта"
+
+#: admin/pages/statistic.php:196 admin/pages/statistic.php:321
+msgid "Unoptimized"
+msgstr "Не оптимизировано"
+
+#: admin/pages/statistic.php:197 admin/pages/statistic.php:322
+msgid "Optimized"
+msgstr "Оптимизировано"
+
+#: admin/pages/statistic.php:198 admin/pages/statistic.php:323
+msgid "Error"
+msgstr "Ошибка"
+
+#: admin/pages/statistic.php:201
+msgid "Statistics"
+msgstr "Статистика"
+
+#: admin/pages/statistic.php:207
+msgid ""
+"that's the number of original images<br> you optimized with Image Optimizer"
+msgstr ""
+"количество исходных изображений<br> которые вы оптимизировали с Image "
+"Optimizer"
+
+#: admin/pages/statistic.php:213 admin/pages/statistic.php:327
+msgid "Original size"
+msgstr "Оригинальный размер"
+
+#: admin/pages/statistic.php:218 admin/pages/statistic.php:332
+msgid "Optimized size"
+msgstr "Оптимизированный размер"
+
+#: admin/pages/statistic.php:229
+msgid "that's the size you saved <br>by using Image Optimizer"
+msgstr ""
+"вы сохранили благодаря<br>\n"
+"Image Optimizer"
+
+#: admin/pages/statistic.php:241 admin/pages/statistic.php:345
+msgid "All images from the media library are optimized."
+msgstr "Все изображения из медиабиблиотеки оптимизированы."
+
+#: admin/pages/statistic.php:243 admin/pages/statistic.php:347
+msgid "Optimization in progress. Remained"
+msgstr "Идёт оптимизация. Осталось"
+
+#: admin/pages/statistic.php:243
+msgid "images."
+msgstr "изображений."
+
+#: admin/pages/statistic.php:263 admin/pages/statistic.php:271
+msgid "Run"
+msgstr "Запустить"
+
+#: admin/pages/statistic.php:269 admin/pages/statistic.php:275
+msgid "Stop"
+msgstr "Остановить"
+
+#: admin/pages/statistic.php:275
+msgid "Do you want to start optimization without backup?"
+msgstr "Вы хотите начать оптимизацию без возможности восстановления?"
+
+#: admin/pages/statistic.php:275
+msgid "Resume"
+msgstr "Возобновить"
+
+#: admin/pages/statistic.php:310
+msgid "Images optimization"
+msgstr "Оптимизация изображений"
+
+#: includes/class.plugin.php:85
+msgid "An invalid instance of the class was passed."
+msgstr "Был принят недопустимый экземпляр класса."
+
+#: includes/classes/class.attachment.php:163
+msgid "Failed to get optimized image from remote server"
+msgstr "Не удалось получить оптимизированное изображение с удаленного сервера"
+
+#: includes/classes/class.backup.php:77
+msgid "Unable to create backup folder."
+msgstr "Невозможно создать папку для резервного копирования."
+
+#: includes/classes/class.backup.php:132
+msgid "Unable to create backup subfolder."
+msgstr "Невозможно создать подпапку для резервного копирования."
+
+#: includes/classes/class.backup.php:260
+msgid "Unable to restore from a backup. There is no file."
+msgstr "Не удалось восстановить из резервной копии. Нет файла."
+
+#: includes/classes/class.cron.php:76
+msgid "60 min"
+msgstr "60 мин"
+
+#: includes/classes/class.cron.php:80
+msgid "daily"
+msgstr "ежедневно"
+
+#: includes/classes/class.image-processor-smushpro.php:43
+msgid "file not found"
+msgstr "файл не найден"
+
+#: includes/classes/class.image-processor-smushpro.php:48
+msgid "curl not work"
+msgstr "curl не работает"
+
+#: includes/classes/class.media-library.php:157
+msgid "No access for writing backups."
+msgstr "Нет доступа для записи резервных копий."
+
+#: includes/classes/class.media-library.php:163
+msgid "The uploads folder is not writable."
+msgstr "Папка uploads недоступна для записи."
+
+#: includes/classes/class.media-library.php:445
+msgid "New Filesize:"
+msgstr "Новый размер:"
+
+#: includes/classes/class.media-library.php:448
+msgid "Original Saving:"
+msgstr "Сжатие:"
+
+#: includes/classes/class.media-library.php:454
+msgid "Original Filesize:"
+msgstr "Размер оригинала:"
+
+#: includes/classes/class.media-library.php:457
+msgid "Level:"
+msgstr "Уровень:"
+
+#: includes/classes/class.media-library.php:473
+msgid "Thumbnails Optimized:"
+msgstr "Оптимизированные миниатюры:"
+
+#: includes/classes/class.media-library.php:477
+msgid "Overall Saving:"
+msgstr "Общее сохранение:"
+
+#: includes/classes/class.media-library.php:482
+msgid "Error Message:"
+msgstr "Сообщение об ошибке:"
+
+#: includes/classes/class.media-library.php:488
+#: includes/classes/class.media-library.php:494
+#: includes/classes/class.media-library.php:500
+#: includes/classes/class.media-library.php:515
+msgid "Optimization in progress"
+msgstr "Выполняется оптимизация"
+
+#: includes/classes/class.media-library.php:489
+#: includes/classes/class.media-library.php:495
+#: includes/classes/class.media-library.php:501
+msgid "Re-Optimize to"
+msgstr "Пережать в"
+
+#: includes/classes/class.media-library.php:506
+msgid "Recovery in progress"
+msgstr "Восстанавливается"
+
+#: includes/classes/class.media-library.php:506
+msgid "Restore original"
+msgstr "Восстановить оригинал"
+
+#: includes/classes/class.media-library.php:515
+msgid "Optimize"
+msgstr "Оптимизировать"
+
+#: robin-image-optimizer.php:27
+msgid ""
+"We found that you have the \"Clearfy - wordpress optimization plugin\" "
+"plugin installed, this plugin already has disable comments functions, so you "
+"can deactivate plugin \"Image optimizer\"!"
+msgstr ""
+"Мы обнаружили, что у вас установлен плагин «Clearfy - wordpress optimization "
+"plugin», этот плагин уже имеет функции оптимизации изображений, поэтому вы "
+"можете отключить плагин «Оптимизатор изображений»!"
+
+#: robin-image-optimizer.php:106
+msgid "Webcraftic Robin image optimizer"
+msgstr ""
+
+#~ msgid "Webcraftic Image optimizer"
+#~ msgstr "Webcraftic Image optimizer"
+
+#~ msgid ""
+#~ "Optimize images without losing quality, speed up your website load, "
+#~ "improve SEO and save money on server and CDN bandwidth."
+#~ msgstr ""
+#~ "Оптимизируйте изображения без потери качества, ускоряйте загрузку сайта, "
+#~ "улучшайте SEO и экономьте на трафик сервера и CDN."
+
+#~ msgid "Webcraftic <wordpress.webraftic@gmail.com>"
+#~ msgstr "Webcraftic <wordpress.webraftic@gmail.com>"

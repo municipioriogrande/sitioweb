@@ -807,6 +807,24 @@ if(!class_exists('fileaway_attributes'))
 							),
 						),
 					),
+					'show_wp_thumbs' => array(
+						'list' => array(
+							'default' => false,
+							'options' => array(
+								'' => 'Hide',
+								'true' => 'Show',
+							),
+							'binary' => 'true',
+						),
+						'table' => array(
+							'default' => false,
+							'options' => array(
+								'' => 'Hide',
+								'true' => 'Show',
+							),
+							'binary' => 'true',
+						),
+					),					
 					'devices' => array(
 						'list' => array(
 							'default' => false,

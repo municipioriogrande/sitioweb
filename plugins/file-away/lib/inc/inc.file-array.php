@@ -5,7 +5,8 @@ if(is_array($files))
 	$now = time();
 	foreach($files as $file)
 	{
-		$link = $recursive ? "$url/$file" : "$url/$dir/$file"; 
+		$file = str_replace('\\','/',$file);
+		$link = $recursive ? $url.'/'.$file : $url.'/'.$dir.'/'.$file; 
 		$slices = fileaway_utility::pathinfo($link); 
 		$extension = isset($slices['extension']) ? $slices['extension'] : false;
 		include fileaway_dir.'/lib/inc/inc.filters.php'; 

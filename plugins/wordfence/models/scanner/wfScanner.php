@@ -252,7 +252,6 @@ class wfScanner {
 			'scansEnabled_dns' => true,
 			'other_scanOutside' => true,
 			'scansEnabled_scanImages' => true,
-			'scansEnabled_highSense' => true,
 			'scan_exclude' => wfConfig::get('scan_exclude', ''),
 			'scan_include_extra' => wfConfig::get('scan_include_extra', ''),
 			'scansEnabled_geoipSupport' => true,
@@ -271,6 +270,7 @@ class wfScanner {
 		}
 		
 		$allOptions['scansEnabled_geoipSupport'] = true;
+		$allOptions['scansEnabled_highSense'] = false; //deprecated
 		
 		return $allOptions;
 	}

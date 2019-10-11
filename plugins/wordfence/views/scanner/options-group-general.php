@@ -53,7 +53,6 @@ if (!isset($collapseable)) {
 						array('key' => 'scansEnabled_dns', 'label' => __('Scan for unauthorized DNS changes', 'wordfence'), 'helpLink' => wfSupportController::supportURL(wfSupportController::ITEM_SCAN_OPTION_DNS_CHANGES)),
 						array('key' => 'other_scanOutside', 'label' => __('Scan files outside your WordPress installation', 'wordfence'), 'helpLink' => wfSupportController::supportURL(wfSupportController::ITEM_SCAN_OPTION_OUTSIDE_WORDPRESS)),
 						array('key' => 'scansEnabled_scanImages', 'label' => __('Scan images, binary, and other files as if they were executable', 'wordfence'), 'helpLink' => wfSupportController::supportURL(wfSupportController::ITEM_SCAN_OPTION_IMAGES_EXECUTABLE)),
-						array('key' => 'scansEnabled_highSense', 'label' => __('Enable HIGH SENSITIVITY scanning (may give false positives)', 'wordfence'), 'helpLink' => wfSupportController::supportURL(wfSupportController::ITEM_SCAN_OPTION_HIGH_SENSITIVITY)),
 					);
 					foreach ($options as $o):
 						?>

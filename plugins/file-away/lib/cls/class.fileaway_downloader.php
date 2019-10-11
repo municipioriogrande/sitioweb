@@ -48,24 +48,14 @@ if(!class_exists('fileaway_downloader'))
 		}
 		private function decrypt($file)
 		{
+			if(empty($file)) return '';
 			$op = get_option('fileaway_options');
 			$key = $op['encryption_key'];
-			if(function_exists('mcrypt_encrypt'))
-			{
-			 	return urldecode(trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $key, base64_decode(trim($file)), MCRYPT_MODE_ECB, 
-					mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND))));
-			}
-			else
-			{
-				$decrypted = '';
-				$keys = array_values(array_unique(str_split($key)));
-				$keyr = array_reverse($keys);
-				foreach(str_split(urldecode($file)) as $s)
-				{
-					$decrypted .= in_array($s, $keyr) ? $keys[array_search($s, $keyr)] : $s;				
-				}
-				return fileaway_utility::urlesc(base64_decode(strrev($decrypted)), true);
-			}
+	 		$decrypted = '';
+			$keys = array_values(array_unique(str_split($key)));
+			$keyr = array_reverse($keys);
+			foreach(str_split(fileaway_utility::urlesc($file,true)) as $s) $decrypted .= in_array($s, $keyr) ? $keys[array_search($s, $keyr)] : $s;				
+			return base64_decode(strrev($decrypted));
 		}
 		private function mimes($ext)
 		{

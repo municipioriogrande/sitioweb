@@ -10,7 +10,7 @@ if(class_exists('fileaway_attributes') && !class_exists('fileaway'))
 			add_shortcode('fileaway', array($this, 'sc'));
 		}
 		public function sc($atts)
-		{	
+		{
 			if(isset($atts['style'])) $atts['theme'] = $atts['style'];
 			$get = new fileaway_definitions;
 			extract($get->pathoptions);
@@ -25,13 +25,12 @@ if(class_exists('fileaway_attributes') && !class_exists('fileaway'))
 			extract(fileaway_utility::dynamicpaths($dir, $playbackpath));
 			if($debug == 'on' && $logged_in) return $this->debug($rootpath.$dir); 
 			if(isset($atts['tutorials'])) $dir = fileaway_dir.'/lib/tts';
-			if(!is_dir("$dir") && $makedir && (!$private_content || ($private_content && $logged_in && stripos($dir, 'fa-nullmeta') === false)))
-				if(mkdir($rootpath.$dir, 0775, true)) fileaway_utility::indexmulti($rootpath.$dir, $chosenpath); 
-			if(!is_dir("$dir")) return;
+			if(!is_dir($dir) && $makedir && (!$private_content || ($private_content && $logged_in && stripos($dir, 'fa-nullmeta') === false)) && mkdir($rootpath.$dir, 0775, true)) fileaway_utility::indexmulti($rootpath.$dir, $chosenpath); 
+			if(!is_dir($dir)) return;
 			if(!fileaway_utility::realpath($dir,$rootpath,$chosenpath)) return;
-			$start = "$dir";
+			$start = $dir;
 			$uid = rand(0, 9999); 
-			$name = ($name ? $name : "ssfa-meta-container-$uid" );
+			$name = ($name ? $name : 'ssfa-meta-container-'.$uid );
 			$manager = $playback ? false : $manager;
 			if($manager) include fileaway_dir.'/lib/inc/inc.manager-access.php';
 			if($manager) $encryption = false;
@@ -49,7 +48,7 @@ if(class_exists('fileaway_attributes') && !class_exists('fileaway'))
 			$mobileclass = $get->is_mobile ? 'ssfa-mobile' : null;
 			$flightbox_nonce = !empty($flightbox) ? 'data-fbn="'.wp_create_nonce('fileaway-flightbox-nonce').'"' : '';
 			$flightbox_class = !empty($flightbox) ? 'flightbox-parent' : '';
-			$thefiles .= "$clearfix<div id='$name' class='ssfa-meta-container $flightbox_class $mobileclass $class' data-uid='$uid' $flightbox_nonce style='margin: 10px 0 20px; $fadeit $howshouldiputit'>";
+			$thefiles .= $clearfix.'<div id="'.$name.'" class="ssfa-meta-container '.$flightbox_class.' '.$mobileclass.' '.$class.'" data-uid="'.$uid.'" '.$flightbox_nonce.' style="margin: 10px 0 20px; '.$fadeit.' '.$howshouldiputit.'">';
 			$location_nonce = 'fileaway-location-nonce-'.base64_encode(trim(trim($rootpath.$dir,'/'),'\\'));
 			$thefiles .= '<input type="hidden" id="location_nonce_'.$uid.'" data-uid="'.$uid.'" value="'.wp_create_nonce($location_nonce).'" />';
 			if($directories)

@@ -10,8 +10,11 @@ while(!$excluded)
 	}
 	if($excluded) break;
 	// DON'T SHOW THUMBNAILS FROM UPLOADED IMAGES
-	$excluded = preg_match('/\d{2,}[Xx]\d{2,}\./', $file) ? true : false; 
-	if($excluded) break;
+	if(empty($show_wp_thumbs)) 
+	{
+		$excluded = preg_match('/\d{2,}[Xx]\d{2,}\./', $file) ? true : false; 
+		if($excluded) break;
+	}
 	$excluded = !$manager && fileaway_utility::startswith(fileaway_utility::basename($file), '_thumb_') ? true : false; 
 	if($excluded) break;
 	$excluded = !$manager && fileaway_utility::startswith(fileaway_utility::basename($file), 'fa-feed-logo') ? true : false; 
@@ -25,7 +28,7 @@ while(!$excluded)
 		{
 			foreach($onlyincs as $onlyinc)
 			{ 
-				if(strripos("$file", "$onlyinc") !== false)
+				if(strripos($file, str_replace('\\','/',$onlyinc)) !== false)
 				{ 
 					$onlyinclude = 1; 
 					break; 
@@ -44,7 +47,7 @@ while(!$excluded)
 		{
 			foreach($customincs as $custominc)
 			{ 
-				if(strripos($file, $custominc) !== false)
+				if(strripos($file, str_replace('\\','/',$custominc)) !== false)
 				{ 
 					$included = 1; 
 					break; 
@@ -81,7 +84,7 @@ while(!$excluded)
 		{
 			foreach($allexcludes as $exc)
 			{ 
-				if(strripos($file, $exc) !== false)
+				if(strripos($file, str_replace('\\','/',$exc)) !== false)
 				{ 
 					$excluded = true; 
 					break;

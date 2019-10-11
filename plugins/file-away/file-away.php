@@ -5,15 +5,15 @@
 ** Text Domain: file-away
 ** Domain Path: /lib/lng
 ** Description: Upload, manage, and display files from your server directories or page attachments in stylized lists or sortable data tables.
-** Version: 3.9.8.2
+** Version: 3.9.9.0.1
 ** Author: Thom Stark
 ** Author URI: http://imdb.me/thomstark
 ** License: To Fly. File Away comes as is with no guarantees about anything.
 */
 define('fileaway', __FILE__);
-define('fileaway_dir', dirname(fileaway));
-define('fileaway_url', plugins_url('', fileaway));
-define('fileaway_version', '3.9.8.2');
+define('fileaway_dir', str_replace('\\','/',dirname(fileaway)));
+define('fileaway_url', str_replace('\\','/',plugins_url('', fileaway)));
+define('fileaway_version', '3.9.9.0.1');
 if(!class_exists('fileaway_autofiler'))
 {
 	class fileaway_autofiler
@@ -32,7 +32,6 @@ if(!class_exists('fileaway_autofiler'))
 }
 new fileaway_autofiler;
 new fileaway_languages;
-fileaway_utility::timezone();
 if(is_admin())
 { 
 	new fileaway_admin;

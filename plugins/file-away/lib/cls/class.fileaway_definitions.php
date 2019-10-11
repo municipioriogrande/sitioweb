@@ -129,14 +129,14 @@ if(!class_exists('fileaway_definitions'))
 		}
 		private function paths()
 		{
-			$home = fileaway_utility::replacefirst(get_option('home'), 'https:', 'http:');
-			$wpurl = fileaway_utility::replacefirst(get_bloginfo('wpurl'), 'https:', 'http:');
+			$home = str_replace('\\','/',fileaway_utility::replacefirst(get_option('home'), 'https:', 'http:'));
+			$wpurl = str_replace('\\','/',fileaway_utility::replacefirst(get_bloginfo('wpurl'), 'https:', 'http:'));
 			$install = trim($home, '/') === trim($wpurl, '/') ? false 
 				: str_replace('//', '/', ltrim(str_replace(rtrim($home, '/'), '', rtrim($wpurl, '/')), '/').'/');		
 			$install = $install === '/' ? false : $install; 
-			$installpath = ABSPATH;
-			$rootpath = ($install ? substr_replace(ABSPATH, '', strrpos(ABSPATH, $install), strlen($install)) : ABSPATH);
-			$chosenpath = ($this->options['rootdirectory'] === 'siteurl' ? $rootpath : ABSPATH);
+			$installpath = str_replace('\\','/',ABSPATH);
+			$rootpath = str_replace('\\','/',($install ? substr_replace(ABSPATH, '', strrpos(ABSPATH, $install), strlen($install)) : ABSPATH));
+			$chosenpath = str_replace('\\','/',($this->options['rootdirectory'] === 'siteurl' ? $rootpath : ABSPATH));
 			$problemchild = $install && $this->options['rootdirectory'] !== 'siteurl' ? true : false;
 			$playback_url = $this->options['rootdirectory'] === 'siteurl' ? rtrim(get_option('home'),'/').'/' : rtrim(get_bloginfo('wpurl'),'/').'/';
 			$this->pathoptions = array(

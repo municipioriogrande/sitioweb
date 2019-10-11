@@ -444,6 +444,10 @@ if(class_exists('fileaway_admin') && !class_exists('fileaway_modal'))
 			$fileaway['code']['label'] = 'Code Docs';
 			$fileaway['code']['element'] = 'select';
 			$fileaway['code']['class'] = 'fileaway-half';
+			$fileaway['show_wp_thumbs']['section'] = 'filters';
+			$fileaway['show_wp_thumbs']['label'] = 'WP Thumbs';
+			$fileaway['show_wp_thumbs']['element'] = 'select';
+			$fileaway['show_wp_thumbs']['class'] = 'fileaway-half';			
 			$fileaway['limit']['section'] = 'filters';
 			$fileaway['limit']['label'] = 'Limit Results';
 			$fileaway['limit']['element'] = 'text';

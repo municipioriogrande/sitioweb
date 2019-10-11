@@ -180,7 +180,11 @@ if(class_exists('fileaway_admin') && !class_exists('fileaway_tutorials'))
 			$optioninfo['code'] = array(
 				'heading' => 'Code Documents',
 				'info' => "By default, and for security, web code documents are excluded from file displays. If you have a directory or attachment page with some code docs that you want to include in your display, you can choose to include them along with any/all other file types. Code file types excluded by default are: ".implode(', ', $get->codexts).". The one exception is index.htm/l and index.php files, which are always excluded, and will not be included if Code Docs are enabled."
-			);			
+			);
+			$optioninfo['show_wp_thumbs'] = array(
+				'heading' => 'Show WordPress Thumbnail Images',
+				'info' => "Optional: If left blank or omitted, the default behavior is to hide WordPress-generated thumbnail images. You can alternatively choose to include them in your file list/table.",
+			);						
 			$optioninfo['only'] = array(
 				'heading' => 'Show Only Specific',
 				'info' => "If you'd like, you can enter a comma-separated list of filenames and/or file extensions here. Doing this will filter out anything not here entered. Do not use quotation marks. Just separate each item with a comma. <br /><br />Example: <br /><br /><code>My Polished Essay, .mp3, Gertrude Stein Essay, .jpg</code><br /><br />This will tell the shortcode only to ouput files that have the string 'My Polished Essay' or 'Gertrude Stein Essay', and any file with the extension .mp3 or .jpg"

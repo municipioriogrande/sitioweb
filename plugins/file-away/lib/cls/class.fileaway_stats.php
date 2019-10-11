@@ -59,14 +59,16 @@ if(!class_exists('fileaway_stats'))
 				$pre = fileaway_utility::replacefirst(WP_PLUGIN_DIR.'/s2member-files', $rootpath, '');
 				$file = $pre.'/'.fileaway_utility::urlesc($file, true);
 				$file = str_replace('&s2member_skip_confirmation', '', $file);
-				$response = $_POST['file'];
+				$response = str_replace(array('%3F','%26'),array('?','&'),fileaway_utility::urlesc($_POST['file']));
 			}
 			elseif($type == 'encrypted')
 			{
 				list($trash, $file) = explode("?", $_POST['file']);
-				parse_str($file);
-				$file = fileaway_utility::replacefirst($this->decrypt($fileaway), $rootpath, '');
-				$response = $_POST['file'];
+				parse_str($file,$fileParsed);
+				extract($fileParsed);
+				$crypt = new fileaway_encrypted;
+				$file = fileaway_utility::urlesc(fileaway_utility::replacefirst($this->decrypt($fileaway), $rootpath, ''),true);
+				$response = $this->ops['baseurl'].'?fileaway_download=1&fileaway='.$crypt->encrypt($rootpath.$file).'&nonce='.wp_create_nonce('fileaway-download');
 			}
 			else
 			{ 
@@ -208,23 +210,13 @@ if(!class_exists('fileaway_stats'))
 		}
 		private function decrypt($file)
 		{
+			if(empty($file)) return '';
 			$key = $this->ops['encryption_key'];
-			if(function_exists('mcrypt_encrypt'))
-			{
-			 	return urldecode(trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $key, base64_decode(trim($file)), MCRYPT_MODE_ECB, 
-					mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND))));
-			}
-			else
-			{
-				$decrypted = '';
-				$keys = array_values(array_unique(str_split($key)));
-				$keyr = array_reverse($keys);
-				foreach(str_split(urldecode($file)) as $s)
-				{
-					$decrypted .= in_array($s, $keyr) ? $keys[array_search($s, $keyr)] : $s;				
-				}
-				return fileaway_utility::urlesc(base64_decode(strrev($decrypted)), true);
-			}
+			$decrypted = '';
+			$keys = array_values(array_unique(str_split($key)));
+			$keyr = array_reverse($keys);
+			foreach(str_split(fileaway_utility::urlesc($file,true)) as $s) $decrypted .= in_array($s, $keyr) ? $keys[array_search($s, $keyr)] : $s;				
+			return base64_decode(strrev($decrypted));
 		}		
 		public function addtable()
 		{

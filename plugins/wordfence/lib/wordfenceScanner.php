@@ -1,7 +1,7 @@
 <?php
-require_once('wordfenceConstants.php');
-require_once('wordfenceClass.php');
-require_once('wordfenceURLHoover.php');
+require_once(dirname(__FILE__) . '/wordfenceConstants.php');
+require_once(dirname(__FILE__) . '/wordfenceClass.php');
+require_once(dirname(__FILE__) . '/wordfenceURLHoover.php');
 class wordfenceScanner {
 	/*
 	 * Mask to return all patterns in the exclusion list.
@@ -102,6 +102,10 @@ class wordfenceScanner {
 			$wafCommonStringIndexes = array();
 			foreach ($sigData['rules'] as $key => $signatureRow) {
 				list(, , $pattern) = $signatureRow;
+				if (empty($pattern)) {
+					throw new Exception(__('Wordfence received malformed attack signature patterns from the scanning server.', 'wordfence'));
+				}
+				
 				$logOnly = (isset($signatureRow[5]) && !empty($signatureRow[5])) ? $signatureRow[5] : false;
 				$commonStringIndexes = (isset($signatureRow[8]) && is_array($signatureRow[8])) ? $signatureRow[8] : array(); 
 				if (@preg_match('/' . $pattern . '/iS', null) === false) {

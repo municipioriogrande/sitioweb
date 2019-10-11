@@ -304,7 +304,7 @@ class Minify_Plugin {
 			'id' => 'w3tc_flush_minify',
 			'parent' => 'w3tc_flush',
 			'title' => __( 'Minify', 'w3-total-cache' ),
-			'href' => wp_nonce_url( network_admin_url(
+			'href' => wp_nonce_url( admin_url(
 					'admin.php?page=w3tc_dashboard&amp;w3tc_flush_minify' ),
 				'w3tc' )
 		);
@@ -419,12 +419,14 @@ class Minify_Plugin {
 		$home_url_regexp = Util_Environment::home_url_regexp();
 
 		$path = '';
-		if ( Util_Environment::is_wpmu() && !Util_Environment::is_wpmu_subdomain() )
-			$path = ltrim( Util_Environment::home_url_uri(), '/' );
+		if ( Util_Environment::is_wpmu() && !Util_Environment::is_wpmu_subdomain() ) {
+			$path = ltrim( Util_Environment::network_home_url_uri(), '/' );
+		}
 
 		foreach ( $files as $file ) {
-			if ( $path && strpos( $file, $path ) === 0 )
+			if ( $path && strpos( $file, $path ) === 0 ) {
 				$file = substr( $file, strlen( $path ) );
+			}
 
 			$this->replaced_scripts[] = $file;
 
@@ -434,8 +436,12 @@ class Minify_Plugin {
 			} else {
 				// local JS files
 				$file = ltrim( $file, '/' );
-				if ( home_url() == site_url() && ltrim( Util_Environment::site_url_uri(), '/' ) && strpos( $file, ltrim( Util_Environment::site_url_uri(), '/' ) ) === 0 )
+				if ( home_url() == site_url() &&
+						ltrim( Util_Environment::site_url_uri(), '/' ) &&
+						strpos( $file, ltrim( Util_Environment::site_url_uri(), '/' ) ) === 0 ) {
 					$file = str_replace( ltrim( Util_Environment::site_url_uri(), '/' ), '', $file );
+				}
+
 				$file = ltrim( preg_replace( '~' . $home_url_regexp . '~i', '', $file ), '/\\' );
 				$regexps[] = '(' . $home_url_regexp . ')?/?' . Util_Environment::preg_quote( $file );
 			}
@@ -888,15 +894,6 @@ class Minify_Plugin {
 	 * @return string
 	 */
 	function can_minify2( $buffer ) {
-		/**
-		 * Check for database error
-		 */
-		if ( Util_Content::is_database_error( $buffer ) ) {
-			$this->minify_reject_reason = 'Database Error occurred';
-
-			return false;
-		}
-
 		/**
 		 * Check for DONOTMINIFY constant
 		 */

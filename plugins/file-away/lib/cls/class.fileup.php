@@ -23,26 +23,25 @@ if(class_exists('fileaway_attributes') && !class_exists('fileup'))
 			if($this->op['javascript'] == 'footer') $GLOBALS['fileaway_add_scripts'] = true;
 			if($this->op['stylesheet'] == 'footer') $GLOBALS['fileaway_add_styles'] = true;
 			// Build Initial Directory
-			$base = $base == 's2member-files' ? fileaway_utility::replacefirst(WP_PLUGIN_DIR.'/s2member-files', $chosenpath, '') : $this->op['base'.$base];
+			$base = $base == 's2member-files' ? fileaway_utility::replacefirst(str_replace('\\','/',WP_PLUGIN_DIR.'/s2member-files'), $chosenpath, '') : str_replace('\\','/',$this->op['base'.$base]);
 			$base = trim($base, '/'); 
 			$base = trim($base, '/');
-			$sub = $sub ? trim($sub, '/') : false; 
+			$sub = $sub ? trim(str_replace('\\','/',$sub), '/') : false; 
 			$dir = $sub ? $base.'/'.$sub : $base;
 			extract(fileaway_utility::dynamicpaths($dir));
-			$dir = str_replace('//', '/', "$dir");
+			$dir = str_replace('//', '/', $dir);
 			$debugpath = $chosenpath.$dir;
 			$dir = $problemchild ? $install.$dir : $dir;
-			if(!is_dir("$dir") && $makedir && (!$private_content || ($private_content && $logged_in && stripos($dir, 'fa-nullmeta') === false)))
-				if(mkdir($rootpath.$dir, 0775, true)) fileaway_utility::indexmulti($rootpath.$dir, $chosenpath);
+			if(!is_dir($dir) && $makedir && (!$private_content || ($private_content && $logged_in && stripos($dir, 'fa-nullmeta') === false))&& mkdir($rootpath.$dir, 0775, true)) fileaway_utility::indexmulti($rootpath.$dir, $chosenpath);
 			if($private_content && !is_dir("$dir")) return;
 			if(!fileaway_utility::realpath($dir,$rootpath,$chosenpath)) return;
-			$start = "$dir"; 
+			$start = $dir; 
 			if($matchdrawer)
 			{
 				$fixedlocation = true;
 				$drawerid = $matchdrawer && $matchdrawer !== 'true' ? $matchdrawer : null;
 				include fileaway_dir.'/lib/inc/inc.open-drawer.php';
-				$start = "$dir"; 
+				$start = $dir; 
 			}
 			$pathparts = explode('/', $start); 
 			$basename = end($pathparts);

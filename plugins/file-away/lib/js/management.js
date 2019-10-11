@@ -14,7 +14,7 @@ jQuery(document).ready(function($)
 	// FLASH BODY WIDTH FOR WEB FONTS
     setTimeout(function(){
         $('body').width($('body').width()+1).width('auto');
-    }, 500);
+    }, 250);
 	// OPEN RSS LINKS
 	$('span.ssfa-rssmini').on('click', function()
 	{
@@ -98,13 +98,12 @@ jQuery(document).ready(function($)
 			: $('iframe').contents().find('div.ssfa-meta-container[data-uid="'+id[0]+'"] a[data-flightbox="'+(id[1])+'"]').attr('href');
 		var wh = $(window.top).height();
 		var ww = $(window.top).width();		
-		theShadow.fadeIn(500);
+		theShadow.fadeIn(250);
 		$.post
 		(
 			fileaway_mgmt.ajaxurl,
 			{
 				action : 'fileaway-manager',
-				dataType : 'html',	
 				act : 'flightbox',
 				url : url,
 				uid : String(uid),
@@ -124,24 +123,49 @@ jQuery(document).ready(function($)
 			},
 			function(response)
 			{
-				$('div#ssfa-flightbox-inner', window.top.document).animate({opacity:'0'}, 500);
-				$('div.ssfa-flightbox-controls a', window.top.document).animate({opacity:'0'}, 0);
-				loading.remove();
-				FlightBox.delay(500).animate({
-					left: response.offset,
-					height: response.height, 
-					width: response.width, 
-					top: response.top
-				}, 500, function(){
-					$(this).replaceWith(response.html);
-					$('div#ssfa-flightbox-inner', window.top.document).animate({opacity:'1'}, 500);
-					$('div.ssfa-flightbox-controls span', window.top.document).css({opacity:'0.8'});
-					if(response.iframe == 'true', window.top.document)
+				filertify.set({labels:{ok : fileaway_mgmt.ok_label }}); 
+				if('status' in response)
+				{
+					if(response.status == 'error') 
 					{
-						$('div#ssfa-flightbox-inner iframe', window.top.document).width(response.iwidth);
-						$('div#ssfa-flightbox-inner iframe', window.top.document).height(response.iheight);	
+						filertify.set({labels:{ok : fileaway_mgmt.ok_label }}); 
+						filertify.alert(response.message); 
+						return false;
 					}
-				});
+					else
+					{
+						$('div#ssfa-flightbox-inner', window.top.document).animate({opacity:'0'}, 250);
+						$('div.ssfa-flightbox-controls a', window.top.document).animate({opacity:'0'}, 0);
+						loading.remove();
+						setTimeout(function()
+						{
+							FlightBox.animate
+							({
+								left: response.offset,
+								height: response.height, 
+								width: response.width, 
+								top: response.top
+							}, 250, 
+							function()
+							{
+								$(this).replaceWith(response.html);
+								$('div#ssfa-flightbox-inner', window.top.document).animate({opacity:'1'}, 250);
+								$('div.ssfa-flightbox-controls span', window.top.document).css({opacity:'0.8'});
+								if(response.iframe == 'true', window.top.document)
+								{
+									$('div#ssfa-flightbox-inner iframe', window.top.document).width(response.iwidth);
+									$('div#ssfa-flightbox-inner iframe', window.top.document).height(response.iheight);	
+								}
+							});
+						},250);
+					}
+				}
+				else
+				{
+					filertify.set({labels:{ok : fileaway_mgmt.ok_label }}); 
+					filertify.alert('An unknown error occurred: no status returned'); 
+					return false;					
+				}
 			}
 		)
 		return false;
@@ -149,8 +173,8 @@ jQuery(document).ready(function($)
 	// close the flightbox
 	Xflightbox = function()
 	{
-		$('div#ssfa-flightbox', window.parent.document).fadeOut(500).queue(function(){$(this).remove();});
-		$('div#ssfa-flightbox-shadow', window.parent.document).fadeOut(500).queue(function(){$(this).remove();});
+		$('div#ssfa-flightbox', window.parent.document).fadeOut(250, function(){$(this).remove();});
+		$('div#ssfa-flightbox-shadow', window.parent.document).fadeOut(250, function(){$(this).remove();});
 	}
 });
 jQuery(document).ready(function($)
@@ -250,11 +274,11 @@ jQuery(document).ready(function($)
 				{
 					// Ajax Bulk Action Download Function
 					$loading.show();
-					$.post(
+					$.post
+					(
 						fileaway_mgmt.ajaxurl,
 						{
 							action : 'fileaway-manager',
-							dataType : 'html',	
 							act : 'bulkdownload',
 							files : selectedFilesFrom,
 							stats : stats,
@@ -264,14 +288,22 @@ jQuery(document).ready(function($)
 						function(response)
 						{
 							$loading.hide();		
-							if(response == 'Error')
-							{ 
-								filertify.set({labels:{ok : fileaway_mgmt.ok_label }}); 
-								filertify.alert(response); 
-							}
-							else 
+							if('status' in response)
 							{
-								$('<iframe src="'+response+'" id="fa-bulkdownload" style="visibility:hidden;" name="fa-bulkdownload">').appendTo('body');	
+								if(response.status == 'error')
+								{ 
+									filertify.set({labels:{ok : fileaway_mgmt.ok_label }}); 
+									filertify.alert(response.message); 
+								}
+								else 
+								{
+									$('<iframe src="'+response+'" id="fa-bulkdownload" style="visibility:hidden;" name="fa-bulkdownload">').appendTo('body');	
+								}
+							}
+							else
+							{
+								filertify.set({labels:{ok : fileaway_mgmt.ok_label }}); 
+								filertify.alert('An unknown error occurred'); 
 							}
 						}
 					) // End Ajax Bulk Action Download Function
@@ -354,13 +386,17 @@ jQuery(document).ready(function($)
 			if($(createinput).is(':visible')){}
 			else
 			{
-				createinput.fadeIn(1000).focus();
+				createinput.fadeIn(250).focus();
 				manager.html("<a href='javascript:' id='save-"+sfx+"' style='display:none;'>"+fileaway_mgmt.save_link+"</a><br>"+
 					"<a href='javascript:' id='cancel-"+sfx+"' style='display:none;'>"+fileaway_mgmt.cancel_link+"</a>")
 				var save = $('a#save-'+sfx),
 					cancel = $('a#cancel-'+sfx);
-				save.delay(500).fadeIn(500);
-				cancel.delay(500).fadeIn(500);
+				setTimeout(function()
+				{
+					save.fadeIn(250);
+					cancel.fadeIn(250);
+				},250);
+					
 			}
 		});
 		$('body').on('click', 'a[id^="cancel-ssfa-create-dir-"]', function(ev)
@@ -369,9 +405,9 @@ jQuery(document).ready(function($)
 			var sfx = this.id.replace('cancel-',''),
 				save = $('a#save-'+sfx),
 				createinput = $('input#input-'+sfx);
-			save.fadeOut(500);
-			$(this).fadeOut(500);
-			createinput.fadeOut(500).val('');
+			save.fadeOut(250);
+			$(this).fadeOut(250);
+			createinput.fadeOut(250).val('');
 		});
 		$('body').on('click', 'a[id^="save-ssfa-create-dir"]', function(ev)
 		{
@@ -388,9 +424,9 @@ jQuery(document).ready(function($)
 			}
 			else
 			{
-				$(this).fadeOut(500);
-				cancel.fadeOut(500);
-				createinput.fadeOut(500).val('');					
+				$(this).fadeOut(250);
+				cancel.fadeOut(250);
+				createinput.fadeOut(250).val('');					
 				var uid = sfx.replace('ssfa-create-dir-','');
 				var manager_nonce = $(this).parents('table').eq(0).data('mn');
 				var meta = $(this).parents('.ssfa-meta-container').eq(0).data('uid');
@@ -406,7 +442,6 @@ jQuery(document).ready(function($)
 				var args = 
 				{
 					action : 'fileaway-manager',
-					dataType : 'html',	
 					act : 'createdir',
 					newsub : $newsub,
 					parents : dir,
@@ -444,7 +479,7 @@ jQuery(document).ready(function($)
 						{
 							$newrow = response.message;
 							$row = $('tr#row-'+sfx);	
-							$row.after($newrow).hide().fadeIn(500);
+							$row.after($newrow).hide().fadeIn(250);
 						}
 					}
 				);
@@ -459,8 +494,8 @@ jQuery(document).ready(function($)
 				rename = $('a#rename-'+sfx),
 				del = $('a#delete-'+sfx),
 				manager = $('td#manager-'+sfx);
-			del.fadeOut(500);
-			rename.fadeOut(500);				
+			del.fadeOut(250);
+			rename.fadeOut(250);				
 			var uid = sfx.replace('ssfa-dir-','');			
 			if(! $('a#canceldel-'+sfx).length) manager.prepend("<a href='javascript:' id='canceldel-"+sfx+"' style='display:none;'>"+fileaway_mgmt.cancel_link+"</a>")
 			if(! $('a#proceed-'+sfx).length) manager.prepend("<a href='javascript:' id='proceed-"+sfx+"' style='display:none;'>"+fileaway_mgmt.proceed_link+"<br></a>")
@@ -468,9 +503,12 @@ jQuery(document).ready(function($)
 			var proceed = $('a#proceed-'+sfx),
 				canceldel = $('a#canceldel-'+sfx),
 				confirms = $('span#confirm-'+sfx);
-			proceed.delay(500).fadeIn(500);
-			canceldel.delay(500).fadeIn(500);						
-			confirms.delay(500).fadeIn(500);										
+			setTimeout(function()
+			{
+				proceed.fadeIn(250);
+				canceldel.fadeIn(250);						
+				confirms.fadeIn(250);
+			},250);
 			$subdir = $('td#folder-'+sfx+' a').data('name');
 			var dir = String($(this).parents('table').eq(0).data('dir'));
 			var base = String($(this).parents('table').eq(0).data('base'));
@@ -482,20 +520,26 @@ jQuery(document).ready(function($)
 			$(canceldel).on('click', function(ev)
 			{
 				ev.preventDefault();
-				proceed.fadeOut(500);
-				canceldel.fadeOut(500);
-				confirms.fadeOut(500);					
-				rename.delay(0).fadeIn(1000);
-				del.delay(0).fadeIn(1000);					
+				proceed.fadeOut(250);
+				canceldel.fadeOut(250);
+				confirms.fadeOut(250);					
+				setTimeout(function()
+				{
+					rename.fadeIn(250);
+					del.fadeIn(250);					
+				},250);
 			});
 			$(proceed).on('click', function(ev)
 			{
 				ev.preventDefault();
-				proceed.fadeOut(500);
-				canceldel.fadeOut(500);
-				confirms.fadeOut(500);					
-				rename.delay(500).fadeIn(500);
-				del.delay(500).fadeIn(500);		
+				proceed.fadeOut(250);
+				canceldel.fadeOut(250);
+				confirms.fadeOut(250);					
+				setTimeout(function()
+				{
+					rename.fadeIn(250);
+					del.fadeIn(250);		
+				},250);
 				if($path1.indexOf('..') >= 0 || $path1 === '/' || $path1 === '' || !$path1 || $path1 === 'undefined' || $path1 === undefined)
 				{
 					filertify.set({labels:{ok : fileaway_mgmt.ok_label }}); 
@@ -513,7 +557,6 @@ jQuery(document).ready(function($)
 						fileaway_mgmt.ajaxurl,
 						{
 							action : 'fileaway-manager',
-							dataType : 'html',	
 							act : 'deletedir',
 							status : 'life',
 							path1 : $path1,
@@ -533,11 +576,11 @@ jQuery(document).ready(function($)
 							{
 								filertify.set({labels:{ok : fileaway_mgmt.ok_label }});
 								filertify.alert(response.message);	
-								$(del).parents('tr').fadeOut(2000).queue( function(next){ $(this).remove(); next();	});
+								$(del).parents('tr').fadeOut(250,function(){ $(this).remove(); });
 							}
 							else if(response.status === 'success-single')
 							{
-								$(del).parents('tr').fadeOut(2000).queue( function(next){ $(this).remove(); next();	});
+								$(del).parents('tr').fadeOut(250,function(){ $(this).remove(); });
 							}
 							else if(response.status === 'confirm')
 							{
@@ -546,11 +589,11 @@ jQuery(document).ready(function($)
 								{
 									if(e)
 									{
-										$.post(
+										$.post
+										(
 											fileaway_mgmt.ajaxurl,
 											{
 												action : 'fileaway-manager',
-												dataType : 'html',	
 												act : 'deletedir',
 												status : 'death',
 												path1 : $path1,
@@ -570,7 +613,7 @@ jQuery(document).ready(function($)
 												{
 													filertify.set({labels:{ok : fileaway_mgmt.ok_label }});
 													filertify.alert(response.message);	
-													$(del).parents('tr').fadeOut(2000).queue( function(next){ $(this).remove(); next(); });
+													$(del).parents('tr').fadeOut(250,function(){ $(this).remove(); });
 												}
 											}
 										);
@@ -594,27 +637,33 @@ jQuery(document).ready(function($)
 				dirname = $('td#name-'+sfx+' a'),
 				dirinput = $('input#rename-'+sfx),
 			$subdir = $('td#folder-'+sfx+' a').data('path');
-			$(this).fadeOut(500);
-			del.fadeOut(500);
+			$(this).fadeOut(250);
+			del.fadeOut(250);
 			if(!$('a#cancel-'+sfx).length) manager.prepend("<a href='' id='cancel-"+sfx+"' style='display:none;'>"+fileaway_mgmt.cancel_link+"</a>");
 			if(!$('a#save-'+sfx).length) manager.prepend("<a href='' id='save-"+sfx+"' style='display:none;'>"+fileaway_mgmt.save_link+"<br></a>");
 			var save = $('a#save-'+sfx),
 				cancel = $('a#cancel-'+sfx);
-			dirname.fadeOut(500);
-			save.delay(500).fadeIn(500);
-			cancel.delay(500).fadeIn(500);			
-			dirinput.delay(500).fadeIn(500);
+			dirname.fadeOut(250);
+			setTimeout(function()
+			{
+				save.fadeIn(250);
+				cancel.fadeIn(250);			
+				dirinput.fadeIn(250);
+			},250);
 		});
 		$('body').on('click', 'a[id^="cancel-ssfa-dir-"]', function(ev)
 		{
 			ev.preventDefault();
 			var sfx = this.id.replace('cancel-', '');
-			$('a#save-'+sfx).fadeOut(500);
-			$(this).fadeOut(500);
-			$('a#rename-'+sfx).delay(500).fadeIn(500);
-			$('a#delete-'+sfx).delay(500).fadeIn(500);
-			$('input#rename-'+sfx).fadeOut(500);
-			$('td#name-'+sfx+' a').delay(500).fadeIn(500);
+			$('a#save-'+sfx).fadeOut(250);
+			$(this).fadeOut(250);
+			$('input#rename-'+sfx).fadeOut(250);
+			setTimeout(function()
+			{
+				$('a#rename-'+sfx).fadeIn(250);
+				$('a#delete-'+sfx).fadeIn(250);
+				$('td#name-'+sfx+' a').fadeIn(250);
+			},250);
 		});
 		$('body').on('click', 'a[id^="save-ssfa-dir-"]', function(ev)
 		{
@@ -634,9 +683,9 @@ jQuery(document).ready(function($)
 			var uid = $(meta).data('uid');
 			var manager_nonce = $(this).parents('table').eq(0).data('mn');
 			var loc_nonce = $('input#location_nonce_'+uid).val();			
-			$('a#save-'+sfx).fadeOut(500);
-			$('a#cancel-'+sfx).fadeOut(500);
-			$('input#rename-'+sfx).fadeOut(500);
+			$('a#save-'+sfx).fadeOut(250);
+			$('a#cancel-'+sfx).fadeOut(250);
+			$('input#rename-'+sfx).fadeOut(250);
 			if($oldpath.indexOf('..') >= 0 || $oldpath === '/' || $newname.indexOf('..') >= 0 || $newname.indexOf('/') >= 0)
 			{
 				filertify.set({labels:{ok : fileaway_mgmt.ok_label }});
@@ -654,7 +703,6 @@ jQuery(document).ready(function($)
 					fileaway_mgmt.ajaxurl,
 					{
 						action : 'fileaway-manager',
-						dataType : 'html',	
 						act : 'renamedir',
 						datapath : $subdir,
 						oldpath : $oldpath,
@@ -677,8 +725,7 @@ jQuery(document).ready(function($)
 						}
 						else
 						{
-							$newnamerow = 
-							$('td#name-'+sfx+' input').val(response.newname).attr('value', response.newname);
+							$newnamerow = $('td#name-'+sfx+' input').val(response.newname).attr('value', response.newname);
 							$('tr#'+sfx+' td').each(function()
 							{
 								$(this).data('value', "# # # # # "+response.newname).attr('data-value', "# # # # # "+response.newname);
@@ -689,9 +736,9 @@ jQuery(document).ready(function($)
 							$('td#folder-'+sfx+' a').data('name', response.newname).attr('data-name', response.newname);
 							$('td#name-'+sfx+' a span').text(response.newname);
 						}
-						$('a#rename-'+sfx).fadeIn(1000);
-						$('a#delete-'+sfx).fadeIn(1000);
-						$('td#name-'+sfx+' a').fadeIn(1000);
+						$('a#rename-'+sfx).fadeIn(250);
+						$('a#delete-'+sfx).fadeIn(250);
+						$('td#name-'+sfx+' a').fadeIn(250);
 					}
 				);					
 				return false;
@@ -704,7 +751,7 @@ jQuery(document).ready(function($)
 			ev.preventDefault();
 			$id = this.id;
 			var sfx = $id.replace('rename-', ''),
-				uid = $(this).parents('table:eq(0)').data('uid'),
+				uid = $(this).parents('table').eq(0).data('uid'),
 				rename = $(this),
 				del = $('a#delete-'+sfx),
 				filename = $('td#filename-'+sfx+' a'),
@@ -714,19 +761,22 @@ jQuery(document).ready(function($)
 			if(!$('a#save-'+sfx).length) manager.prepend("<a href='' id='save-"+sfx+"' style='display:none;'>"+fileaway_mgmt.save_link+"<br></a>")
 			var save = $('a#save-'+sfx);
 			var cancel = $('a#cancel-'+sfx);
-			rename.fadeOut(500);
-			filename.fadeOut(500);
-			del.fadeOut(500);				
-			save.delay(500).fadeIn(500);
-			cancel.delay(500).fadeIn(500);			
-			rawname.delay(500).fadeIn(500);
+			rename.fadeOut(250);
+			filename.fadeOut(250);
+			del.fadeOut(250);				
+			setTimeout(function()
+			{
+				save.fadeIn(250);
+				cancel.fadeIn(250);			
+				rawname.fadeIn(250);	
+			},250);
 			var customs = $('input[id^="customdata-"][id$="'+sfx+'"]').length;
 			customs = customs - 1;
 			for(var i=0; i <= customs; i++)
 			{
 				var cdata = $('input[id^="customdata-'+i+'-'+sfx+'"]');
 				cdata.siblings('span').fadeOut('fast');
-				cdata.delay(500).fadeIn(500);
+				cdata.fadeIn(250);
 			}
 		}); 
 		$('body').on('click', 'a[id^="cancel-ssfa-file-"]', function(ev)
@@ -734,7 +784,7 @@ jQuery(document).ready(function($)
 			ev.preventDefault();
 			$id = this.id;
 				sfx = $id.replace('cancel-', ''),
-				uid = $(this).parents('table:eq(0)').data('uid'),
+				uid = $(this).parents('table').eq(0).data('uid'),
 				rename = $('a#rename-'+sfx),
 				del = $('a#delete-'+sfx),
 				save = $('a#save-'+sfx),
@@ -742,19 +792,22 @@ jQuery(document).ready(function($)
 				filename = $('td#filename-'+sfx+' a'),
 				rawname = $('input#rawname-'+sfx),
 				manager = $('td#manager-'+sfx);
-			save.fadeOut(500);
-			cancel.fadeOut(500);
-			rename.delay(500).fadeIn(500);
-			del.delay(500).fadeIn(500);
-			rawname.fadeOut(500);
-			filename.delay(500).fadeIn(500);
+			save.fadeOut(250);
+			cancel.fadeOut(250);
+			rawname.fadeOut(250);
+			setTimeout(function()
+			{
+				rename.fadeIn(250);
+				del.fadeIn(250);
+				filename.fadeIn(250);
+			},250);
 			var customs = $('input[id^="customdata-"][id$="'+sfx+'"]').length;
 			customs = customs - 1;
 			for(var i=0; i <= customs; i++)
 			{
 				var cdata = $('input[id^="customdata-'+i+'-'+sfx+'"]');
-				$(cdata).fadeOut(500);
-				$(cdata).siblings('span').delay(500).fadeIn(500);
+				$(cdata).fadeOut(250);
+				setTimeout(function(){$(cdata).siblings('span').fadeIn(250);},250);
 			}
 		});
 		$('body').on('click', 'a[id^="save-ssfa-file-"]', function(ev)
@@ -771,7 +824,7 @@ jQuery(document).ready(function($)
 				cancel = $('a#cancel-'+sfx),
 				filename = $('td#filename-'+sfx+' a'),
 				manager = $('td#manager-'+sfx),
-				metadata = $(this).parents('table:eq(0)').data('metadata'),
+				metadata = $(this).parents('table').eq(0).data('metadata'),
 				ext = $('td#filetype-'+sfx).data('ext'),
 				url = $('td#filename-'+sfx+' a'),
 				url2 = $('td#filetype-'+sfx+' a'),					
@@ -788,18 +841,17 @@ jQuery(document).ready(function($)
 				{
 					var cdata = $('input[id^="customdata-'+i+'-'+sfx+'"]');
 					customdata[i] = cdata.val();
-					cdata.fadeOut(500);
+					cdata.fadeOut(250);
 				}
 			}
-			rawname.fadeOut(500);
-			save.fadeOut(500);
-			cancel.fadeOut(500);
+			rawname.fadeOut(250);
+			save.fadeOut(250);
+			cancel.fadeOut(250);
 			$.post
 			(
 				fileaway_mgmt.ajaxurl,
 				{
 					action : 'fileaway-manager',
-					dataType : 'html',	
 					act : 'rename',
 					customdata : customdata,
 					metadata : metadata,
@@ -814,31 +866,44 @@ jQuery(document).ready(function($)
 				},
 				function(response)
 				{			
-					url.attr("href", response.newurl);
-					url.attr("download", response.download);
-					url2.attr("href", response.newurl);
-					url2.attr("download", response.download);									
-					rawname.val(response.rawname);
-					$('td#filename-'+sfx).data('name', response.newoldname)
-					$('td#filename-'+sfx).attr('data-name', response.newoldname)
-					rename.fadeIn(1000);
-					del.fadeIn(1000);									
-					$('input#rawname-'+sfx).val(response.rawname);
-					filename.text(response.rawname);
-					filename.fadeIn(1000);
-					var newcustomdata = response.customdata;
-					if(customs >= 0)
+					if('status' in response)
 					{
-						for(var i=0; i <= customs; i++)
+						if(response.status == 'error')
 						{
-							var cinput = $('input[id^="customdata-'+i+'-'+sfx+'"]');
-							if(newcustomdata[i] != undefined) cinput.siblings('span').text(newcustomdata[i]).fadeIn(1000);
-							else cinput.siblings('span').text('').fadeIn(1000);
+							filertify.set({labels:{ok : fileaway_mgmt.ok_label }}); 
+							filertify.alert(response.message); 
+							return false;
+						}
+						url.attr("href", response.newurl);
+						url.attr("download", response.download);
+						url2.attr("href", response.newurl);
+						url2.attr("download", response.download);									
+						rawname.val(response.rawname);
+						$('td#filename-'+sfx).data('name', response.newoldname)
+						$('td#filename-'+sfx).attr('data-name', response.newoldname)
+						rename.fadeIn(250);
+						del.fadeIn(250);									
+						$('input#rawname-'+sfx).val(response.rawname);
+						filename.text(response.rawname);
+						filename.fadeIn(250);
+						var newcustomdata = response.customdata;
+						if(customs >= 0)
+						{
+							for(var i=0; i <= customs; i++)
+							{
+								var cinput = $('input[id^="customdata-'+i+'-'+sfx+'"]');
+								if(newcustomdata[i] != undefined) cinput.siblings('span').text(newcustomdata[i]).fadeIn(250);
+								else cinput.siblings('span').text('').fadeIn(250);
+							}
 						}
 					}
+					else
+					{
+						filertify.set({labels:{ok : fileaway_mgmt.ok_label }}); 
+						filertify.alert('An unknown error occurred'); 						
+					}
 				}
-			);					
-			return false;
+			);
 		});	// End Rename Function
 		// Delete Function (Single)
 		$('body').on('click', 'a[id^="delete-ssfa-file-"]', function(ev)
@@ -849,17 +914,20 @@ jQuery(document).ready(function($)
 				rename = $('a#rename-'+sfx),
 				del = $(this),
 				manager = $('td#manager-'+sfx);			
-			del.fadeOut(500);
-			rename.fadeOut(500);				
+			del.fadeOut(250);
+			rename.fadeOut(250);				
 			if(!$('a#canceldel-'+sfx).length) manager.prepend("<a href='' id='canceldel-"+sfx+"' style='display:none;'>"+fileaway_mgmt.cancel_link+"</a>")
 			if(!$('a#proceed-'+sfx).length) manager.prepend("<a href='' id='proceed-"+sfx+"' style='display:none;'>"+fileaway_mgmt.proceed_link+"<br></a>")
 			if(!$('span#confirm-'+sfx).length) manager.prepend("<span id='confirm-"+sfx+"' style='display:none;'>"+fileaway_mgmt.delete_check+"<br></span>")				
 			var proceed = $('a#proceed-'+sfx),
 				canceldel = $('a#canceldel-'+sfx),
 				confirms = $('span#confirm-'+sfx);
-			proceed.delay(500).fadeIn(500);
-			canceldel.delay(500).fadeIn(500);
-			confirms.delay(500).fadeIn(500);
+			setTimeout(function()
+			{
+				proceed.fadeIn(250);
+				canceldel.fadeIn(250);
+				confirms.fadeIn(250);
+			},250);
 		}); 
 		$('body').on('click', 'a[id^="canceldel-ssfa-file-"]', function(ev)
 		{
@@ -871,11 +939,14 @@ jQuery(document).ready(function($)
 				canceldel = $(this),
 				proceed = $('a#proceed-'+sfx),
 				confirms = $('span#confirm-'+sfx);
-			proceed.fadeOut(500);
-			canceldel.fadeOut(500);
-			confirms.fadeOut(500);					
-			rename.delay(500).fadeIn(500);
-			del.delay(500).fadeIn(500);					
+			proceed.fadeOut(250);
+			canceldel.fadeOut(250);
+			confirms.fadeOut(250);					
+			setTimeout(function()
+			{
+				rename.fadeIn(250);
+				del.fadeIn(250);					
+			},250);
 		});
 		$('body').on('click', 'a[id^="proceed-ssfa-file-"]', function(ev)
 		{
@@ -894,15 +965,14 @@ jQuery(document).ready(function($)
 				oldname = String($("td#filename-"+sfx).data("name")),
 				filepath = String($("td#filename-"+sfx).data("path")),
 				dir = String($("table#ssfa-table-"+uid).data("dir"));
-			proceed.fadeOut(500);
-			canceldel.fadeOut(500);
-			confirms.fadeOut(500);					
+			proceed.fadeOut(250);
+			canceldel.fadeOut(250);
+			confirms.fadeOut(250);					
 			$.post
 			(
 				fileaway_mgmt.ajaxurl,
 				{
 					action : 'fileaway-manager',
-					dataType : 'html',	
 					act : 'delete',
 					ext : ext,
 					oldname : oldname,								
@@ -913,19 +983,17 @@ jQuery(document).ready(function($)
 				},
 				function(response)
 				{			
-					if(response == 'success') 
+					if(response.status == 'success') 
 					{	
-						del.parents('tr:eq(0)').fadeOut(2000)
-							.queue(function(next){ $(this).remove(); next(); });
+						del.parents('tr').eq(0).fadeOut(250, function(){ $(this).remove(); });
 					}
 					else 
 					{ 
 						filertify.set({labels:{ok : fileaway_mgmt.ok_label }}); 
-						filertify.alert(response);
+						filertify.alert(response.message);
 					}
 				}
 			);
-			return false;
 		}); // End Delete Function (Single)
 		// Bulk Action Toggle Selected Files
 		$('table.mngr-table tr[id^=ssfa-file-]').on('click', function(e)
@@ -937,7 +1005,7 @@ jQuery(document).ready(function($)
 			&& !target.is('td[id^=filename-ssfa-] span')
 			&& !target.is('td[id^=manager-ssfa-] a'))
 			{
-				$uid = $(this).parents('table:eq(0)').data('uid');
+				$uid = $(this).parents('table').eq(0).data('uid');
 				$enabled = $('a#ssfa-bulk-action-toggle-'+$uid).data('enabled');
 				if($('a#ssfa-bulk-action-toggle-'+$uid).text() == $enabled && !$(this).hasClass('fileaway-dynamic'))
 				{
@@ -962,12 +1030,12 @@ jQuery(document).ready(function($)
 			if($(this).text() == $disabled)
 			{
 				$(this).text($enabled);
-				$actionarea.fadeIn(500);	
+				$actionarea.fadeIn(250);	
 			}
 			else if($(this).text() == $enabled)
 			{ 
 				$(this).text($disabled);
-				$actionarea.fadeOut(500);	
+				$actionarea.fadeOut(250);	
 				$checkall.attr('checked', false).trigger('change');
 				$selectall.text($selectalltext);
 				$actionselect.find('option:first').attr('selected','selected').trigger('chozed:updated').trigger('change');
@@ -984,7 +1052,7 @@ jQuery(document).ready(function($)
 			if(this.checked)
 			{
 				$selectall.text($clearalltext);
-				$('table.mngr-table tr[id^=ssfa-file-'+$uid+']').addClass('ssfa-selected');
+				$('table.mngr-table tr[id^=ssfa-file-'+$uid+']:visible').addClass('ssfa-selected');
 				$('table.mngr-table tr[id^=ssfa-file-'+$uid+'].fileaway-dynamic').removeClass('ssfa-selected');
 			}
 			else
@@ -1000,8 +1068,8 @@ jQuery(document).ready(function($)
 			$uid = $id.replace('ssfa-bulk-action-select-', '');
 			$actionselected = this.value;
 			$pathcontainer = $('div#ssfa-path-container-'+$uid);
-			if($actionselected == '' || $actionselected == 'delete' || $actionselected == 'download') $pathcontainer.fadeOut(500);
-			else $pathcontainer.fadeIn(500);
+			if($actionselected == '' || $actionselected == 'delete' || $actionselected == 'download') $pathcontainer.fadeOut(250);
+			else $pathcontainer.fadeIn(250);
 		}); // End Bulk Action Select Function
 		// Bulk Action Path Generator Function
 		$('select[id^="ssfa-directories-select-"]').on('change', function()
@@ -1019,7 +1087,7 @@ jQuery(document).ready(function($)
 		$('body').on('click', 'a[id^=ssfa-action-pathpart-]', function(ev)
 		{
 			ev.preventDefault();
-			$id = $(this).parents('div:eq(0)').attr('id');
+			$id = $(this).parents('div').eq(0).attr('id');
 			$uid = $id.replace('ssfa-action-path-', '');
 			$pathparts = $(this).attr('data-target');
 			$basename = $('table#ssfa-table-'+$uid).data('basename');
@@ -1032,11 +1100,11 @@ jQuery(document).ready(function($)
 			var manager_nonce = $('table[data-uid="'+$uid+'"]').data('mn');
 			var loc_nonce = $('input#location_nonce_'+$uid).val();					
 			$loading.show();
-			$.post(
+			$.post
+			(
 				fileaway_mgmt.ajaxurl,
 				{
 					action : 'fileaway-manager',
-					dataType : 'html',
 					act : 'actionpath',
 					uploadaction : 'false',
 					pathparts : $pathparts,
@@ -1048,17 +1116,24 @@ jQuery(document).ready(function($)
 				},
 				function(response)
 				{
-					$container = $('div#ssfa-path-container-'+$uid);
-					$actionpath = $('input#ssfa-actionpath-'+$uid);
-					$putpath = $('div#ssfa-action-path-'+$uid);
-					$dropdown = $('select#ssfa-directories-select-'+$uid);
-					$dropdown.empty().append(response.ops).trigger('chozed:updated');
-					$actionpath.val(response.pathparts);
-					$putpath.html(response.crumbs).append($loading);
-					$loading.hide();
+					if(response.status == 'success')
+					{
+						$container = $('div#ssfa-path-container-'+$uid);
+						$actionpath = $('input#ssfa-actionpath-'+$uid);
+						$putpath = $('div#ssfa-action-path-'+$uid);
+						$dropdown = $('select#ssfa-directories-select-'+$uid);
+						$dropdown.empty().append(response.ops).trigger('chozed:updated');
+						$actionpath.val(response.pathparts);
+						$putpath.html(response.crumbs).append($loading);
+						$loading.hide();
+					}
+					else if(response.status == 'error')
+					{
+						filertify.set({labels:{ok : fileaway_mgmt.ok_label }}); 
+						filertify.alert(response.message); 
+					}
 				}
 			);
-			return false;  
 		} // End Bulk Action Path Generator Function
 		// Bulk Action Engage Function
 		$('span[id^="ssfa-bulk-action-engage-"]').on('click', function()
@@ -1119,7 +1194,6 @@ jQuery(document).ready(function($)
 							fileaway_mgmt.ajaxurl,
 							{
 								action : 'fileaway-manager',
-								dataType : 'html',	
 								act : 'bulkdownload',
 								files : selectedFilesFrom,
 								exts : selectedExts,
@@ -1131,14 +1205,14 @@ jQuery(document).ready(function($)
 							function(response)
 							{
 								$loading.hide();								
-								if(response === 'Error')
+								if(response.status == 'error')
 								{ 
 									filertify.set({labels:{ok : fileaway_mgmt.ok_label }});
-									filertify.alert(response);
+									filertify.alert(response.message);
 								}
 								else
 								{
-									$('<iframe src="'+response+'" id="fa-bulkdownload" style="visibility:hidden;" name="fa-bulkdownload">').appendTo('body');	
+									$('<iframe src="'+response.url+'" id="fa-bulkdownload" style="visibility:hidden;" name="fa-bulkdownload">').appendTo('body');	
 								}
 							}
 						);
@@ -1152,7 +1226,6 @@ jQuery(document).ready(function($)
 							fileaway_mgmt.ajaxurl,
 							{
 								action : 'fileaway-manager',
-								dataType : 'html',	
 								act : 'bulkcopy',
 								metadata : metadata,
 								from : selectedFilesFrom,
@@ -1167,7 +1240,7 @@ jQuery(document).ready(function($)
 							{
 								$loading.hide();								
 								filertify.set({labels:{ok : fileaway_mgmt.ok_label }});
-								filertify.alert(response);
+								filertify.alert(response.message);
 							}
 						);
 					} // End Bulk Action Copy Function
@@ -1180,7 +1253,6 @@ jQuery(document).ready(function($)
 							fileaway_mgmt.ajaxurl,
 							{
 								action : 'fileaway-manager',
-								dataType : 'html',	
 								act : 'bulkmove',
 								metadata : metadata,
 								from : selectedFilesFrom,
@@ -1195,13 +1267,14 @@ jQuery(document).ready(function($)
 							{
 								$loading.hide();								
 								filertify.set({labels:{ok : fileaway_mgmt.ok_label }});
-								filertify.alert(response);
-								$.each(selectedRows, function(i, val)
+								filertify.alert(response.message);
+								if(response.status == 'success')
 								{
-									$('tr#'+val).fadeOut(2000).queue(function(next){
-										$(this).remove(); next();
+									$.each(selectedRows, function(i, val)
+									{
+										$('tr#'+val).fadeOut(250,function(){$(this).remove();});
 									});
-								});
+								}
 							}
 						);
 					} // End Bulk Action Move Function
@@ -1221,7 +1294,6 @@ jQuery(document).ready(function($)
 									fileaway_mgmt.ajaxurl,
 									{
 										action : 'fileaway-manager',
-										dataType : 'html',	
 										act : 'bulkdelete',
 										files : selectedFilesFrom,
 										nonce : fileaway_mgmt.nonce,
@@ -1232,13 +1304,14 @@ jQuery(document).ready(function($)
 									{
 										$loading.hide();								
 										filertify.set({labels:{ok : fileaway_mgmt.ok_label }});
-										filertify.alert(response);
-										$.each(selectedRows, function(i, val)
+										filertify.alert(response.message);
+										if(response.status == 'success')
 										{
-											$('tr#'+val).fadeOut(2000).queue( function(next){
-												$(this).remove(); next();
+											$.each(selectedRows, function(i, val)
+											{
+												$('tr#'+val).fadeOut(250,function(){$(this).remove();});
 											});
-										});
+										}
 									}
 								);
 							}
@@ -1461,7 +1534,7 @@ jQuery(document).ready(function($)
 			if($("span#ssfa_rf_"+uid+" input#"+id).length){}
 			else $("span#ssfa_rf_"+uid).append("<input type=\"hidden\" id=\""+id+"\" value=\""+id+"\">");
 			FileUpConfig[uid].removed[i] = id;
-			$("tr#ssfa_upfile_id_"+id).fadeOut(1000).queue(function()
+			$("tr#ssfa_upfile_id_"+id).fadeOut(250,function()
 			{
 				$(this).remove();
 				$("div#ssfa_fileup_files_container_"+uid+" table#ssfa-table-"+uid+" tbody").change();
@@ -1483,8 +1556,7 @@ jQuery(document).ready(function($)
 				fileupSubmit(uid, 0);
 				if(TheFiles[uid] !== undefined && TheFiles[uid].length > 0)
 				{
-					$(this).parents('span.ssfa_fileup_wrapper').eq(0)
-						.fadeTo(500, 0).queue(function(){$(this).css({'visibility':'hidden'});});
+					$(this).parents('span.ssfa_fileup_wrapper').eq(0).fadeTo(250, 0,function(){$(this).css({'visibility':'hidden'});});
 				}
 			}
 		});
@@ -1633,32 +1705,31 @@ jQuery(document).ready(function($)
 							}, false);
 							return xhr;
 						},
-						success	: function(response)
+						success:function(response)
 						{
 							setTimeout(function()
 							{
-								if(response.indexOf(id) != -1)
+								if(response.status == 'success' && response.file_id == id)
 								{
-									$("#ssfa_upfile_status_"+id)
-										.html('<span class="ssfa-faminicon ssfa-green ssfa-icon-inbox"></span>');
-									$("#ssfa_upfile_id_"+id).delay(500).fadeOut(1000).queue(function()
+									$("#ssfa_upfile_status_"+id).html('<span class="ssfa-faminicon ssfa-green ssfa-icon-inbox"></span>');
+									setTimeout(function()
 									{
-										$(this).remove(); 
-										$("div#ssfa_fileup_files_container_"+uid+" table#ssfa-table-"+uid+" tbody").change();
-										if($("div#ssfa_fileup_files_container_"+uid+" table#ssfa-table-"+uid+" tbody").children('tr').length){} 
-										else $("div#ssfa_fileup_files_container_"+uid+" table#ssfa-table-"+uid).remove();
-									});
+										$("#ssfa_upfile_id_"+id).fadeOut(250,function()
+										{
+											$(this).remove(); 
+											$("div#ssfa_fileup_files_container_"+uid+" table#ssfa-table-"+uid+" tbody").change();
+											if($("div#ssfa_fileup_files_container_"+uid+" table#ssfa-table-"+uid+" tbody").children('tr').length){} 
+											else $("div#ssfa_fileup_files_container_"+uid+" table#ssfa-table-"+uid).remove();
+										});
+									},750);
 								}
 								else
 								{
 									var upload_failure = fileaway_mgmt.upload_failure.replace('filename', rawname+'.'+extension);
-									$('tr#ssfa_upfile_id_'+id+' td#ssfa-upfile_type')
-										.html('<span class="ssfa-faminicon ssfa-red ssfa-icon-denied"></span><br>'+extension);
-									$('td#ssfa_upfile_status_'+id)
-										.html('<a id="ssfa_remove_id_'+file_id+'" href="javascript:" onclick="fileupRemove(\''+id+'\',\''+rawname+'.'+extension									
-										+'\',\''+uid+'\');"><span class="ssfa-faminicon ssfa-red ssfa-icon-console-2"></span></a>');
-									$('tr#ssfa_upfile_id_'+id+' td#ssfa-upfile_name')
-										.append('<br><span class="ssfa-fileup-warning">'+upload_failure+'</span>');
+									if(response.status == 'error') upload_failure += '<br>'+response.message;
+									$('tr#ssfa_upfile_id_'+id+' td#ssfa-upfile_type').html('<span class="ssfa-faminicon ssfa-red ssfa-icon-denied"></span><br>'+extension);
+									$('td#ssfa_upfile_status_'+id).html('<a id="ssfa_remove_id_'+file_id+'" href="javascript:" onclick="fileupRemove(\''+id+'\',\''+rawname+'.'+extension+'\',\''+uid+'\');"><span class="ssfa-faminicon ssfa-red ssfa-icon-console-2"></span></a>');
+									$('tr#ssfa_upfile_id_'+id+' td#ssfa-upfile_name').append('<br><span class="ssfa-fileup-warning">'+upload_failure+'</span>');
 								}
 								fileupSubmit(uid, i+1); 
 							},500);
@@ -1706,7 +1777,6 @@ jQuery(document).ready(function($)
 				fileaway_mgmt.ajaxurl,
 				{
 					action : 'fileaway-manager',
-					dataType : 'html',	
 					act : 'actionpath',
 					uploadaction : 'true', 
 					pathparts : $pathparts,
@@ -1718,14 +1788,27 @@ jQuery(document).ready(function($)
 				},
 				function(response)
 				{
-					$container = $('div#ssfa-fileup-path-container-'+$uid);
-					$actionpath = $('input#ssfa-upload-actionpath-'+$uid);
-					$putpath = $('div#ssfa-fileup-action-path-'+$uid);
-					$dropdown = $('select#ssfa-fileup-directories-select-'+$uid);
-					$dropdown.empty().append(response.ops).trigger('chozed:updated').trigger('liszt:updated');
-					$actionpath.val(response.pathparts);
-					$putpath.html(response.crumbs).append($loading);
 					$loading.hide();
+					if(response.status == 'error')
+					{
+						filertify.set({labels:{ok : fileaway_mgmt.ok_label }}); 
+						filertify.alert(response.message); 						
+					}
+					else if(response.status != 'success')
+					{
+						filertify.set({labels:{ok : fileaway_mgmt.ok_label }}); 
+						filertify.alert('An unknown error occurred'); 
+					}
+					else
+					{
+						$container = $('div#ssfa-fileup-path-container-'+$uid);
+						$actionpath = $('input#ssfa-upload-actionpath-'+$uid);
+						$putpath = $('div#ssfa-fileup-action-path-'+$uid);
+						$dropdown = $('select#ssfa-fileup-directories-select-'+$uid);
+						$dropdown.empty().append(response.ops).trigger('chozed:updated').trigger('liszt:updated');
+						$actionpath.val(response.pathparts);
+						$putpath.html(response.crumbs).append($loading);
+					}
 				}
 			);
 			return false;  
@@ -1773,7 +1856,7 @@ jQuery(document).ready(function($)
 				{
 					var shadow = $('<div id="ssfa-values-shadow" style="display:none;" />');		
 					$('body').append(shadow);
-					shadow.fadeIn(1000);
+					shadow.fadeIn(250);
 					$("body").css("cursor", "progress");
 					$new = str;
 					var values_nonce = $('th#'+id).parents('div.ssfa-fileaway-values').eq(0).data('fvn');
@@ -1781,9 +1864,7 @@ jQuery(document).ready(function($)
 					if($new == $old)
 					{
 						$("body").css("cursor", "auto");
-						shadow.fadeOut(500).queue(function(){
-							$(this).remove();
-						});
+						shadow.fadeOut(250,function(){$(this).remove();});
 						return false;
 					}
 					$colnum = $('th#'+id).data('colnum');
@@ -1795,7 +1876,6 @@ jQuery(document).ready(function($)
 						fileaway_mgmt.ajaxurl,
 						{
 							action : 'fileaway-manager',
-							dataType : 'html',	
 							act : 'colrename',
 							src : $src,
 							oldname : $old,
@@ -1815,9 +1895,7 @@ jQuery(document).ready(function($)
 							else
 							{
 								$("body").css("cursor", "auto");
-								shadow.fadeOut(500).queue(function(){
-									$(this).remove();
-								});
+								shadow.fadeOut(250,function(){$(this).remove();});
 								filertify.set({labels:{ok : fileaway_mgmt.ok_label}});
 								filertify.alert(response.message);	
 							}
@@ -1836,7 +1914,7 @@ jQuery(document).ready(function($)
 				{
 					var shadow = $('<div id="ssfa-values-shadow" style="display:none;" />');		
 					$('body').append(shadow);
-					shadow.fadeIn(1000);
+					shadow.fadeIn(250);
 					$("body").css("cursor", "progress");
 					var values_nonce = $('th#'+id).parents('div.ssfa-fileaway-values').eq(0).data('fvn');
 					$col = str;
@@ -1850,7 +1928,6 @@ jQuery(document).ready(function($)
 						fileaway_mgmt.ajaxurl,
 						{
 							action : 'fileaway-manager',
-							dataType : 'html',	
 							act : 'createcol',
 							src : $src,
 							col : $col,
@@ -1869,9 +1946,7 @@ jQuery(document).ready(function($)
 							else
 							{
 								$("body").css("cursor", "auto");
-								shadow.fadeOut(500).queue(function(){
-									$(this).remove();
-								});
+								shadow.fadeOut(250,function(){$(this).remove();});
 								filertify.set({labels:{ok : fileaway_mgmt.ok_label}});
 								filertify.alert(response.message);	
 							}
@@ -1901,7 +1976,7 @@ jQuery(document).ready(function($)
 					{
 						var shadow = $('<div id="ssfa-values-shadow" style="display:none;" />');		
 						$('body').append(shadow);
-						shadow.fadeIn(1000);
+						shadow.fadeIn(250);
 						$("body").css("cursor", "progress");
 						var values_nonce = $('th#'+id).parents('div.ssfa-fileaway-values').eq(0).data('fvn');
 						$colnum = $('th#'+id).data('colnum');
@@ -1913,7 +1988,6 @@ jQuery(document).ready(function($)
 							fileaway_mgmt.ajaxurl,
 							{
 								action : 'fileaway-manager',
-								dataType : 'html',	
 								act : 'coldelete',
 								src : $src,
 								col : $col,
@@ -1932,9 +2006,7 @@ jQuery(document).ready(function($)
 								else
 								{
 									$("body").css("cursor", "auto");
-									shadow.fadeOut(500).queue(function(){
-										$(this).remove();
-									});
+									shadow.fadeOut(250,function(){$(this).remove();});
 									filertify.set({labels:{ok : fileaway_mgmt.ok_label }});
 									filertify.alert(response.message);
 								}
@@ -1971,7 +2043,7 @@ jQuery(document).ready(function($)
 			$uid = $('td#'+id).parents('table').eq(0).data('uid');
 			var shadow = $('<div id="ssfa-values-shadow" style="display:none;" />');
 			$('body').append(shadow);
-			shadow.fadeIn(1000);
+			shadow.fadeIn(250);
 			$("body").css("cursor", "progress");
 			var values_nonce = $('td#'+id).parents('div.ssfa-fileaway-values').eq(0).data('fvn');
 			$numrows = $('table#ssfa-table-'+$uid+' tbody tr').length;
@@ -1985,7 +2057,6 @@ jQuery(document).ready(function($)
 				fileaway_mgmt.ajaxurl,
 				{
 					action : 'fileaway-manager',
-					dataType : 'html',	
 					act : 'newrow',
 					src : $src,
 					numrows : $numrows,
@@ -2000,12 +2071,10 @@ jQuery(document).ready(function($)
 				function(response)
 				{
 					$("body").css("cursor", "auto");
-					shadow.fadeOut(500).queue(function(){
-						$(this).remove();
-					});
+					shadow.fadeOut(250,function(){$(this).remove();});
 					if(response.status == 'success')
 					{
-						$('td#'+id).parents('tr').eq(0).after(response.html).hide().fadeIn(500);
+						$('td#'+id).parents('tr').eq(0).after(response.html).hide().fadeIn(250);
 						fa_row_context_menu_init();
 					}
 					else
@@ -2043,7 +2112,7 @@ jQuery(document).ready(function($)
 					{
 						var shadow = $('<div id="ssfa-values-shadow" style="display:none;" />');
 						$('body').append(shadow);
-						shadow.fadeIn(1000);
+						shadow.fadeIn(250);
 						$("body").css("cursor", "progress");
 						$row = $('tr#'+id).data('row');
 						$src = $('tr#'+id).parents('table').eq(0).data('src');
@@ -2054,7 +2123,6 @@ jQuery(document).ready(function($)
 							fileaway_mgmt.ajaxurl,
 							{
 								action : 'fileaway-manager',
-								dataType : 'html',	
 								act : 'deleterow',
 								src : $src,
 								row : $row,
@@ -2072,9 +2140,7 @@ jQuery(document).ready(function($)
 								else
 								{
 									$("body").css("cursor", "auto");
-									shadow.fadeOut(500).queue(function(){
-										$(this).remove();
-									});
+									shadow.fadeOut(250,function(){$(this).remove();});
 									filertify.set({labels:{ok : fileaway_mgmt.ok_label }});
 									filertify.alert(response.message);	
 								}
@@ -2093,14 +2159,13 @@ jQuery(document).ready(function($)
 			$write = $('#'+id).parents('table').eq(0).data('write');
 			var values_nonce = $('#'+id).parents('div.ssfa-fileaway-values').eq(0).data('fvn');
 			$('body').append(shadow);
-			shadow.fadeIn(1000);
+			shadow.fadeIn(250);
 			$("body").css("cursor", "progress");
 			$.post
 			(
 				fileaway_mgmt.ajaxurl,
 				{
 					action : 'fileaway-manager',
-					dataType : 'html',	
 					act : 'backupcsv',
 					src : $src,
 					read : $read,
@@ -2111,9 +2176,7 @@ jQuery(document).ready(function($)
 				function(response)
 				{
 					$("body").css("cursor", "auto");
-					shadow.fadeOut(500).queue(function(){
-						$(this).remove();
-					});
+					shadow.fadeOut(250,function(){$(this).remove();});
 					if(response.status !== 'success')
 					{
 						filertify.set({labels:{ok : fileaway_mgmt.ok_label }});
@@ -2137,14 +2200,13 @@ jQuery(document).ready(function($)
 				{
 					var shadow = $('<div id="ssfa-values-shadow" style="display:none;" />');
 					$('body').append(shadow);
-					shadow.fadeIn(1000);
+					shadow.fadeIn(250);
 					$("body").css("cursor", "progress");
 					$.post
 					(
 						fileaway_mgmt.ajaxurl,
 						{
 							action : 'fileaway-manager',
-							dataType : 'html',	
 							act : 'deletecsv',
 							src : $src,
 							nonce : fileaway_mgmt.nonce,
@@ -2153,12 +2215,10 @@ jQuery(document).ready(function($)
 						function(response)
 						{
 							$("body").css("cursor", "auto");
-							shadow.fadeOut(500).queue(function(){
-								$(this).remove();
-							});
+							shadow.fadeOut(250,function(){$(this).remove();});
 							if(response.status == 'success')
 							{
-								$('table#ssfa-table-'+$uid).fadeOut(500);
+								$('table#ssfa-table-'+$uid).fadeOut(250);
 								$('select#ssfa-fileaway-values-select-'+$uid).find('option:first').attr('selected','selected').trigger('chozed:updated').trigger('change');
 							}
 							else
@@ -2206,14 +2266,13 @@ jQuery(document).ready(function($)
 								{
 									var shadow = $('<div id="ssfa-values-shadow" style="display:none;" />');
 									$('body').append(shadow);
-									shadow.fadeIn(1000);
+									shadow.fadeIn(250);
 									$("body").css("cursor", "progress");
 									$.post
 									(
 										fileaway_mgmt.ajaxurl,
 										{
 											action : 'fileaway-manager',
-											dataType : 'html',	
 											act : 'makecsv',
 											path : $path,
 											pg : $pg,
@@ -2229,9 +2288,7 @@ jQuery(document).ready(function($)
 										function(response)
 										{
 											$("body").css("cursor", "auto");
-											shadow.fadeOut(500).queue(function(){
-												$(this).remove();
-											});
+											shadow.fadeOut(250,function(){$(this).remove();});
 											if(response.status == 'success')
 											{
 												window.location.href = response.redirect;
@@ -2255,10 +2312,8 @@ jQuery(document).ready(function($)
 			$sfx = this.id.replace('cell-', '');
 			$span = $('span#value-'+$sfx);
 			$input = $('input#input-'+$sfx);
-			$span.fadeOut(400);
-			setTimeout(function(){
-				$input.fadeIn(400).focus();
-			}, 400);
+			$span.fadeOut(250);
+			setTimeout(function(){$input.fadeIn(250).focus();}, 250);
 		});
 		$('body').on('blur', 'input[id^="input-ssfa-values-"]', function()
 		{
@@ -2267,19 +2322,14 @@ jQuery(document).ready(function($)
 			$input = $(this);
 			$span = $('span#value-'+$sfx);
 			$oldvalue = $span.text();
-			$input.fadeOut(400);
+			$input.fadeOut(250);
 			$value = $(this).val();
-			if($value === $oldvalue)
-			{
-				setTimeout(function(){
-					$span.fadeIn(400);
-				}, 400);
-			}
+			if($value === $oldvalue) setTimeout(function(){$span.fadeIn(250);}, 250);
 			else
 			{
 				var shadow = $('<div id="ssfa-values-shadow" style="display:none;" />');
 				$('body').append(shadow);
-				shadow.fadeIn(1000);
+				shadow.fadeIn(250);
 				$("body").css("cursor", "progress");				
 				$row = $(this).data('row');
 				$col = $(this).data('col');
@@ -2292,7 +2342,6 @@ jQuery(document).ready(function($)
 					fileaway_mgmt.ajaxurl,
 					{
 						action : 'fileaway-manager',
-						dataType : 'html',	
 						act : 'values',
 						src : $src,
 						row : $row,
@@ -2308,17 +2357,15 @@ jQuery(document).ready(function($)
 					function(response)
 					{
 						$("body").css("cursor", "auto");
-						shadow.fadeOut(500).queue(function(){
-							$(this).remove();
-						});
+						shadow.fadeOut(250,function(){$(this).remove();});
 						if(response.status == 'success')
 						{
 							$span.text($value);
-							$span.fadeIn(400);
+							$span.fadeIn(250);
 						}
 						else
 						{
-							$span.fadeIn(400);
+							$span.fadeIn(250);
 							filertify.alert(response.message);	
 						}
 					}
