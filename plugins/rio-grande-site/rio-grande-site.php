@@ -364,11 +364,11 @@ function load_points_in_osm($code, $atts=false){
 	if ( $code == "transporte" ){
 		$filename = "puntos-carga.json";
 		$map_id   = "map_puntos_carga";
-		$point_popup_tpl = '<p>$name </p><dl><div><dt>Dirección:</dt><dd>$address</dd></div>$open_times</dl>';
+        $point_popup_tpl = '<p>$name </p><dl><div><dt>Dirección:</dt><dd>$address</dd></div>$open_times</dl>';
         $map_point_icon = UPLOADS_DIR . "/2017/12/marker.png";
-        $map_point_icon_size   = array(36,46);
-		$map_point_icon_anchor = array(18, 46);
-		$map_popup_anchor      = array(0,-40);
+        $map_point_icon_size   = array(30,30);
+		$map_point_icon_anchor = array(10, 20);
+		$map_popup_anchor      = array(0,-26);
 	}
 
     if ( $code == "huertas" ) {
@@ -378,7 +378,7 @@ function load_points_in_osm($code, $atts=false){
         $point_popup_tpl = '<div class="popup-content"><div><p class="name">$name</p><dl><dt>Productor:</dt><dd>$producer</dd><dt>Dirección:</dt><dd>$address</dd>$phone</dl></div><div class="avatar" style="background-image:url($photo);"></div></div>';
         $map_point_icon_size   = array(23,36);
 		$map_point_icon_anchor = array(18, 46);
-        $map_popup_anchor      = array(0,-40);
+        $map_popup_anchor      = array(0,-35);
 	}
 
 	
@@ -393,13 +393,7 @@ function load_points_in_osm($code, $atts=false){
 		var map = L.map("<?php echo $map_id;?>").setView([-53.78903, -67.69588], 12);
 		var tile_url = 'https://tiles.dir.riogrande.gob.ar/carto/{z}/{x}/{y}.png';
 
-		var map_icon = L.icon({
-			iconUrl: "<?php echo $map_point_icon;?>",
-            iconSize:    [<?php echo implode(",", $map_point_icon_size);?>],
-			iconAnchor:  [<?php echo implode(",", $map_point_icon_anchor);?>],
-			popupAnchor: [<?php echo implode(",", $map_popup_anchor);?>],
 		
-		});
 
 		L.tileLayer(tile_url,{
 			attribution: 'Map data © <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors',
@@ -422,8 +416,34 @@ function load_points_in_osm($code, $atts=false){
 			if ( $code == "transporte" ) {
 				$vars['$open_times'] = ( !empty( $point['open_times']) ) ? "<div><dt>Horario:</dt><dd>".$point['open_times']."</dd></div>" : "";
 				
-				if ( $point["place_type"] ) {
-					$vars['$name'] = $point['name'] . ' <br><span class="smaller-font">(' . $point["place_type"] . ")</span>";
+				if ( $point["center_type"] ) {
+                    $vars['$name'] = $point['name'] . ' <br><span class="smaller-font">(' . $point["center_type"] . ")</span>";
+                    
+                    if ( strstr($point["center_type"], "Carga") == True && $atts['tipo'] == "sube" ): ?>
+                        var map_icon = L.icon({
+                            iconUrl: "<?php echo UPLOADS_DIR;?>/global/icono-billete.png",
+                            iconSize:    [<?php echo implode(",", $map_point_icon_size);?>],
+                            iconAnchor:  [<?php echo implode(",", $map_point_icon_anchor);?>],
+                            popupAnchor: [<?php echo implode(",", $map_popup_anchor);?>],
+                        });
+                <?php
+                    elseif ( ($point["center_type"] == "Terminal Automática" || $point["center_type"] == "Unidad de Gestión")  && $atts['tipo'] == "sube"  ) : ?>
+                        var map_icon = L.icon({
+                            iconUrl: "<?php echo UPLOADS_DIR;?>/global/icono-acreditacion.png",
+                            iconSize:    [<?php echo implode(",", $map_point_icon_size);?>],
+                            iconAnchor:  [3, 40],
+                            popupAnchor: [10,-50],
+                        });
+                    <?php else: ?>
+                        var map_icon = L.icon({
+                            iconUrl: "<?php echo $map_point_icon;?>",
+                            iconSize:    [<?php echo implode(",", $map_point_icon_size);?>],
+                            iconAnchor:  [<?php echo implode(",", $map_point_icon_anchor);?>],
+                            popupAnchor: [<?php echo implode(",", $map_popup_anchor);?>],
+                        });
+
+                        <?php
+                    endif;
 				}				
 			}
 			if ( $code == "huertas" ) {
