@@ -393,16 +393,14 @@ function load_points_in_osm($code, $atts=false){
 		var map = L.map("<?php echo $map_id;?>").setView([-53.78903, -67.69588], 12);
 		var tile_url = 'https://tiles.dir.riogrande.gob.ar/carto/{z}/{x}/{y}.png';
 
-		
-
 		L.tileLayer(tile_url,{
 			attribution: 'Map data © <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors',
 			maxZoom: 17,
-            <?php if ($code == "huertas"):?>
+            <?php if ($code == "huertas"): ?>
 			minZoom: 7
-            <?php else:?>
+            <?php else: ?>
 			minZoom: 12
-            <?php endif;?>
+            <?php endif; ?>
 		}).addTo(map);
 		
 		<?php
@@ -421,30 +419,35 @@ function load_points_in_osm($code, $atts=false){
                     
                     if ( strstr($point["center_type"], "Carga") == True && $atts['tipo'] == "sube" ): ?>
                         var map_icon = L.icon({
-                            iconUrl: "<?php echo UPLOADS_DIR;?>/global/icono-billete.png",
+                            iconUrl:     "<?php echo UPLOADS_DIR;?>/global/icono-billete.png",
                             iconSize:    [<?php echo implode(",", $map_point_icon_size);?>],
                             iconAnchor:  [<?php echo implode(",", $map_point_icon_anchor);?>],
                             popupAnchor: [<?php echo implode(",", $map_popup_anchor);?>],
                         });
-                <?php
-                    elseif ( ($point["center_type"] == "Terminal Automática" || $point["center_type"] == "Unidad de Gestión")  && $atts['tipo'] == "sube"  ) : ?>
+                    <?php
+                    elseif ( 
+                            ($point["center_type"] == "Terminal Automática" || $point["center_type"] == "Unidad de Gestión") 
+                            && $atts['tipo'] == "sube"  
+                            ) : ?>
                         var map_icon = L.icon({
-                            iconUrl: "<?php echo UPLOADS_DIR;?>/global/icono-acreditacion.png",
+                            iconUrl:     "<?php echo UPLOADS_DIR;?>/global/icono-acreditacion.png",
                             iconSize:    [<?php echo implode(",", $map_point_icon_size);?>],
                             iconAnchor:  [3, 40],
                             popupAnchor: [10,-50],
                         });
-                    <?php else: ?>
-                        var map_icon = L.icon({
-                            iconUrl: "<?php echo $map_point_icon;?>",
-                            iconSize:    [<?php echo implode(",", $map_point_icon_size);?>],
-                            iconAnchor:  [<?php echo implode(",", $map_point_icon_anchor);?>],
-                            popupAnchor: [<?php echo implode(",", $map_popup_anchor);?>],
-                        });
-
-                        <?php
+                    <?php
                     endif;
-				}				
+				}	
+                else { ?>
+                    var map_icon = L.icon({
+                        iconUrl:     "<?php echo $map_point_icon;?>",
+                        iconSize:    [<?php echo implode(",", $map_point_icon_size);?>],
+                        iconAnchor:  [<?php echo implode(",", $map_point_icon_anchor);?>],
+                        popupAnchor: [<?php echo implode(",", $map_popup_anchor);?>],
+                    });
+
+                <?php	
+                }		
 			}
 			if ( $code == "huertas" ) {
                 $vars['$producer'] = $point['producer'];
@@ -456,6 +459,16 @@ function load_points_in_osm($code, $atts=false){
 
                 $vars['$photo'] = ( remote_file_exists($img) ) ? $img : str_replace("-small", "", $map_point_icon);
                 $vars['$phone'] = ( $point['phone'] ) ? '<dt>Teléfono</dt><dd><a href="tel:2964' . $point['phone'] . '">' . $point['phone'] . '</a></dd>' : '';
+
+                ?>
+                var map_icon = L.icon({
+                    iconUrl: "<?php echo $map_point_icon;?>",
+                    iconSize:    [<?php echo implode(",", $map_point_icon_size);?>],
+                    iconAnchor:  [<?php echo implode(",", $map_point_icon_anchor);?>],
+                    popupAnchor: [<?php echo implode(",", $map_popup_anchor);?>],
+                });
+
+                <?php
 			}
 
 			if ( !empty($point['geocoord']) && $point_popup_tpl )  {
