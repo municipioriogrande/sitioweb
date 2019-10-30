@@ -59,7 +59,6 @@
 		map.mapTypes.set('hiphop', jayzMapType);
 		map.setMapTypeId('hiphop');
 		setMarkers(map, beaches);
-		//mapHidden();
 	}
 	function setMarkers(map, locations) {
 		var image = new google.maps.MarkerImage(window.image_path+'/img/marker.png',
@@ -77,7 +76,6 @@
 		var marker = new google.maps.Marker({
 			position: myLatLng,
 			map: map,
-			/*shadow: shadow,*/
 			icon: image,
 			shape: shape,
 			title: beach[0],

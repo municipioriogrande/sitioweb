@@ -169,6 +169,38 @@ dl.inline-wrapped dt{
 	cursor: pointer;
 }
 
+[class^="icon-"]::before {
+	display: inline-block;
+	content: "";
+	width:  36px;
+	height: 36px;
+	background-repeat: no-repeat;
+	vertical-align: middle;
+	margin-right: 0.6em;
+	background-position-x: 4px;
+}
+.icon-phone::before {
+	background-image: url(../images/iconos/celular.svg);
+}
+.icon-time::before {
+	background-image: url(../images/iconos/horario.svg);
+}
+.icon-address::before {
+	background-image: url(../images/iconos/globa.svg);
+}
+.icon-email::before {
+	background-image: url(../images/iconos/email.svg);
+	background-position-x: 0;
+}
+.icon-social-facebook::before {
+	background-image: url(../images/iconos/facebook.svg);
+	background-position-x: 0
+}
+.icon-social-instagram::before {
+	background-image: url(../images/iconos/instagram.svg);
+	background-position-x: 0
+}
+
 //wordpress'gutenberg
 
 .alignwide {
@@ -183,7 +215,6 @@ dl.inline-wrapped dt{
 	margin-left: calc( -100vw / 2 + 100% / 2 );
 	margin-right: calc( -100vw / 2 + 100% / 2 );
 	max-width: 100vw;
-	//width: 99.7vw;
 	width: auto;
  }
  

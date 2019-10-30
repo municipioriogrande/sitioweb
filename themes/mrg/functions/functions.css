@@ -35,14 +35,7 @@
 	font-size: 18px;
 	color: #444444;
 	text-align: left;
-	/*margin: 0 0 20px 0;
-	font-weight: bold;
-	font-size: 18px;
-	color: #444444;
-	text-align: left;
-	padding: 20px;
-	border: 1px solid #dddddd;
-	background-color: #f0f0f0;*/
+	
 }
 
 .pp_wrap .nav-tab:first-child
@@ -123,13 +116,9 @@
 
 .rm_options
 {
-	/*background: -webkit-gradient(linear, 0% 100%, 0% 0%, from(#f9f9f9), to(#ebebeb));
-	text-shadow: 0 1px 1px #ffffff;*/
 	margin-top: -18px;
 }
-.rm_options .rm_input:nth-child(2n){
-	/*background-color: #f8f8f8 !important;*/
-}
+
 .header-title{
 	background-color: #f0f0f0;
 }
@@ -141,7 +130,6 @@
 	padding: 0 0 5px 0;
 }
 .rm_input {
-	/*padding:20px;*/
 	clear: both;
 	padding: 20px;
 	clear: both;
@@ -237,10 +225,6 @@
 	height:32px;	
 	background:url('images/pointer.png') no-repeat  0 -32px;
 	float:left;
-}
-		
-.rm_title h3:hover img{
-
 }
 
 .rm_title span.submit{
@@ -350,8 +334,6 @@ label.iPhoneCheckLabelOff {
   width: 100%;
   background: url('images/iphone-style-checkboxes/slider_center.png?1282083753'); }
 
-
-
 .jslider .jslider-bg i,
 .jslider .jslider-pointer
 { background: url(images/jslider.png) no-repeat 0 0; display: block;  }
@@ -393,11 +375,9 @@ label.iPhoneCheckLabelOff {
 .jslider-limitless .jslider-label
 { display: none; }
 
-
   .jslider_blue .jslider-bg i,
   .jslider_blue .jslider-pointer
   { background-image: url(images/jslider.blue.png); }
-  
   
   .jslider_round .jslider-bg i,
   .jslider_round .jslider-pointer
@@ -735,11 +715,6 @@ html>body .pp_sortable li, html>body .pp_skin_mgmt li, html>body .ppb_sortable l
 	min-height: 700px;
 	border-left: 1px solid #ddd;
 	margin-left:-1px;
-}
-
-.header_wrap input.button, .header_wrap input.button-primary
-{
-
 }
 
 #current_sidebar

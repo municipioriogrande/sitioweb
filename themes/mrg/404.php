@@ -21,10 +21,7 @@ get_header();
 		$background_image_width = $pp_404_background_image_data[0];
 		$background_image_height = $pp_404_background_image_data[1];
 	}
-	/*echo $background_image;
-	echo $background_image_width;
-	echo $background_image_height;
-	exit();*/
+	
 ?>
 <?php 
 if(!empty($background_image)){ 

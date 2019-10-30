@@ -32,32 +32,6 @@ function post_type_galleries() {
 	); 		
 
 	register_post_type( 'galleries', $args );
-	
-  	/*$labels = array(			  
-  	  'name' => _x( 'Gallery Categories', 'taxonomy general name', THEMEDOMAIN ),
-  	  'singular_name' => _x( 'Gallery Category', 'taxonomy singular name', THEMEDOMAIN ),
-  	  'search_items' =>  __( 'Search Gallery Categories', THEMEDOMAIN ),
-  	  'all_items' => __( 'All Gallery Categories', THEMEDOMAIN ),
-  	  'parent_item' => __( 'Parent Gallery Category', THEMEDOMAIN ),
-  	  'parent_item_colon' => __( 'Parent Gallery Category:', THEMEDOMAIN ),
-  	  'edit_item' => __( 'Edit Gallery Category', THEMEDOMAIN ), 
-  	  'update_item' => __( 'Update Gallery Category', THEMEDOMAIN ),
-  	  'add_new_item' => __( 'Add New Gallery Category', THEMEDOMAIN ),
-  	  'new_item_name' => __( 'New Gallery Category Name', THEMEDOMAIN ),
-  	); 							  
-  	
-  	register_taxonomy(
-		'gallerycat',
-		'galleries',
-		array(
-			'public'=>true,
-			'hierarchical' => true,
-			'labels'=> $labels,
-			'query_var' => 'gallerycat',
-			'show_ui' => true,
-			'rewrite' => array( 'slug' => 'gallerycat', 'with_front' => false ),
-		)
-	);*/  
 } 
 								  
 add_action('init', 'post_type_galleries');
@@ -203,64 +177,6 @@ function post_type_sube() {
 } 
 								  
 add_action('init', 'post_type_sube');
-
-/*function post_type_destacados() {
-	$labels = array(
-    	'name' => _x('-> Destacados', 'post type general name', THEMEDOMAIN),
-    	'singular_name' => _x('--Destacado', 'post type singular name', THEMEDOMAIN),
-    	'add_new' => _x('Add Destacado', 'book', THEMEDOMAIN),
-    	'add_new_item' => __('Add Destacado', THEMEDOMAIN),
-    	'edit_item' => __('Edit Destacado', THEMEDOMAIN),
-    	'new_item' => __('New Destacado', THEMEDOMAIN),
-    	'view_item' => __('View Destacado', THEMEDOMAIN),
-    	'search_items' => __('Search Destacado', THEMEDOMAIN),
-    	'not_found' =>  __('No found Destacados', THEMEDOMAIN),
-    	'not_found_in_trash' => __('No found Destacados en la Papelera', THEMEDOMAIN), 
-    	'parent_item_colon' => ''
-	);		
-	$args = array(
-    	'labels' => $labels,
-    	'public' => true,
-    	'publicly_queryable' => true,
-    	'show_ui' => true, 
-    	'query_var' => true,
-    	'rewrite' => true,
-    	'capability_type' => 'post',
-    	'hierarchical' => false,
-    	'menu_position' => null,
-    	'supports' => array('title', 'editor', 'thumbnail'),
-    	'menu_icon' => get_template_directory_uri().'/functions/images/sign.png'
-	); 		
-
-	register_post_type( 'destacados', $args );
-	
-	/*$labels = array(			  
-  	  'name' => _x( 'Destacados Categories', 'taxonomy general name', THEMEDOMAIN ),
-  	  'singular_name' => _x( 'Destacado Category', 'taxonomy singular name', THEMEDOMAIN ),
-  	  'search_items' =>  __( 'Search Destacado Category', THEMEDOMAIN ),
-  	  'all_items' => __( 'All Destacados Categories', THEMEDOMAIN ),
-  	  'parent_item' => __( 'Parent Destacados Categories', THEMEDOMAIN ),
-  	  'parent_item_colon' => __( 'Parent Destacados Categories:', THEMEDOMAIN ),
-  	  'edit_item' => __( 'Edit Destacados Categories', THEMEDOMAIN ), 
-  	  'update_item' => __( 'Update Destacados Categories', THEMEDOMAIN ),
-  	  'add_new_item' => __( 'Add new Destacados Categories ', THEMEDOMAIN ),
-  	  'new_item_name' => __( 'Add new Destacados Name Categories', THEMEDOMAIN ),
-  	); 							  
-  	
-  	register_taxonomy(
-		'destacadocats',
-		'destacados',
-		array(
-			'public'=>true,
-			'hierarchical' => true,
-			'labels'=> $labels,
-			'query_var' => 'destacadocats',
-			'show_ui' => true,
-			'rewrite' => array( 'slug' => 'destacadocats', 'with_front' => false ),
-		)
-	);*/  
-/*}
-add_action('init', 'post_type_destacados');
 /* } THISNEW MRG */
 
 add_filter( 'manage_posts_columns', 'rt_add_gravatar_col');
@@ -599,11 +515,7 @@ $postmetas =
 
 		
 		/* THISNEW MRG {*/
-		/*
-		'destacados' => array(
-			array("section" => "Destacado Option", "id" => "destacado_use_detail", "type" => "checkbox", "title" => "Ocultar boton a detalle", "description" => "Check this option if you want to hide the Detail Button"),
-		),
-		*/
+		
 		'galleries' => array(
 			array("section" => "Gallery Template", "id" => "gallery_template", "type" => "select", "title" => "Gallery Template", "description" => "Select gallery template for this gallery", 
 				"items" => array(

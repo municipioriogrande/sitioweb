@@ -68,7 +68,6 @@ if (have_posts()) : while (have_posts()) : the_post();
 	$image_id 				= get_post_thumbnail_id(get_the_ID()); 
 	$post_image_url 		= wp_get_attachment_image_src($image_id, 'img_listados', true);
 	$imagen 				= !empty($post_image_url[0]) ? $post_image_url[0] : '';
-	//getCss($width).' '.getCss($height).'
 	
 	if($post_formato=='h-3x1'){ //horizontal 3x1
 		$width = 747;

@@ -40,8 +40,6 @@ function tg_register_sidebars() {
 	if ( function_exists('register_sidebar') )
 	    register_sidebar(array('id' => 'sidebar-9', 'name' => 'Tag Sidebar', 'description' => 'The default sidebar for tag post page'));
 	    
-	if ( function_exists('register_sidebar') )
-	    register_sidebar(array('id' => 'sidebar-10', 'name' => 'Shop Sidebar', 'description' => 'The default sidebar for shop pages'));
 	
 	if ( function_exists('register_sidebar') )
 	    register_sidebar(array('id' => 'sidebar-11', 'name' => 'Footer Sidebar', 'description' => 'The default sidebar for footer area of every pages'));

@@ -952,43 +952,6 @@ function tg_vimeo_func($atts, $content) {
 }
 add_shortcode('tg_vimeo', 'tg_vimeo_func');
 
-function tg_animate_counter_func($atts, $content) {
-	extract(shortcode_atts(array(
-		'start' => 0,
-		'end' => 100,
-		'fontsize' => 60,
-		'fontcolor' => '',
-		'count_subject' => '',
-	), $atts));
-
-	$custom_id = time().rand();
-
-	wp_enqueue_script("odometer-js", get_template_directory_uri()."/js/odometer.min.js", false, THEMEVERSION, true);
-	wp_enqueue_script("script-animate-counter".$custom_id, get_template_directory_uri()."/templates/script-animate-counter-shortcode.php?id=".$custom_id."&start=".$start."&end=".$end."&fontsize=".$fontsize, false, THEMEVERSION, true);
-	
-	$return_html = '<div class="animate_counter_wrapper">';
-	
-	if(!empty($content))
-	{
-		$return_html.= $content.'<br/>';
-	}
-	
-	$return_html.= '<div id="'.$custom_id.'" class="odometer" style="font-size:'.$fontsize.'px;line-height:'.$fontsize.'px;';
-	
-	if(!empty($fontcolor))
-	{
-		$return_html.= 'color:'.$fontcolor;
-	}
-	
-	$return_html.= '">'.number_format($start).'</div>';
-	$return_html.= '<div class="count_separator"><span></span></div>';
-	$return_html.= '<div class="counter_subject">'.$count_subject.'</div>';
-	$return_html.= '</div>';
-
-	return $return_html;
-}
-add_shortcode('tg_animate_counter', 'tg_animate_counter_func');
-
 function tg_animate_circle_func($atts, $content) {
 	extract(shortcode_atts(array(
 		'percent' => 100,
@@ -1121,7 +1084,6 @@ function tg_header_gallery_slider_func($atts, $content) {
 				$return_html.= '</div>';
 			}
 			
-			//$return_html.= '<img src="'.$image_url[0].'" alt="AAAAAAAAAA"/>';
 			$return_html.= '</li>';
 		}
 		

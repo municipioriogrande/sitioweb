@@ -129,43 +129,9 @@ jQuery(document).ready(function(){
 	var miniRightPos = 800;
       
     var cols = 3
-	//var masonry = jQuery('.gallery_mansory_wrapper');
 	
 	// initialize masonry
-	/*masonry.imagesLoaded(function(){
-	    
-	    masonry.masonry({
-	    	itemSelector: '.mansory_thumbnail',
-	    	isResizable: true,
-	    	isAnimated: true,
-	    	isFitWidth: true,
-	    	columnWidth:Math.floor((masonry.width()/ cols))
-	      });
-	      
-	     masonry.children('.mansory_thumbnail').children('.gallery_type').each(function(){
-		    jQuery(this).addClass('fade-in');
-	    });
-	});
 	
-	jQuery(window).resize(function(){
-		var masonry = jQuery('.gallery_mansory_wrapper');
-		
-	    masonry.imagesLoaded(function(){
-	    
-		    masonry.masonry({
-		    	itemSelector: '.mansory_thumbnail',
-		    	isResizable: true,
-		    	isAnimated: true,
-		    	isFitWidth: true,
-		    	columnWidth:Math.floor((masonry.width()/ cols))
-		      });
-		      
-		     masonry.children('.mansory_thumbnail').children('.gallery_type').each(function(){
-			    jQuery(this).addClass('fade-in');
-		    });
-		});
-	});*/
-    
     jQuery('#menu_expand_wrapper a').click(function(){
     	jQuery('#menu_wrapper').fadeIn();
 	    jQuery('#custom_logo').animate({'left': '15px', 'opacity': 1}, 400);
@@ -181,44 +147,6 @@ jQuery(document).ready(function(){
 	    jQuery('#menu_border_wrapper select').animate({'left': '-200px', 'opacity': 0}, 400).fadeOut();
 	    jQuery('#menu_wrapper').fadeOut();
 	});
-	
-	// Isotope
-	// modified Isotope methods for gutters in masonry
-	/*jQuery.Isotope.prototype._getMasonryGutterColumns = function() {
-	    var gutter = this.options.masonry && this.options.masonry.gutterWidth || 0;
-	    var containerWidth = this.element.width();
-  
-	this.masonry.columnWidth = this.options.masonry && this.options.masonry.columnWidth ||
-              // or use the size of the first item
-              this.$filteredAtoms.outerWidth(true) ||
-              // if there's no items, use size of container
-              containerWidth;
-
-	this.masonry.columnWidth += gutter;
-
-	this.masonry.cols = Math.floor( ( containerWidth + gutter ) / this.masonry.columnWidth );
-	this.masonry.cols = Math.max( this.masonry.cols, 1 );
-	};
-
-	jQuery.Isotope.prototype._masonryReset = function() {
-	    // layout-specific props
-	    this.masonry = {};
-	    // FIXME shouldn't have to call this again
-	    this._getMasonryGutterColumns();
-	    var i = this.masonry.cols;
-	    this.masonry.colYs = [];
-	    while (i--) {
-	    	this.masonry.colYs.push( 0 );
-	    }
-	};
-
-	jQuery.Isotope.prototype._masonryResizeChanged = function() {
-	    var prevSegments = this.masonry.cols;
-	    // update cols/rows
-	    this._getMasonryGutterColumns();
-	    // return if updated cols/rows is not equal to previous
-	    return ( this.masonry.cols !== prevSegments );
-	};*/
 	
 	// cache jQuery window
 	var $window = jQuery(window);
@@ -245,16 +173,6 @@ jQuery(document).ready(function(){
 	var $container = jQuery('#photo_wall_wrapper');
 	
 	// start up isotope with default settings
-	/*$container.imagesLoaded( function(){
-	    reLayout();
-	    $window.smartresize( reLayout );
-	    
-	    $container.children('.wall_entry').children('.gallery_type').each(function(){
-		    jQuery(this).addClass('fade-in');
-	    });
-	    
-	    jQuery(window).trigger('hwparallax.reconfigure');
-	});*/
 	
 	function reLayout() {
 		var columnCount = jQuery('#pp_wall_columns').val();
@@ -323,7 +241,6 @@ jQuery(document).ready(function(){
 			else if(containerWidth < 2400 && containerWidth >= 1366)
 			{
 				columnValue = jQuerycontainer.width() / 2;
-				//alert(parseInt(columnValue));
 			}
 			else if(containerWidth < 1366 && containerWidth >= 960)
 			{
@@ -339,7 +256,6 @@ jQuery(document).ready(function(){
 			}
 		}
 
-		//alert(parseInt(containerWidth));
 	    var masonryOpts = {
 		  columnWidth: parseInt(containerWidth/columnValue)
 		};
@@ -359,22 +275,6 @@ jQuery(document).ready(function(){
 	var jQuerycontainer = jQuery('#portfolio_filter_wrapper, .portfolio_filter_wrapper');
 	
 	// start up isotope with default settings
-	/*jQuerycontainer.imagesLoaded( function(){
-	    rePortfolioLayout();
-	    $window.smartresize( rePortfolioLayout );
-	    
-	    jQuerycontainer.children('.element').children('.gallery_type').each(function(){
-		    jQuery(this).addClass('fadeIn');
-	    });
-	    
-	    jQuerycontainer.children('.element').children('.portfolio_type').each(function(){
-		    jQuery(this).addClass('fadeIn');
-	    });
-	    
-	    jQuery(this).addClass('visible');
-	    
-	    jQuery(window).trigger('hwparallax.reconfigure');
-	});*/
 	
 	// filter items when filter link is clicked
 	jQuery('#portfolio_filters li a').click(function(){
@@ -425,7 +325,6 @@ jQuery(document).ready(function(){
 			columnValue = windowWidth/1;
 		}
 
-		//alert(columnValue);
 	    var masonryOpts = {
 		  columnWidth: columnValue
 		};
@@ -439,27 +338,8 @@ jQuery(document).ready(function(){
 	
 	var jQueryblogcontainer = jQuery('#blog_grid_wrapper');
 	
-	/*jQueryblogcontainer.imagesLoaded( function(){
-	    reBlogLayout();
-	    $window.smartresize( reBlogLayout );
-	});*/
-	
 	var jQuerygalleriescontainer = jQuery('#galleries_grid_wrapper');
 	
-	/*jQuerygalleriescontainer.imagesLoaded( function(){
-	    var columnCount = 3;
-	
-	    var masonryOpts = {
-		  columnWidth: jQuerygalleriescontainer.width() / columnCount
-		};
-
-	    jQuerygalleriescontainer.isotope({
-	      resizable: false,
-	      itemSelector : '.galleries.type-galleries',
-	      masonry: masonryOpts
-	    }).isotope();
-	});*/
-    
     //Add to top button when scrolling
     jQuery(window).scroll(function() {
 		
@@ -542,26 +422,16 @@ jQuery(document).ready(function(){
 			if(jQuery(this).width()>768)
 			{
 				jQuery('.indice_anclas').addClass('fixed');
-				jQuery('.bilder_modul').addClass('fixed');
 				jQuery('.page-breadcrumb').addClass('fixed');
 			}		
 	    }
 	    else if(jQuery(this).scrollTop() < 500)
 	    {
 	    	jQuery('.indice_anclas').removeClass('fixed');
-			jQuery('.bilder_modul').removeClass('fixed');
 			jQuery('.page-breadcrumb').removeClass('fixed');
 	    }
 		
 	});
-	
-	/*jQuery('.post_img a img').imagesLoaded(function(){
-		jQuery(this).parent('a').parent('.post_img').addClass('fadeIn');
-	});*/
-	
-	/*jQuery('.post_img img').imagesLoaded(function(){
-		jQuery(this).parent('.post_img').addClass('fadeIn');
-	});*/
 	
 	jQuery(document).mouseenter(function(){
 	    jQuery('body').addClass('hover');	
@@ -654,23 +524,6 @@ jQuery(document).ready(function(){
 		});
 	}
 	
-	/*jQuery('#wrapper').waypoint(function(direction) {
-		jQuery('#post_more_wrapper').toggleClass('hiding', direction === "up");
-	}, {
-		offset: function() {
-			return jQuery.waypoints('viewportHeight') - jQuery(this).height() + 100;
-		}
-	});*/
-	
-	/*jQuery('.animated').imagesLoaded(function() {
-		jQuery(this).waypoint(function(direction) {
-			var animationClass = jQuery(this).data('animation');
-		
-			jQuery(this).addClass(animationClass, direction === 'down');
-			
-		} , { offset: '80%' });
-	});*/
-	
 	jQuery('#post_more_close').click(function(){
 		jQuery('#post_more_wrapper').animate({ right: '-380px' }, 300);
 		
@@ -694,14 +547,6 @@ jQuery(document).ready(function(){
 		var target = jQuery(this).data('target');
 		jQuery('#'+target).fadeOut();
 	});
-	
-	/*jQuery('.progress_bar').waypoint(function(direction) {
-		jQuery(this).addClass('fadeIn');
-		var progressContent = jQuery(this).children('.progress_bar_holder').children('.progress_bar_content');
-        var progressWidth = progressContent.data('score');
-     
-        progressContent.css({'width': progressWidth+'%'});
-	} , { offset: '80%' });	*/		
 	
 	jQuery('.tooltip').tooltipster();
 	
@@ -963,25 +808,7 @@ jQuery(window).load(function(){
 	jQuery('.fix_height').css('marginTop', contentMarginTop+'px');
 	
 	/* THISNEW { */
-	jQuery('.ppb_video_bg_mask').css('height', calScreenHeight+'px');
-	jQuery('.ppb_video_bg_mask').css('max-height', calScreenHeight+'px');
-	jQuery('.ppb_video_bg_mask').css('width', calScreenWidth+'px');
-	
-	jQuery('.ppb_transparent_video_bg').css('height', calScreenHeight+'px');
-	jQuery('.ppb_transparent_video_bg').css('max-height', calScreenHeight+'px');
-	
-	jQuery('.ppb_transparent_video_bg_text').css('height', calScreenHeight+'px');
-	jQuery('.ppb_transparent_video_bg_text').css('max-height', calScreenHeight+'px');
-	jQuery('.ppb_transparent_video_bg_text').css('width', calScreenWidth+'px');
-	
-	jQuery('.ppb_transparent_video_bg_content').css('height', calScreenHeight+'px');
-	jQuery('.ppb_transparent_video_bg_content').css('max-height', calScreenHeight+'px');
-	jQuery('.ppb_transparent_video_bg_content').css('width', calScreenWidth+'px');
-	
-	jQuery('.ppb_transparent_video_bg_divider').css('margin-top', calScreenHeight+'px');
-	/*jQuery('.ppb_transparent_video_bg_divider').css('max-height', calScreenHeight+'px');
-	jQuery('.ppb_transparent_video_bg_divider').css('width', calScreenWidth+'px');*/
-	
+
 	jQuery('.ppb_transparent_video_arrow').css('margin-top', (calScreenHeight-57)+'px');
 	/* } THISNEW */
 });
@@ -1032,34 +859,7 @@ jQuery(window).resize(function(){
 	jQuery('.ppb_wrapper.hasbg, #page_content_wrapper.hasbg').css('marginTop', contentMarginTop+'px');
 	
 	/* THISNEW { */
-	jQuery('.ppb_video_bg_mask').css('height', calScreenHeight+'px');
-	jQuery('.ppb_video_bg_mask').css('max-height', calScreenHeight+'px');
-	jQuery('.ppb_video_bg_mask').css('width', calScreenWidth+'px');
-	
-	jQuery('.ppb_transparent_video_bg').css('height', calScreenHeight+'px');
-	jQuery('.ppb_transparent_video_bg').css('max-height', calScreenHeight+'px');
-	
-	jQuery('.ppb_transparent_video_bg_text').css('height', calScreenHeight+'px');
-	jQuery('.ppb_transparent_video_bg_text').css('max-height', calScreenHeight+'px');
-	jQuery('.ppb_transparent_video_bg_text').css('width', calScreenWidth+'px');
-	
-	jQuery('.ppb_transparent_video_bg_content').css('height', calScreenHeight+'px');
-	jQuery('.ppb_transparent_video_bg_content').css('max-height', calScreenHeight+'px');
-	jQuery('.ppb_transparent_video_bg_content').css('width', calScreenWidth+'px');
-	
-	jQuery('.ppb_transparent_video_bg_divider').css('margin-top', calScreenHeight+'px');
-	/*jQuery('.ppb_transparent_video_bg_divider').css('max-height', calScreenHeight+'px');
-	jQuery('.ppb_transparent_video_bg_divider').css('width', calScreenWidth+'px');*/
 	
 	jQuery('.ppb_transparent_video_arrow').css('margin-top', (calScreenHeight-57)+'px');
-	/* } THISNEW */
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-	/* THISNEW { */
-	var module_height = jQuery('.ppb_modulecontact .page_content_wrapper .modulecontact_bg img').height();
-	var module_width = jQuery('.ppb_modulecontact .page_content_wrapper .modulecontact_bg img').width()-1;
-	jQuery('.modulecontact_content .border-box').css('height',module_height+'px');
-	jQuery('.modulecontact_content .border-box').css('width',module_width+'px');
 	/* } THISNEW */
 });

@@ -63,8 +63,7 @@ get_header();
             <?php
 			
 			if ( have_posts() ) {
-				/*print_r($post);
-				exit();*/
+				
 				$post_id		 		= !empty($post->ID)? $post->ID : '';
 				$post_title 			= !empty($post->post_title) ? $post->post_title : '';
 				$post_excerpt 			= !empty($post->post_excerpt) ? $post->post_excerpt : '';

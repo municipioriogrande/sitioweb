@@ -68,12 +68,6 @@ function gen_pagination($total,$currentPage,$baseLink,$nextPrev=true,$limit=10)
     //Total Number of pages 
     $totalPages = ceil($total/$limit); 
      
-    //Text to use after number of pages 
-    //$txtPagesAfter = ($totalPages==1)? " page": " pages"; 
-     
-    //Start off the list. 
-    //$txtPageList = '<br />'.$totalPages.$txtPagesAfter.' : <br />'; 
-     
     //Show only 3 pages before current page(so that we don't have too many pages) 
     $min = ($page - 3 < $totalPages && $currentPage-3 > 0) ? $currentPage-3 : 1; 
      
@@ -964,8 +958,6 @@ if ( !function_exists( 'vt_resize') ) {
 				}
 				$file_path = $_SERVER['DOCUMENT_ROOT'].$path;
 			}
-			//$file_path = ltrim( $file_path['path'], '/' );
-			//$file_path = rtrim( ABSPATH, '/' ).$file_path['path'];
  
 			$orig_size = getimagesize( $file_path );
  
@@ -1264,7 +1256,6 @@ function tg_apply_builder($page_id, $post_type = 'page', $print = TRUE)
 	$ppb_shortcodes = array();
 	
 	include (get_template_directory() . "/lib/contentbuilder.shortcode.lib.php");
-	//pp_debug($ppb_shortcodes);
 	
 	if(isset($ppb_form_item_arr[0]) && !empty($ppb_form_item_arr[0]))
 	{
@@ -1275,12 +1266,10 @@ function tg_apply_builder($page_id, $post_type = 'page', $print = TRUE)
 			$ppb_form_item_data = get_post_meta($page_id, $ppb_form_item.'_data');
 	    	$ppb_form_item_size = get_post_meta($page_id, $ppb_form_item.'_size');
 	    	$ppb_form_item_data_obj = json_decode($ppb_form_item_data[0]);
-	    	//pp_debug(rawurldecode($ppb_form_item_data_obj->ppb_text_content));
 	    	$ppb_shortcode_content_name = $ppb_form_item_data_obj->shortcode.'_content';
 	    	
 	    	if(isset($ppb_form_item_data_obj->$ppb_shortcode_content_name))
 	    	{
-	    		//pp_debug('AA');
 				$ppb_shortcode_code = '['.$ppb_form_item_data_obj->shortcode.' size="'.$ppb_form_item_size[0].'" ';
 	    		
 	    		//Get shortcode title
@@ -1307,7 +1296,6 @@ function tg_apply_builder($page_id, $post_type = 'page', $print = TRUE)
 	    	}
 	    	else if(isset($ppb_shortcodes[$ppb_form_item_data_obj->shortcode]))
 	    	{
-	    		//pp_debug($ppb_shortcodes[$ppb_form_item_data_obj->shortcode]);
 				$ppb_shortcode_code = '['.$ppb_form_item_data_obj->shortcode.' size="'.$ppb_form_item_size[0].'" ';
 	    		
 	    		//Get shortcode title
@@ -1344,7 +1332,6 @@ function tg_apply_builder($page_id, $post_type = 'page', $print = TRUE)
 	    		
 	    		$ppb_shortcode_code.= ']';
 	    	}
-	    	//pp_debug($ppb_shortcode_code);
 	    	
 	    	if($print)
 	    	{
@@ -1426,24 +1413,6 @@ function pp_date_diff($now, $compare_date)
      return floor($datediff/(60*60*24*1000));
 }
 
-/**
-* tg_is_woocommerce_page - Returns true if on a page which uses WooCommerce templates (cart and checkout are standard pages with shortcodes and which are also included)
-*
-* @access public
-* @return bool
-*/
-function tg_is_woocommerce_page () {
-if(  function_exists ( "is_woocommerce" ) && is_woocommerce()){
-        return true;
-}
-$woocommerce_keys   =   array ( "woocommerce_shop_page_id") ;
-foreach ( $woocommerce_keys as $wc_page_id ) {
-        if ( get_the_ID () == get_option ( $wc_page_id , 0 ) ) {
-                return true ;
-        }
-}
-return false;
-}
 
 function MRG_set_map_api()
 {
@@ -1460,137 +1429,6 @@ function MRG_set_map_api()
 	}
 }
 
-function MRG_salutation_open_weather_map()
-{
-	date_default_timezone_set('UTC');
-	date_default_timezone_set("America/Argentina/Ushuaia");
-	setlocale(LC_ALL,"es_ES");
-	
-	$salutation_file = dirname(__FILE__).'\saludo.json';
-	
-	$openweathermap_id 		= '3833367'; 	//Id Ciudad
-	$openweathermap_lang 	= 'es'; 		// Lenguaje en que queremos recibir los datos
-	$openweathermap_api_id 	= 'deebfa0216c027f3e61d17c392049300'; //Api Key
-	$openweathermap_lat 	= '-54.80'; 	// Latitud - North
-	$openweathermap_long 	= '-68.30';		// Longitud - East
-	$segundos_menos 		= 3600*3; 		// Diferencia horaria (-3hs Argentina)
-	
-	$json_file = file_get_contents('http://api.openweathermap.org/data/2.5/weather?lat='.$openweathermap_lat.'&lon='.$openweathermap_long.'&lang='.$openweathermap_lang.'&appid='.$openweathermap_api_id.'&units=metric');
-	$vars = json_decode($json_file);
-	
-	if(is_object($vars))
-	{
-		# Eliminamos archivo
-		if(file_exists($salutation_file)){
-			@unlink($salutation_file);
-		}
-		/* DATOS DEL WEBSERVICES */
-		$main 				= $vars->main;
-		$temperatura 		= $main->temp;
-		$temp_c 			= $temperatura - 273.15;
-		$temp_f 			= 1.8 * ($temperatura - 273.15) + 32;
-		$sunrise 			= $vars->sys->sunrise; 									// Hora en que amanece
-		$sunset 			= $vars->sys->sunset; 									// Hora en que anochece
-		$sunrise_tho_show 	= ($vars->sys->sunrise)-$segundos_menos; 				// Hora en que amanece -3 horas
-		$sunset_tho_show 	= ($vars->sys->sunset)-$segundos_menos;					// Hora en que anochece -3 horas
-		$hora 				= getdate();											// Tomamos hora actual del sistema
-		$hora_actual 		= gmdate("H:i:s", ($hora[0]-$segundos_menos));			// Formateamos hora de sistema
-		//$hora_actual 		= !empty($_GET['hora']) ? $_GET['hora'] : '11:00:00';	// Tomamos hora por parametro o asignamos una
-		$valor_strotime 	= strtotime($hora_actual);
-		$amanece 			= gmdate("H:i:s", $sunrise_tho_show);
-		$anochece 			= gmdate("H:i:s", $sunset_tho_show);
-	
-		$valor_medio_dia 	= '12:00:00';
-		$medio_dia 			= strtotime($valor_medio_dia);
-		$saludo = MRG_salutation($sunrise, $sunset, $valor_strotime, $medio_dia, $amanece, $anochece, $hora_actual, $valor_medio_dia);
-		
-		# Creamos archivo
-		
-		$satutation_fp = fopen($salutation_file,"w");
-		if($satutation_fp != false){
-			fwrite($satutation_fp, json_encode($saludo));
-			fclose($satutation_fp);
-		}
-		
-		return $saludo;
-	}
-}
-
-function MRG_salutation($sunrise, $sunset, $valor_strotime, $medio_dia, $amanece, $anochece, $hora_actual, $valor_medio_dia)
-{
-	$amanecer_menos 			= $sunrise-1;
-	$atardecer_menos 			= $sunset-1;
-
-	list($h, $m, $s) 			= array_pad(preg_split('/[^\d]+/', $sunrise), 3, 0);
-	$sunrise 					= 3600*$h + 60*$m + $s;
-	
-	list($h, $m, $s) 			= array_pad(preg_split('/[^\d]+/', $sunset), 3, 0);
-	$sunset 					= 3600*$h + 60*$m + $s;
-
-	list($h, $m, $s) 			= array_pad(preg_split('/[^\d]+/', $valor_strotime), 3, 0);
-	$valor_strotime 			= 3600*$h + 60*$m + $s;
-	
-	list($h, $m, $s) 			= array_pad(preg_split('/[^\d]+/', $medio_dia), 3, 0);
-	$medio_dia_menos 			= 3600*$h + 60*$m + $s;
-	$medio_dia_menos 			= $medio_dia_menos-1;
-	
-	$amanecer_menos 			= $sunrise-1;
-	$atardecer_menos 			= $sunset-1;
-
-	# COMO SALUDAMOS 
-	# Buen día 		= Amanecer a 11:59
-	# Buenas tardes 	= de 12:00 a Atardecer -1 segundo
-	# Buenas noches 	= Atardecer a Amanecer -1 segundo
-	if( $valor_strotime>=$sunrise && $valor_strotime<=$medio_dia_menos ){ //BUEN DÍA
-		$retorno = array(
-							'amanece' 					=> $amanece,
-							'anochece' 					=> $anochece,
-							'hora_actual' 				=> $hora_actual,
-							'valor_medio_dia' 			=> $valor_medio_dia,
-							'sunrise' 					=> $sunrise,
-							'sunset' 					=> $sunset,
-							'valor_strotime' 			=> $valor_strotime,
-							'medio_dia' 				=> $medio_dia,
-							'medio_dia_menos' 			=> $medio_dia_menos,
-							'amanecer_menos' 			=> $amanecer_menos,
-							'atardecer_menos' 			=> $atardecer_menos,
-							'saludo' 					=> 'dia',
-		);
-		return $retorno;
-	}elseif( $valor_strotime>=$medio_dia && $valor_strotime<=$atardecer_menos ){ //BUENAS TARDES
-		$retorno = array(
-							'amanece' 					=> $amanece,
-							'anochece' 					=> $anochece,
-							'hora_actual' 				=> $hora_actual,
-							'valor_medio_dia' 			=> $valor_medio_dia,
-							'sunrise' 					=> $sunrise,
-							'sunset' 					=> $sunset,
-							'valor_strotime' 			=> $valor_strotime,
-							'medio_dia' 				=> $medio_dia,
-							'medio_dia_menos' 			=> $medio_dia_menos,
-							'amanecer_menos' 			=> $amanecer_menos,
-							'atardecer_menos' 			=> $atardecer_menos,
-							'saludo' 					=> 'tarde',
-		);
-		return $retorno;
-	}else{ //BUENAS NOCHES
-		$retorno = array(
-							'amanece' 					=> $amanece,
-							'anochece' 					=> $anochece,
-							'hora_actual' 				=> $hora_actual,
-							'valor_medio_dia' 			=> $valor_medio_dia,
-							'sunrise' 					=> $sunrise,
-							'sunset' 					=> $sunset,
-							'valor_strotime' 			=> $valor_strotime,
-							'medio_dia' 				=> $medio_dia,
-							'medio_dia_menos' 			=> $medio_dia_menos,
-							'amanecer_menos' 			=> $amanecer_menos,
-							'atardecer_menos' 			=> $atardecer_menos,
-							'saludo' 					=> 'noche',
-		);
-		return $retorno;
-	}
-}
 
 function MRG_normalice_fecha($valor){
 	list($h, $m, $s) 			= array_pad(preg_split('/[^\d]+/', $valor), 3, 0);

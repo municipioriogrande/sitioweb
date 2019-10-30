@@ -5,7 +5,6 @@ function popUp(url,ancho,alto,id,extras){
 	if(extras!=""){extras=","+extras;};
 	var ventana = window.open(url,id,'width='+ancho+',height='+alto+',left='+left+',top='+top+',screenX='+left+',screenY='+top+extras);
 	var bloqueado = "AVISO:\n\nPara ver este contenido es necesario que desactive\nel Bloqueo de Ventanas para este Sitio."
-	//var bloqueado = "WARNING:\n\nIn order to use this functionality, you need\nto deactivate Popup Blocking for this site."
 	if(ventana==null || typeof(ventana.document)=="undefined"){ alert(bloqueado) }else{ return ventana; };
 }
 
@@ -33,7 +32,6 @@ function share(destiny, title, subtitulo, imagen, urls)
 	}else{
 		url ='';
 	}
-	
 	
 	if(destiny=='facebook')
 	{

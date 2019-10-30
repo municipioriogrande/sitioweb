@@ -677,7 +677,6 @@ h2.ppb_title { text-transform: none; }
 	if(!empty($pp_post_meta_font_color))
 	{
 ?>
-/*.post_header .post_detail, */
 .recent_post_detail, .post_detail a { color: <?php echo $pp_post_meta_font_color; ?> !important; }		
 <?php
 	}
@@ -1398,7 +1397,7 @@ input[type=submit], input[type=button], a.button, .button {
 	if(!empty($pp_button_bg_color))
 	{
 ?>
-input[type=submit], input[type=button], a.button, .button, .woocommerce button.button.alt, .woocommerce #respond input#submit.alt, .woocommerce a.button.alt, .woocommerce button.button.alt, .woocommerce input.button.alt { 
+input[type=submit], input[type=button], a.button, .button { 
 	background: <?php echo $pp_button_bg_color; ?>;
 	background-color: <?php echo $pp_button_bg_color; ?>;
 	border-color: <?php echo $pp_button_bg_color; ?>;
@@ -1517,10 +1516,6 @@ input[type=button]:hover, input[type=submit]:hover, a.button:hover, .button:hove
 	{
 	
 ?>
-.filter li a, .shop_filter li a, .filter li a:hover, .shop_filter li a:hover
-{
-	color: <?php echo $pp_filterable_font_color; ?>;
-}
 <?php
 	}
 ?>
@@ -1532,10 +1527,6 @@ input[type=button]:hover, input[type=submit]:hover, a.button:hover, .button:hove
 	{
 	
 ?>
-.filter li a.active, .shop_filter li a.active
-{
-	color: <?php echo $pp_filterable_active_color; ?>;
-}
 <?php
 	}
 ?>
@@ -1546,7 +1537,6 @@ input[type=button]:hover, input[type=submit]:hover, a.button:hover, .button:hove
 	if(!empty($pp_filterable_font))
 	{
 ?>
-.filter li a, .shop_filter li a { font-family: '<?php echo urldecode($pp_filterable_font); ?>'; }		
 <?php
 	}
 ?>
@@ -1557,7 +1547,6 @@ input[type=button]:hover, input[type=submit]:hover, a.button:hover, .button:hove
 	if(!empty($pp_filterable_font_size))
 	{
 ?>
-.filter li a, .shop_filter li a { font-size:<?php echo $pp_filterable_font_size; ?>px; }
 <?php
 	}
 ?>
@@ -1568,7 +1557,6 @@ input[type=button]:hover, input[type=submit]:hover, a.button:hover, .button:hove
 	if(is_numeric($pp_filterable_font_spacing))
 	{
 ?>
-.filter li a, .shop_filter li a { letter-spacing:<?php echo $pp_filterable_font_spacing; ?>px; }
 <?php
 	}
 ?>
@@ -1579,7 +1567,6 @@ input[type=button]:hover, input[type=submit]:hover, a.button:hover, .button:hove
 	if(is_numeric($pp_filterable_font_weight))
 	{
 ?>
-.filter li a, .shop_filter li a { font-weight:<?php echo $pp_filterable_font_weight; ?>; }
 <?php
 	}
 ?>
@@ -1591,10 +1578,7 @@ input[type=button]:hover, input[type=submit]:hover, a.button:hover, .button:hove
 	{
 	
 ?>
-.filter li a, .shop_filter li a
-{
-	text-transform: none;
-}
+
 <?php
 	}
 ?>

@@ -75,12 +75,6 @@ if (have_posts()) : while (have_posts()) : the_post();
 					    	$post_type_title = __( 'Page', THEMEDOMAIN );
 					    break;
 					    
-						/* THISNEW { */
-						case 'habitaciones':
-					    	$post_type_class = 'fa-plane';
-					    	$post_type_title = __( '--Room', THEMEDOMAIN );
-					    break;
-						/* } THISNEW */
 					}
 				?>
 				<div class="post_type_icon">

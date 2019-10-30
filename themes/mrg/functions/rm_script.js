@@ -484,7 +484,6 @@ jQuery(document).ready(function(){
 	    if (jQuery('#'+myCheckRel).children('li#'+myCheckId+'_sort').length == 0)
 	    {
 	    	jQuery('#'+myCheckRel).append('<li id="'+myCheckId+'_sort" class="ui-state-default"><div class="title">'+myCheckTitle+'</div><a data-rel="'+myCheckRel+'" href="javascript:removeSortRecord(\''+myCheckId+'\', \''+myCheckRel+'\');" class="remove">x</a><br style="clear:both"/></li>');
-	    	//jQuery('#'+myCheckId+'_sort').remove();
 	    	
 	    	var order = jQuery('#'+myCheckRel).sortable('toArray');
         	jQuery('#'+myCheckRel+'_data').val(order);
@@ -651,8 +650,6 @@ jQuery(document).ready(function(){
 				var builderItemDataJSON = JSON.stringify(builderItemData);
 	
 				builderItem = '<li id="'+randomId+'" class="ui-state-default one '+myCheckId+'" data-current-size="one">';
-				/*builderItem+= '<a href="javascript:;" class="ppb_plus button">+</a>';
-				builderItem+= '<a href="javascript:;" class="ppb_minus button">-</a>';*/
 				builderItem+= '<div class="title">'+myCheckTitle+'</div>';
 				builderItem+= '<a href="javascript:;" class="ppb_remove">x</a>';
 				builderItem+= '<a data-rel="'+randomId+'" href="#ppb_inline_'+myCheckId+'" class="pp_fancybox ppb_edit"></a>';

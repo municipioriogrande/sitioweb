@@ -59,12 +59,6 @@ require_once( $path_to_wp.'/wp-load.php' );
 	    $pp_contact_map_type = 'MapTypeId.TERRAIN';
     }
 
-	/*
-    $pp_contact_map_zoom 		= get_option('pp_contact_map_zoom');
-	$pp_map_icon 				= get_option('pp_map_icon');
-	$pp_googlemap_api_key 		= get_option('pp_googlemap_api_key');
-  	$pp_contact_map_type 		= 'MapTypeId.TERRAIN';
-	*/
 	
 ?>
 	var image_path = jQuery('#map').attr('path');
@@ -108,23 +102,11 @@ if (!empty($subes_arr) && is_array($subes_arr)) {
     
 	beaches = flags;
     var mapa_visible = false;
-	//initialize(flags);
 	
 	var map;
 	function initialize(beaches) {
 		var increase 			= 0;
 		var length 				= beaches.length;
-		/*
-        var menu_lista_header 	= '<a href="javascript:moveToDarwinOut(map,<?php echo $pp_contact_lat; ?>,<?php echo $pp_contact_long; ?>);">HOTELES:</a>';
-		var menu_lista_close 	= '<div class="map_bt_close"></div>';
-		var menu_lista_links	= '';
-        
-		jQuery.each(beaches, function(key, mensaje) {
-			menu_lista_links += '<a href="javascript:moveToDarwin(map,beaches['+increase+'][1],beaches['+increase+'][2]);">'+mensaje[0]+'</a>';
-			increase = increase+1;
-		});
-		jQuery('#main_content_google_lista').html(menu_lista_header + menu_lista_links + menu_lista_close);
-        */
 		console.log(beaches);
 		
 		var stylez = [
@@ -163,7 +145,6 @@ if (!empty($subes_arr) && is_array($subes_arr)) {
 		map.mapTypes.set('hiphop', jayzMapType);
 		map.setMapTypeId('hiphop');
 		setMarkers(map, beaches);
-		//mapHidden();
         
         jQuery( ".map_bt_close" ).click(function() {
             jQuery( "#map" ).animate({
@@ -188,7 +169,6 @@ if (!empty($subes_arr) && is_array($subes_arr)) {
 		var marker = new google.maps.Marker({
 			position: myLatLng,
 			map: map,
-			/*shadow: shadow,*/
 			icon: image,
 			shape: shape,
 			title: beach[0],
@@ -223,27 +203,4 @@ if (!empty($subes_arr) && is_array($subes_arr)) {
     
 	initialize(flags);
     
-	/*jQuery( ".map_bt_open" ).click(function() {
-		jQuery( "#map" ).animate({
-			height: "toggle"
-			}, 500, function() {
-			// Animation complete.
-            if(mapa_visible==false)
-            {
-            	initialize(flags);
-            }
-            mapa_visible = true;
-		});
-	});
-	
-	function mapHidden() {
-		jQuery( "#map" ).animate({
-			height: "toggle"
-			}, 500, function() {
-			// Animation complete.
-		});
-	}
-	window.addEventListener('DOMContentLoaded', function() {
-		setTimeout(mapHidden, 2);
-	});*/
 	

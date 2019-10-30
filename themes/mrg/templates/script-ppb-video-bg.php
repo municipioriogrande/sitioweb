@@ -39,17 +39,6 @@ jQuery(document).ready(function() {
 	    	?>
 	    	jQuery('#<?php echo $_GET['video_id']; ?>').css('width', jQuery(window).width()+'px');
 	    	
-	    	/*var currentVideoHeight = jQuery('#<?php echo $_GET['video_id']; ?>').height();
-	    	
-	    	jQuery('#<?php echo $_GET['video_id']; ?>').parents('.ppb_transparent_video_bg').css('height', currentVideoHeight+'px');
-	    	
-	    	jQuery(window).resize(function(){
-	    		jQuery('#<?php echo $_GET['video_id']; ?>').css('width', jQuery(window).width()+'px');
-	    		
-	    		var currentVideoHeight = jQuery('#<?php echo $_GET['video_id']; ?>').height();
-	    	
-	    	jQuery('#<?php echo $_GET['video_id']; ?>').parents('.ppb_transparent_video_bg').css('height', currentVideoHeight+'px');
-	    	});*/
 	    	 
 	    }
 	});

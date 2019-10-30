@@ -29,12 +29,6 @@ get_header();
 
 //$page_sidebar = get_post_meta($current_page_id, 'page_sidebar', true);
 
-//If not select sidebar then select default one
-/*if(empty($page_sidebar))
-{
-	$page_sidebar = 'Blog Sidebar';
-}*/
-
 $is_display_page_content = TRUE;
 $is_standard_wp_post = FALSE;
 

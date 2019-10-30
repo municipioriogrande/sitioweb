@@ -7,9 +7,8 @@
 	Released under MIT License / GPL License
 */
 
-
 * { margin:0; padding:0; }
-body {  }
+
 	img { border:none; }
 	
 	#supersized-loader { position:absolute; top:50%; left:50%; z-index:0; width:60px; height:60px; margin:-30px 0 0 -30px; text-indent:-999em; background: url('../images/loading.gif') no-repeat center center; visibility: hidden;
@@ -101,7 +100,6 @@ border-top-right-radius: 10px;
 				#thumb-back:hover, #thumb-forward:hover{ cursor:pointer; background-color:rgba(256,256,256, 0.1); }
 					#thumb-back:hover{ border-right:1px solid rgba(256,256,256, 0.2); }
 					#thumb-forward:hover{ border-left:1px solid rgba(256,256,256, 0.2); }
-		
 		
 		ul#thumb-list{ display:inline-block; list-style:none; position:absolute; left:0px; padding:0 0px; background: transparent; }
 			ul#thumb-list li{ background:transparent; list-style:none; display:inline; width:69px; height:69px; overflow:hidden; float:left; margin: 0 3px 0 3px; }

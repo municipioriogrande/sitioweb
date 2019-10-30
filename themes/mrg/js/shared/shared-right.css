@@ -15,7 +15,6 @@
 		right: 55px;
 		transition: all 0.3s ease 0s;
 		width: 0;
-		/*left: 55px;*/
 	}
 	.open{
 		width: 275px !important;
@@ -59,5 +58,4 @@
 	
 	.social-toggle{ background-position: 0px 0px; }
 	.social-toggle:hover{ background-position: 0px -55px !important; }
-	
 	

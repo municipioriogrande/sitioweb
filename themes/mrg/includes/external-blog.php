@@ -14,7 +14,6 @@ function make_file_from_external_blog($wp_response, $name_file, $context=""){
 		
 		if ( $context == "categories" ) {
 			foreach ($tmp as $cat) {
-				//$data[$cat["id"]] = array("name" => $cat["name"], "link" => $cat["link"]);
 				$data[] = array("id" => $cat["id"], "name" => $cat["name"], "link" => $cat["link"] );
 			}
 		}
@@ -58,7 +57,6 @@ function is_external_blog_cache_old($file_path){
 		($date_now->format('Y-m-d') > $date_file->format('Y-m-d') )
 		||
 		( $date_now->format('Y-m-d') == $date_file->format('Y-m-d') && ( $date_now->format('H') - $date_file->format('H') ) >= $hrs_expira )
-		//( $date_now->format('Y-m-d') == $date_file->format('Y-m-d') && date_diff($date_now, $date_file)->format("%h") >= $hrs_expira ) 
 		) {
 			return true;
 	}
@@ -80,7 +78,6 @@ function get_external_blog_categories(){
 	
 	$response_cat = wp_remote_get( add_query_arg( array(
 		'per_page' => 100 //between 1 and 100
-		//'page' => 1 
 	), $blog_url_cats ) );
 	
 	$name_file 	= get_parent_theme_file_path('/json/external_blog_categories.json');	

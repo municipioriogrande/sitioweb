@@ -45,20 +45,7 @@ var CONTROLLER = (function() {
 	}
 	
 	//{ TOOLS
-	/*function setNavigatorMobile(){
-		var windowHeight = jQuery(window).scrollTop();
-		if(windowHeight  > 80) {
-			if (_debug) console.log('FIXED!!'+ windowHeight);
-			jQuery('#main-header').css('top', '0px');
-			jQuery('#main-header').css('position', 'fixed');
-		}else if(windowHeight  < 1){
-			if (_debug) console.log('ABSOLUTE!!'+ windowHeight);
-			jQuery('#main-header').css('top', 'auto');
-			jQuery('#main-header').css('position', 'absolute');
-		}
-		if (_debug) console.log('aplica:'+referenceHeight+'|'+conteiner);
-	}*/
-	
+		
 	function setHeightWidth(reference, destiny, type, valor, fix){
 		if (valor!='' && fix!='')
 		{
@@ -169,7 +156,3 @@ var CONTROLLER = (function() {
 	};
 
 })();
-
-
-
-

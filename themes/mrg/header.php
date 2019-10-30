@@ -49,34 +49,6 @@ echo ( wp_is_mobile() ) ? "in-mobile" : "in-desktop";?>">
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 
 <?php 
-/*
-$page = get_page($post->ID);
-$current_page_id = '';
-
-if(isset($page->ID))
-{
-    $current_page_id = $page->ID;
-}
-
-$mppb_form_data_order = get_post_meta($current_page_id, 'ppb_form_data_order');
-$mppb_page_content = '';
-$meta_tag = '';
-if(isset($mppb_form_data_order[0]))
-{
-	$mppb_form_item_arr = explode(',', $mppb_form_data_order[0]);
-	//echo $mppb_form_item_arr[0].'_data';
-	$mppb_form_item_data = get_post_meta($current_page_id, $mppb_form_item_arr[0].'_data');
-	$mppb_form_item_data_obj = json_decode($mppb_form_item_data[0]);
-	
-	if(!empty($mppb_form_item_data_obj->ppb_module_header_bajada)){
-		$meta_tag =  esc_attr(rawurldecode($mppb_form_item_data_obj->ppb_module_header_bajada));
-	}elseif(!empty($mppb_form_item_data_obj->ppb_module_header_full_bajada)){
-		$meta_tag =  esc_attr(rawurldecode($mppb_form_item_data_obj->ppb_module_header_full_bajada));
-	}else{
-		$meta_tag = !empty(get_option('pp_meta_description')) ? get_option('pp_meta_description') : '';
-	}
-}<meta name="description" content="<?php echo $meta_tag; ?>" />
-*/
 ?>
 
 
@@ -163,11 +135,6 @@ if ( get_the_excerpt($post) ) {
 		}
 	}
 	
-	//Get shop columns
-	global $shop_product_columns;
-?>
-
-<?php
 	/* Always have wp_head() just before the closing </head>
 	 * tag of your theme, or you will break many plugins, which
 	 * generally use this hook to add elements to <head> such
@@ -180,7 +147,7 @@ if ( get_the_excerpt($post) ) {
 
 </head>
 
-<body <?php body_class(); ?> <?php if(isset($pp_homepage_style) && !empty($pp_homepage_style)) { echo 'data-style="'.$pp_homepage_style.'"'; } ?> <?php if($shop_product_columns==3) { ?>data-shop="three_cols"<?php } ?>>
+<body <?php body_class(); ?> <?php if(isset($pp_homepage_style) && !empty($pp_homepage_style)) { echo 'data-style="'.$pp_homepage_style.'"'; } ?> >
 
 <a href="#content" class="visually-hide">Saltear al contenido</a> 
 
@@ -223,24 +190,7 @@ if ( get_the_excerpt($post) ) {
 	?>
 	<input type="hidden" id="pp_footer_colum_style" name="pp_footer_colum_style" value="<?php echo $pp_footer_colum_style; ?>"/>
 	
-	<!-- Begin mobile menu 
-	<div class="mobile_menu_wrapper">
-		<a id="close_mobile_menu" href="#"><i class="fa fa-times-circle"></i></a>
-	    <?php 	
-	    	if ( has_nav_menu( 'primary-menu' ) ) 
-			{
-			    //Get page nav
-			    wp_nav_menu( 
-			        	array( 
-			        		'menu_id'			=> 'mobile_main_menu',
-	    		    		'menu_class'		=> 'mobile_main_nav',
-			        		'theme_location' 	=> 'primary-menu',
-			        	) 
-			    ); 
-			}
-	    ?>
-	</div>-->
-	<!-- End mobile menu -->
+	
 
 	<!-- Begin template wrapper -->
 	<div id="wrapper">
@@ -256,25 +206,12 @@ if ( get_the_excerpt($post) ) {
 		}
 		$current_page_id = '';
 		
-		$is_shop = FALSE;
-		if (class_exists('Woocommerce')) 
-		{
-		    $is_shop = is_shop();
-		}
 		
-		if(isset($page->ID) && !$is_shop)
-		{
-		    $current_page_id = $page->ID;
-		}
-		elseif(is_home())
+		if(is_home())
 		{
 		    $current_page_id = get_option('page_on_front');
 		}
 		
-		if(empty($current_page_id) && $is_shop)
-		{
-		    $current_page_id = get_option( 'woocommerce_shop_page_id' );
-		}
 		
 		if(!is_bool($is_no_header) OR !$is_no_header)
 		{
@@ -287,12 +224,7 @@ if ( get_the_excerpt($post) ) {
 	    {
 		    $page_menu_transparent = get_post_meta($current_page_id, 'post_menu_transparent', true);
 	    }
-	    /* THISNEW { */
-		if(is_single() && $post->post_type=='habitaciones')
-	    {
-		    $page_menu_transparent = TRUE;
-	    }
-		/* } THISNEW */
+	    
 		/* THISNEW MRG { */
         if(is_single() && $post->post_type=='exhibicion')
 	    {
@@ -527,12 +459,7 @@ if ( get_the_excerpt($post) ) {
 		    {
 			    $page_menu_transparent = get_post_meta($current_page_id, 'post_menu_transparent', true);
 		    }
-			/* THISNEW { */
-			if(is_single() && $post->post_type=='habitaciones')
-		    {
-			    $page_menu_transparent = TRUE;
-		    }
-			/* } THISNEW */
+			
 		    global $pp_hook_menu_transparent;
 		    if(!empty($pp_hook_menu_transparent))
 		    {
@@ -545,21 +472,7 @@ if ( get_the_excerpt($post) ) {
 			    $page_menu_transparent = 0;
 		    }
 		    
-		    //Check if Woocommerce is installed	
-			if(class_exists('Woocommerce'))
-			{
-				//Check if woocommerce page
-				if(tg_is_woocommerce_page() && !is_product_category())
-				{
-					$shop_page_id = get_option( 'woocommerce_shop_page_id' );
-					$page_menu_transparent = get_post_meta($shop_page_id, 'page_menu_transparent', true);
-				}
-				elseif(tg_is_woocommerce_page() && is_product_category())
-				{
-					$page_menu_transparent = 0;
-				}
-			}
-		//<div class="top_bar <?php if(!empty($pp_page_bg) && !empty($page_menu_transparent)) { 
+		
 		
 		?>
 		<div class="top_bar <?php if(!empty($page_menu_transparent)) { ?>hasbg<?php } ?> <?php if(!empty($page_revslider) && $page_revslider!= -1 && !empty($page_menu_transparent)) { ?>hasbg<?php } ?> <?php if(isset($pp_homepage_style) && !empty($pp_homepage_style)) { echo $pp_homepage_style; } ?>">
@@ -644,7 +557,6 @@ if ( get_the_excerpt($post) ) {
 					
 					if(empty($pp_logo_transparent) && empty($pp_retina_logo_transparent))
 				    {
-				    	//$pp_retina_logo_transparent = get_template_directory_uri().'/images/logo@2x_white.png';
 				    	$pp_retina_logo_transparent = get_template_directory_uri().'/images/logo@2x.png';
 				    	$pp_retina_logo_transparent_width = 69;
 				    	$pp_retina_logo_transparent_height = 33;
@@ -718,7 +630,6 @@ if ( get_the_excerpt($post) ) {
 				?>
                 <div class="content-weather">
                     <div class="content-weather-content">
-                       	<?php //echo do_shortcode('[do_widget id=giweather-2 wrap=div]'); ?>
                         <?php echo do_shortcode('[do_widget id=andimol_clima-2 wrap=div]'); ?>
                     </div>
                 </div>
@@ -779,21 +690,7 @@ if ( get_the_excerpt($post) ) {
 				<?php
 				    }
 				?>
-				<?php
-				if (class_exists('Woocommerce')) {
-				    //Check if display cart in header
-			
-				    global $woocommerce;
-				    $cart_url = $woocommerce->cart->get_cart_url();
-				    $cart_count = $woocommerce->cart->cart_contents_count;
-				?>
-				<div class="header_cart_wrapper">
-				    <div class="cart_count"><?php echo esc_html($cart_count); ?></div>
-				    <a href="<?php echo esc_url($cart_url); ?>"><i class="fa fa-shopping-cart"></i></a>
-				</div>
-				<?php
-				}
-				?>
+				
 				<?php
 				if(empty($pp_hamburguesa_menu))
 				{

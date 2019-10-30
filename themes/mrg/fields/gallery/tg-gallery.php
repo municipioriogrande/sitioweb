@@ -205,10 +205,6 @@ class wpsimplegallery {
         wp_enqueue_script('wpsimplegallery-scripts', WPSIMPLEGALLERY_URL . 'tg-gallery.js', array('colorbox'));
     }
 
-    public function print_styles() {
-       // wp_enqueue_style('wpsimplegallery-style', WPSIMPLEGALLERY_URL . 'tg-gallery.css');
-    }
-
     private function gallery($post_id = false) {
         global $post;
         $post_id = (!$post_id) ? $post->ID : $post_id;

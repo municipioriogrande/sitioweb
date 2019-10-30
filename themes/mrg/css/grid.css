@@ -44,7 +44,6 @@
 	.mobile_main_nav li ul li:last-child { border-bottom: 0; }
 	.mobile_main_nav li ul li ul li a { padding-left: 60px; font-size: 13px; }
 	
-	#page_content_wrapper .inner #page_main_content {  }
 	#page_content_wrapper .inner .sidebar_content.full_width, .gallery_mansory_wrapper { width: 100%; padding-top: 30px; }
 	#page_content_wrapper .inner .sidebar_content.full_width img, #page_content_wrapper .inner .sidebar_content.full_width div, #page_content_wrapper .inner .sidebar_content.full_width iframe { max-width: 100%; }
 	#page_content_wrapper .inner .sidebar_content.full_width#blog_grid_wrapper, #page_content_wrapper .inner .sidebar_content.full_width#galleries_grid_wrapper { width: 726px; }
@@ -79,11 +78,7 @@
 	.one_third.gallery3 div.thumb_content h3 { font-size: 18px; }
 	.element.classic3_cols { width: 31%; }
 	
-	.one .tour_search_wrapper { margin-top: 30px; }
-	.tour_search_wrapper input[type=text] { width: 100%; box-sizing: border-box; }
-	.start_date_input, .end_date_input { width: 49%; }
-	.start_date_input i, .end_date_input i { right: 10px; }
-	.one_fourth, .one_fourth.last, .tour_search_wrapper .one_fourth { width: 100%; margin-right: 0; margin-bottom: 2%; clear: both; }
+	.one_fourth, .one_fourth.last { width: 100%; margin-right: 0; margin-bottom: 2%; clear: both; }
 	.one_fourth.gallery4 { margin: 0; }
 	.one_fourth.gallery4 .button.circle img { width: 24px !important; height: 24px !important; }
 	.one_fourth.gallery4 .mask { width: 100%; height: 100%; }
@@ -172,16 +167,13 @@
 	.page_control { left: 46%; }
 	
 	#page_content_wrapper .inner .sidebar_content.full_width.portfolio4_content_wrapper, .page_content_wrapper.portfolio4_content_wrapper { width: 760px; }
-	body.page-template-blog_g-php .post.type-post, body.page-template-blog_gf-php .post.type-post, body.error404 .post.type-post, body.page-template-galleries-php .galleries.type-galleries, body.tax-gallerycat .galleries.type-galleries, .ppb_blog_posts .post.type-post { width: 47%; margin-right: 0; }
-	.ppb_blog_posts .post.type-post { margin-right: 0; }
+	body.page-template-blog_g-php .post.type-post, body.page-template-blog_gf-php .post.type-post, body.error404 .post.type-post, body.page-template-galleries-php .galleries.type-galleries, body.tax-gallerycat .galleries.type-galleries { width: 47%; margin-right: 0; }
 	.post_header.grid h6 { font-size: 20px; }
 	.post_img.grid img { max-width: 218px; height: auto; }
 	#footer ul.sidebar_widget li ul.posts.blog li img { width: 50px; }
 	.post_circle_thumb { width: 50px; height: 50px; }
 
 	.one_third.gallery3 .mask .mask_circle i { font-size: 24px; line-height: 24px; }
-	.ppb_transparent_video_bg .post_title h3 { font-size: 40px; line-height: 44px; }
-	.ppb_transparent_video_bg .post_title .post_excerpt { font-size: 16px; }
 	.social_follow { display: none; }
 	
 	.post_img { margin-bottom: 10px; }
@@ -233,37 +225,12 @@
 	#page_caption.hasbg h1.withtopbar, h1.hasbg.withtopbar, #page_caption.hasbg.notransparent h1.withtopbar { margin-top: 160px !important; }
 	#page_caption.hasbg.notransparent h1.withtopbar { margin-top: 0px !important; }
 	.header_cart_wrapper { margin-top: 18px; }
-	.woocommerce ul.products li.product, .woocommerce-page ul.products li.product  { width: 100%; margin-right: 0; }
-	.woocommerce .related ul.products li.product, .woocommerce .related ul li.product, .woocommerce .upsells.products ul.products li.product, .woocommerce .upsells.products ul li.product, .woocommerce-page .related ul.products li.product, .woocommerce-page .related ul li.product, .woocommerce-page .upsells.products ul.products li.product, .woocommerce-page .upsells.products ul li.product { width: 100% !important; }
 	
-	.one.pp_tour_search { padding-top: 0; }
 	#page_content_wrapper.hasbg.withtopbar.notransparent, .ppb_wrapper.hasbg.withtopbar.notransparent { margin-top: 200px; } 
-	
-	
-	/* THISNEW { */
-	.one .habitacion_search_wrapper { margin-top: 30px; }
-	.habitacion_search_wrapper input[type=text] { width: 100%; box-sizing: border-box; }
-	.habitacion_search_wrapper .one_fourth { width: 100%; margin-right: 0; margin-bottom: 2%; clear: both; }
-	.habitacion_meta_wrapper .one_fifth, .habitacion_meta_wrapper .one_fourth { width: 100%; margin-right: 0; margin-bottom: 0; clear: both; border: 0; border-bottom: 1px solid #e1e1e1; }
-	.habitacion_meta_wrapper, .habitacion_meta_wrapper.toaction { border: 0; }
-	.habitacion_meta_wrapper .one_fifth.first, .habitacion_meta_wrapper .one_fourth.first { border-left: 0; }
-	.habitacion_meta_wrapper .one_fourth.last { border-bottom: 0; }
-	#habitacion_book_btn { float: none; }
-	body.single-habitaciones .comment .right { width: 84%; }
-	.one.pp_habitacion_search { padding-top: 0; }
-	
-	/* Habitaciones listing { */
-	.module-experiencia .one_half{
-		/*width:100% !important;*/
-		margin-bottom:15px;
-		height:auto !important;
-	}
-	/* } Habitaciones listing */
 	
 	.is_mobile { display: block; }
 	.is_not_mobile { display: none; }
 	
-	/* } THISNEW */
 }
 
 /*  
@@ -272,11 +239,7 @@
 */
 
 @media only screen and (max-width: 767px) {
-	.one.ppb_transparent_video_bg video {
-		left: -50%;
-		width: auto !important;
-	}
-	.start_date_input, .end_date_input{ width:100% !important;}
+	
 	.top_bar.hasbg .header_action, .top_bar .header_action { display: none; }
 	.header_style_wrapper { position: relative; z-index: 9999; }
 	body { font-size: 13px; }
@@ -395,11 +358,7 @@
 	.tour_meta_wrapper .one_fourth.last { border-bottom: 0; }
 	#tour_book_btn { float: none; }
 	
-	.one .tour_search_wrapper { margin-top: 30px; }
-	.tour_search_wrapper input[type=text] { width: 100%; box-sizing: border-box; }
-	.start_date_input, .end_date_input { width: 47.5%; }
-	.start_date_input i, .end_date_input i { right: 10px; }
-	.one_fourth.gallery4, .one_fourth.portfolio4, .one_fourth.gallery4 .mask, .one_fourth.gallery4.filterable, .tour_search_wrapper .one_fourth { width: 100%; height: auto; margin-bottom: 5px; }
+	.one_fourth.gallery4, .one_fourth.portfolio4, .one_fourth.gallery4 .mask, .one_fourth.gallery4.filterable { width: 100%; height: auto; margin-bottom: 5px; }
 	.one_fourth.gallery4 img.blur_effect, .one_fourth.portfolio4 img.blur_effect { width: 100%; height: auto; }
 	.one_fourth.gallery4 .mask { width: 100%; height: 100% !important; }
 	.one_fourth.gallery4.portfolio_type h6 { margin-top: 34%; }
@@ -473,7 +432,7 @@
 	.one_fourth, .one_fourth.last { width: 100%; margin-right: 0; }
 
 	.post_img img { max-width: 100% !important; height: auto; }
-	body.page-template-blog_g-php .post.type-post, body.page-template-blog_gf-php .post.type-post, body.error404 .post.type-post, body.page-template-galleries-php .galleries.type-galleries, body.tax-gallerycat .galleries.type-galleries, .ppb_blog_posts .post.type-post { width: 100%; }
+	body.page-template-blog_g-php .post.type-post, body.page-template-blog_gf-php .post.type-post, body.error404 .post.type-post, body.page-template-galleries-php .galleries.type-galleries, body.tax-gallerycat .galleries.type-galleries { width: 100%; }
 	#blog_grid_wrapper .post.type-post { margin-left: 0; }
 	#page_content_wrapper .inner .sidebar_wrapper.left_sidebar { width: 300px; padding-top: 30px; margin-right: 0; }
 	.post_header.full, .post_excerpt_full { width: 96%; }
@@ -485,8 +444,6 @@
 	#flow_info_button { display: none !important; }
 	.fancybox-title-outside-wrap strong { font-size: 14px !important; }
 	.fancybox-title-outside-wrap { font-size: 13px !important; }
-	.ppb_transparent_video_bg .post_title h3 { font-size: 24px; line-height: 28px; }
-	.ppb_transparent_video_bg .post_title .post_excerpt { font-size: 14px; }
 	.client_logo { max-width: 100%; }
 	.one_half, .one_half.last { width: 100%; float: none; clear: both; margin-bottom: 15px; }
 	#blog_grid_wrapper { padding-top: 20px; }
@@ -525,7 +482,6 @@
 	.above_top_bar .social_wrapper { display: none; }
 	.mejs-overlay-button {display:block; z-index: 99999;}
 	.one.withsmallpadding, .one.withpadding { padding: 20px 0 20px 0; background-attachment: scroll !important; background-repeat: repeat !important; background-position: center top !important; }
-	.promo_box_wrapper .promo_box h5 { padding-right: 0; }
 	.post_qoute_mark { display: none; }
 	#portfolio_filter_wrapper.shortcode.four_cols.gallery .element { width: 100%; margin-right: 0; margin-bottom: 2%; }
 	.page_caption_desc { max-width: 90%; margin: auto; float: none; margin-bottom: 30px; font-size: 11px; }
@@ -572,85 +528,24 @@
 	.contact_social { width: 100%; }
 	
 	.header_cart_wrapper { margin-top: 18px; }
-	.woocommerce ul.products li.product, .woocommerce-page ul.products li.product  { width: 100%; margin-right: 0; }
-	.woocommerce .related ul.products li.product, .woocommerce .related ul li.product, .woocommerce .upsells.products ul.products li.product, .woocommerce .upsells.products ul li.product, .woocommerce-page .related ul.products li.product, .woocommerce-page .related ul li.product, .woocommerce-page .upsells.products ul.products li.product, .woocommerce-page .upsells.products ul li.product { width: 100% !important; }
 	
-	.one.pp_tour_search { padding-top: 0; }
 	.ppb_wrapper.hasbg, #page_content_wrapper.hasbg { margin-top: 140px; }
 	.ppb_wrapper.hasbg.notransparent, #page_content_wrapper.hasbg.notransparent { margin-top: 150px; }
 	#page_content_wrapper.hasbg.withtopbar.notransparent, .ppb_wrapper.hasbg.withtopbar.notransparent { margin-top: 150px; }
 	.ppb_wrapper.hasbg.fullscreen, #page_content_wrapper.hasbg.fullscreen { margin-top: 100%; }
 	
-	
 	/* THISNEW { */
-	.habitacion_meta_wrapper .one_fifth, .habitacion_meta_wrapper .one_fourth { width: 100%; margin-right: 0; margin-bottom: 0; clear: both; border: 0; border-bottom: 1px solid #e1e1e1; }
-	.habitacion_meta_wrapper, .habitacion_meta_wrapper.toaction { border: 0; margin-bottom: 30px; }
-	.habitacion_meta_wrapper.toaction { margin-bottom: 0; }
-	.habitacion_meta_wrapper .one_fifth.first, .habitacion_meta_wrapper .one_fourth.first { border-left: 0; }
-	.habitacion_meta_wrapper .one_fourth.last { border-bottom: 0; }
-	#habitacion_book_btn { float: none; }
-	.one .habitacion_search_wrapper { margin-top: 30px; }
-	.habitacion_search_wrapper input[type=text] { width: 100%; box-sizing: border-box; }
-	.habitacion_search_wrapper .one_fourth { width: 100%; height: auto; margin-bottom: 5px; }
-	div.thumb_content.fullwidth .thumb_meta .habitacion_price { font-size: 16px; line-height: 28px; }
-	div.thumb_content.fullwidth .thumb_title .habitacion_country, div.thumb_content.fullwidth .thumb_meta .habitacion_days { font-size: 11px; }
-	#portfolio_filter_wrapper.fullwidth.three_cols.gallery.list .element .habitacion_list_image { min-height: 250px; }
-	div.thumb_content.fullwidth .thumb_meta .habitacion_price.list_image { margin-top: 0; }
-	.habitacion_country_subheader { font-size: 11px; }
-	.habitacion_call_to_action_box { max-width: 100%; box-sizing: border-box; padding: 30px 30px 30px; }
-	.habitacion_call_to_action_book { font-size: 24px; }
-	#call_to_action_habitacion_book_btn {width: auto; }
-	.habitacion_book_form_wrapper { max-width: 100%; width: 100%; }
-	.habitacion_book_form h2 { margin-top: 70px; }
-	#habitacion_book_wrapper { overflow: auto; }
-        .top_bar .header_cta { padding: 16px 22px; }
-        #featured_filter_wrapper.fullwidth .element, .featured_filter_wrapper.fullwidth .element { width: 95% !important; margin-bottom: 3% !important; }
-        #slide-4-layer-3 { width: 340px !important; min-height:340px !important; max-height:340px !important; }
-        #pre_footer ul li { width: 100%; }
-        #pre_footer .sidebar_widget.three > li ul li { width: 100%;}
-        #pre_footer .sidebar_widget .last-child { width: 100% !important;}
-        #footer .footer_content .text { width: 100%;}
-        .hidden_mobile{ display: none !important; }
-        .footer_bar_wrapper .link_wrapper ul li { float: initial; text-align: center; }
-        .grid-habitaciones .element.portfolio3filter_wrapper.isotope-item { width: 100% !important; padding: 0 !important;}
-        #pre_footer input[type="submit"] { margin: -4px; }
-        .featured_wrapper{ -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=1)"; filter: alpha(opacity=1); opacity: 1; }
-        .grid-habitaciones div.thumb_content .thumb_meta{ opacity: 1; }
-        .one_third.gallery3 div.thumb_content { background-color: rgba(0, 0, 0, 0.5) !important; }
-    
-		/* Habitaciones detail { */
-		.manifest-rates { right: 0;margin: 2%;width: 96%;}
-		.habitaciones-template-default #page_content_wrapper .inner .box-content { width: 100%; }
-		.habitaciones-template-default #page_content_wrapper .inner .padding_60 { padding: 13% 0 6% 0; }
-		.one_box { width: 90%; margin: 0 5% 0 5%; }
-		.two_box { width: 90%; margin: 0 5% 10% 5%; }
-		#page_content_wrapper .inner .sidebar_content.full_width { padding-top: 1px; }
-		/* } Habitaciones detail */
-		/* Habitaciones listing { */
-		.module-experiencia .one_half{
-			width:100% !important;
-			height:auto !important;
-		}
-		/* } Habitaciones listing */
-		
+	
 		.is_mobile { display: block; }
 		.is_not_mobile { display: none; }
 
 		.one.withsmallpadding .page_content_wrapper{
 			width: 94% !important;
 		}
-		
-		.is-mobile{
-			display: block;
-		}
-		.is-desktop{
-			display: none;
-		}
 		.contact-form-data .one_half{
 			width:90% !important;
 			margin-bottom: 0px !important;
 		}
-	
 	
 	.bx-viewport,
 	.bx-viewport ul,
@@ -686,7 +581,6 @@
 	.ppb_default .elements {
 		height: 490px !important;
 		margin-bottom: 54px !important;
-		/*margin-top: -200px !important;*/
 	}
 	.ppb_default .element {
     	margin-top: -194px !important;
@@ -755,8 +649,6 @@ display: table;
 	margin: 33px 0 8px 0;
 }
 	/* } THISNEW */
-	
-	
 	
 }
 /* 
@@ -843,7 +735,6 @@ display: table;
 	
 	.one_half.portfolio2_wrapper { margin-bottom: 30px; }
 	
-	.post_img {  }
 	.post_date { display: none; }
 	.post_date .month{ font-size: 12px; margin-top: -7px; }
 	.post_date .date { font-size: 20px; margin-top: 8px; }
@@ -893,7 +784,7 @@ display: table;
 	.one_third.gallery3 .mask .mask_circle i { font-size: 34px; line-height: 48px; }
 	.filter.shortcode li { width: 420px; }
 	#page_caption .page_title_wrapper { width: 420px; }
-	.filter li, .shop_filter li { width: 420px; }
+	.filter li { width: 420px; }
 	.one_half.gallery2 .mask { height: 270px !important; }
 	.one_half.gallery2:hover .mask .mask_circle { width: 48px; height: 48px; margin-top: 24%; }
 	.one_half.gallery2 .mask .mask_circle i { font-size: 34px; line-height: 48px; }

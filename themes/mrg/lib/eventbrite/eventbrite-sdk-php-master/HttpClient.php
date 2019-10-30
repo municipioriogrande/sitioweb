@@ -95,7 +95,6 @@ class HttpClient extends AccessMethods
             $url = $url . '&expand=' . $expand_str;
         }
 		
-		//echo 'ZZZZZ|'.$path.'|ZZZZZ';
 		$file_name = str_replace('/','_',$path);
 		$file_name = $file_name . $add_file_name;
 		
@@ -111,28 +110,23 @@ class HttpClient extends AccessMethods
 		}
 		else
 		{
-			# Si el archivo no existe lo cre por primera vez
+			// Si el archivo no existe lo cre por primera vez
 			if(!file_exists($name_file))
 			{
-				//echo '|1|'.'<br>'."\r";
 				$response = $this->MRG_make_file_evenbrite($url,$name_file,false);
 				
-				//$status = 'Init';
 			}
 			else
 			{
-				//echo '|2|'.'<br>'."\r";
 				date_default_timezone_set('UTC');
 				date_default_timezone_set("America/Argentina/Ushuaia");
 				setlocale(LC_ALL,"es_ES");
 				
 				$hora 					= getdate();
 				$segundos_menos 		= 3600*3; 									// Diferencia horaria (3hs Argentina)
-				//$segundos_validos 		= 3600; 										// Segundos validos para el archivo (5hs)
 				$segundos_validos 		= $this->seconds_expire;
 				$hora_actual 			= strtotime(gmdate("M d Y H:i:s", ($hora[0]-$segundos_menos)));	// Formateamos hora de sistema
 				$hora_archivo 			= strtotime(date("M d Y H:i:s", filemtime($name_file)));	// Formateamos hora de sistema
-				//$horas_resta 			= ( $this->MRG_normalice_fecha($hora_actual) ) - ( $this->MRG_normalice_fecha($hora_archivo) );
 				$horas_resta 			= $hora_actual - $hora_archivo;
 				
 				if($horas_resta<=$segundos_validos){
@@ -148,7 +142,6 @@ class HttpClient extends AccessMethods
 					
 					$this->status = 'Off time '.$hora_actual .'|'.$hora_archivo;
 				}
-				//echo $status.'<br>'."\r";
 			}
 		}
 
@@ -164,12 +157,6 @@ class HttpClient extends AccessMethods
 	
 	public function MRG_make_file_evenbrite($url_post,$namefile,$context)
 	{
-		/*
-		echo '|a|<br>'."\r";
-		echo $url_post.'<br>'."\r";
-		echo $namefile.'<br>'."\r";
-		echo $context.'<br>'."\r";
-		*/
 		$name_file 	= $namefile;
 	
 		//sometimes with $context doesn't bring new classes
@@ -181,17 +168,16 @@ class HttpClient extends AccessMethods
         if ($response == NULL) {
             $response = array();
         }
-        //$response['response_headers'] = $http_response_header;
 		
 
 		if(is_array($response))
 		{
-			# Eliminamos archivo
+			// Eliminamos archivo
 			if(file_exists($namefile)){
 				@unlink($namefile);
 			}
 	
-			# Creamos archivo
+			// Creamos archivo
 			$fp = fopen($namefile,"w");
 			if($fp != false){
 				fwrite($fp, json_encode($response));

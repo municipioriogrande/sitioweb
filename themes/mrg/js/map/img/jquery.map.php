@@ -29,7 +29,6 @@ require_once( $path_to_wp.'/wp-load.php' );
 		flags.push(temp_arr);
 	beaches = flags;
     var mapa_visible = false;
-	//initialize(flags);
 	
 	var map;
 	function initialize(beaches) {
@@ -81,7 +80,6 @@ require_once( $path_to_wp.'/wp-load.php' );
 		map.mapTypes.set('hiphop', jayzMapType);
 		map.setMapTypeId('hiphop');
 		setMarkers(map, beaches);
-		//mapHidden();
         
         jQuery( ".map_bt_close" ).click(function() {
             jQuery( "#map" ).animate({
@@ -106,13 +104,11 @@ require_once( $path_to_wp.'/wp-load.php' );
 		var marker = new google.maps.Marker({
 			position: myLatLng,
 			map: map,
-			/*shadow: shadow,*/
 			icon: image,
 			shape: shape,
 			title: beach[0],
 			zIndex: Number(beach[3])
 		});
-		//createInfoWindow(marker, beach[4], map, myLatLng);
 		}
 	}
 	

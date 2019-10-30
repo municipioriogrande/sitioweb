@@ -23,7 +23,6 @@ if(is_object($post) && !isset($_GET['action']))
 	/**
 	*	Get Current page object
 	**/
-	//$page = get_page('3942');
 	$page = get_page_by_path('blog/category');
 	
 	/**
@@ -111,7 +110,6 @@ elseif(is_archive() && empty($term))
 if(empty($page_hide_header) && ($page_revslider == -1 OR empty($page_revslider) OR !empty($page_header_below)))
 {
 	$pp_page_bg = '';
-	//echo 'okkkkkkkkkkkkkkkkkkkkkkk'.$current_page_id;
 	//Get page featured image
 	if(has_post_thumbnail($current_page_id, 'full'))
     {

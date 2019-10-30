@@ -5,7 +5,6 @@
  */
 
 
-//wp_deregister_script( 'jquery-migrate' ); //doens't work :( 
 wp_deregister_script( 'comment-reply' );
 
 add_filter( 'wpcf7_load_js', '__return_false' );
@@ -19,9 +18,7 @@ function _remove_style(){
 		wp_dequeue_style('fancybox');
 		wp_deregister_script( 'fancybox' );
 		wp_dequeue_style('tooltipster');
-		//wp_deregister_script( 'jquery.tooltipster.min.js' );  //sino se rompe
 		wp_dequeue_style('magnific-popup');		
-		//wp_deregister_script( 'jquery.magnific-popup.js' );  //sino se rompe
 	}
 }
 

@@ -39,13 +39,6 @@ if($post_type == 'galleries')
 
 	exit;
 }
-elseif($post_type == 'habitaciones')
-{
-	/* THISNEW { */
-	get_template_part("single-habitacion-f");
-	exit;
-	/* } THISNEW */
-}
 else
 {
 	$post_layout = get_post_meta($post->ID, 'post_layout', true);

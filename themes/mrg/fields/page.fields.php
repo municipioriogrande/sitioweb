@@ -65,10 +65,6 @@ $page_postmetas =
 			Begin Page custom fields
 		*/
 		
-		//array("section" => "Page Title", 		"id" => "page_hide_header", 	"type" => "checkbox", 	"title" => "Hide Page Title", 	"description" => "Check this option if you want to hide page title."),
-		//array("section" => "Select Sidebar", 	"id" => "page_sidebar", 		"type" => "select", 	"title" => "Page Sidebar", 		"description" => "Select this page's sidebar to display", "items" => $theme_sidebar),
-		//array("section" => "Content Type", 		"id" => "page_gallery_id", 		"type" => "select", 	"title" => "Gallery", 			"description" => "You can select image gallery to display on this page. (If you select Gallery as page template)", "items" => $galleries_select),
-		//array("section" => "Page Form", 	"id" => "page_form", 			"type" => "text",		"title" => "Formulario", 		"description" => "Agregar Short code de formulario"),
 		array("section" => "Iframe Code", 	"id" => "page_iframe_code", 	"type" => "textarea", 	"title" => "Iframe Code",        "description" => "Introduzca el codigo del Iframe"),	
 		/*
 			End Page custom fields

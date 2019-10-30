@@ -214,7 +214,6 @@ if ( function_exists( 'add_theme_support' ) ) {
 	add_theme_support( 'automatic-feed-links' );
 	add_theme_support( 'custom-background' );
 	add_theme_support( 'post-formats', array( 'link', 'quote' ) );
-	add_theme_support( 'woocommerce' );
 }
 
 if ( function_exists( 'add_image_size' ) ) { 
@@ -227,8 +226,7 @@ if ( function_exists( 'add_image_size' ) ) {
 	add_image_size( 'blog_f', 960, 9999, false ); // Index List
 	add_image_size( 'blog_g', 480, 480, true ); // Single Post
 	
-	/* LISTADOS */
-	//add_image_size( 'img_listados', 675, 421, true );
+	
 	/* DETALLES */
 	add_image_size( 'img_headers', 1366, 540, true );
 	
@@ -279,83 +277,6 @@ include (get_template_directory() . "/fields/post.fields.php");
 include (get_template_directory() . "/fields/gallery/tg-gallery.php");
 
 
-//Check if has new update
-/*include_once(get_template_directory() . '/modules/envato-wordpress-toolkit-library/class-envato-wordpress-theme-upgrader.php');
-
-$pp_envato_username = get_option('pp_envato_username');
-$pp_envato_api_key = get_option('pp_envato_api_key');
-$upgrader = array();
-
-if(!empty($pp_envato_username) && !empty($pp_envato_api_key))
-{
-	$upgrader = new Envato_WordPress_Theme_Upgrader( $pp_envato_username, $pp_envato_api_key );
-	$upgrader_obj = $upgrader->check_for_theme_update();
-	
-	if($upgrader_obj->updated_themes_count > 0)
-	{
-		add_action('admin_notices', 'pp_admin_notice');
-
-		function pp_admin_notice() {
-			global $current_user ;
-		        $user_id = $current_user->ID;
-
-			if ( ! get_user_meta($user_id, 'pp_ignore_notice') ) {
-		        echo '<div class="updated"><p>'; 
-		        printf(__(' There is update available for '.THEMENAME.' theme. Go to "Theme Setting > Auto update" tab to update the theme. | <a href="%1$s">Hide</a>'), '?pp_ignore_notice=0');
-		        echo "</p></div>";
-			}
-		}
-		
-		add_action('admin_init', 'pp_nag_ignore');
-		
-		function pp_nag_ignore() {
-			global $current_user;
-		        $user_id = $current_user->ID;
-
-		        if ( isset($_GET['pp_ignore_notice']) && '0' == $_GET['pp_ignore_notice'] ) {
-		             add_user_meta($user_id, 'pp_ignore_notice', 'true', true);
-				}
-		}
-	}
-}*/
-
-/**
-*	Setup one click update theme function
-**/
-/*add_action('wp_ajax_pp_update_theme', 'pp_update_theme');
-add_action('wp_ajax_nopriv_pp_update_theme', 'pp_update_theme');
-
-function pp_update_theme() {
-	if(is_admin())
-	{
-		include_once(get_template_directory() . '/modules/envato-wordpress-toolkit-library/class-envato-wordpress-theme-upgrader.php');
-
-		$pp_envato_username = get_option('pp_envato_username');
-		$pp_envato_api_key = get_option('pp_envato_api_key');
-		
-		if(!empty($pp_envato_username) && !empty($pp_envato_api_key))
-		{
-			$upgrader = new Envato_WordPress_Theme_Upgrader( $pp_envato_username, $pp_envato_api_key );
-			$upgrader_obj = $upgrader->check_for_theme_update();
-			
-			if($upgrader_obj->updated_themes_count > 0)
-			{
-				$result = $upgrader->upgrade_theme();
-				echo $result->installation_feedback;
-			}
-			else
-			{
-				echo 'There is no theme update available';
-			}
-		}
-		else
-		{
-			echo 'Please enter Envato username and API Key';
-		}
-	}
-}*/
-
-
 /**
 *	Setup AJAX search function
 **/
@@ -371,11 +292,11 @@ function pp_ajax_search() {
 			SELECT $wpdb->posts.*
 			FROM $wpdb->posts
 			WHERE 1=1 AND ((lower($wpdb->posts.post_title) like '%$s%'))
-			AND $wpdb->posts.post_type IN ('post', 'page', 'attachment', 'habitaciones', 'slider')
+			AND $wpdb->posts.post_type IN ('post', 'page', 'attachment', 'slider')
 			AND (post_status = 'publish')
 			ORDER BY $wpdb->posts.post_date DESC
 			LIMIT $limit;
-		 ";/* THIS NEW (add habitaciones, slider) */
+		 ";/* THIS NEW (add slider) */
 
 	 	$pageposts = $wpdb->get_results($querystr, OBJECT);
 	 	
@@ -877,14 +798,6 @@ function pp_enqueue_front_page_scripts() {
 	//Add Font Awesome Support
 	wp_enqueue_style("fontawesome", get_template_directory_uri()."/css/font-awesome.min.css", false, THEMEVERSION, "all");
 	
-	/* THISNEW { */
-	//Add Font MRG Roman, Medium, Heavy
-	/*
-	wp_enqueue_style("avenir-roman", get_template_directory_uri()."/fonts/avenir/roman/stylesheet.css", false, THEMEVERSION, "all");
-	wp_enqueue_style("avenir-medium", get_template_directory_uri()."/fonts/avenir/medium/stylesheet.css", false, THEMEVERSION, "all");
-	wp_enqueue_style("avenir-heavy", get_template_directory_uri()."/fonts/avenir/heavy/stylesheet.css", false, THEMEVERSION, "all");
-	*/
-	/* } THISNEW */
 	
 	//Add custom colors and fonts
 	wp_enqueue_style("custom_css", get_template_directory_uri()."/templates/custom-css.php", false, THEMEVERSION, "all");
@@ -942,32 +855,17 @@ function pp_enqueue_front_page_scripts() {
 	    }
 	}
 	
-	//Enqueue javascripts --> just use wp's
-   //wp_deregister_script( 'jquery' );
-   //wp_register_script( 'jquery', includes_url( '/js/jquery/jquery.js' ), false, NULL, true );
-   //wp_enqueue_script( 'jquery' );
-
-   wp_deregister_script( 'jquery-migrate' );
+	   wp_deregister_script( 'jquery-migrate' );
    wp_register_script( 'jquery-migrate', includes_url( '/js/jquery/jquery-migrate.min.js' ), false, NULL, true );
    wp_enqueue_script( 'jquery-migrate' );	
 	
-	
-	
-	
-	
-	
-	//Setup Google Map API key
-	//MRG_set_map_api();
-	
+
 	wp_enqueue_script("parallax", get_template_directory_uri()."/js/parallax.min.js", false, THEMEVERSION, true);
 	
 	$js_path = get_template_directory()."/js/";
 	$js_arr = array(
 		'jquery.easing.js',
 		'jquery.magnific-popup.js',
-	    /*'waypoints.min.js',
-	    'jquery.isotope.js',
-	    'jquery.masory.js',*/
 	    'jquery.tooltipster.min.js',
 	    'custom_plugins.js',
 	    'custom.js',
@@ -1088,7 +986,7 @@ if(!is_writable($cache_dir))
 			<div id="message" class="updated fade">
 				<p>
 					<strong>Do you want to import demo theme settings?</strong><br/><br/>
-					<strong>*NOTE:</strong> Default them setting is not sample content. It imports only theme admin panel settings including colors, font etc. You still have to add your own contents ex. pages, post, habitaciones, slider etc.<br/><br/>
+					<strong>*NOTE:</strong> Default them setting is not sample content. It imports only theme admin panel settings including colors, font etc. You still have to add your own contents ex. pages, post, slider etc.<br/><br/>
 					<input id="pp_import_default_button" name="pp_import_default_button" type="submit" value="Import Settings" class="upload_btn button-primary"/>
 					<?php
 						//Get admin URL
@@ -1110,9 +1008,6 @@ if(!is_writable($cache_dir))
 	<div id="pp_panel">
 	<?php 
 		foreach ($options as $value) {
-			/*print '<pre>';
-			print_r($value);
-			print '</pre>';*/
 			
 			$active = '';
 			
@@ -1538,7 +1433,6 @@ case 'skin':
 	
 	$wpdb->query("SELECT * FROM `".$wpdb->prefix."options` WHERE `option_name` LIKE '%".SKINSHORTNAME."_%'");
 	$pp_skins_obj = $wpdb->last_result;
-	//pp_debug($pp_skins_obj);
 	
 	if ($_SERVER["SERVER_PORT"] != "80") {
 	  	$api_url = (!empty($_SERVER['HTTPS'])) ? "https://".$_SERVER['SERVER_NAME'].":".$_SERVER["SERVER_PORT"].$_SERVER['REQUEST_URI'] : "http://".$_SERVER['SERVER_NAME'].":".$_SERVER["SERVER_PORT"].$_SERVER['REQUEST_URI'];
@@ -1559,7 +1453,6 @@ case 'skin':
 		foreach ($pp_skins_obj as $key => $pp_skin) { 
 			//Get skin name	
 			$pp_skin_arr = unserialize($pp_skin->option_value);
-			//pp_debug(unserialize($pp_skin_arr));
 	?>
 	 		<li class="ui-state-default">
 	 			<div class="title"><?php echo $pp_skin_arr['name']; ?></div>
@@ -1736,19 +1629,13 @@ $i++;
 
 add_action('admin_menu', 'pp_add_admin');
 
-//Setup content builder
-include (get_template_directory() . "/modules/content_builder.php");
-
-// Setup shortcode generator
-include (get_template_directory() . "/modules/shortcode_generator.php");
-
 // Setup Twitter API
 include (get_template_directory() . "/modules/twitteroauth.php");
 
 // A callback function to save our extra taxonomy field(s)
 function save_taxonomy_custom_fields( $term_id ) {
     if ( isset( $_POST['tourcats_template'] ) ) {
-        $t_id = $term_id;
+        $t_id = $term_id; 
         $term_meta = get_option( "taxonomy_term_$t_id" );
 
         if ( isset( $_POST['tourcats_template'] ) ){
@@ -1814,7 +1701,7 @@ function wpse187030_posts_where( $where, $wp_query )
     global $wpdb;
     if ( $wpse187030_title = $wp_query->get( 'wpse187030_title' ) ) {
         $where .= 'OR (' . $wpdb->posts . '.post_title LIKE \'%' . esc_sql( $wpdb->esc_like( $wpse187030_title ) ) . '%\' ';
-        $where .= 'AND ' . $wpdb->posts . '.post_type = \'habitaciones\')';
+        $where .= ')';
     }
     return $where;
 }
@@ -1837,12 +1724,6 @@ add_filter('widget_text', 'do_shortcode');
 add_filter('redirect_canonical','custom_disable_redirect_canonical');
 function custom_disable_redirect_canonical($redirect_url) {if (is_paged() && is_singular()) $redirect_url = false; return $redirect_url; }
 
-//Check if Woocommerce is installed	
-if(class_exists('Woocommerce'))
-{
-	//Setup Woocommerce Config
-	require_once (get_template_directory() . "/modules/woocommerce.php");
-}
 
 if(THEMEDEMO)
 {
@@ -1931,12 +1812,10 @@ function format_fecha($fecha)
 	$mes 				= $fecha_explode[1]; 
 	$year 				= $fecha_explode[2];  
 	
-	//if($mes<10){$mes=str_replace("0","",$mes);} 
 	
 	$dia 				= $lista_dias[$dia-1]; 
 	$mes 				= $lista_mes[$mes-1]; 
 	
-	//$retorno 			= $dia." ".$mes." ".$year;
 	$retorno 			= $mes." ".$dia;
 	return $retorno;
 }
@@ -1982,29 +1861,17 @@ function borrar_cache_file($ruta,$extencion_list,$time_secons)
 							
 							if(in_array($extArchivo,$extencion_list))
 							{
-								/*$last_modified = filemtime($ruta.$file);
-								$now = time();*/
 								
 								$time_file = filectime($ruta.$file);
 								$time_file_add = $time_file  + $time_secons;
 								$limit = time() - $time_secons;
 								
 								if($time_file <= $limit){
-									//echo "BORRAR -> | " . date("F d Y H:i:s.", $time_file) . " | " . date("F d Y H:i:s.", $limit) . " | Nombre:" . $ruta.$file . "<br>";
 									@unlink($ruta.$file);
-								}
-								else
-								{
-									//echo "NADA -> | " . date("F d Y H:i:s.", $time_file) . " | " . date("F d Y H:i:s.", $limit) . " | Nombre:" . $ruta.$file . "<br>";
 								}
 							}
 						}
 						
-						# Recursividad
-						/*if (is_dir($ruta . $file) && $file!="." && $file!=".." && $file!='scan')
-						{
-							listar_directorios_ruta($ruta . $file . "/",$extencion_list);
-						}*/
 					}
 				}
 				closedir($dh);
@@ -2108,7 +1975,6 @@ add_action( 'login_enqueue_scripts', 'my_login_stylesheet' );
 
 
 require get_parent_theme_file_path( '/includes/remove-stuff.php' );
-require get_parent_theme_file_path( '/includes/theme-shortcodes.php' );
 require get_parent_theme_file_path( '/includes/external-blog.php' );
 
 
@@ -2147,12 +2013,7 @@ function get_attachment_metadata_from_url($attachment_url, $meta="all"){
 	$attachment_url = "%" . $attachment_url; //escape like this for LIKE 
 	$query = "FROM {$wpdb->prefix}posts INNER JOIN {$wpdb->prefix}postmeta ON {$wpdb->prefix}posts.ID = {$wpdb->prefix}postmeta.post_id AND {$wpdb->prefix}posts.post_type = 'attachment' AND {$wpdb->prefix}posts.guid LIKE %s";
 	
-	/*
-	-- SELECT meta_value FROM mrg_posts INNER JOIN mrg_postmeta ON mrg_posts.ID = mrg_postmeta.post_id AND mrg_posts.post_type = "attachment" AND mrg_posts.guid LIKE "%agua.png" AND mrg_postmeta.meta_key = "_wp_attachment_image_alt"
 	
-	SELECT meta_value FROM mrg_posts, mrg_postmeta WHERE mrg_posts.ID = mrg_postmeta.post_id AND mrg_posts.post_type = "attachment" AND mrg_posts.guid LIKE "%agua.png" AND mrg_postmeta.meta_key = "_wp_attachment_image_alt"
-	*/
-
 	if ( $meta == "alt" || $meta == "alt_text" ) {
 		$query = "SELECT meta_value " . $query . " AND mrg_postmeta.meta_key = '_wp_attachment_image_alt'"; 
 		$results = $wpdb->get_row( $wpdb->prepare( $query , $attachment_url ) ) ;
@@ -2180,7 +2041,7 @@ add_action( 'after_setup_theme', function () {
 	add_theme_support( 'responsive-embeds' );
 
 
-	// crb_load()
+	// crb_load:
 	require_once( 'vendor/autoload.php' );
 	\Carbon_Fields\Carbon_Fields::boot();
 
@@ -2225,8 +2086,6 @@ add_action( 'after_setup_theme', function () {
 // ------------------------------------------
 // CONTROL THE INCLUSION OF JS AND CSS FILES
 // ------------------------------------------
-//add_filter( 'wpcf7_load_js', '__return_false' ); //not working...
-//add_filter( 'wpcf7_load_css', '__return_false' ); //not working...
 
 add_action('wp_enqueue_scripts', 'js_css_control');
 function js_css_control() {
@@ -2258,13 +2117,6 @@ function js_css_control() {
 	}
 
 
-	/*
-   // URL TO WORDPRESS PLUGIN DIR:
-   $pluginDir = plugins_url();
- 
-   // URL TO OUR THEME
-   $themeDir = get_template_directory_uri();
-	*/
 
 	
 	if (has_shortcode($content, 'contact-form-7')) {
@@ -2278,13 +2130,6 @@ function js_css_control() {
 		}
 	}
 	
-	
-	/*
-		wp_register_style ('bbspoiler', $pluginDir.'/bbspoiler/inc/bbspoiler.css' );
-		wp_register_script('bbspoiler', $pluginDir.'/bbspoiler/inc/bbspoiler.js', array(), '', true);  
-		wp_enqueue_style  ('bbspoiler');
-		wp_enqueue_script ('bbspoiler');
-	*/
 	if (has_shortcode($content, 'fileaway')) {
 		foreach($fileaway_scripts as $script) {
 			wp_dequeue_script($script);
