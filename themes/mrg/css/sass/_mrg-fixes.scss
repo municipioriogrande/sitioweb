@@ -799,6 +799,7 @@ body.post-type-archive-centros_salud {
 	.wp-block-gallery .blocks-gallery-item figure {
 		flex-direction: column;
 		align-self: center;
+		
 	}
 	
 	li {
@@ -886,8 +887,9 @@ body.post-type-archive-centros_salud {
 		line-height: 1.5em;
 	}
 
-	.wp-block-gallery.columns-2 .blocks-gallery-item figure{
+	.wp-block-gallery .blocks-gallery-item figure{
 		align-self: center;
+		align-items: center;
 	}
 }
 
