@@ -363,7 +363,7 @@ body.page-ciudad .getting-here-list::before {
   content: "";
   width: 2px;
   height: 90%;
-  background-color: #ff6a00;
+  background-color: #14a2db;
   position: absolute;
   left: 50%;
 }
@@ -374,7 +374,7 @@ body.page-ciudad .getting-here-list li {
   padding: 0.8em;
   background-color: #fff;
   text-align: center;
-  border: 2px solid #ff6a00;
+  border: 2px solid #14a2db;
   display: inline-block;
 }
 
@@ -437,7 +437,7 @@ body.page-ciudad .thumbnails {
   position: relative;
   cursor: pointer;
   margin: 0 1em;
-  border-top: 10px solid #ff6a00;
+  border-top: 10px solid #14a2db;
 }
 body.page-ciudad .thumbnails .flex-direction-nav {
   width: 100%;
@@ -470,7 +470,7 @@ body.page-ciudad .thumbnails .slides img {
   margin-top: 0px;
   margin-bottom: 40px;
   padding-bottom: 4px;
-  border-bottom: 2px solid #ff6a00;
+  border-bottom: 2px solid #14a2db;
   text-align: left;
   color: #002855;
   font-size: 48px;
@@ -611,7 +611,7 @@ form.form-subscribe div.wpcf7 input[type=file] {
 }
 
 form.form-subscribe-cleaner {
-  border: 2px solid #ff6a00;
+  border: 2px solid #14a2db;
   padding: 1em;
   border-radius: 1em;
   margin: 2em auto;
@@ -675,7 +675,8 @@ form.form-subscribe-cleaner input[type=radio] + label {
 }
 form.form-subscribe-cleaner [type=submit] {
   border: 1px solid #fff;
-  background-color: #ff6a00;
+  background-color: #14a2db;
+  background: linear-gradient(180deg, #14a2db 0%, #2ab99e 100%);
   color: #fff;
   width: auto;
   padding: 1em 1.7em !important;
@@ -1034,7 +1035,7 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
 }
 
 .nnice-cta {
-  background-color: #ff6a00;
+  background-color: #14a2db;
   border-radius: 10px;
 }
 .nnice-cta .row > .col {
@@ -1051,7 +1052,7 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
   padding: 11px 25px;
   border: 2px solid #fff;
   border-radius: 5px;
-  background-color: #ff6a00;
+  background-color: #14a2db;
   font-family: Muli, sans-serif;
   color: #fff;
   font-size: 17px;
@@ -1161,13 +1162,13 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
   padding: 0 !important;
 }
 .agenda-congreso-educacion-wrapper .congreso-educacion-accordion .time {
-  color: #ff6a00;
+  color: #14a2db;
 }
 .agenda-congreso-educacion-wrapper .congreso-educacion-accordion .time .arrow.arrow-down::before {
-  border-top-color: #ff6a00;
+  border-top-color: #14a2db;
 }
 .agenda-congreso-educacion-wrapper .congreso-educacion-accordion .time .arrow.arrow-left::before {
-  border-left-color: #ff6a00;
+  border-left-color: #14a2db;
 }
 .agenda-congreso-educacion-wrapper .congreso-educacion-accordion .time:hover {
   color: #000;
@@ -1199,7 +1200,7 @@ body.post-type-archive-centros_salud #list-centros_salud ul li .info .title {
   font-weight: bold;
   font-size: 1.2em;
   min-height: 60px;
-  border-bottom: 1px solid #ff6a00;
+  border-bottom: 1px solid #14a2db;
   text-align: center;
   line-height: 1.3em;
   margin-bottom: 1em;
@@ -1302,7 +1303,7 @@ body.page-espacio-tecnologico .form-edlt-info-wrapper #mauticform_edltinformacio
 }
 .box_pic-text-caption .text {
   color: #fff !important;
-  background-color: #ff6a00 !important;
+  background-color: #14a2db !important;
   font-weight: bold !important;
   font-size: 2.3em !important;
   padding: 1em !important;
@@ -1806,7 +1807,7 @@ body.page-municipio table {
 .mrg-toc li {
   display: inline-block;
   margin-right: 1em;
-  color: #ff6a00;
+  color: #14a2db;
   font-weight: 700;
   text-transform: uppercase;
   font-size: 14px;
@@ -1994,7 +1995,7 @@ body.page-municipio table {
   height: 200px;
 }
 .cta-graph-img .wp-block-column.graph .progress-text {
-  color: #ff6a00;
+  color: #14a2db;
   font-size: 1.2em;
   line-height: 1.2em;
   font-weight: 900;
@@ -2051,7 +2052,7 @@ body.page-municipio table {
 }
 .mrg-block-number-wrapper .mrg-block-number .number {
   border-radius: 2em;
-  background-color: #ff6a00;
+  background-color: #14a2db;
   color: #fff;
   font-size: 2em;
   line-height: 1.5em;
@@ -2095,7 +2096,7 @@ body.page-municipio table {
 .mrg-section-boxes .mrg-block-column-spaces-vertical.with-heading .heading {
   margin-bottom: 0px;
   padding: 9px 0;
-  background-color: #ff6a00;
+  background-color: #14a2db;
   color: #fff;
   font-size: 18px;
   line-height: 27px;
