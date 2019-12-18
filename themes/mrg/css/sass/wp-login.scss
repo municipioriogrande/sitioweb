@@ -1,29 +1,27 @@
+$light-blue: #14a2db; //rgba(20,162,219,1)
+$aqua-green: #2ab99e; //rgba(42,185,158,1)
+
 body.login div#login {
 
-
 	h1 a {
-		background-image: url("../images/logo.png");
-		height: 56px;
-		width: 226px;
-		background-size: 165px 62px;
+		background-image: url("../images/logo_small.png");
+		height: 58px;
+		width: 173px;
+		background-size: 124px 62px;
 		background-repeat: no-repeat;
-		padding-bottom: 5px;
+		padding-bottom: 14px;
 	}
 
-
 	#wp-submit {
-		background: #ff6b00;
-		border-color: #cc5704;
-		box-shadow: 0 1px 0 #cc5704;
+		background: $light-blue;
+		border-color: darker($light-blue,20%);
+		box-shadow: 0 1px 0 darker($light-blue,20%);
 		text-shadow: none;
 	}
 	
 	#login_error, 
 	.message, 
 	.success {
-		border-left-color: #ff6b00;
+		border-left-color: $light-blue;
 	}
 }
-
-
-

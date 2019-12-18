@@ -1,5 +1,5 @@
 body.login div#login h1 a {
-  background-image: url("../images/logo.png");
+  background-image: url("../images/logo_small.png");
   height: 56px;
   width: 226px;
   background-size: 165px 62px;
@@ -7,15 +7,15 @@ body.login div#login h1 a {
   padding-bottom: 5px;
 }
 body.login div#login #wp-submit {
-  background: #ff6b00;
-  border-color: #cc5704;
-  box-shadow: 0 1px 0 #cc5704;
+  background: #14a2db;
+  border-color: darker(#14a2db, 20%);
+  box-shadow: 0 1px 0 darker(#14a2db, 20%);
   text-shadow: none;
 }
 body.login div#login #login_error,
 body.login div#login .message,
 body.login div#login .success {
-  border-left-color: #ff6b00;
+  border-left-color: #14a2db;
 }
 
 /*# sourceMappingURL=wp-login.css.map */
