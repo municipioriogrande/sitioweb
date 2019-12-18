@@ -1245,8 +1245,6 @@ body.js_nav #imageFlow_gallery_info
 .slides .slide .box h1 {
     display: inline-block;
     padding: 0px 15px 12px;
-    background-image: -webkit-linear-gradient(270deg, #ff6a00, #ff6a00);
-    background-image: linear-gradient(180deg, #ff6a00, #ff6a00);
     color: #fff;
     font-size: 65px;
     line-height: 74px;
@@ -1279,7 +1277,6 @@ body.js_nav #imageFlow_gallery_info
     margin-bottom: 0px;
     padding: 9px 25px !important;
     border: 2px none #fff;
-    background-color: #ff6a00;
     font-family: 'Muli', sans-serif;
     color: #fff;
     font-size: 17px;
@@ -5439,7 +5436,6 @@ form div .hs-field-desc {
 			margin-bottom: 0px;
 			padding: 9px 25px !important;
 			border: 2px none #fff;
-			background-color: #ff6a00;
 			font-family: 'Muli', sans-serif;
 			color: #fff;
 			font-size: 17px;

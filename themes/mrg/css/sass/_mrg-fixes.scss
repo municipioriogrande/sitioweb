@@ -1579,3 +1579,30 @@ body.page-municipio {
 .error404 #page_caption .button-cta {
 	@include linear-gradient-2020();
 }
+
+#menu_wrapper {
+	display: flex !important;
+	justify-content: space-between;
+
+	.col-right {
+		display: flex;
+		margin-right: 0.6em;
+	}
+
+	.content-weather {
+		order: 2;
+	}
+	#searchform {
+		order: 1;
+	}
+	.header-escudo {
+		order: 3;
+		padding-top: 0.3em;		
+
+		img {
+			height: 90px;
+			vertical-align: middle;
+			display: inline-block;			
+		}
+	}
+}
