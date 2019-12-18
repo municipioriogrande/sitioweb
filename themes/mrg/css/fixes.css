@@ -25,6 +25,9 @@ a {
   -moz-transition: color 0.2s linear, background 0.1s linear;
   -webkit-transition: color 0.2s linear, background 0.1s linear;
 }
+a:hover {
+  color: #2ab99e;
+}
 
 h4 {
   margin-top: 1em;
@@ -245,6 +248,10 @@ dl.inline-wrapped dt {
   margin-bottom: 8px;
 }
 
+.header_style_wrapper .hamburger {
+  display: none;
+}
+
 .andimol_clima .anndimol-temp {
   padding-top: 0;
 }
@@ -288,6 +295,11 @@ dl.inline-wrapped dt {
 .page-breadcrumb ul li {
   max-width: 450px;
   text-align: left;
+  /*
+  &:nth-child(5n) a {
+  	color: $aqua-green;
+  }
+  */
 }
 
 .module_add_shortcode .fake-text-bajada-style .text {
@@ -302,6 +314,14 @@ dl.inline-wrapped dt {
 .wrapper_max_width {
   max-width: 1080px;
   margin: 0 auto;
+}
+
+.slider_wrapper .slides .slide .box h1, .slider_wrapper .slides .slide .box .button {
+  background-color: #14a2db;
+  background: linear-gradient(180deg, #14a2db 0%, #2ab99e 100%);
+}
+.slider_wrapper .flex-control-paging li a:hover {
+  background-color: #14a2db;
 }
 
 body.page-ciudad #page_content_wrapper .inner .sidebar_content img {
@@ -462,7 +482,7 @@ body.page-ciudad .thumbnails .slides img {
 }
 
 form.form-subscribe {
-  background-color: #ff6a00;
+  background-color: #14a2db;
   color: #fff;
   padding: 1em;
   border-radius: 1em;
@@ -526,7 +546,7 @@ form.form-subscribe input[type=radio] + label {
 }
 form.form-subscribe [type=submit] {
   border: 1px solid #fff;
-  background-color: #ff6a00;
+  background-color: #14a2db;
   color: #fff;
   width: auto;
   padding: 1em 1.7em !important;
@@ -1540,6 +1560,20 @@ body.page-municipio table {
   }
 }
 
+.ppb_module_eventbrite .read .content .button,
+.ppb_module_subtitle_bajada_search input[type=submit] {
+  background-color: #14a2db;
+}
+
+/* temporal fix */
+:root .has-luminous-vivid-orange-background-color {
+  background-color: #14a2db;
+}
+
+.footer .row-1 li a:hover, .footer .row-2 li a:hover, .footer .row-3 li a:hover {
+  color: #2ab99e;
+}
+
 .effect-enlarge-shadow:hover {
   -webkit-transform: scale(1.015);
   -ms-transform: scale(1.015);
@@ -1676,7 +1710,7 @@ body.page-municipio table {
 .blog-latest > .title {
   margin: 1em;
   padding-top: 0px;
-  color: #ff6a00;
+  color: #14a2db;
   text-align: center;
   font-family: Muli, sans-serif;
   font-weight: 900;
@@ -1695,6 +1729,9 @@ body.page-municipio table {
   margin: 3em auto;
   transition: 0.4s;
 }
+.blog-latest .button-blog img {
+  filter: hue-rotate(150deg);
+}
 
 .blog-latest .button-blog:hover {
   transform: rotate(-20deg);
@@ -1705,7 +1742,7 @@ body.page-municipio table {
 }
 
 .background-orange {
-  background-color: #ff6a00;
+  background-color: #14a2db;
   color: #fff;
 }
 
@@ -1721,7 +1758,7 @@ body.page-municipio table {
   margin-top: 2em;
   margin-bottom: 1em;
   padding-bottom: 4px;
-  border-bottom: 2px solid #ff6a00;
+  border-bottom: 2px solid #14a2db;
   color: #002855;
   font-size: 3em;
   font-weight: 900;
@@ -1797,14 +1834,14 @@ body.page-municipio table {
 }
 .mrg-block-header h2 {
   font-weight: 900;
-  color: #ff6a00;
+  color: #2ab99e;
   font-size: 4.4em;
   line-height: 1em;
   margin-bottom: 0.6em;
 }
 .mrg-block-header .contact-title {
   margin-top: 0px !important;
-  color: #ff6a00 !important;
+  color: #2ab99e !important;
   font-weight: 700 !important;
   margin-bottom: 10px !important;
   font-size: 1.7em !important;
@@ -1823,6 +1860,10 @@ body.page-municipio table {
 .mrg-block-header .wp-block-column:first-child p {
   font-size: 28px;
   line-height: 36px;
+}
+
+.page-title-wrapper h1 {
+  color: #2ab99e;
 }
 
 #page_content_wrapper .indice_anclas {
@@ -1844,7 +1885,7 @@ body.page-municipio table {
   padding: 11px 25px;
   border: 2px solid #fff;
   border-radius: 5px;
-  background-color: #ff6a00;
+  background-color: #14a2db;
   color: #fff;
   font-size: 17px;
   font-weight: 400;
@@ -2095,7 +2136,8 @@ body.page-municipio table {
   margin-left: 0px;
 }
 .mrg-section-grey-boxes-links a:hover .box {
-  background-color: #ff6a00;
+  background-color: #14a2db;
+  background: linear-gradient(180deg, #14a2db 0%, #2ab99e 100%);
   box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.58);
 }
 .mrg-section-grey-boxes-links.section-no-spaces .box {
@@ -2190,11 +2232,12 @@ body.page-municipio table {
   box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.58);
   transition: transform 200ms ease 0s;
   transform: translateX(0px) translateY(-13px);
-  background-color: #ff6a00;
+  background-color: #14a2db;
+  background: linear-gradient(180deg, #14a2db 0%, #2ab99e 100%);
 }
 
 .page-template-page_home_fullwidth h2 {
-  color: #ff6a00;
+  color: #14a2db;
   margin-top: 2.5em;
   margin-bottom: 1.6em;
   padding-top: 0;

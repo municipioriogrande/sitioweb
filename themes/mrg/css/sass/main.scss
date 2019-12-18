@@ -7,6 +7,15 @@ $font-awesome-normal: "Font Awesome 5 Free";
 $font-awesome-brands: "Font Awesome 5 Brands";
 $blue: #135cad;
 
+//new colors
+$light-blue: #14a2db; //rgba(20,162,219,1)
+$aqua-green: #2ab99e; //rgba(42,185,158,1)
+
+@mixin linear-gradient-2020() {
+	background-color: $light-blue;
+	background: linear-gradient(180deg, $light-blue 0%, $aqua-green 100%);
+}
+
 table {
 	border: 0;
 	border-spacing: 0 .6em;
@@ -33,6 +42,10 @@ a {
 	transition: color .2s linear, background .1s linear;
 	-moz-transition: color .2s linear, background .1s linear;
 	-webkit-transition: color .2s linear, background .1s linear;
+
+	&:hover {
+		color: $aqua-green;
+	}
 }
 
 h4 {

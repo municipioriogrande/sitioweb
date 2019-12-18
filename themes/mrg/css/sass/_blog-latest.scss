@@ -6,7 +6,7 @@
 .blog-latest > .title {
 	margin: 1em;
 	padding-top: 0px;
-	color: #ff6a00;
+	color: $light-blue;
 	text-align: center;
 	font-family: Muli, sans-serif;
 	font-weight: 900;
@@ -23,8 +23,12 @@
 	display: inline-block;
 	margin: 3em auto;
 	transition: 0.4s;
+
+	img {
+		filter: hue-rotate(150deg); //light blueish - tmp
+	}
+
 }
 .blog-latest .button-blog:hover {
 	transform: rotate(-20deg);
 }
-

@@ -1,8 +1,10 @@
 .background-grey {
 	background-color: #e2e2e2;
 }
+
+// FIX: temporal
 .background-orange {
-	background-color: $orange;
+	background-color: $light-blue;
 	color: #fff;
 }
 
@@ -18,7 +20,7 @@
 		margin-top: 2em;
 		margin-bottom: 1em;
 		padding-bottom: 4px;
-		border-bottom: 2px solid $orange;
+		border-bottom: 2px solid $light-blue;
 		color: $deep-blue;
 		font-size: 3em;
 		font-weight: 900;
@@ -111,7 +113,7 @@
 
 	h2 {
 		font-weight: 900;
-		color: $orange;
+		color: $aqua-green;
 		font-size: 4.4em;
 		line-height: 1em;
 		margin-bottom: 0.6em;
@@ -119,7 +121,7 @@
 
 	.contact-title {
 		margin-top: 0px !important;
-		color: $orange !important;
+		color: $aqua-green !important;
 		font-weight: 700 !important;
 		margin-bottom: 10px !important;
 		font-size: 1.7em !important;
@@ -146,6 +148,10 @@
 	}
 }
 
+.page-title-wrapper h1 {
+	color: $aqua-green;
+}
+
 #page_content_wrapper .indice_anclas {
 	left: 0;
 }
@@ -167,7 +173,7 @@
 		padding: 11px 25px;
 		border: 2px solid #fff;
 		border-radius: 5px;
-		background-color: $orange;
+		background-color: $light-blue;
 		color: #fff;
 		font-size: 17px;
 		font-weight: 400;
@@ -479,7 +485,7 @@
 
 	a:hover {
 		.box {
-			background-color: $orange;
+			@include linear-gradient-2020();
 			box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, .58);
 		}
 	}
@@ -594,13 +600,13 @@
 		box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, .58);
 		transition: transform 200ms ease 0s;
 		transform: translateX(0px) translateY(-13px);
-		background-color: $orange;
+		@include linear-gradient-2020();
 	  }
 
 }
 
 .page-template-page_home_fullwidth h2 {
-	color: $orange;
+	color: $light-blue;
 	margin-top: 2.5em;
 	margin-bottom: 1.6em;
 	padding-top: 0;

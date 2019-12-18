@@ -1,3 +1,4 @@
+
 .top_bar #searchform {
     margin-right: 2em;
 
@@ -9,6 +10,10 @@
 	label {
 	    margin-bottom: 8px;
 	}    
+}
+
+.header_style_wrapper .hamburger {
+	display:none;
 }
 
 .andimol_clima {
@@ -61,6 +66,12 @@
 .page-breadcrumb ul li {
 	max-width: 450px;
 	text-align: left;
+
+	/*
+	&:nth-child(5n) a {
+		color: $aqua-green;
+	}
+	*/
 }
 
 .module_add_shortcode .fake-text-bajada-style .text {
@@ -75,6 +86,19 @@
 .wrapper_max_width {
 	max-width: 1080px;
 	margin: 0 auto;
+}
+
+.slider_wrapper {
+
+	.slides .slide .box {
+		h1, .button {
+			@include linear-gradient-2020();
+		}
+	}
+	
+	.flex-control-paging li a:hover {
+		background-color: $light-blue;
+	}
 }
 
 body.page-ciudad #page_content_wrapper .inner .sidebar_content img {
@@ -249,7 +273,7 @@ body.page-ciudad .thumbnails  {
 }
 
 form.form-subscribe {
-	background-color: $orange;
+	background-color: $light-blue;
 	color: #fff;
 	padding: 1em;
 	border-radius: 1em;
@@ -318,7 +342,7 @@ form.form-subscribe {
 
 	[type="submit"] {
 		border: 1px solid #fff;
-		background-color: $orange;
+		background-color: $light-blue;
 		color: #fff;	
 		width: auto;
 		padding: 1em 1.7em !important;
@@ -1528,6 +1552,25 @@ body.page-municipio {
 			&.row2.col2 {
 				top: 38px;
 			}
+		}
+	}
+}
+
+.ppb_module_eventbrite .read .content .button,
+.ppb_module_subtitle_bajada_search input[type="submit"] { 
+	background-color: $light-blue;
+ }
+
+/* temporal fix */
+:root .has-luminous-vivid-orange-background-color {
+	background-color: $light-blue;
+}
+
+.footer {
+	.row-1, .row-2, .row-3 {
+		li a:hover {
+			color: $aqua-green;
+
 		}
 	}
 }
