@@ -1561,10 +1561,11 @@ body.page-municipio {
 	background-color: $light-blue;
  }
 
-/* temporal fix */
+// temporal fix
 :root .has-luminous-vivid-orange-background-color {
 	background-color: $light-blue;
 }
+// end temporal fix
 
 .footer {
 	.row-1, .row-2, .row-3 {
@@ -1573,4 +1574,8 @@ body.page-municipio {
 
 		}
 	}
+}
+
+.error404 #page_caption .button-cta {
+	@include linear-gradient-2020();
 }

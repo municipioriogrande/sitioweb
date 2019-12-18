@@ -1566,13 +1566,17 @@ body.page-municipio table {
   background-color: #14a2db;
 }
 
-/* temporal fix */
 :root .has-luminous-vivid-orange-background-color {
   background-color: #14a2db;
 }
 
 .footer .row-1 li a:hover, .footer .row-2 li a:hover, .footer .row-3 li a:hover {
   color: #2ab99e;
+}
+
+.error404 #page_caption .button-cta {
+  background-color: #14a2db;
+  background: linear-gradient(180deg, #14a2db 0%, #2ab99e 100%);
 }
 
 .effect-enlarge-shadow:hover {
