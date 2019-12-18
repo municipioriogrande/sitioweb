@@ -2141,6 +2141,12 @@ body.page-municipio table {
   background: linear-gradient(180deg, #14a2db 0%, #2ab99e 100%);
   box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.58);
 }
+.mrg-section-grey-boxes-links a:hover .box img {
+  filter: brightness(100);
+}
+.mrg-section-grey-boxes-links a:hover .box .title {
+  color: #fff;
+}
 .mrg-section-grey-boxes-links.section-no-spaces .box {
   margin: 0;
 }

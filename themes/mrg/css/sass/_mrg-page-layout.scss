@@ -487,6 +487,13 @@
 		.box {
 			@include linear-gradient-2020();
 			box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, .58);
+
+			img {
+				filter: brightness(100);
+			}
+			.title {
+				color: #fff;
+			}
 		}
 	}
 	&.section-no-spaces {
