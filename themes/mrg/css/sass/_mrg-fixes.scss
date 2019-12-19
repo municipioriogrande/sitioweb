@@ -1583,14 +1583,28 @@ body.page-municipio {
 #menu_wrapper {
 	display: flex !important;
 	justify-content: space-between;
-
+	align-items: center;
+	padding: 0 0.9em;
+	
 	.col-right {
 		display: flex;
 		margin-right: 0.6em;
+		align-items: center;
+	}
+
+	.col-left {
+
+		@media screen and (max-width:767px){
+			display: flex;		
+		}
 	}
 
 	.content-weather {
 		order: 2;
+		@media screen and (max-width:767px){
+			display: none;
+		}
+
 	}
 	#searchform {
 		order: 1;

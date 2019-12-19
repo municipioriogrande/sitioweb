@@ -1582,13 +1582,26 @@ body.page-municipio table {
 #menu_wrapper {
   display: flex !important;
   justify-content: space-between;
+  align-items: center;
+  padding: 0 0.9em;
 }
 #menu_wrapper .col-right {
   display: flex;
   margin-right: 0.6em;
+  align-items: center;
+}
+@media screen and (max-width: 767px) {
+  #menu_wrapper .col-left {
+    display: flex;
+  }
 }
 #menu_wrapper .content-weather {
   order: 2;
+}
+@media screen and (max-width: 767px) {
+  #menu_wrapper .content-weather {
+    display: none;
+  }
 }
 #menu_wrapper #searchform {
   order: 1;
