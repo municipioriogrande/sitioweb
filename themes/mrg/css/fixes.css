@@ -1,5 +1,39 @@
 @charset "UTF-8";
 @import url("https://fonts.googleapis.com/css?family=Muli:300,400,600,700,800");
+@font-face {
+  font-family: "Humanst 512 BT";
+  src: url("../fonts/humanst512-bt.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback;
+}
+@font-face {
+  font-family: "Humanst 512 BT";
+  src: url("../fonts/humanst512-bt-bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Humanst 512 BT";
+  src: url("../fonts/humanst512-bt-italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Humanst 512 BT";
+  src: url("../fonts/humanst512-bt-bold-italic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: italic;
+}
+*, body {
+  font-family: "Humanst 512 BT", Arial, sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Humanst 512 BT", Arial, sans-serif !important;
+  font-weight: bold;
+}
+
 table {
   border: 0;
   border-spacing: 0 0.6em;
@@ -498,7 +532,7 @@ form.form-subscribe {
 form.form-subscribe legend {
   color: inherit;
   font-weight: 900;
-  font-family: "Muli", Arial, sans-serif;
+  font-family: "Humanst 512 BT", Arial, sans-serif;
   text-transform: uppercase;
   font-size: 11px;
   letter-spacing: 2px;
@@ -508,7 +542,7 @@ form.form-subscribe .fake-label {
   color: inherit;
   margin-bottom: 0;
   font-weight: bold;
-  font-family: "Muli", Arial, sans-serif;
+  font-family: "Humanst 512 BT", Arial, sans-serif;
   text-transform: uppercase;
   font-size: 11px;
   letter-spacing: 2px;
@@ -531,7 +565,7 @@ form.form-subscribe input, form.form-subscribe button {
   padding: 0.6em 1em;
   font-size: 1em;
   margin: 0;
-  font-family: "Muli", Arial, sans-serif;
+  font-family: "Humanst 512 BT", Arial, sans-serif;
   width: 200px;
   border-radius: 5px;
   box-sizing: border-box;
@@ -627,7 +661,7 @@ form.form-subscribe-cleaner {
 form.form-subscribe-cleaner legend {
   color: inherit;
   font-weight: 900;
-  font-family: "Muli", Arial, sans-serif;
+  font-family: "Humanst 512 BT", Arial, sans-serif;
   text-transform: uppercase;
   font-size: 11px;
   letter-spacing: 2px;
@@ -637,7 +671,7 @@ form.form-subscribe-cleaner .fake-label {
   color: inherit;
   margin-bottom: 0;
   font-weight: bold;
-  font-family: "Muli", Arial, sans-serif;
+  font-family: "Humanst 512 BT", Arial, sans-serif;
   text-transform: uppercase;
   font-size: 11px;
   letter-spacing: 2px;
@@ -660,7 +694,7 @@ form.form-subscribe-cleaner input, form.form-subscribe-cleaner button {
   padding: 0.6em 1em;
   font-size: 1em;
   margin: 0;
-  font-family: "Muli", Arial, sans-serif;
+  font-family: "Humanst 512 BT", Arial, sans-serif;
   width: 200px;
   border-radius: 5px;
   box-sizing: border-box;
@@ -1616,6 +1650,31 @@ body.page-municipio table {
   display: inline-block;
 }
 
+@font-face {
+  font-family: "Humanst 512 BT";
+  src: url("../fonts/humanst512-bt.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback;
+}
+@font-face {
+  font-family: "Humanst 512 BT";
+  src: url("../fonts/humanst512-bt-bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Humanst 512 BT";
+  src: url("../fonts/humanst512-bt-italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Humanst 512 BT";
+  src: url("../fonts/humanst512-bt-bold-italic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: italic;
+}
 .effect-enlarge-shadow:hover {
   -webkit-transform: scale(1.015);
   -ms-transform: scale(1.015);
@@ -1688,7 +1747,8 @@ body.page-municipio table {
   border: 0;
   margin-top: 0.8em;
   font-weight: 700;
-  font-family: "Muli", Arial, sans-serif;
+  font-family: "Humanst 512 BT", Arial, sans-serif;
+  line-height: 1.2em;
 }
 .mini-article .image {
   order: 1;
@@ -1790,7 +1850,7 @@ body.page-municipio table {
 
 .page-template {
   font-size: 18px;
-  font-family: "Muli", Arial, sans-serif;
+  font-family: "Humanst 512 BT", Arial, sans-serif;
 }
 .page-template .has-medium-font-size {
   font-size: 1.5em !important;
@@ -1943,7 +2003,7 @@ body.page-municipio table {
 .mrg-cta {
   border-radius: 10px;
   overflow: hidden;
-  font-family: "Muli", Arial, sans-serif;
+  font-family: "Humanst 512 BT", Arial, sans-serif;
   display: flex;
   flex-basis: 0;
   margin: 3em 0;

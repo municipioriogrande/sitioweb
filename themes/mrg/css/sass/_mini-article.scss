@@ -1,12 +1,39 @@
 @import url('https://fonts.googleapis.com/css?family=Muli:300,400,600,700,800');
 
 $deep-blue: #002855;
-$orange:  #ff6a00;
 $light-grey: #f0f0f0;
 $mobile-width: 600px;
-$main-font: 'Muli', Arial, sans-serif;
 $font-awesome-normal: "Font Awesome 5 Free";
 $font-awesome-brands: "Font Awesome 5 Brands";
+$main-font: 'Humanst 512 BT', Arial, sans-serif;
+
+@font-face {
+	font-family: 'Humanst 512 BT';
+	src: url('../fonts/humanst512-bt.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+	font-display: fallback;
+ }
+
+ @font-face {
+	font-family: 'Humanst 512 BT';
+	src: url('../fonts/humanst512-bt-bold.ttf') format('truetype');
+	font-weight: bold;
+	font-style: normal;
+ }
+ @font-face {
+	font-family: 'Humanst 512 BT';
+	src: url('../fonts/humanst512-bt-italic.ttf') format('truetype');
+	font-weight: normal;
+	font-style: italic;
+ }
+
+ @font-face {
+	font-family: 'Humanst 512 BT';
+	src: url('../fonts/humanst512-bt-bold-italic.ttf') format('truetype');
+	font-weight: bold;
+	font-style: italic;
+ }
 
 @mixin border-radius($size) {
 	-webkit-border-radius: $size;
@@ -98,6 +125,7 @@ $font-awesome-brands: "Font Awesome 5 Brands";
 		margin-top: 0.8em;
 		font-weight: 700;
 		font-family: $main-font;
+		line-height: 1.2em;
 	}
 
 	.image{

@@ -2,7 +2,7 @@ $deep-blue: #002855;
 $orange:  #ff6a00;
 $light-grey: #f0f0f0;
 $mobile-width: 400px;
-$main-font: 'Muli', Arial, sans-serif;
+//$main-font: 'Muli', Arial, sans-serif;
 $font-awesome-normal: "Font Awesome 5 Free";
 $font-awesome-brands: "Font Awesome 5 Brands";
 $blue: #135cad;
@@ -10,10 +10,48 @@ $blue: #135cad;
 //new colors
 $light-blue: #14a2db; //rgba(20,162,219,1)
 $aqua-green: #2ab99e; //rgba(42,185,158,1)
+$main-font: 'Humanst 512 BT', Arial, sans-serif;
+
+@font-face {
+	font-family: 'Humanst 512 BT';
+	src: url('../fonts/humanst512-bt.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+	font-display: fallback;
+ }
+
+ @font-face {
+	font-family: 'Humanst 512 BT';
+	src: url('../fonts/humanst512-bt-bold.ttf') format('truetype');
+	font-weight: bold;
+	font-style: normal;
+ }
+ @font-face {
+	font-family: 'Humanst 512 BT';
+	src: url('../fonts/humanst512-bt-italic.ttf') format('truetype');
+	font-weight: normal;
+	font-style: italic;
+ }
+
+ @font-face {
+	font-family: 'Humanst 512 BT';
+	src: url('../fonts/humanst512-bt-bold-italic.ttf') format('truetype');
+	font-weight: bold;
+	font-style: italic;
+ }
 
 @mixin linear-gradient-2020() {
 	background-color: $light-blue;
 	background: linear-gradient(180deg, $light-blue 0%, $aqua-green 100%);
+}
+
+*, body {
+	font-family: $main-font !important;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	font-family: $main-font !important;
+	font-weight: bold;
 }
 
 table {
