@@ -5500,9 +5500,7 @@ form div .hs-field-desc {
 			.page-breadcrumb ul li:nth-child(4n) a {
 				color: #8f8f8f;
 			}
-			.page-breadcrumb ul li:nth-child(5n) a {
-				color: #ff6a00;
-			}
+			
 		.page-breadcrumb .the-modified-date{
 			margin-bottom: 0px;
 			font-family: Muli, sans-serif;

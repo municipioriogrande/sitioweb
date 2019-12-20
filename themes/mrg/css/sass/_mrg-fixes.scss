@@ -1620,3 +1620,7 @@ body.page-municipio {
 		}
 	}
 }
+
+.page-breadcrumb ul li:nth-child(5n) a {
+	color: $aqua-green;
+}
