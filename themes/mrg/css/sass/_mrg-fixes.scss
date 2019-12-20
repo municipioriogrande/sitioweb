@@ -1341,7 +1341,7 @@ table.dataTable thead .sorting_asc:after {
 		}
 	
 		tbody tr:hover td {
-			background-color: #ff6a00 !important;
+			background-color: $aqua-green !important;
 			color: white !important;
 			text-shadow: none !important;
 			
@@ -1623,4 +1623,8 @@ body.page-municipio {
 
 .page-breadcrumb ul li:nth-child(5n) a {
 	color: $aqua-green;
+}
+
+.page-template-page_mrg_simple_fullwidth h2 {
+	border-bottom: 2px solid $aqua-green;
 }

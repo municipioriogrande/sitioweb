@@ -1427,7 +1427,7 @@ table.dataTable thead .sorting_asc:after {
   background-color: #f2f2f2 !important;
 }
 .mrg-downloads-table-formularios table tbody tr:hover td {
-  background-color: #ff6a00 !important;
+  background-color: #2ab99e !important;
   color: white !important;
   text-shadow: none !important;
 }
@@ -1652,6 +1652,10 @@ body.page-municipio table {
 
 .page-breadcrumb ul li:nth-child(5n) a {
   color: #2ab99e;
+}
+
+.page-template-page_mrg_simple_fullwidth h2 {
+  border-bottom: 2px solid #2ab99e;
 }
 
 @font-face {
