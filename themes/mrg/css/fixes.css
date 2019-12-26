@@ -1659,6 +1659,25 @@ body.page-municipio table {
   border-bottom: 2px solid #2ab99e;
 }
 
+body.page-gabinete .large-quote-wannabe {
+  font-size: 2.4em;
+  line-height: 1.1em;
+  text-align: center;
+  margin-top: 1em !important;
+}
+body.page-gabinete dl div {
+  margin: 4em 0;
+}
+body.page-gabinete dl dt {
+  font-weight: bold;
+  color: black;
+}
+body.page-gabinete dl blockquote {
+  border-left: 2px solid #2ab99f;
+  padding-left: 1em;
+  margin-top: 1.6em;
+}
+
 @font-face {
   font-family: "Humanst 512 BT";
   src: url("../fonts/humanst512-bt.ttf") format("truetype");
@@ -2516,6 +2535,9 @@ body.home .slider_wrapper,
   body.page .ppb_module_centros-salud ul .centro-salud .featured-image img {
     max-width: 400px;
   }
+}
+body.home #wrapper .slider_wrapper .slide {
+  background-position-y: 37%;
 }
 
 /*# sourceMappingURL=fixes.css.map */

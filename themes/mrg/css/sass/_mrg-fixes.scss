@@ -1628,3 +1628,27 @@ body.page-municipio {
 .page-template-page_mrg_simple_fullwidth h2 {
 	border-bottom: 2px solid $aqua-green;
 }
+
+body.page-gabinete {
+
+	.large-quote-wannabe {
+		font-size: 2.4em;
+		line-height: 1.1em;
+		text-align: center;
+		margin-top: 1em !important;
+	}
+	dl div {
+		margin: 4em 0;
+	}
+	
+	dl dt {
+		font-weight: bold;
+		color: black;
+	}
+	
+	dl blockquote {
+		border-left: 2px solid #2ab99f;
+		padding-left: 1em;
+		margin-top: 1.6em;
+	}
+}
