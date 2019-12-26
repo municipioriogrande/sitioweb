@@ -27,6 +27,7 @@
 }
 body {
   font-family: "Humanst 512 BT", Arial, sans-serif !important;
+  font-size: 20px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -1857,11 +1858,11 @@ body.page-municipio table {
 }
 
 .page-template {
-  font-size: 18px;
   font-family: "Humanst 512 BT", Arial, sans-serif;
+  line-height: 1.4em;
 }
 .page-template .has-medium-font-size {
-  font-size: 1.5em !important;
+  font-size: 1.2em !important;
   line-height: 1.3em !important;
 }
 .page-template h3 {
@@ -1945,7 +1946,7 @@ body.page-municipio table {
 .mrg-block-header h2 {
   font-weight: 900;
   color: #2ab99e;
-  font-size: 4.4em;
+  font-size: 4em;
   line-height: 1em;
   margin-bottom: 0.6em;
 }
