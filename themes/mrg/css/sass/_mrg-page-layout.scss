@@ -485,11 +485,12 @@
 
 	a:hover {
 		.box {
-			@include linear-gradient-2020();
+			//@include linear-gradient-2020();
+			background-color: $light-blue;
 			box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, .58);
 
 			img {
-				filter: brightness(100);
+				filter: saturate(0) brightness(100);
 			}
 			.title {
 				color: #fff;
@@ -574,7 +575,7 @@
 		color: #fff;
 		font-size: 18px;
 		line-height: 30px;
-		padding: 2em;
+		padding: 2em 2em 4em;
 		transition: background .2s ease-in-out, box-shadow .2s ease-in-out;
 	-moz-transition: background .2s ease-in-out, box-shadow .2s ease-in-out;
 	-webkit-transition: background .2s ease-in-out, box-shadow .2s ease-in-out;
@@ -607,7 +608,8 @@
 		box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, .58);
 		transition: transform 200ms ease 0s;
 		transform: translateX(0px) translateY(-13px);
-		@include linear-gradient-2020();
+		//@include linear-gradient-2020();
+		background-color: $aqua-green;
 	  }
 
 }

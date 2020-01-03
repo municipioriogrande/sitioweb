@@ -1288,9 +1288,6 @@ body.js_nav #imageFlow_gallery_info
     cursor: pointer;
 	line-height: 22px;
 }
-.slides .slide .box .button:hover {
-    background-color: #fba161 !important;
-}
 /* } slider */
 
 /*------------------------------------------------------------------

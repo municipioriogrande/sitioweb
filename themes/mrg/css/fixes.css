@@ -2267,11 +2267,10 @@ body.page-gabinete dl blockquote {
 }
 .mrg-section-grey-boxes-links a:hover .box {
   background-color: #14a2db;
-  background: linear-gradient(180deg, #14a2db 0%, #2ab99e 100%);
   box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.58);
 }
 .mrg-section-grey-boxes-links a:hover .box img {
-  filter: brightness(100);
+  filter: saturate(0) brightness(100);
 }
 .mrg-section-grey-boxes-links a:hover .box .title {
   color: #fff;
@@ -2338,7 +2337,7 @@ body.page-gabinete dl blockquote {
   color: #fff;
   font-size: 18px;
   line-height: 30px;
-  padding: 2em;
+  padding: 2em 2em 4em;
   transition: background 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   -moz-transition: background 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   -webkit-transition: background 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
@@ -2368,8 +2367,7 @@ body.page-gabinete dl blockquote {
   box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.58);
   transition: transform 200ms ease 0s;
   transform: translateX(0px) translateY(-13px);
-  background-color: #14a2db;
-  background: linear-gradient(180deg, #14a2db 0%, #2ab99e 100%);
+  background-color: #2ab99e;
 }
 
 .page-template-page_home_fullwidth h2 {
