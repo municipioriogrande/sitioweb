@@ -846,6 +846,7 @@ body.page-medioambiente #wpcf7-f3292-p508-o1 p, body.page-medioambiente #wpcf7-f
 .ppb_module_centros-salud .centro-salud .featured-image {
   height: 300px;
   overflow: hidden;
+  display: none;
 }
 @media screen and (max-width: 400px) {
   .ppb_module_centros-salud .centro-salud .featured-image {
@@ -866,6 +867,12 @@ body.page-medioambiente #wpcf7-f3292-p508-o1 p, body.page-medioambiente #wpcf7-f
   font-weight: bold;
   margin-bottom: 0.7em;
   margin-left: -0.4em;
+  background-color: #14a2db;
+  margin: -0.8em -3em 1em;
+  text-align: center;
+  padding: 0.6em 0.6em 0.6em 1.4em !important;
+  color: white;
+  font-size: 1.3em;
 }
 .ppb_module_centros-salud .centro-salud .info .more-info {
   margin-top: 1em;

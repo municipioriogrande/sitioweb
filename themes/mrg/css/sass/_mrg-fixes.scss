@@ -650,6 +650,9 @@ body.page-medioambiente #wpcf7-f3292-p508-o1, body.page-medioambiente #wpcf7-f31
 			@media screen and (max-width:$mobile-width) {
 				height: 210px;
 			}
+
+			//TODO: temporal
+			display: none;
 		
 		}		
 		
@@ -668,6 +671,14 @@ body.page-medioambiente #wpcf7-f3292-p508-o1, body.page-medioambiente #wpcf7-f31
 				font-weight: bold;
 			    margin-bottom: 0.7em;
 				 margin-left: -0.4em;
+
+				 //TODO: temporal 
+				 background-color: $light-blue;
+				 margin: -0.8em -3em 1em;
+				 text-align: center;
+				 padding: 0.6em 0.6em 0.6em 1.4em !important;
+				 color: white;
+				 font-size: 1.3em;				 
 			}
 			
 			.more-info {
