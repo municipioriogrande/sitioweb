@@ -124,7 +124,6 @@ class wfSupportController {
 	const ITEM_SCAN_OPTION_PASSWORD_STRENGTH = 'scan-option-password-strength';
 	const ITEM_SCAN_OPTION_DISK_SPACE = 'scan-option-disk-space';
 	const ITEM_SCAN_OPTION_WAF_STATUS = 'scan-option-waf-status';
-	const ITEM_SCAN_OPTION_DNS_CHANGES = 'scan-option-dns-changes';
 	const ITEM_SCAN_OPTION_OUTSIDE_WORDPRESS = 'scan-option-outside-wordpress';
 	const ITEM_SCAN_OPTION_IMAGES_EXECUTABLE = 'scan-option-images-executable';
 	const ITEM_SCAN_OPTION_HIGH_SENSITIVITY = 'scan-option-high-sensitivity';
@@ -306,7 +305,6 @@ class wfSupportController {
 			case self::ITEM_SCAN_OPTION_PASSWORD_STRENGTH:
 			case self::ITEM_SCAN_OPTION_DISK_SPACE:
 			case self::ITEM_SCAN_OPTION_WAF_STATUS:
-			case self::ITEM_SCAN_OPTION_DNS_CHANGES:
 			case self::ITEM_SCAN_OPTION_OUTSIDE_WORDPRESS:
 			case self::ITEM_SCAN_OPTION_IMAGES_EXECUTABLE:
 			case self::ITEM_SCAN_OPTION_HIGH_SENSITIVITY:

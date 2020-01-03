@@ -1,26 +1,20 @@
 <?php
-defined("ABSPATH") or die("");
-/** Absolute path to the DAWS directory. - necessary for php protection */
-if ( !defined('ABSPATH') )
-	define('ABSPATH', dirname(__FILE__) . '/');
+/**
+ *
+ *
+ * Standard: PSR-2
+ * @link http://www.php-fig.org/psr/psr-2 Full Documentation
+ *
+ * @package daws
+ *
+ */
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+if (DupLiteSnapLibUtil::wp_is_ini_value_changeable('display_errors')) {
+    @ini_set('display_errors', 1);
+}
 error_reporting(E_ALL);
 set_error_handler("terminate_missing_variables");
-
-if (!defined('KB_IN_BYTES')) { define('KB_IN_BYTES', 1024); }
-if (!defined('MB_IN_BYTES')) { define('MB_IN_BYTES', 1024 * KB_IN_BYTES); }
-if (!defined('GB_IN_BYTES')) { define('GB_IN_BYTES', 1024 * MB_IN_BYTES); }
-if (!defined('DUPLICATOR_PHP_MAX_MEMORY')) { define('DUPLICATOR_PHP_MAX_MEMORY', 4096 * MB_IN_BYTES); }
-
-date_default_timezone_set('UTC'); // Some machines don’t have this set so just do it here.
-@ignore_user_abort(true);
-@set_time_limit(3600);
-@ini_set('memory_limit', DUPLICATOR_PHP_MAX_MEMORY);
-@ini_set('max_input_time', '-1');
-@ini_set('pcre.backtrack_limit', PHP_INT_MAX);
-@ini_set('default_socket_timeout', 3600);
 
 require_once(dirname(__FILE__) . '/class.daws.constants.php');
 
@@ -33,12 +27,11 @@ require_once(DAWSConstants::$DAWS_ROOT . '/class.daws.state.expand.php');
 
 DupArchiveUtil::$TRACE_ON = false;
 
-
 class DAWS_Logger extends DupArchiveLoggerBase
 {
     public function log($s, $flush = false, $callingFunctionOverride = null)
     {
-        SnapLibLogger::log($s, $flush, $callingFunctionOverride);
+        DupLiteSnapLibLogger::log($s, $flush, $callingFunctionOverride);
     }
 }
 
@@ -51,7 +44,7 @@ class DAWS
     {
         date_default_timezone_set('UTC'); // Some machines don’t have this set so just do it here.
 
-        SnapLibLogger::init(DAWSConstants::$LOG_FILEPATH);
+        DupLiteSnapLibLogger::init(DAWSConstants::$LOG_FILEPATH);
 
         DupArchiveEngine::init(new DAWS_Logger());
     }
@@ -59,75 +52,75 @@ class DAWS
     public function processRequest()
     {
         try {
-			SnapLibLogger::log('process request');
+			DupLiteSnapLibLogger::log('process request');
             $retVal = new StdClass();
 
             $retVal->pass = false;
 
             if (isset($_REQUEST['action'])) {
                 $params = $_REQUEST;
-                SnapLibLogger::log('b');
+                DupLiteSnapLibLogger::log('b');
             } else {
                 $json = file_get_contents('php://input');
                 $params = json_decode($json, true);
             }
 
-            SnapLibLogger::logObject('params', $params);
-            SnapLibLogger::logObject('keys', array_keys($params));
+            DupLiteSnapLibLogger::logObject('params', $params);
+            DupLiteSnapLibLogger::logObject('keys', array_keys($params));
 
             $action = $params['action'];
 
             $initializeState = false;
 
-            $isClientDriven = SnapLibUtil::getArrayValue($params, 'client_driven', false);
+            $isClientDriven = DupLiteSnapLibUtil::getArrayValue($params, 'client_driven', false);
 
             if ($action == 'start_expand') {
 
                 $initializeState = true;
 
                 DAWSExpandState::purgeStatefile();
-                SnapLibLogger::clearLog();
+                DupLiteSnapLibLogger::clearLog();
 
-                SnapLibIOU::rm(DAWSConstants::$PROCESS_CANCEL_FILEPATH);
-                $archiveFilepath = SnapLibUtil::getArrayValue($params, 'archive_filepath');
-                $restoreDirectory = SnapLibUtil::getArrayValue($params, 'restore_directory');
-                $workerTime = SnapLibUtil::getArrayValue($params, 'worker_time', false, DAWSConstants::$DEFAULT_WORKER_TIME);
-                $filteredDirectories = SnapLibUtil::getArrayValue($params, 'filtered_directories', false, array());
-                $filteredFiles = SnapLibUtil::getArrayValue($params, 'filtered_files', false, array()); 
-                $fileRenames = SnapLibUtil::getArrayValue($params, 'file_renames', false, array());
+                DupLiteSnapLibIOU::rm(DAWSConstants::$PROCESS_CANCEL_FILEPATH);
+                $archiveFilepath = DupLiteSnapLibUtil::getArrayValue($params, 'archive_filepath');
+                $restoreDirectory = DupLiteSnapLibUtil::getArrayValue($params, 'restore_directory');
+                $workerTime = DupLiteSnapLibUtil::getArrayValue($params, 'worker_time', false, DAWSConstants::$DEFAULT_WORKER_TIME);
+                $filteredDirectories = DupLiteSnapLibUtil::getArrayValue($params, 'filtered_directories', false, array());
+                $filteredFiles = DupLiteSnapLibUtil::getArrayValue($params, 'filtered_files', false, array()); 
+                $fileRenames = DupLiteSnapLibUtil::getArrayValue($params, 'file_renames', false, array());
 
                 $action = 'expand';
 
-				SnapLibLogger::log('startexpand->expand');
+				DupLiteSnapLibLogger::log('startexpand->expand');
             } else if($action == 'start_create') {
              
-                $archiveFilepath = SnapLibUtil::getArrayValue($params, 'archive_filepath');
-                $workerTime = SnapLibUtil::getArrayValue($params, 'worker_time', false, DAWSConstants::$DEFAULT_WORKER_TIME);
+                $archiveFilepath = DupLiteSnapLibUtil::getArrayValue($params, 'archive_filepath');
+                $workerTime = DupLiteSnapLibUtil::getArrayValue($params, 'worker_time', false, DAWSConstants::$DEFAULT_WORKER_TIME);
                 
                 $createState->basePath        = $dataDirectory;
                 $createState->isCompressed    = $isCompressed;
                 
-                $sourceDirectory = SnapLibUtil::getArrayValue($params, 'source_directory');
-                $isCompressed = SnapLibUtil::getArrayValue($params, 'is_compressed') === 'true' ? true : false;
+                $sourceDirectory = DupLiteSnapLibUtil::getArrayValue($params, 'source_directory');
+                $isCompressed = DupLiteSnapLibUtil::getArrayValue($params, 'is_compressed') === 'true' ? true : false;
             }
 
-			$throttleDelayInMs = SnapLibUtil::getArrayValue($params, 'throttle_delay', false, 0);
+			$throttleDelayInMs = DupLiteSnapLibUtil::getArrayValue($params, 'throttle_delay', false, 0);
 
             if ($action == 'expand') {
 
-                SnapLibLogger::log('expand action');
+                DupLiteSnapLibLogger::log('expand action');
 
                 /* @var $expandState DAWSExpandState */
                 $expandState = DAWSExpandState::getInstance($initializeState);
 
-				$this->lock_handle = SnapLibIOU::fopen(DAWSConstants::$PROCESS_LOCK_FILEPATH, 'c+');
-				SnapLibIOU::flock($this->lock_handle, LOCK_EX);
+				$this->lock_handle = DupLiteSnapLibIOU::fopen(DAWSConstants::$PROCESS_LOCK_FILEPATH, 'c+');
+				DupLiteSnapLibIOU::flock($this->lock_handle, LOCK_EX);
 
 				if($initializeState || $expandState->working) {
 
 					if ($initializeState) {
 
-                        SnapLibLogger::logObject('file renames', $fileRenames);
+                        DupLiteSnapLibLogger::logObject('file renames', $fileRenames);
 
 						$expandState->archivePath = $archiveFilepath;
 						$expandState->working = true;
@@ -138,14 +131,14 @@ class DAWS
                         $expandState->filteredFiles = $filteredFiles;
                         $expandState->fileRenames = $fileRenames;
                         $expandState->fileModeOverride = 0644;
-                        $expandState->directoryModeOverride = 0755;
+                        $expandState->directoryModeOverride = 'u+rwx';
 
 						$expandState->save();
 					}
 
 					$expandState->throttleDelayInUs = 1000 * $throttleDelayInMs;
 
-                    SnapLibLogger::logObject('Expand State In', $expandState);
+                    DupLiteSnapLibLogger::logObject('Expand State In', $expandState);
 
 					DupArchiveEngine::expandArchive($expandState);
 				}
@@ -153,43 +146,43 @@ class DAWS
                 if (!$expandState->working) {
 
                     $deltaTime = time() - $expandState->startTimestamp;
-                    SnapLibLogger::log("###### Processing ended.  Seconds taken:$deltaTime");
+                    DupLiteSnapLibLogger::log("###### Processing ended.  Seconds taken:$deltaTime");
 
                     if (count($expandState->failures) > 0) {
-                        SnapLibLogger::log('Errors detected');
+                        DupLiteSnapLibLogger::log('Errors detected');
 
                         foreach ($expandState->failures as $failure) {
-                            SnapLibLogger::log("{$failure->subject}:{$failure->description}");
+                            DupLiteSnapLibLogger::log("{$failure->subject}:{$failure->description}");
                         }
                     } else {
-                        SnapLibLogger::log('Expansion done, archive checks out!');
+                        DupLiteSnapLibLogger::log('Expansion done, archive checks out!');
                     }
                 }
 				else {
-					SnapLibLogger::log("Processing will continue");
+					DupLiteSnapLibLogger::log("Processing will continue");
 				}
 
 
-                SnapLibIOU::flock($this->lock_handle, LOCK_UN);
+                DupLiteSnapLibIOU::flock($this->lock_handle, LOCK_UN);
 
                 $retVal->pass = true;
                 $retVal->status = $this->getStatus($expandState);
             } else if ($action == 'create') {
 
-                SnapLibLogger::log('create action');
+                DupLiteSnapLibLogger::log('create action');
 
                 /* @var $expandState DAWSExpandState */
                 $createState = DAWSCreateState::getInstance($initializeState);
 
-				$this->lock_handle = SnapLibIOU::fopen(DAWSConstants::$PROCESS_LOCK_FILEPATH, 'c+');
-				SnapLibIOU::flock($this->lock_handle, LOCK_EX);
+				$this->lock_handle = DupLiteSnapLibIOU::fopen(DAWSConstants::$PROCESS_LOCK_FILEPATH, 'c+');
+				DupLiteSnapLibIOU::flock($this->lock_handle, LOCK_EX);
 
 				if($initializeState || $createState->working) {
 
                     DupArchiveEngine::createArchive($archiveFilepath, $isCompressed);
 
                     $createState->archivePath     = $archiveFilepath;
-                    $createState->archiveOffset   = SnapLibIOU::filesize($archiveFilepath);
+                    $createState->archiveOffset   = DupLiteSnapLibIOU::filesize($archiveFilepath);
                     $createState->working         = true;
                     $createState->timeSliceInSecs = $workerTime;
                     $createState->basePath        = $dataDirectory;
@@ -208,23 +201,23 @@ class DAWS
                 if (!$createState->working) {
 
                     $deltaTime = time() - $createState->startTimestamp;
-                    SnapLibLogger::log("###### Processing ended.  Seconds taken:$deltaTime");
+                    DupLiteSnapLibLogger::log("###### Processing ended.  Seconds taken:$deltaTime");
 
                     if (count($createState->failures) > 0) {
-                        SnapLibLogger::log('Errors detected');
+                        DupLiteSnapLibLogger::log('Errors detected');
 
                         foreach ($createState->failures as $failure) {
-                            SnapLibLogger::log("{$failure->subject}:{$failure->description}");
+                            DupLiteSnapLibLogger::log("{$failure->subject}:{$failure->description}");
                         }
                     } else {
-                        SnapLibLogger::log('Creation done, archive checks out!');
+                        DupLiteSnapLibLogger::log('Creation done, archive checks out!');
                     }
                 }
 				else {
-					SnapLibLogger::log("Processing will continue");
+					DupLiteSnapLibLogger::log("Processing will continue");
 				}
 
-                SnapLibIOU::flock($this->lock_handle, LOCK_UN);
+                DupLiteSnapLibIOU::flock($this->lock_handle, LOCK_UN);
 
                 $retVal->pass = true;
                 $retVal->status = $this->getStatus($createState);
@@ -235,7 +228,9 @@ class DAWS
                 $retVal->pass = true;
                 $retVal->status = $this->getStatus($expandState);
             } else if ($action == 'cancel') {
-                SnapLibIOU::touch(DAWSConstants::$PROCESS_CANCEL_FILEPATH);
+                if (!DupLiteSnapLibIOU::touch(DAWSConstants::$PROCESS_CANCEL_FILEPATH)) {
+                    throw new Exception("Couldn't update time on ".DAWSConstants::$PROCESS_CANCEL_FILEPATH);
+                }
                 $retVal->pass = true;
             } else {
                 throw new Exception('Unknown command.');
@@ -246,16 +241,16 @@ class DAWS
         } catch (Exception $ex) {
             $error_message = "Error Encountered:" . $ex->getMessage() . '<br/>' . $ex->getTraceAsString();
 
-            SnapLibLogger::log($error_message);
+            DupLiteSnapLibLogger::log($error_message);
 
             $retVal->pass = false;
             $retVal->error = $error_message;
         }
 
-		SnapLibLogger::logObject("before json encode retval", $retVal);
+		DupLiteSnapLibLogger::logObject("before json encode retval", $retVal);
 
-		$jsonRetVal = json_encode($retVal);
-		SnapLibLogger::logObject("json encoded retval", $jsonRetVal);
+		$jsonRetVal = DupLiteSnapJsonU::wp_json_encode($retVal);
+		DupLiteSnapLibLogger::logObject("json encoded retval", $jsonRetVal);
         echo $jsonRetVal;
     }
 
@@ -296,8 +291,8 @@ function generateCallTrace()
 
 function terminate_missing_variables($errno, $errstr, $errfile, $errline)
 {
-    SnapLibLogger::log("ERROR $errno, $errstr, {$errfile}:{$errline}");
-    SnapLibLogger::log(generateCallTrace());
+    DupLiteSnapLibLogger::log("ERROR $errno, $errstr, {$errfile}:{$errline}");
+    DupLiteSnapLibLogger::log(generateCallTrace());
     //  DaTesterLogging::clearLog();
 
     /**

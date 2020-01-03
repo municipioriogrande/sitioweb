@@ -1,4 +1,6 @@
 <?php
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
+
 #
 # Portable PHP password hashing framework.
 #
@@ -225,5 +227,3 @@ class DUPX_PasswordHash
 		return $hash === $stored_hash;
 	}
 }
-
-?>

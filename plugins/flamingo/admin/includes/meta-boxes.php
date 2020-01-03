@@ -131,6 +131,32 @@ function flamingo_inbound_submit_meta_box( $post ) {
 ?>
 	</span>
 	</div>
+<?php
+	if ( ! empty( $post->spam_log ) ) {
+		echo '<div class="misc-pub-section spam-log">', "\n";
+
+		foreach ( (array) $post->spam_log as $log ) {
+			$agent = isset( $log['agent'] ) ? trim( $log['agent'] ) : '';
+			$reason = isset( $log['reason'] ) ? trim( $log['reason'] ) : '';
+
+			if ( '' !== $reason ) {
+				$reason = sprintf(
+					/* translators: %s: reason why this message is regarded as spam */
+					__( 'Spam log: %s', 'flamingo' ),
+					$reason
+				);
+
+				echo sprintf(
+					'<span class="dashicons-before dashicons-shield %1$s"> %2$s</span>',
+					esc_attr( $agent ),
+					esc_html( $reason )
+				);
+			}
+		}
+
+		echo '</div>', "\n";
+	}
+?>
 </div><!-- #misc-publishing-actions -->
 
 <div class="clear"></div>
@@ -234,6 +260,23 @@ function flamingo_inbound_consent_meta_box( $post ) {
 <tr>
 <td class="field-title"><?php echo esc_html( $key ); ?></td>
 <td class="field-value"><?php echo wp_kses( $value, wp_kses_allowed_html( 'data' ) ); ?></td>
+</tr>
+<?php endforeach; ?>
+
+</tbody>
+</table>
+<?php
+}
+
+function flamingo_inbound_recaptcha_meta_box( $post ) {
+?>
+<table class="widefat message-fields striped">
+<tbody>
+
+<?php foreach ( (array) $post->recaptcha as $key => $value ) : ?>
+<tr>
+<td class="field-title"><?php echo esc_html( $key ); ?></td>
+<td class="field-value"><?php echo esc_html( json_encode( $value, JSON_PRETTY_PRINT ) ); ?></td>
 </tr>
 <?php endforeach; ?>
 

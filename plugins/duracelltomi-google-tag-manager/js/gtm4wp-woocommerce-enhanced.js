@@ -12,6 +12,16 @@ function gtm4wp_handle_cart_qty_change() {
 
 		if ( _original_value != _current_value ) {
 			var productdata = jQuery( this ).closest( '.cart_item' ).find( '.remove' );
+			var productprice = productdata.data( 'gtm4wp_product_price' );
+
+			if ( typeof productprice == "string" ) {
+				productprice = parseFloat( productprice );
+				if ( isNaN( productprice ) ) {
+					productprice = 0;
+				}
+			} else if ( typeof productprice != "number" ) {
+				productprice = 0;
+			}
 
 			if ( _original_value < _current_value ) {
 				window[ gtm4wp_datalayer_name ].push({
@@ -22,10 +32,11 @@ function gtm4wp_handle_cart_qty_change() {
 							'products': [{
 								'name':       productdata.data( 'gtm4wp_product_name' ),
 								'id':         productdata.data( 'gtm4wp_product_id' ),
-								'price':      productdata.data( 'gtm4wp_product_price' ),
+								'price':      productprice.toFixed(2),
 								'category':   productdata.data( 'gtm4wp_product_cat' ),
 								'variant':    productdata.data( 'gtm4wp_product_variant' ),
 								'stocklevel': productdata.data( 'gtm4wp_product_stocklevel' ),
+								'brand':      productdata.data( 'gtm4wp_product_brand' ),
 								'quantity':   _current_value - _original_value
 							}]
 						}
@@ -40,10 +51,11 @@ function gtm4wp_handle_cart_qty_change() {
 							'products': [{
 								'name':       productdata.data( 'gtm4wp_product_name' ),
 								'id':         productdata.data( 'gtm4wp_product_id' ),
-								'price':      productdata.data( 'gtm4wp_product_price' ),
+								'price':      productprice.toFixed(2),
 								'category':   productdata.data( 'gtm4wp_product_cat' ),
 								'variant':    productdata.data( 'gtm4wp_product_variant' ),
 								'stocklevel': productdata.data( 'gtm4wp_product_stocklevel' ),
+								'brand':      productdata.data( 'gtm4wp_product_brand' ),
 								'quantity':   _original_value - _current_value
 							}]
 						}
@@ -61,18 +73,29 @@ jQuery(function() {
 	// track impressions of products in product lists
 	if ( jQuery( '.gtm4wp_productdata,.widget-product-item' ).length > 0 ) {
 		var products = [];
-		var productdata;
+		var productdata, productprice=0;
 		jQuery( '.gtm4wp_productdata,.widget-product-item' ).each( function() {
-
 			productdata = jQuery( this );
+			productprice = productdata.data( 'gtm4wp_product_price' );
+
+			if ( typeof productprice == "string" ) {
+				productprice = parseFloat( productprice );
+				if ( isNaN( productprice ) ) {
+					productprice = 0;
+				}
+			} else if ( typeof productprice != "number" ) {
+				productprice = 0;
+			}
+
 			products.push({
 				'name':       productdata.data( 'gtm4wp_product_name' ),
 				'id':         productdata.data( 'gtm4wp_product_id' ),
-				'price':      productdata.data( 'gtm4wp_product_price' ),
+				'price':      productprice.toFixed(2),
 				'category':   productdata.data( 'gtm4wp_product_cat' ),
 				'position':   productdata.data( 'gtm4wp_product_listposition' ),
 				'list':       productdata.data( 'gtm4wp_productlist_name' ),
-				'stocklevel': productdata.data( 'gtm4wp_product_stocklevel' )
+				'stocklevel': productdata.data( 'gtm4wp_product_stocklevel' ),
+				'brand':      productdata.data( 'gtm4wp_product_brand' )
 			});
 
 		});
@@ -96,7 +119,9 @@ jQuery(function() {
 				if ( window[ gtm4wp_datalayer_name ][ i ][ 'ecommerce' ] ) {
 
 					if ( ! window[ gtm4wp_datalayer_name ][ i ][ 'ecommerce' ][ 'impressions' ] ) {
-						window[ gtm4wp_datalayer_name ][ i ][ 'ecommerce' ][ 'impressions' ] = [];
+						window[ gtm4wp_datalayer_name ][ i ][ 'ecommerce' ][ 'impressions' ] = products;
+					} else {
+						window[ gtm4wp_datalayer_name ][ i ][ 'ecommerce' ][ 'impressions' ] = window[ gtm4wp_datalayer_name ][ i ][ 'ecommerce' ][ 'impressions' ].concat( products );
 					}
 
 					break;
@@ -118,6 +143,16 @@ jQuery(function() {
 	// track add to cart events for simple products in product lists
 	jQuery( document ).on( 'click', '.add_to_cart_button:not(.product_type_variable, .product_type_grouped, .single_add_to_cart_button)', function() {
 		var productdata = jQuery( this ).closest( '.product' ).find( '.gtm4wp_productdata' );
+		var productprice = productdata.data( 'gtm4wp_product_price' );
+
+		if ( typeof productprice == "string" ) {
+			productprice = parseFloat( productprice );
+			if ( isNaN( productprice ) ) {
+				productprice = 0;
+			}
+		} else if ( typeof productprice != "number" ) {
+			productprice = 0;
+		}
 
 		window[ gtm4wp_datalayer_name ].push({
 			'event': 'gtm4wp.addProductToCartEEC',
@@ -127,9 +162,10 @@ jQuery(function() {
 					'products': [{
 						'name':       productdata.data( 'gtm4wp_product_name' ),
 						'id':         productdata.data( 'gtm4wp_product_id' ),
-						'price':      productdata.data( 'gtm4wp_product_price' ),
+						'price':      productprice.toFixed(2),
 						'category':   productdata.data( 'gtm4wp_product_cat' ),
 						'stocklevel': productdata.data( 'gtm4wp_product_stocklevel' ),
+						'brand':      productdata.data( 'gtm4wp_product_brand' ),
 						'quantity':   1
 					}]
 				}
@@ -141,76 +177,78 @@ jQuery(function() {
 	jQuery( document ).on( 'click', '.single_add_to_cart_button', function() {
 		var _product_form       = jQuery( this ).closest( 'form.cart' );
 		var _product_var_id     = jQuery( '[name=variation_id]', _product_form );
-		var _product_id         = jQuery( '[name=gtm4wp_id]', _product_form ).val();
-		var _product_name       = jQuery( '[name=gtm4wp_name]', _product_form ).val();
-		var _product_sku        = jQuery( '[name=gtm4wp_sku]', _product_form ).val();
-		var _product_category   = jQuery( '[name=gtm4wp_category]', _product_form ).val();
-		var _product_price      = jQuery( '[name=gtm4wp_price]', _product_form ).val();
-		var _product_currency   = jQuery( '[name=gtm4wp_currency]', _product_form ).val();
-		var _product_stocklevel = jQuery( '[name=gtm4wp_stocklevel]', _product_form ).val();
+		var _product_is_grouped = jQuery( _product_form ).hasClass( 'grouped_form' );
 
 		if ( _product_var_id.length > 0 ) {
 			if ( gtm4wp_last_selected_product_variation ) {
+				gtm4wp_last_selected_product_variation.quantity = jQuery( 'form.cart:first input[name=quantity]' ).val();
+
 				window[ gtm4wp_datalayer_name ].push({
 					'event': 'gtm4wp.addProductToCartEEC',
 					'ecommerce': {
-						'currencyCode': _product_currency,
+						'currencyCode': gtm4wp_currency,
 						'add': {
 							'products': [gtm4wp_last_selected_product_variation]
 						}
 					}
 				});
 			}
-/*
-			_product_var_id_val = _product_var_id.val();
-			_product_form_variations = _product_form.data( 'product_variations' );
+		} else if ( _product_is_grouped ) {
+			var _products_in_group = jQuery( '.grouped_form .gtm4wp_productdata' );
+			var _products_eec = [];
 
-			_product_form_variations.forEach( function( product_var ) {
-				if ( product_var.variation_id == _product_var_id_val ) {
-					_product_var_sku = product_var.sku;
-					if ( ! _product_var_sku ) {
-						_product_var_sku = _product_var_id_val;
+			_products_in_group.each( function() {
+				var productdata = jQuery( this );
+
+				var product_qty_input = jQuery( 'input[name=quantity\\[' + productdata.data( 'gtm4wp_product_id' ) + '\\]]' );
+				if ( product_qty_input.length > 0 ) {
+					product_qty = product_qty_input.val();
+				} else {
+					return;
+				}
+
+				if ( 0 == product_qty ) {
+					return;
+				}
+
+				_products_eec.push({
+					'id':         gtm4wp_use_sku_instead ? productdata.data( 'gtm4wp_product_sku' ) : productdata.data( 'gtm4wp_product_id' ),
+					'name':       productdata.data( 'gtm4wp_product_name' ),
+					'price':      productdata.data( 'gtm4wp_product_price' ),
+					'category':   productdata.data( 'gtm4wp_product_cat' ),
+					'quantity':   product_qty,
+					'stocklevel': productdata.data( 'gtm4wp_product_stocklevel' ),
+					'brand':      productdata.data( 'gtm4wp_product_brand' )
+				});
+			});
+
+			if ( 0 == _products_eec.length ) {
+				return;
+			}
+
+			window[ gtm4wp_datalayer_name ].push({
+				'event': 'gtm4wp.addProductToCartEEC',
+				'ecommerce': {
+					'currencyCode': gtm4wp_currency,
+					'add': {
+						'products': _products_eec
 					}
-
-					var _tmp = [];
-					for( var attrib_key in product_var.attributes ) {
-						_tmp.push( product_var.attributes[ attrib_key ] );
-					}
-
-					window[ gtm4wp_datalayer_name ].push({
-						'event': 'gtm4wp.addProductToCartEEC',
-						'ecommerce': {
-							'currencyCode': _product_currency,
-							'add': {
-								'products': [{
-									'id': gtm4wp_use_sku_instead ? _product_var_sku : _product_var_id_val,
-									'name': _product_name,
-									'price': product_var.display_price,
-									'category': _product_category,
-									'variant': _tmp.join(','),
-									'quantity': jQuery( 'form.cart:first input[name=quantity]' ).val(),
-									'stocklevel': _product_stocklevel
-								}]
-							}
-						}
-					});
-
 				}
 			});
-*/
 		} else {
 			window[ gtm4wp_datalayer_name ].push({
 				'event': 'gtm4wp.addProductToCartEEC',
 				'ecommerce': {
-					'currencyCode': _product_currency,
+					'currencyCode': gtm4wp_currency,
 					'add': {
 						'products': [{
-							'id': gtm4wp_use_sku_instead ? _product_sku : _product_id,
-							'name': _product_name,
-							'price': _product_price,
-							'category': _product_category,
-							'quantity': jQuery( 'form.cart:first input[name=quantity]' ).val(),
-							'stocklevel': _product_stocklevel
+							'id':         gtm4wp_use_sku_instead ? jQuery( '[name=gtm4wp_sku]', _product_form ).val() : jQuery( '[name=gtm4wp_id]', _product_form ).val(),
+							'name':       jQuery( '[name=gtm4wp_name]', _product_form ).val(),
+							'price':      jQuery( '[name=gtm4wp_price]', _product_form ).val(),
+							'category':   jQuery( '[name=gtm4wp_category]', _product_form ).val(),
+							'quantity':   jQuery( 'form.cart:first input[name=quantity]' ).val(),
+							'stocklevel': jQuery( '[name=gtm4wp_stocklevel]', _product_form ).val(),
+							'brand':      jQuery( '[name=gtm4wp_brand]', _product_form ).val()
 						}]
 					}
 				}
@@ -252,6 +290,7 @@ jQuery(function() {
 						'category':   productdata.data( 'gtm4wp_product_cat' ),
 						'variant':    productdata.data( 'gtm4wp_product_variant' ),
 						'stocklevel': productdata.data( 'gtm4wp_product_stocklevel' ),
+						'brand':      productdata.data( 'gtm4wp_product_brand' ),
 						'quantity':   qty
 					}]
 				}
@@ -260,7 +299,7 @@ jQuery(function() {
 	});
 
 	// track clicks in product lists
-	jQuery( document ).on( 'click', '.products li:not(.product-category) a:not(.add_to_cart_button):not(.quick-view-button),.products>div:not(.product-category) a:not(.add_to_cart_button):not(.quick-view-button),.widget-product-item', function( event ) {
+	jQuery( document ).on( 'click', '.products li:not(.product-category) a:not(.add_to_cart_button):not(.quick-view-button),.products>div:not(.product-category) a:not(.add_to_cart_button):not(.quick-view-button),.widget-product-item,.woocommerce-grouped-product-list-item__label a', function( event ) {
 		// do nothing if GTM is blocked for some reason
 		if ( 'undefined' == typeof google_tag_manager ) {
 			return true;
@@ -283,8 +322,15 @@ jQuery(function() {
 
 				if ( _productdata.length > 0 ) {
 					productdata = _productdata.find( '.gtm4wp_productdata' );
+
 				} else {
-					productdata = jQuery( this );
+					_productdata = jQuery( this ).closest( '.woocommerce-grouped-product-list-item__label' );
+
+					if ( _productdata.length > 0 ) {
+						productdata = _productdata.find( '.gtm4wp_productdata' );
+					} else {
+						productdata = jQuery( this );
+					}
 				}
 			}
 		}
@@ -318,6 +364,7 @@ jQuery(function() {
 						'price':      productdata.data( 'gtm4wp_product_price' ),
 						'category':   productdata.data( 'gtm4wp_product_cat' ),
 						'stocklevel': productdata.data( 'gtm4wp_product_stocklevel' ),
+						'brand':      productdata.data( 'gtm4wp_product_brand' ),
 						'position':   productdata.data( 'gtm4wp_product_listposition' )
 					}]
 				}
@@ -352,8 +399,8 @@ jQuery(function() {
 		var _product_sku        = jQuery( '[name=gtm4wp_sku]', _product_form ).val();
 		var _product_category   = jQuery( '[name=gtm4wp_category]', _product_form ).val();
 		var _product_price      = jQuery( '[name=gtm4wp_price]', _product_form ).val();
-		var _product_currency   = jQuery( '[name=gtm4wp_currency]', _product_form ).val();
 		var _product_stocklevel = jQuery( '[name=gtm4wp_stocklevel]', _product_form ).val();
+		var _product_brand      = jQuery( '[name=gtm4wp_brand]', _product_form ).val();
 
 		var current_product_detail_data   = {
 			name: _product_name,
@@ -361,6 +408,7 @@ jQuery(function() {
 			price: 0,
 			category: _product_category,
 			stocklevel: _product_stocklevel,
+			brand: _product_brand,
 			variant: ''
 		};
 
@@ -380,7 +428,7 @@ jQuery(function() {
 		window[ gtm4wp_datalayer_name ].push({
 			'event': 'gtm4wp.changeDetailViewEEC',
 			'ecommerce': {
-				'currencyCode': _product_currency,
+				'currencyCode': gtm4wp_currency,
 				'detail': {
 					'products': [current_product_detail_data]
 				},
@@ -398,12 +446,14 @@ jQuery(function() {
 
 	// initiate codes in WooCommere Quick View
 	jQuery( document ).ajaxSuccess( function( event, xhr, settings ) {
-		if ( settings.url.indexOf( 'wc-api=WC_Quick_View' ) > -1 ) {
-		  setTimeout( function() {
-				jQuery( ".woocommerce.quick-view" ).parent().find( "script" ).each( function(i) {
-					eval( jQuery( this ).text() );
-				});
-			}, 500);
+		if(typeof settings !== 'undefined') {
+			if (settings.url.indexOf( 'wc-api=WC_Quick_View' ) > -1 ) {
+			  setTimeout( function() {
+					jQuery( ".woocommerce.quick-view" ).parent().find( "script" ).each( function(i) {
+						eval( jQuery( this ).text() );
+					});
+				}, 500);
+			}
 		}
 	});
 
@@ -424,7 +474,7 @@ jQuery(function() {
 		window.gtm4wp_checkout_products    = window.gtm4wp_checkout_products || [];
 		var gtm4wp_checkout_step_fired          = []; // step 1 will be the billing section which is reported during pageload, no need to handle here
 
-		jQuery( document ).on( 'blur', 'input[name^=shipping_]:not(input[name=shipping_method])', function() {
+		jQuery( document ).on( 'blur', 'input[name^=shipping_]:not(input[name^=shipping_method])', function() {
 			// do not report checkout step if already reported
 			if ( gtm4wp_checkout_step_fired.indexOf( 'shipping' ) > -1 ) {
 				return;
@@ -450,7 +500,7 @@ jQuery(function() {
 			gtm4wp_checkout_step_fired.push( 'shipping' );
 		});
 
-		jQuery( document ).on( 'change', 'input[name=shipping_method]', function() {
+		jQuery( document ).on( 'change', 'input[name^=shipping_method]', function() {
 			// do not report checkout step if already reported
 			if ( gtm4wp_checkout_step_fired.indexOf( 'shipping_method' ) > -1 ) {
 				return;
@@ -506,16 +556,12 @@ jQuery(function() {
 			if ( gtm4wp_checkout_step_fired.indexOf( 'shipping_method' ) == -1 ) {
 				// shipping methods are not visible if only one is available
 				// and if the user has already a pre-selected method, no click event will fire to report the checkout step
-				jQuery( 'input[name=shipping_method]:checked' ).trigger( 'click' );
-
-				gtm4wp_checkout_step_fired.push( 'shipping_method' );
+				jQuery( 'input[name^=shipping_method]:checked' ).trigger( 'change' );
 			}
 
 			if ( gtm4wp_checkout_step_fired.indexOf( 'payment_method' ) == -1 ) {
 				// if the user has already a pre-selected method, no click event will fire to report the checkout step
-				jQuery( 'input[name=payment_method]:checked' ).trigger( 'click' );
-
-				gtm4wp_checkout_step_fired.push( 'payment_method' );
+				jQuery( 'input[name=payment_method]:checked' ).trigger( 'change' );
 			}
 
 			var _shipping_el = jQuery( '#shipping_method input:checked' );
@@ -550,7 +596,7 @@ jQuery(function() {
 		});
 	}
 
-	// codes for AdWords dynamic remarketing
+	// codes for Google Ads dynamic remarketing
 	if ( window.gtm4wp_remarketing&& !is_cart && !is_checkout ) {
 		if ( jQuery( '.gtm4wp_productdata' ).length > 0 ) {
 			for( var i=0; i<window[ gtm4wp_datalayer_name ].length; i++ ) {

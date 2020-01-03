@@ -1,9 +1,11 @@
 <?php
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
+
 //Prevent directly browsing to the file
 if (function_exists('plugin_dir_url')) 
 {		
-    define('DUPLICATOR_VERSION',        '1.3.10');
-	define('DUPLICATOR_VERSION_BUILD',  '2019-03-16_12:15');
+    define('DUPLICATOR_VERSION',        '1.3.24');
+	define('DUPLICATOR_VERSION_BUILD',  '2019-11-13_07:45');
     define('DUPLICATOR_PLUGIN_URL',     plugin_dir_url(__FILE__));
 	define('DUPLICATOR_SITE_URL',		get_site_url());
 	
@@ -54,7 +56,9 @@ if (function_exists('plugin_dir_url'))
 	define('DUPLICATOR_WEBCONFIG_ORIG_FILENAME', 'web.config.orig');
 	define("DUPLICATOR_INSTALLER_DIRECTORY", DUPLICATOR_WPROOTPATH . 'dup-installer');
     define('DUPLICATOR_MAX_LOG_SIZE', 400000);    // The higher this is the more overhead
-    define("DUPLICATOR_INSTALLER_CSRF_CRYPT", 1);
+    define('DUPLICATOR_ZIP_ARCHIVE_ADD_FROM_STR', false); 
+    define('DUPLICATOR_DEACTIVATION_FEEDBACK', false); 
+    define("DUPLICATOR_BUFFER_READ_WRITE_SIZE", 4377);
 
     $GLOBALS['DUPLICATOR_SERVER_LIST'] = array('Apache','LiteSpeed', 'Nginx', 'Lighttpd', 'IIS', 'WebServerX', 'uWSGI');
 	$GLOBALS['DUPLICATOR_OPTS_DELETE'] = array('duplicator_ui_view_state', 'duplicator_package_active', 'duplicator_settings');
@@ -99,4 +103,3 @@ if (function_exists('plugin_dir_url'))
     header("Status: 404 Not Found");
     exit();
 }
-?>

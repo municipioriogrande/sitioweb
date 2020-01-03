@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 	/*IDE Helper*/
 	/* @var $Package DUP_Package */
 	function _duplicatorGetRootPath() {
@@ -8,33 +9,32 @@
 		echo "<div title='{$root}' class='divider'><i class='fa fa-folder-open'></i> {$sroot}</div>";
 	}
 
-	$archive_type_label		=  DUP_Settings::Get('archive_build_mode') == DUP_Archive_Build_Mode::ZipArchive ? "ZipArchive" : "DupArchive (beta)";
-	$archive_type_extension =  DUP_Settings::Get('archive_build_mode') == DUP_Archive_Build_Mode::ZipArchive ? "zip" : "daf";
-	$duparchive_max_limit   = DUP_Util::readableByteSize(DUPLICATOR_MAX_DUPARCHIVE_SIZE);
-    $skip_archive_scan    = DUP_Settings::Get('skip_archive_scan');
-
+$archive_type_label		=  DUP_Settings::Get('archive_build_mode') == DUP_Archive_Build_Mode::ZipArchive ? "ZipArchive" : "DupArchive";
+$archive_type_extension =  DUP_Settings::Get('archive_build_mode') == DUP_Archive_Build_Mode::ZipArchive ? "zip" : "daf";
+$duparchive_max_limit   = DUP_Util::readableByteSize(DUPLICATOR_MAX_DUPARCHIVE_SIZE);
+$skip_archive_scan    = DUP_Settings::Get('skip_archive_scan');
 ?>
 
 <!-- ================================================================
 ARCHIVE -->
 <div class="details-title">
-	<i class="fa fa-file-archive-o"></i>&nbsp;<?php esc_html_e('Archive', 'duplicator');?>
+	<i class="far fa-file-archive"></i>&nbsp;<?php esc_html_e('Archive', 'duplicator');?>
 	<sup class="dup-small-ext-type"><?php echo esc_html($archive_type_extension); ?></sup>
 	<div class="dup-more-details" onclick="Duplicator.Pack.showDetailsDlg()" title="<?php esc_attr_e('Show Scan Details', 'duplicator');?>"><i class="fa fa-window-maximize"></i></div>
 </div>
 
 <div class="scan-header scan-item-first">
-	<i class="fa fa-files-o"></i>
+	<i class="far fa-copy fa-sm"></i>
 	<?php esc_html_e("Files", 'duplicator'); ?>
 	
 	<div class="scan-header-details">
 		<div class="dup-scan-filter-status">
 			<?php
 				if ($Package->Archive->ExportOnlyDB) {
-					echo '<i class="fa fa-filter"></i> ';
+					echo '<i class="fa fa-filter fa-sm"></i> ';
 					esc_html_e('Database Only', 'duplicator');
 				} elseif ($Package->Archive->FilterOn) {
-					echo '<i class="fa fa-filter"></i> ';
+					echo '<i class="fa fa-filter fa-sm"></i> ';
 					esc_html_e('Enabled', 'duplicator');
 				}
 			?>
@@ -50,7 +50,18 @@ ARCHIVE -->
 </div>
 
 <?php
-if ($skip_archive_scan) { ?>
+if ($Package->Archive->ExportOnlyDB) { ?>
+<div class="scan-item ">
+	<div class='title' onclick="Duplicator.Pack.toggleScanItem(this);">
+		<div class="text"><i class="fa fa-caret-right"></i> <?php esc_html_e('Database only', 'duplicator');?></div>
+		<div id="only-db-scan-status"><div class="badge badge-warn"><?php esc_html_e("Notice", 'duplicator'); ?></div></div>
+	</div>
+    <div class="info">
+        <?php esc_html_e("Only the database and a copy of the installer.php will be included in the archive.zip file.", 'duplicator'); ?>
+    </div>
+</div>
+<?php
+} else if ($skip_archive_scan) { ?>
 <div class="scan-item ">
 	<div class='title' onclick="Duplicator.Pack.toggleScanItem(this);">
 		<div class="text"><i class="fa fa-caret-right"></i> <?php esc_html_e('Skip archive scan enabled', 'duplicator');?></div>
@@ -108,7 +119,7 @@ TOTAL SIZE -->
 				<div class="hdrs">
 					<span style="font-weight:bold">
 						<?php esc_html_e('Quick Filters', 'duplicator'); ?>
-						<sup><i class="fa fa-question-circle" data-tooltip-title="<?php esc_attr_e("Large Files", 'duplicator'); ?>" data-tooltip="<?php echo esc_attr($hlptxt); ?>"></i></sup>
+						<sup><i class="fas fa-question-circle fa-sm" data-tooltip-title="<?php esc_attr_e("Large Files", 'duplicator'); ?>" data-tooltip="<?php echo esc_attr($hlptxt); ?>"></i></sup>
 					</span>
 					<div class='hdrs-up-down'>
 						<i class="fa fa-caret-up fa-lg dup-nav-toggle" onclick="Duplicator.Pack.toggleAllDirPath(this, 'hide')" title="<?php esc_attr_e("Hide All", 'duplicator'); ?>"></i>
@@ -122,7 +133,7 @@ TOTAL SIZE -->
 							<div class="directory">
 								<i class="fa fa-caret-right fa-lg dup-nav" onclick="Duplicator.Pack.toggleDirPath(this)"></i> &nbsp;
 								{{#if directory.iscore}}
-									<i class="fa fa-window-close-o chk-off" title="<?php esc_attr_e('Core WordPress directories should not be filtered. Use caution when excluding files.', 'duplicator'); ?>"></i>
+									<i class="far fa-window-close chk-off" title="<?php esc_attr_e('Core WordPress directories should not be filtered. Use caution when excluding files.', 'duplicator'); ?>"></i>
 								{{else}}
 									<input type="checkbox" name="dir_paths[]" value="{{directory.dir}}" id="lf_dir_{{@index}}" onclick="Duplicator.Pack.filesOff(this)" />
 								{{/if}}
@@ -161,10 +172,10 @@ TOTAL SIZE -->
 					 <?php esc_html_e('*Checking a directory will exclude all items recursively from that path down.  Please use caution when filtering directories.', 'duplicator'); ?>
 				</div>
 				<button type="button" class="button-small duplicator-quick-filter-btn" disabled="disabled" onclick="Duplicator.Pack.applyFilters(this, 'large')">
-					<i class="fa fa-filter"></i> <?php esc_html_e('Add Filters &amp; Rescan', 'duplicator');?>
+					<i class="fa fa-filter fa-sm"></i> <?php esc_html_e('Add Filters &amp; Rescan', 'duplicator');?>
 				</button>
 				<button type="button" class="button-small" onclick="Duplicator.Pack.showPathsDlg('large')" title="<?php esc_attr_e('Copy Paths to Clipboard', 'duplicator');?>">
-					<i class="fa fa-clipboard" aria-hidden="true"></i>
+					<i class="fa far fa-clipboard" aria-hidden="true"></i>
 				</button>
 			</div>
 			<div style="clear:both"></div>
@@ -217,7 +228,7 @@ ADDON SITES -->
                     <?php esc_html_e('*Checking a directory will exclude all items in that path recursively.'); ?>
                 </div>
                 <button type="button" class="button-small duplicator-quick-filter-btn" disabled="disabled" onclick="Duplicator.Pack.applyFilters(this, 'addon')">
-                    <i class="fa fa-filter"></i> <?php esc_html_e('Add Filters &amp; Rescan');?>
+                    <i class="fa fa-filter fa-sm"></i> <?php esc_html_e('Add Filters &amp; Rescan');?>
                 </button>
             </div>
         </script>
@@ -244,7 +255,7 @@ FILE NAME CHECKS -->
 			<div class="container">
 				<div class="hdrs">
 					<span style="font-weight:bold"><?php esc_html_e('Quick Filters', 'duplicator');?></span>
-						<sup><i class="fa fa-question-circle" data-tooltip-title="<?php esc_attr_e("Name Checks", 'duplicator'); ?>" data-tooltip="<?php echo esc_attr($txt); ?>"></i></sup>
+						<sup><i class="fas fa-question-circle fa-sm" data-tooltip-title="<?php esc_attr_e("Name Checks", 'duplicator'); ?>" data-tooltip="<?php echo esc_attr($txt); ?>"></i></sup>
 					<div class='hdrs-up-down'>
 						<i class="fa fa-caret-up fa-lg dup-nav-toggle" onclick="Duplicator.Pack.toggleAllDirPath(this, 'hide')" title="<?php esc_attr_e("Hide All", 'duplicator'); ?>"></i>
 						<i class="fa fa-caret-down fa-lg dup-nav-toggle" onclick="Duplicator.Pack.toggleAllDirPath(this, 'show')" title="<?php esc_attr_e("Show All", 'duplicator'); ?>"></i>
@@ -262,7 +273,7 @@ FILE NAME CHECKS -->
 								{{/if}}
 										
 								{{#if directory.iscore}}
-									<i class="fa fa-window-close-o chk-off" title="<?php esc_attr_e('Core WordPress directories should not be filtered. Use caution when excluding files.', 'duplicator'); ?>"></i>
+									<i class="far fa-window-close chk-off" title="<?php esc_attr_e('Core WordPress directories should not be filtered. Use caution when excluding files.', 'duplicator'); ?>"></i>
 								{{else}}		
 									<input type="checkbox" name="dir_paths[]" value="{{directory.dir}}" id="nc1_dir_{{@index}}" onclick="Duplicator.Pack.filesOff(this)" />
 								{{/if}}
@@ -291,10 +302,10 @@ FILE NAME CHECKS -->
 					 <?php esc_html_e('*Checking a directory will exclude all items recursively from that path down.  Please use caution when filtering directories.', 'duplicator'); ?>
 				</div>
 				<button type="button" class="button-small duplicator-quick-filter-btn"  disabled="disabled" onclick="Duplicator.Pack.applyFilters(this, 'utf8')">
-					<i class="fa fa-filter"></i> <?php esc_html_e('Add Filters &amp; Rescan', 'duplicator');?>
+					<i class="fa fa-filter fa-sm"></i> <?php esc_html_e('Add Filters &amp; Rescan', 'duplicator');?>
 				</button>
 				<button type="button" class="button-small" onclick="Duplicator.Pack.showPathsDlg('utf8')" title="<?php esc_attr_e('Copy Paths to Clipboard', 'duplicator');?>">
-					<i class="fa fa-clipboard" aria-hidden="true"></i>
+					<i class="fa far fa-clipboard" aria-hidden="true"></i>
 				</button>
 			</div>
 		</script>
@@ -320,7 +331,7 @@ UNREADABLE FILES -->
                     <div class="directory">
                         {{#if ARC.UnreadableItems}}
 							{{#each ARC.UnreadableItems as |uitem|}}
-								<i class="fa fa-lock"></i> {{uitem}} <br/>
+								<i class="fa fa-lock fa-xs"></i> {{uitem}} <br/>
 							{{/each}}
                         {{else}}
 							<i><?php esc_html_e('No unreadable items found.');?><br/></i>
@@ -331,7 +342,7 @@ UNREADABLE FILES -->
                     <div class="directory">
                         {{#if  ARC.RecursiveLinks}}
 							{{#each ARC.RecursiveLinks as |link|}}
-								<i class="fa fa-lock"></i> {{link}} <br/>
+								<i class="fa fa-lock fa-xs"></i> {{link}} <br/>
 							{{/each}}
 						{{else}}
 							<i><?php esc_html_e('No recursive sym-links found.');?><br/></i>
@@ -346,17 +357,76 @@ UNREADABLE FILES -->
 
 <?php } ?>
 
+<!-- ======================
+Restore only package -->
+<div id="migratepackage-block"  class="scan-item scan-item-last">
+	<div class='title' onclick="Duplicator.Pack.toggleScanItem(this);">
+		<div class="text"><i class="fa fa-caret-right"></i> <?php esc_html_e('Migration Status', 'duplicator');?></div>
+        <div id="data-arc-status-migratepackage"></div>
+	</div>
+    <div class="info">
+        <script id="hb-migrate-package-result" type="text/x-handlebars-template">
+            <div class="container">
+                <div class="data">					
+                    {{#if ARC.Status.CanbeMigratePackage}}
+                        <?php esc_html_e("The package created here can be migrated to the new server.", 'duplicator'); ?>
+                    {{else}}
+                        <span style="color: red;">
+                            <?php
+                            esc_html_e("The package that created here can't be migrated to the new server.
+                                The Package created here can be restored on the same server.", 'duplicator');
+                            ?>
+                        </span>
+                    {{/if}}			
+                </div>
+            </div>
+        </script>
+        <div id="migrate-package-result"></div>
+    </div>
+</div>
+<?php
+$procedures = $GLOBALS['wpdb']->get_col("SHOW PROCEDURE STATUS WHERE `Db` = '{$wpdb->dbname}'", 1);
+if (count($procedures)) {
+?>
+<div id="showcreateproc-block"  class="scan-item scan-item-last">
+	<div class='title' onclick="Duplicator.Pack.toggleScanItem(this);">
+		<div class="text"><i class="fa fa-caret-right"></i> <?php esc_html_e('Sufficient privileges to SHOW CREATE FUNCTION', 'duplicator');?></div>
+        <div id="data-arc-status-showcreateproc"></div>
+	</div>
+    <div class="info">
+        <script id="hb-showcreateproc-result" type="text/x-handlebars-template">
+            <div class="container">
+                <div class="data">					
+                    {{#if ARC.Status.showCreateProc}}
+                        <?php esc_html_e("The database user you are using have sufficient permissions to dump database with stored procedures.", 'duplicator'); ?>
+                    {{else}}
+                        <span style="color: red;">
+                            <?php
+                            esc_html_e("The database user you are using doesn't have sufficient permissions to dump database with stored procedures.", 'duplicator');
+                            ?>
+                        </span>
+                    {{/if}}			
+                </div>
+            </div>
+        </script>
+        <div id="showcreateproc-package-result"></div>
+    </div>
+</div>
+<?php
+}
+?>
+
 <!-- ============
 DATABASE -->
 <div id="dup-scan-db">
 	<div class="scan-header">
-		<i class="fa fa-table"></i>
+		<i class="fa fa-table fa-sm"></i>
 		<?php esc_html_e("Database", 'duplicator');	?>
 		<div class="scan-header-details">
 			<div class="dup-scan-filter-status">
 				<?php
 					if ($Package->Database->FilterOn) {
-						echo '<i class="fa fa-filter"></i> '; esc_html_e('Enabled', 'duplicator');
+						echo '<i class="fa fa-filter fa-sm"></i> '; esc_html_e('Enabled', 'duplicator');
 					}
 				?>
 			</div>
@@ -419,7 +489,7 @@ DATABASE -->
 	<!-- ============
 	TOTAL SIZE -->
     <div class="data-ll-section scan-header" style="display:none">
-		<i class="fa fa-file-archive-o"></i>
+		<i class="far fa-file-archive"></i>
 		<?php esc_html_e("Total Size", 'duplicator');	?>
 		<div class="scan-header-details">
 
@@ -514,14 +584,14 @@ DIALOG: Scan Results -->
 <div id="dup-archive-details" style="display:none">
 	
 	<!-- PACKAGE -->
-	<h2><i class="fa fa-archive"></i> <?php esc_html_e('Package', 'duplicator');?></h2>
+	<h2><i class="fa fa-archive fa-sm"></i> <?php esc_html_e('Package', 'duplicator');?></h2>
 	<b><?php esc_html_e('Name', 'duplicator');?>:</b> <?php echo esc_html($Package->Name); ?><br/>
 	<b><?php esc_html_e('Notes', 'duplicator');?>:</b> <?php echo esc_html($Package->Notes); ?> <br/>
 	<b><?php esc_html_e('Archive Engine', 'duplicator');?>:</b> <a href="admin.php?page=duplicator-settings&tab=package" target="_blank"><?php echo esc_html($archive_type_label); ?></a>
 	<br/><br/>
 
 	<!-- DATABASE -->
-	<h2><i class="fa fa-table"></i> <?php esc_html_e('Database', 'duplicator');?></h2>
+	<h2><i class="fa fa-table fa-sm"></i> <?php esc_html_e('Database', 'duplicator');?></h2>
 	<table id="db-area">
 		<tr><td><b><?php esc_html_e('Name:', 'duplicator');?></b></td><td><?php echo DB_NAME; ?> </td></tr>
 		<tr><td><b><?php esc_html_e('Host:', 'duplicator');?></b></td><td><?php echo DB_HOST; ?> </td></tr>
@@ -542,7 +612,7 @@ DIALOG: Scan Results -->
 
 	<!-- FILE FILTERS -->
 	<h2 style="border: none">
-		<i class="fa fa-filter"></i> <?php esc_html_e('File Filters', 'duplicator');?>:
+		<i class="fa fa-filter fa-sm"></i> <?php esc_html_e('File Filters', 'duplicator');?>:
 		<small><?php echo ($Package->Archive->FilterOn) ? __('Enabled', 'duplicator') : __('Disabled', 'duplicator') ;?></small>
 	</h2>
 	<div class="filter-area">
@@ -618,16 +688,16 @@ DIALOG: PATHS COPY & PASTE -->
 	<b><i class="fa fa-folder"></i> <?php esc_html_e('Directories', 'duplicator');?></b>
 	<div class="copy-button">
 		<button type="button" class="button-small" onclick="Duplicator.Pack.copyText(this, '#arc-paths-dlg textarea.path-dirs')">
-			<i class="fa fa-clipboard"></i> <?php esc_html_e('Click to Copy', 'duplicator');?>
+			<i class="fa far fa-clipboard"></i> <?php esc_html_e('Click to Copy', 'duplicator');?>
 		</button>
 	</div>
 	<textarea class="path-dirs"></textarea>
 	<br/><br/>
 
-	<b><i class="fa fa-files-o"></i> <?php esc_html_e('Files', 'duplicator');?></b>
+	<b><i class="far fa-copy fa-sm"></i> <?php esc_html_e('Files', 'duplicator');?></b>
 	<div class="copy-button">
 		<button type="button" class="button-small" onclick="Duplicator.Pack.copyText(this, '#arc-paths-dlg textarea.path-files')">
-			<i class="fa fa-clipboard"></i> <?php esc_html_e('Click to Copy', 'duplicator');?>
+			<i class="fa far fa-clipboard"></i> <?php esc_html_e('Click to Copy', 'duplicator');?>
 		</button>
 	</div>
 	<textarea class="path-files"></textarea>
@@ -727,7 +797,7 @@ jQuery(document).ready(function($)
 	Duplicator.Pack.applyFilters = function(btn, type)
 	{
 		var $btn = $(btn);
-		$btn.html('<i class="fa fa-circle-o-notch fa-spin"></i> <?php esc_html_e('Initializing Please Wait...', 'duplicator');?>');
+		$btn.html('<i class="fas fa-circle-notch fa-spin"></i> <?php esc_html_e('Initializing Please Wait...', 'duplicator');?>');
 		$btn.attr('disabled', 'true');
 
 		//var id = (type == 'large') ? '#hb-files-large-result' : '#hb-files-utf8-result'
@@ -789,7 +859,10 @@ jQuery(document).ready(function($)
 		$('#data-arc-status-size').html(Duplicator.Pack.setScanStatus(data.ARC.Status.Size));
 		$('#data-arc-status-names').html(Duplicator.Pack.setScanStatus(data.ARC.Status.Names));
         $('#data-arc-status-unreadablefiles').html(Duplicator.Pack.setScanStatus(data.ARC.Status.UnreadableItems));
-        $('#data-arc-size1').text(data.ARC.Size || errMsg);
+        
+		$('#data-arc-status-migratepackage').html(Duplicator.Pack.setScanStatus(data.ARC.Status.MigratePackage));
++        $('#data-arc-status-showcreateproc').html(Duplicator.Pack.setScanStatus(data.ARC.Status.showCreateProcStatus));
+		$('#data-arc-size1').text(data.ARC.Size || errMsg);
 		$('#data-arc-size2').text(data.ARC.Size || errMsg);
 		$('#data-arc-files').text(data.ARC.FileCount || errMsg);
 		$('#data-arc-dirs').text(data.ARC.DirCount || errMsg);
@@ -830,6 +903,22 @@ jQuery(document).ready(function($)
             var templateScript = Handlebars.compile(template);
             var html = templateScript(data);
             $('div.hb-filter-file-list-result').html(html);
+        }
+
+		//MIGRATE PACKAGE
+        if ($("#hb-migrate-package-result").length) {
+            var template = $('#hb-migrate-package-result').html();
+            var templateScript = Handlebars.compile(template);
+            var html = templateScript(data);
+            $('#migrate-package-result').html(html);
+        }
+
+        //SHOW CREATE
+        if ($("#hb-showcreateproc-result").length) {
+            var template = $('#hb-showcreateproc-result').html();
+            var templateScript = Handlebars.compile(template);
+            var html = templateScript(data);
+            $('#showcreateproc-package-result').html(html);
         }
 
 		Duplicator.UI.loadQtip();
@@ -877,7 +966,7 @@ jQuery(document).ready(function($)
 					html += '</tr></table>';
 				});
 			}
-			$('#data-db-tablelist').append(html);
+			$('#data-db-tablelist').html(html);
 		} else {
 			html = '<?php esc_html_e("Unable to report on database stats", 'duplicator') ?>';
 			$('#dup-scan-db').html(html);

@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 global $wpdb;
 
 //POST BACK: Rest Button
@@ -68,8 +69,8 @@ TOOL BAR: STEPS -->
             </div>	
         </td>
         <td>
-            <a href="?page=duplicator" class="add-new-h2"><i class="fa fa-archive"></i> <?php esc_html_e("Packages", 'duplicator'); ?></a>
-            <span> <?php esc_html_e("Create New", 'duplicator'); ?></span>
+            <a href="?page=duplicator" class="button"><i class="fa fa-archive fa-sm"></i> <?php esc_html_e("Packages", 'duplicator'); ?></a>
+            <a href="javascript:void(0)" class="button disabled"> <?php esc_html_e("Create New", 'duplicator'); ?></a>
         </td>
     </tr>
 </table>	

@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 $view_state = DUP_UI_ViewState::getArray();
 $ui_css_general = (isset($view_state['dup-package-dtl-general-panel']) && $view_state['dup-package-dtl-general-panel']) ? 'display:block' : 'display:none';
 $ui_css_storage = (isset($view_state['dup-package-dtl-storage-panel']) && $view_state['dup-package-dtl-storage-panel']) ? 'display:block' : 'display:none';
@@ -7,9 +8,28 @@ $ui_css_install = (isset($view_state['dup-package-dtl-install-panel']) && $view_
 
 $format = strtolower($package->Archive->Format);
 
-$link_sql			= "{$package->StoreURL}{$package->NameHash}_database.sql";
-$link_archive 		= "{$package->StoreURL}{$package->NameHash}_archive.{$format}";
-$link_installer		= "{$package->StoreURL}{$package->NameHash}_installer.php?get=1&file={$package->NameHash}_installer.php";
+$base_url			= admin_url('admin.php');
+$link_sql			= add_query_arg(
+							array(
+								'action' => 'duplicator_download',
+								'file' => "{$package->NameHash}_database.sql",
+							),
+							$base_url
+						);
+$link_archive 		= add_query_arg(
+							array(
+								'action' => 'duplicator_download',
+								'file' => "{$package->NameHash}_archive.{$format}",
+							),
+							$base_url
+						);
+$link_installer		= add_query_arg(
+							array(
+								'action' => 'duplicator_download',
+								'file' => $package->NameHash.'_installer.php',
+							),
+							$base_url
+						);
 $link_log			= "{$package->StoreURL}{$package->NameHash}.log";
 $link_scan			= "{$package->StoreURL}{$package->NameHash}_scan.json";
 
@@ -71,7 +91,7 @@ $dup_install_secure_pass = isset($package->Installer->OptsSecurePass) ? DUP_Util
 GENERAL -->
 <div class="dup-box">
 <div class="dup-box-title">
-	<i class="fa fa-archive"></i> <?php esc_html_e('General', 'duplicator') ?>
+	<i class="fa fa-archive fa-sm"></i> <?php esc_html_e('General', 'duplicator') ?>
 	<div class="dup-box-arrow"></div>
 </div>
 <div class="dup-box-panel" id="dup-package-dtl-general-panel" style="<?php echo esc_attr($ui_css_general); ?>">
@@ -122,13 +142,13 @@ GENERAL -->
 				<div id="dup-downloads-area">
 					<?php if  (!$err_found) :?>
 
-                        <button class="button" onclick="Duplicator.Pack.DownloadPackageFile(0, <?php echo absint($package->ID); ?>);return false;"><i class="fa fa-bolt"></i> Installer</button>
-                        <button class="button" onclick="Duplicator.Pack.DownloadPackageFile(1, <?php echo absint($package->ID); ?>);return false;"><i class="fa fa-file-archive-o"></i> Archive - <?php echo esc_html($package->ZipSize); ?></button>
-                        <button class="button" onclick="Duplicator.Pack.DownloadPackageFile(2, <?php echo absint($package->ID); ?>);return false;"><i class="fa fa-table"></i> &nbsp; SQL - <?php echo esc_html(DUP_Util::byteSize($package->Database->Size))  ?></button>
-                        <button class="button" onclick="Duplicator.Pack.DownloadPackageFile(3, <?php echo absint($package->ID); ?>);return false;"><i class="fa fa-table"></i> &nbsp; <?php esc_html_e('Log', 'duplicator'); ?> </button>
-						<button class="button" onclick="Duplicator.Pack.ShowLinksDialog('<?php echo esc_js($link_sql);?>','<?php echo esc_js($link_archive); ?>','<?php echo esc_js($link_installer); ?>','<?php echo esc_js($link_log);?>');" class="thickbox"><i class="fa fa-lock"></i> &nbsp; <?php esc_html_e("Share", 'duplicator')?></button>
+                        <button class="button" onclick="Duplicator.Pack.DownloadPackageFile(0, <?php echo absint($package->ID); ?>);return false;"><i class="fa fa-bolt fa-sm"></i> Installer</button>
+                        <button class="button" onclick="Duplicator.Pack.DownloadPackageFile(1, <?php echo absint($package->ID); ?>);return false;"><i class="far fa-file-archive"></i> Archive - <?php echo esc_html($package->ZipSize); ?></button>
+                        <button class="button" onclick="Duplicator.Pack.DownloadPackageFile(2, <?php echo absint($package->ID); ?>);return false;"><i class="fa fa-table fa-sm"></i> &nbsp; SQL - <?php echo esc_html(DUP_Util::byteSize($package->Database->Size))  ?></button>
+                        <button class="button" onclick="Duplicator.Pack.DownloadPackageFile(3, <?php echo absint($package->ID); ?>);return false;"><i class="fa fa-table fa-sm"></i> &nbsp; <?php esc_html_e('Log', 'duplicator'); ?> </button>
+						<button class="button" onclick="Duplicator.Pack.ShowLinksDialog('<?php echo esc_js($link_sql);?>','<?php echo esc_js($link_archive); ?>','<?php echo esc_js($link_installer); ?>','<?php echo esc_js($link_log);?>');" class="thickbox"><i class="fa fa-lock fa-xs"></i> &nbsp; <?php esc_html_e("Share", 'duplicator')?></button>
 					<?php else: ?>
-                        <button class="button" onclick="Duplicator.Pack.DownloadPackageFile(3, <?php echo absint($package->ID); ?>);return false;"><i class="fa fa-table"></i> &nbsp; Log </button>
+                        <button class="button" onclick="Duplicator.Pack.DownloadPackageFile(3, <?php echo absint($package->ID); ?>);return false;"><i class="fa fa-table fa-sm"></i> &nbsp; Log </button>
 					<?php endif; ?>
 				</div>
 				<?php if (!$err_found) :?>
@@ -158,7 +178,7 @@ DIALOG: QUICK PATH -->
 <?php add_thickbox(); ?>
 <div id="dup-dlg-quick-path" title="<?php esc_attr_e('Download Links', 'duplicator'); ?>" style="display:none">
 	<p>
-		<i class="fa fa-lock"></i>
+		<i class="fa fa-lock fa-xs"></i>
 		<?php esc_html_e("The following links contain sensitive data.  Please share with caution!", 'duplicator');	?>
 	</p>
 
@@ -173,7 +193,7 @@ DIALOG: QUICK PATH -->
 STORAGE -->
 <div class="dup-box">
 <div class="dup-box-title">
-	<i class="fa fa-database"></i> <?php esc_html_e('Storage', 'duplicator') ?>
+	<i class="fas fa-database fa-sm"></i> <?php esc_html_e('Storage', 'duplicator') ?>
 	<div class="dup-box-arrow"></div>
 </div>
 <div class="dup-box-panel" id="dup-package-dtl-storage-panel" style="<?php echo esc_attr($ui_css_storage); ?>">
@@ -201,7 +221,7 @@ STORAGE -->
 							<img src="<?php echo esc_url(DUPLICATOR_PLUGIN_URL."assets/img/ftp-64.png"); ?>" />
 							<?php echo sprintf(esc_html__('%1$s, %2$s, %3$s, %4$s, %5$s and other storage options available in', 'duplicator'), 'Amazon', 'Dropbox', 'Google Drive', 'OneDrive', 'FTP/SFTP'); ?>
                             <a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_storage_detail&utm_campaign=duplicator_pro" target="_blank"><?php esc_html_e('Duplicator Pro', 'duplicator');?></a>
-							 <i class="fa fa-lightbulb-o"
+							 <i class="far fa-lightbulb"
 								data-tooltip-title="<?php esc_attr_e('Additional Storage:', 'duplicator'); ?>"
 								data-tooltip="<?php esc_attr_e('Duplicator Pro allows you to create a package and then store it at a custom location on this server or to a cloud '
 										. 'based location such as Google Drive, Amazon, Dropbox or FTP.', 'duplicator'); ?>">
@@ -222,7 +242,7 @@ ARCHIVE -->
 ?>
 <div class="dup-box">
 <div class="dup-box-title">
-	<i class="fa fa-file-archive-o"></i> <?php esc_html_e('Archive', 'duplicator') ?>
+	<i class="far fa-file-archive"></i> <?php esc_html_e('Archive', 'duplicator') ?>
 	<div class="dup-box-arrow"></div>
 </div>
 <div class="dup-box-panel" id="dup-package-dtl-archive-panel" style="<?php echo esc_attr($ui_css_archive); ?>">
@@ -279,7 +299,7 @@ ARCHIVE -->
 	</table><br/>
 
 	<!-- DATABASE -->
-	<div class="dup-box-panel-hdr"><i class="fa fa-table"></i> <?php esc_html_e('DATABASE', 'duplicator'); ?></div>
+	<div class="dup-box-panel-hdr"><i class="fa fa-table fa-sm"></i> <?php esc_html_e('DATABASE', 'duplicator'); ?></div>
 	<table class='dup-dtl-data-tbl'>
 		<tr>
 			<td><?php esc_html_e('Type', 'duplicator') ?>: </td>
@@ -321,7 +341,7 @@ ARCHIVE -->
 INSTALLER -->
 <div class="dup-box" style="margin-bottom: 50px">
 <div class="dup-box-title">
-	<i class="fa fa-bolt"></i> <?php esc_html_e('Installer', 'duplicator') ?>
+	<i class="fa fa-bolt fa-sm"></i> <?php esc_html_e('Installer', 'duplicator') ?>
 	<div class="dup-box-arrow"></div>
 </div>
 <div class="dup-box-panel" id="dup-package-dtl-install-panel" style="<?php echo esc_html($ui_css_install); ?>">
@@ -341,7 +361,7 @@ INSTALLER -->
 				<td colspan="2">
 					<div id="dup-pass-toggle">
 						<input type="password" name="secure-pass" id="secure-pass" readonly="true" value="<?php echo esc_attr($dup_install_secure_pass); ?>" />
-						<button type="button" id="secure-btn" onclick="Duplicator.Pack.TogglePassword()" title="<?php esc_attr_e('Show/Hide Password', 'duplicator'); ?>"><i class="fa fa-eye"></i></button>
+						<button type="button" id="secure-btn" onclick="Duplicator.Pack.TogglePassword()" title="<?php esc_attr_e('Show/Hide Password', 'duplicator'); ?>"><i class="fas fa-eye fa-xs"></i></button>
 					</div>
 				</td>
 			</tr>
@@ -404,19 +424,37 @@ jQuery(document).ready(function($)
 	Duplicator.Pack.GetLinksText = function() {$('#dup-dlg-quick-path-data').select();};
 
 	Duplicator.Pack.OpenAll = function () {
+		Duplicator.UI.IsSaveViewState = false;
+		var states = [];
 		$("div.dup-box").each(function() {
-			var panel_open = $(this).find('div.dup-box-panel').is(':visible');
+			var pan = $(this).find('div.dup-box-panel');
+			var panel_open = pan.is(':visible');
 			if (! panel_open)
 				$( this ).find('div.dup-box-title').trigger("click");
-		 });
+			states.push({
+				key: pan.attr('id'),
+				value: 1
+			});
+		});
+		Duplicator.UI.SaveMulViewStates(states);
+		Duplicator.UI.IsSaveViewState = true;
 	};
 
 	Duplicator.Pack.CloseAll = function () {
-			$("div.dup-box").each(function() {
-			var panel_open = $(this).find('div.dup-box-panel').is(':visible');
+		Duplicator.UI.IsSaveViewState = false;
+		var states = [];
+		$("div.dup-box").each(function() {
+			var pan = $(this).find('div.dup-box-panel');
+			var panel_open = pan.is(':visible');
 			if (panel_open)
 				$( this ).find('div.dup-box-title').trigger("click");
-		 });
+			states.push({
+				key: pan.attr('id'),
+				value: 0
+			});
+		});
+		Duplicator.UI.SaveMulViewStates(states);
+		Duplicator.UI.IsSaveViewState = true;
 	};
 
 	Duplicator.Pack.TogglePassword = function()
@@ -425,10 +463,10 @@ jQuery(document).ready(function($)
 		var $button =  $('#secure-btn');
 		if (($input).attr('type') == 'text') {
 			$input.attr('type', 'password');
-			$button.html('<i class="fa fa-eye"></i>');
+			$button.html('<i class="fas fa-eye fa-xs"></i>');
 		} else {
 			$input.attr('type', 'text');
-			$button.html('<i class="fa fa-eye-slash"></i>');
+			$button.html('<i class="fas fa-eye-slash fa-xs"></i>');
 		}
 	}
 });

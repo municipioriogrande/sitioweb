@@ -8,6 +8,7 @@
  * @package SC\DUPX\U
  *
  */
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 
 /**
  * Dup installer custom exception

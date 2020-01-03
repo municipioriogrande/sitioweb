@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 /**
  * The base class for all filter types Directories/Files/Extentions
  *
@@ -75,6 +76,14 @@ class DUP_Archive_Filter_Info
      *  Init this object
      */
     public function __construct()
+    {
+        $this->reset();
+    }
+
+        /**
+     * reset and clean all object
+     */
+    public function reset()
     {
         $this->Dirs  = new DUP_Archive_Filter_Scope_Directory();
         $this->Files = new DUP_Archive_Filter_Scope_File();

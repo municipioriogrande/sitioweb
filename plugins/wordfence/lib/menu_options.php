@@ -167,7 +167,6 @@ if (isset($_GET['source']) && wfPage::isValidPage($_GET['source'])) {
 				'wf-option-scansEnabled-passwds' => __('Check the strength of passwords', 'wordfence'),
 				'wf-option-scansEnabled-diskSpace' => __('Monitor disk space', 'wordfence'),
 				'wf-option-scansEnabled-wafStatus' => __('Monitor Web Application Firewall status', 'wordfence'),
-				'wf-option-scansEnabled-dns' => __('Scan for unauthorized DNS changes', 'wordfence'),
 				'wf-option-other-scanOutside' => __('Scan files outside your WordPress installation', 'wordfence'),
 				'wf-option-scansEnabled-scanImages' => __('Scan images, binary, and other files as if they were executable', 'wordfence'),
 				'wf-option-lowResourceScansEnabled' => __('Use low resource scanning (reduces server load by lengthening the scan duration)', 'wordfence'),

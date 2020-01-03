@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 require_once(dirname(__FILE__).'/../util/class.duparchive.util.php');
 require_once(dirname(__FILE__).'/class.duparchive.header.u.php');
 
@@ -25,7 +26,7 @@ class DupArchiveDirectoryHeader// extends HeaderBase
 //        $instance = new DupArchiveDirectoryHeader();
 //
 //        $instance->permissions        = substr(sprintf('%o', fileperms($directoryPath)), -4);
-//        $instance->mtime              = SnapLibIOU::filemtime($directoryPath);
+//        $instance->mtime              = DupLiteSnapLibIOU::filemtime($directoryPath);
 //        $instance->relativePath       = $relativePath;
 //        $instance->relativePathLength = strlen($instance->relativePath);
 //
@@ -85,7 +86,7 @@ class DupArchiveDirectoryHeader// extends HeaderBase
 
         $headerString = '<D><MT>'.$this->mtime.'</MT><P>'.$this->permissions.'</P><RPL>'.$this->relativePathLength.'</RPL><RP>'.$this->relativePath.'</RP></D>';
 
-        //SnapLibIOU::fwrite($archiveHandle, $headerString);
+        //DupLiteSnapLibIOU::fwrite($archiveHandle, $headerString);
         $bytes_written = @fwrite($archiveHandle, $headerString);
 
         if ($bytes_written === false) {

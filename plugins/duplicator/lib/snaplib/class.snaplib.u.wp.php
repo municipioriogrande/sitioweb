@@ -11,16 +11,16 @@
  * @license	https://opensource.org/licenses/GPL-3.0 GNU Public License
  *
  */
-/**
- * Wordpress utility functions
- */
-if (!class_exists('SnapLibUtilWp')) {
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
+
+if (!class_exists('DupLiteSnapLibUtilWp', false)) {
 
     /**
      * Wordpress utility functions
      */
-    class SnapLibUtilWp
+    class DupLiteSnapLibUtilWp
     {
+
         const PATH_FULL     = 0;
         const PATH_RELATIVE = 1;
         const PATH_AUTO     = 2;
@@ -38,7 +38,7 @@ if (!class_exists('SnapLibUtilWp')) {
         {
             if (is_null(self::$safeAbsPath)) {
                 if (defined('ABSPATH')) {
-                    self::$safeAbsPath = rtrim(SnapLibIOU::safePath(ABSPATH), '/');
+                    self::$safeAbsPath = rtrim(DupLiteSnapLibIOU::safePath(ABSPATH), '/');
                 } else {
                     self::$safeAbsPath = '';
                 }
@@ -54,7 +54,7 @@ if (!class_exists('SnapLibUtilWp')) {
          * @param int $fullPath // if PATH_AUTO check if is a full path or relative path
          *                         if PATH_FULL remove ABSPATH len without check
          *                         if PATH_RELATIVE consider path a relative path
-         * @param bool $isSafe // if false call rtrim(SnapLibIOU::safePath( PATH ), '/')
+         * @param bool $isSafe // if false call rtrim(DupLiteSnapLibIOU::safePath( PATH ), '/')
          *                        if true consider path a safe path without check
          *
          *  PATH_FULL and PATH_RELATIVE is better optimized and perform less operations
@@ -64,7 +64,7 @@ if (!class_exists('SnapLibUtilWp')) {
         public static function isWpCore($path, $fullPath = self::PATH_AUTO, $isSafe = false)
         {
             if ($isSafe == false) {
-                $path = rtrim(SnapLibIOU::safePath($path), '/');
+                $path = rtrim(DupLiteSnapLibIOU::safePath($path), '/');
             }
 
 

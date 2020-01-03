@@ -397,7 +397,7 @@ class wordfence {
 		if(self::$runInstallCalled){ return; }
 		self::$runInstallCalled = true;
 		if (function_exists('ignore_user_abort')) {
-			ignore_user_abort(true);
+			@ignore_user_abort(true);
 		}
 		if (!defined('DONOTCACHEDB')) { define('DONOTCACHEDB', true); }
 		$previous_version = ((is_multisite() && function_exists('get_network_option')) ? get_network_option(null, 'wordfence_version', '0.0.0') : get_option('wordfence_version', '0.0.0'));
@@ -1298,7 +1298,7 @@ SQL
 
 		add_action('wordfence_processAttackData', 'wordfence::processAttackData');
 		if (!empty($_GET['wordfence_syncAttackData']) && get_site_option('wordfence_syncingAttackData') <= time() - 60 && get_site_option('wordfence_lastSyncAttackData', 0) < time() - 4) {
-			ignore_user_abort(true);
+			@ignore_user_abort(true);
 			update_site_option('wordfence_syncingAttackData', time());
 			header('Content-Type: text/javascript');
 			define('WORDFENCE_SYNCING_ATTACK_DATA', true);
@@ -1394,7 +1394,7 @@ SQL
 		die("WFSCANTESTOK");
 	}
 	public static function ajax_doScan_callback(){
-		ignore_user_abort(true);
+		@ignore_user_abort(true);
 		self::$wordfence_wp_version = false;
 		if (!defined('DONOTCACHEDB')) { define('DONOTCACHEDB', true); }
 		//This is messy, but not sure of a better way to do this without guaranteeing we get $wp_version
@@ -5379,7 +5379,7 @@ HTACCESS;
 		echo "Current maximum memory configured in php.ini: " . ini_get('memory_limit') . "\n";
 		echo "Current memory usage: " . sprintf('%.2f', memory_get_usage(true) / (1024 * 1024)) . "M\n";
 		echo "Attempting to set max memory to {$configuredMax}M.\n";
-		wfUtils::iniSet('memory_limit', ($configuredMax + 1) . 'M'); //Allow a little extra for testing overhead
+		wfUtils::iniSet('memory_limit', ($configuredMax + 5) . 'M'); //Allow a little extra for testing overhead
 		echo "Starting memory benchmark. Seeing an error after this line is not unusual. Read the error carefully\nto determine how much memory your host allows. We have requested {$configuredMax} megabytes.\n";
 		
 		if (memory_get_usage(true) < 1) {
@@ -5391,26 +5391,29 @@ HTACCESS;
 			exit();
 		}
 		
-		//256 bytes
-		$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345678900000000000000000000000000000000000000000000000000000000000000000000000000000000000000011111111111111111222222222222222222233333333333333334444444444444444444444444555555555555666666666666666666";
+		if (!defined('WP_SANDBOX_SCRAPING')) { define('WP_SANDBOX_SCRAPING', true); } //Disables the WP error handler in somewhat of a hacky way
 		
+		$accumulatedMemory = array_fill(0, ceil($configuredMax / $stepSize), '');
 		$currentUsage = memory_get_usage(true);
 		$tenMB = 10 * 1024 * 1024;
 		$start = ceil($currentUsage / $tenMB) * $tenMB - $currentUsage; //Start at the closest 10 MB increment to the current usage
 		$configuredMax = $configuredMax * 1048576; //Bytes
 		$testLimit = $configuredMax - memory_get_usage(true);
 		$finalUsage = '0';
+		$previous = 0;
+		$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345678900000000000000000000000000000000000000000000000000000000000000000000000000000000000000011111111111111111222222222222222222233333333333333334444444444444444444444444555555555555666666666666666666";
+		$index = 0;
 		while ($start <= $testLimit) {
-			$accumulatedMemory = str_repeat($chars, $start / 256);
+			$accumulatedMemory[$index] = str_repeat($chars, ($start - $previous) / 256);
 			
 			$finalUsage = sprintf('%.2f', (memory_get_usage(true) / 1024 / 1024));
 			echo "Tested up to " . $finalUsage . " megabytes.\n";
 			if ($start == $testLimit) { break; }
+			$previous = $start;
 			$start = min($start + $stepSize, $testLimit);
 			
 			if (memory_get_usage(true) > $configuredMax) { break; }
-			
-			unset($accumulatedMemory);
+			$index++;
 		}
 		echo "--Test complete.--\n\nYour web host allows you to use at least {$finalUsage} megabytes of memory for each PHP process hosting your WordPress site.\n";
 		exit();

@@ -12,12 +12,13 @@ require_once 'classes/class.settings.php';
 require_once 'classes/utilities/class.u.php';
 
 global $wpdb;
-$DUP_Settings = new DUP_Settings();
+DUP_Settings::init();
 
 $table_name = $wpdb->prefix . "duplicator_packages";
 $wpdb->query("DROP TABLE IF EXISTS `{$table_name}`");
 
 delete_option('duplicator_version_plugin');
+delete_option('duplicator_usage_id');
 
 //Remove entire wp-snapshots directory
 if (DUP_Settings::Get('uninstall_files')) {
@@ -49,6 +50,10 @@ if (DUP_Settings::Get('uninstall_files')) {
 		}
 		foreach (glob("{$ssdir}/*_scan.json") as $file) {
 			if (strstr($file, '_scan.json'))
+				@unlink("{$file}");
+		}
+		foreach (glob("{$ssdir}/*_wp-config.txt") as $file) {
+			if (strstr($file, '_wp-config.txt'))
 				@unlink("{$file}");
 		}
 		foreach (glob("{$ssdir}/*.log") as $file) {

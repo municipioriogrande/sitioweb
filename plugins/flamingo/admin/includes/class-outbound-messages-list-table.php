@@ -22,7 +22,7 @@ class Flamingo_Outbound_Messages_List_Table extends WP_List_Table {
 		return $columns;
 	}
 
-	function __construct() {
+	public function __construct() {
 		parent::__construct( array(
 			'singular' => 'post',
 			'plural' => 'posts',
@@ -30,11 +30,9 @@ class Flamingo_Outbound_Messages_List_Table extends WP_List_Table {
 		) );
 	}
 
-	function prepare_items() {
+	public function prepare_items() {
 		$current_screen = get_current_screen();
 		$per_page = $this->get_items_per_page( $current_screen->id . '_per_page' );
-
-		$this->_column_headers = $this->get_column_info();
 
 		$args = array(
 			'posts_per_page' => $per_page,
@@ -85,7 +83,7 @@ class Flamingo_Outbound_Messages_List_Table extends WP_List_Table {
 		) );
 	}
 
-	function get_views() {
+	protected function get_views() {
 		$status_links = array();
 		$post_status = empty( $_REQUEST['post_status'] )
 			? '' : $_REQUEST['post_status'];
@@ -132,11 +130,11 @@ class Flamingo_Outbound_Messages_List_Table extends WP_List_Table {
 		return $status_links;
 	}
 
-	function get_columns() {
+	public function get_columns() {
 		return get_column_headers( get_current_screen() );
 	}
 
-	function get_sortable_columns() {
+	protected function get_sortable_columns() {
 		$columns = array(
 			'subject' => array( 'subject', false ),
 			'from' => array( 'from', false ),
@@ -146,14 +144,14 @@ class Flamingo_Outbound_Messages_List_Table extends WP_List_Table {
 		return $columns;
 	}
 
-	function get_bulk_actions() {
+	protected function get_bulk_actions() {
 		$actions = array();
 
 		if ( $this->is_trash ) {
 			$actions['untrash'] = __( 'Restore', 'flamingo' );
 		}
 
-		if ( $this->is_trash || ! EMPTY_TRASH_DAYS ) {
+		if ( $this->is_trash or ! EMPTY_TRASH_DAYS ) {
 			$actions['delete'] = __( 'Delete Permanently', 'flamingo' );
 		} else {
 			$actions['trash'] = __( 'Move to Trash', 'flamingo' );
@@ -162,7 +160,7 @@ class Flamingo_Outbound_Messages_List_Table extends WP_List_Table {
 		return $actions;
 	}
 
-	function extra_tablenav( $which ) {
+	protected function extra_tablenav( $which ) {
 ?>
 <div class="alignleft actions">
 <?php
@@ -173,7 +171,8 @@ class Flamingo_Outbound_Messages_List_Table extends WP_List_Table {
 				'secondary', false, false, array( 'id' => 'post-query-submit' ) );
 		}
 
-		if ( $this->is_trash && current_user_can( 'flamingo_delete_outbound_messages' ) ) {
+		if ( $this->is_trash
+		and current_user_can( 'flamingo_delete_outbound_messages' ) ) {
 			submit_button( __( 'Empty Trash', 'flamingo' ),
 				'button-secondary apply', 'delete_all', false );
 		}
@@ -182,19 +181,19 @@ class Flamingo_Outbound_Messages_List_Table extends WP_List_Table {
 <?php
 	}
 
-	function column_default( $item, $column_name ) {
+	protected function column_default( $item, $column_name ) {
 		do_action( 'manage_flamingo_outbound_posts_custom_column',
 			$column_name, $item->id );
 	}
 
-	function column_cb( $item ) {
+	protected function column_cb( $item ) {
 		return sprintf(
 			'<input type="checkbox" name="%1$s[]" value="%2$s" />',
 			$this->_args['singular'],
 			$item->id );
 	}
 
-	function column_subject( $item ) {
+	protected function column_subject( $item ) {
 		if ( $this->is_trash ) {
 			return '<strong>' . esc_html( $item->subject ) . '</strong>';
 		}
@@ -228,11 +227,11 @@ class Flamingo_Outbound_Messages_List_Table extends WP_List_Table {
 		}
 	}
 
-	function column_from( $item ) {
+	protected function column_from( $item ) {
 		return esc_html( $item->from );
 	}
 
-	function column_date( $item ) {
+	protected function column_date( $item ) {
 		$post = get_post( $item->id );
 
 		if ( ! $post ) {
@@ -251,6 +250,9 @@ class Flamingo_Outbound_Messages_List_Table extends WP_List_Table {
 			$h_time = mysql2date( __( 'Y/m/d', 'flamingo' ), $m_time );
 		}
 
-		return '<abbr aria-label="' . $t_time . '">' . $h_time . '</abbr>';
+		return sprintf( '<abbr aria-label="%2$s">%1$s</abbr>',
+			esc_html( $h_time ),
+			esc_attr( $t_time )
+		);
 	}
 }

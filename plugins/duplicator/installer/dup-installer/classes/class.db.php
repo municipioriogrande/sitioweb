@@ -1,6 +1,4 @@
 <?php
-defined("ABSPATH") or die("");
-
 /**
  * Lightweight abstraction layer for common simple database routines
  *
@@ -10,6 +8,8 @@ defined("ABSPATH") or die("");
  * @link http://www.php-fig.org/psr/psr-2/
  *
  */
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
+
 class DUPX_DB
 {
 
@@ -25,25 +25,31 @@ class DUPX_DB
      */
     public static function connect($host, $username, $password, $dbname = '')
     {
-        //sock connections
-        if ('sock' === substr($host, -4)) {
-            $url_parts = parse_url($host);
-            $dbh       = @mysqli_connect('localhost', $username, $password, $dbname, null, $url_parts['path']);
-        } else {
-            if (strpos($host, ':') !== false) {
-                $port = parse_url($host, PHP_URL_PORT);
-                $host = parse_url($host, PHP_URL_HOST);
-            }
-
-            if (isset($port)) {
-                $dbh = @mysqli_connect($host, $username, $password, $dbname, $port);
+        $dbh = null;
+        try {
+            //sock connections
+            if ('sock' === substr($host, -4)) {
+                $url_parts = parse_url($host);
+                $dbh       = @mysqli_connect('localhost', $username, $password, $dbname, null, $url_parts['path']);
             } else {
-                $dbh = @mysqli_connect($host, $username, $password, $dbname);
+                if (strpos($host, ':') !== false) {
+                    $port = parse_url($host, PHP_URL_PORT);
+                    $host = parse_url($host, PHP_URL_HOST);
+                }
+
+                if (isset($port)) {
+                    $dbh = @mysqli_connect($host, $username, $password, $dbname, $port);
+                } else {
+                    $dbh = @mysqli_connect($host, $username, $password, $dbname);
+                }
             }
-            
-        }
-        if (method_exists($dbh, 'options')) {
-            $dbh->options(MYSQLI_OPT_LOCAL_INFILE, false);
+            if (!$dbh) {
+                DUPX_Log::info('DATABASE CONNECTION ERROR: '.mysqli_connect_error().'[ERRNO:'.mysqli_connect_errno().']');
+            } else if (method_exists($dbh, 'options')) {
+                $dbh->options(MYSQLI_OPT_LOCAL_INFILE, false);
+            }
+        } catch (Exception $e) {
+            DUPX_Log::info('DATABASE CONNECTION EXCEPTION ERROR: '.$e->getMessage());
         }
         return $dbh;
     }
@@ -85,7 +91,7 @@ class DUPX_DB
      *
      * @param obj    $dbh   A valid database link handle
      * @param string $name	A valid table name to remove
-     * 
+     *
      * @return null
      */
     public static function dropTable($dbh, $name)
@@ -114,14 +120,14 @@ class DUPX_DB
                 $localhost[] = $row["Collation"];
             }
 
-			if (DUPX_U::isTraversable($collations)) {
-				foreach($collations as $key => $val) {
-					$status[$key]['name']  = $val;
-					$status[$key]['found'] = (in_array($val, $localhost)) ? 1 : 0 ;
-				}
-			}
-		}
-		$result->free();
+            if (DUPX_U::isTraversable($collations)) {
+            foreach ($collations as $key => $val) {
+                $status[$key]['name']  = $val;
+                $status[$key]['found'] = (in_array($val, $localhost)) ? 1 : 0;
+            }
+        }
+        }
+        $result->free();
 
         return $status;
     }
@@ -136,7 +142,7 @@ class DUPX_DB
      */
     public static function getDatabases($dbh, $dbuser = '')
     {
-        $sql   = strlen($dbuser) ? "SHOW DATABASES LIKE '%'".mysqli_real_escape_string($dbh, $dbuser)."%'" : 'SHOW DATABASES';
+        $sql   = strlen($dbuser) ? "SHOW DATABASES LIKE '%".mysqli_real_escape_string($dbh, $dbuser)."%'" : 'SHOW DATABASES';
         $query = @mysqli_query($dbh, $sql);
         if ($query) {
             while ($db = @mysqli_fetch_array($query)) {
@@ -249,7 +255,7 @@ class DUPX_DB
                 return version_compare($version, '4.1', '>=');
             case 'set_charset' :
                 return version_compare($version, '5.0.7', '>=');
-        };
+        }
         return false;
     }
 
@@ -284,7 +290,7 @@ class DUPX_DB
     {
         $result = array();
 
-        DUPX_Log::info("calling mysqli query on $sql");
+        DUPX_Log::info("calling mysqli query on $sql", DUPX_Log::LV_HARD_DEBUG);
         $query_result = mysqli_query($dbh, $sql);
 
         if ($query_result !== false) {
@@ -356,11 +362,27 @@ class DUPX_DB
 
         if (self::hasAbility($dbh, 'collation') && !empty($charset)) {
             if (function_exists('mysqli_set_charset') && self::hasAbility($dbh, 'set_charset')) {
-                return mysqli_set_charset($dbh, $charset);
+                if (($result = mysqli_set_charset($dbh, mysqli_real_escape_string($dbh, $charset))) === false) {
+                    $errMsg = mysqli_error($dbh);
+                    DUPX_Log::info('DATABASE ERROR: mysqli_set_charset '.DUPX_Log::varToString($charset).' MSG: '.$errMsg);
+                } else {
+                    DUPX_Log::info('DATABASE: mysqli_set_charset '.DUPX_Log::varToString($charset), DUPX_Log::LV_DETAILED);
+                }
+                return $result;
             } else {
                 $sql = " SET NAMES ".mysqli_real_escape_string($dbh, $charset);
-                if (!empty($collate)) $sql .= " COLLATE ".mysqli_real_escape_string($dbh, $collate);
-                return mysqli_query($dbh, $sql);
+                if (!empty($collate)) {
+                    $sql .= " COLLATE ".mysqli_real_escape_string($dbh, $collate);
+                }
+
+                if (($result = mysqli_query($dbh, $sql)) === false) {
+                    $errMsg = mysqli_error($dbh);
+                    DUPX_Log::info('DATABASE SQL ERROR: '.DUPX_Log::varToString($sql).' MSG: '.$errMsg);
+                } else {
+                    DUPX_Log::info('DATABASE SQL: '.DUPX_Log::varToString($sql), DUPX_Log::LV_DETAILED);
+                }
+
+                return $result;
             }
         }
     }
@@ -380,5 +402,23 @@ class DUPX_DB
             $cached_table_names = self::queryColumnToArray($dbh, "SHOW TABLES");
         }
         return in_array($table_name, $cached_table_names);
+    }
+
+    /**
+     * mysqli_query wrapper with logging
+     *
+     * @param mysqli $link
+     * @param string $sql
+     * @return type
+     */
+    public static function mysqli_query($link, $sql, $file = '', $line = '')
+    {
+        if (($result = mysqli_query($link, $sql)) === false) {
+            DUPX_Log::info('DB QUERY [ERROR]['.$file.':'.$line.'] SQL: '.DUPX_Log::varToString($sql)."\n\t MSG: ".mysqli_error($link));
+        } else {
+            DUPX_Log::info('DB QUERY ['.$file.':'.$line.']: '.DUPX_Log::varToString($sql), DUPX_Log::LV_HARD_DEBUG);
+        }
+
+        return $result;
     }
 }

@@ -1,5 +1,5 @@
 <?php
-defined("ABSPATH") or die("");
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 
 /**
  * Class for server type enum setup
@@ -212,7 +212,7 @@ HTACCESS;
 	private static function createBackup($file_path, $type)
 	{
 		$status		= false;
-		$file_name  = SnapLibIOU::getFileName($file_path);
+		$file_name  = DupLiteSnapLibIOU::getFileName($file_path);
 		$hash		= self::$fileHash;
 		$source = self::getTypeName($type);
 		if (is_file($file_path)) {
@@ -241,7 +241,7 @@ HTACCESS;
 		$status = false;
 		if (is_file($file_path)) {
 			$source		= self::getTypeName($type);
-			$file_name  = SnapLibIOU::getFileName($file_path);
+			$file_name  = DupLiteSnapLibIOU::getFileName($file_path);
 			$status = @unlink($file_path);
 			if ($status === FALSE) {
 				@chmod($file_path, 0777);
@@ -276,20 +276,24 @@ HTACCESS;
 				break;
 		}
 
-		if (is_dir(self::$rootPath)){
-			$dir = new DirectoryIterator(self::$rootPath);
-			foreach ($dir as $file) {
-				if ($file->isFile()) {
-					$name = $file->getFilename();
-					if (strpos($name, '-duplicator.bak')) {
-						if (preg_match($pattern, $name))
-							return true;
-					}
-				}
-			}
-		}
+		if (is_dir(self::$rootPath)) {
+            $dir = new DirectoryIterator(self::$rootPath);
+            foreach ($dir as $file) {
+                if ($file->isDot()) {
+                    continue;
+                }
+                if ($file->isFile()) {
+                    $name = $file->getFilename();
+                    if (strpos($name, '-duplicator.bak')) {
+                        if (preg_match($pattern, $name)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
 
-		return false;
+        return false;
 	}
 
 	/**
@@ -318,7 +322,107 @@ HTACCESS;
 		}
 	}
 
+    /**
+     * Get AddHadler line from existing WP .htaccess file
+     *
+     * @param $path string root path
+     * @return string
+     */
+    private static function getOldHtaccessAddhandlerLine($path)
+    {
+        $backupHtaccessPath = $path.'/.htaccess-'.$GLOBALS['DUPX_AC']->package_hash.'.orig';
+        if (file_exists($backupHtaccessPath)) {
+            $htaccessContent = file_get_contents($backupHtaccessPath);
+            if (!empty($htaccessContent)) {
+                // match and trim non commented line  "AddHandler application/x-httpd-XXXX .php" case insenstive
+                $re      = '/^[\s\t]*[^#]?[\s\t]*(AddHandler[\s\t]+.+\.php[ \t]?.*?)[\s\t]*$/mi';
+                $matches = array();
+                if (preg_match($re, $htaccessContent, $matches)) {
+                    return "\n".$matches[1];
+                }
+            }
+        }
+        return '';
+    }
 
+    /**
+     * Copies the code in htaccess.orig to .htaccess
+     *
+     * @param $path					The root path to the location of the server config files
+     * @param $new_htaccess_name	New name of htaccess (either .htaccess or a backup name)
+     *
+     * @return bool					Returns true if the .htaccess file was retained successfully
+     */
+    public static function renameHtaccess($path, $new_htaccess_name)
+    {
+        $status = false;
+
+        if (!@rename($path.'/htaccess.orig', $path.'/'.$new_htaccess_name)) {
+            $status = true;
+        }
+
+        return $status;
+    }
+
+    /**
+	 * Sets up the web config file based on the inputs from the installer forms.
+	 *
+	 * @param int $mu_mode		Is this site a specific multi-site mode
+	 * @param object $dbh		The database connection handle for this request
+	 * @param string $path		The path to the config file
+	 *
+	 * @return null
+	 */
+	public static function setup($mu_mode, $mu_generation, $dbh, $path)
+    {
+        DUPX_Log::info("\nWEB SERVER CONFIGURATION FILE UPDATED:");
+
+        $timestamp    = date("Y-m-d H:i:s");
+        $post_url_new = DUPX_U::sanitize_text_field($_POST['url_new']);
+        $newdata      = parse_url($post_url_new);
+        $newpath      = DUPX_U::addSlash(isset($newdata['path']) ? $newdata['path'] : "");
+        $update_msg   = "# This file was updated by Duplicator Pro on {$timestamp}.\n";
+        $update_msg   .= (file_exists("{$path}/.htaccess")) ? "# See htaccess.orig for the .htaccess original file." : "";
+        $update_msg   .= self::getOldHtaccessAddhandlerLine($path);
+
+
+        // no multisite
+        $empty_htaccess = false;
+        $query_result   = @mysqli_query($dbh, "SELECT option_value FROM `".mysqli_real_escape_string($dbh, $GLOBALS['DUPX_AC']->wp_tableprefix)."options` WHERE option_name = 'permalink_structure' ");
+
+        if ($query_result) {
+            $row = @mysqli_fetch_array($query_result);
+            if ($row != null) {
+                $permalink_structure = trim($row[0]);
+                $empty_htaccess      = empty($permalink_structure);
+            }
+        }
+
+
+        if ($empty_htaccess) {
+            $tmp_htaccess = '';
+        } else {
+            $tmp_htaccess = <<<HTACCESS
+{$update_msg}
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase {$newpath}
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . {$newpath}index.php [L]
+</IfModule>
+# END WordPress
+HTACCESS;
+            DUPX_Log::info("- Preparing .htaccess file with basic setup.");
+        }
+
+        if (@file_put_contents("{$path}/.htaccess", $tmp_htaccess) === FALSE) {
+            DUPX_Log::info("WARNING: Unable to update the .htaccess file! Please check the permission on the root directory and make sure the .htaccess exists.");
+        } else {
+            DUPX_Log::info("- Successfully updated the .htaccess file setting.");
+        }
+        @chmod("{$path}/.htaccess", 0644);
+    }
 }
-
-DUPX_ServerConfig::init();

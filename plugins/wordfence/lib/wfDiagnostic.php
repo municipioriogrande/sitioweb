@@ -82,6 +82,7 @@ class wfDiagnostic
 				'description' => __('Current WAF configuration.', 'wordfence'),
 				'tests' => array(
 					'wafAutoPrepend' => __('WAF auto prepend active', 'wordfence'),
+					'wafStorageEngine' => __('WAF storage engine (WFWAF_STORAGE_ENGINE)', 'wordfence'),
 					'wafLogPath' => __('WAF log path', 'wordfence'),
 					'wafSubdirectoryInstall' => __('WAF subdirectory installation', 'wordfence'),
 					'wafAutoPrependFilePath' => __('wordfence-waf.php path', 'wordfence'),
@@ -211,6 +212,10 @@ class wfDiagnostic
 	
 	public function isWAFReadable() {
 		if (!is_readable(WFWAF_LOG_PATH)) {
+			if (defined('WFWAF_STORAGE_ENGINE') && WFWAF_STORAGE_ENGINE == 'mysqli') {
+				return array('test' => false, 'infoOnly' => true, 'message' => __('No files readable', 'wordfence'));
+			}
+			
 			return array('test' => false, 'message' => __('No files readable', 'wordfence'));
 		}
 		
@@ -231,6 +236,10 @@ class wfDiagnostic
 		}
 		
 		if (count($unreadable) > 0) {
+			if (defined('WFWAF_STORAGE_ENGINE') && WFWAF_STORAGE_ENGINE == 'mysqli') {
+				return array('test' => false, 'infoOnly' => true, 'message' => implode(', ', $unreadable));
+			}
+			
 			return array('test' => false, 'message' => implode(', ', $unreadable));
 		}
 		
@@ -239,6 +248,10 @@ class wfDiagnostic
 	
 	public function isWAFWritable() {
 		if (!is_writable(WFWAF_LOG_PATH)) {
+			if (defined('WFWAF_STORAGE_ENGINE') && WFWAF_STORAGE_ENGINE == 'mysqli') {
+				return array('test' => false, 'infoOnly' => true, 'message' => __('No files writable', 'wordfence'));
+			}
+			
 			return array('test' => false, 'message' => __('No files writable', 'wordfence'));
 		}
 		
@@ -259,6 +272,10 @@ class wfDiagnostic
 		}
 		
 		if (count($unwritable) > 0) {
+			if (defined('WFWAF_STORAGE_ENGINE') && WFWAF_STORAGE_ENGINE == 'mysqli') {
+				return array('test' => false, 'infoOnly' => true, 'message' => implode(', ', $unwritable));
+			}
+			
 			return array('test' => false, 'message' => implode(', ', $unwritable));
 		}
 		
@@ -338,6 +355,9 @@ class wfDiagnostic
 
 	public function wafAutoPrepend() {
 		return array('test' => true, 'infoOnly' => true, 'message' => (defined('WFWAF_AUTO_PREPEND') && WFWAF_AUTO_PREPEND ? __('Yes', 'wordfence') : __('No', 'wordfence')));
+	}
+	public function wafStorageEngine() {
+		return array('test' => true, 'infoOnly' => true, 'message' => (defined('WFWAF_STORAGE_ENGINE') ? WFWAF_STORAGE_ENGINE : __('(default)', 'wordfence')));
 	}
 	public function wafLogPath() {
 		$logPath = __('(not set)', 'wordfence');

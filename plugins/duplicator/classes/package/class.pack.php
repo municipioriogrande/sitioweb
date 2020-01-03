@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 // Exit if accessed directly
 if (! defined('DUPLICATOR_VERSION')) exit;
 
@@ -237,6 +238,10 @@ class DUP_Package
         $report['ARC']['DirCount']  = number_format($dirCount);
         $report['ARC']['FileCount'] = number_format($fileCount);
         $report['ARC']['FullCount'] = number_format($fullCount);
+        $report['ARC']['WarnFileCount']       = count($this->Archive->FilterInfo->Files->Warning);
+        $report['ARC']['WarnDirCount']        = count($this->Archive->FilterInfo->Dirs->Warning);
+        $report['ARC']['UnreadableDirCount']  = count($this->Archive->FilterInfo->Dirs->Unreadable);
+        $report['ARC']['UnreadableFileCount'] = count($this->Archive->FilterInfo->Files->Unreadable);
 		$report['ARC']['FilterDirsAll'] = $this->Archive->FilterDirsAll;
 		$report['ARC']['FilterFilesAll'] = $this->Archive->FilterFilesAll;
 		$report['ARC']['FilterExtsAll'] = $this->Archive->FilterExtsAll;
@@ -246,6 +251,28 @@ class DUP_Package
         $report['ARC']['Status']['Size']  = ($this->Archive->Size > DUPLICATOR_SCAN_SIZE_DEFAULT) ? 'Warn' : 'Good';
         $report['ARC']['Status']['Names'] = (count($this->Archive->FilterInfo->Files->Warning) + count($this->Archive->FilterInfo->Dirs->Warning)) ? 'Warn' : 'Good';
         $report['ARC']['Status']['UnreadableItems'] = !empty($this->Archive->RecursiveLinks) || !empty($report['ARC']['UnreadableItems'])? 'Warn' : 'Good';
+        /*
+        $overwriteInstallerParams = apply_filters('duplicator_pro_overwrite_params_data', array());
+        $package_can_be_migrate = !(isset($overwriteInstallerParams['mode_chunking']['value'])
+                                    && $overwriteInstallerParams['mode_chunking']['value'] == 3
+                                    && isset($overwriteInstallerParams['mode_chunking']['formStatus'])
+                                    && $overwriteInstallerParams['mode_chunking']['formStatus'] == 'st_infoonly');
+        */
+        $package_can_be_migrate = true;
+        $report['ARC']['Status']['MigratePackage'] = $package_can_be_migrate ? 'Good' : 'Warn';
+        $report['ARC']['Status']['CanbeMigratePackage'] = $package_can_be_migrate;
+
+        $procedures = $GLOBALS['wpdb']->get_col("SHOW PROCEDURE STATUS WHERE `Db` = '".$GLOBALS['wpdb']->dbname."'", 1);
+        if (count($procedures)) {
+            $create = $GLOBALS['wpdb']->get_row("SHOW CREATE PROCEDURE `".$procedures[0]."`", ARRAY_N);
+            $privileges_to_show_create_proc = empty($create[2]) ? false : true;
+        } else {
+            $privileges_to_show_create_proc = true; 
+        }
+        
+        $privileges_to_show_create_proc = apply_filters('duplicator_privileges_to_show_create_proc', $privileges_to_show_create_proc);
+        $report['ARC']['Status']['showCreateProcStatus'] = $privileges_to_show_create_proc ? 'Good' : 'Warn';
+        $report['ARC']['Status']['showCreateProc'] = $privileges_to_show_create_proc;
 
         //$report['ARC']['Status']['Big']   = count($this->Archive->FilterInfo->Files->Size) ? 'Warn' : 'Good';
         $report['ARC']['Dirs']  = $this->Archive->Dirs;
@@ -284,7 +311,7 @@ class DUP_Package
         $report['RPT']['ScanTime'] = DUP_Util::elapsedTime(DUP_Util::getMicrotime(), $timerStart);
         $fp                        = fopen(DUPLICATOR_SSDIR_PATH_TMP."/{$this->ScanFile}", 'w');
 
-        fwrite($fp, DUP_JSON::encodePrettyPrint($report));
+        fwrite($fp, DupLiteSnapJsonU::wp_json_encode_pprint($report));
         fclose($fp);
 
         return $report;
@@ -359,6 +386,11 @@ class DUP_Package
         return DUP_Settings::Get('active_package_id') == $this->ID && $this->Status >= 0 && $this->Status < 100;
     }
 
+    protected function cleanObjectBeforeSave()
+    {
+        $this->Archive->FilterInfo->reset();
+    }
+
 	/**
      * Saves the active package to the package table
      *
@@ -370,7 +402,7 @@ class DUP_Package
 
 		$this->Archive->Format	= strtoupper($extension);
 		$this->Archive->File	= "{$this->NameHash}_archive.{$extension}";
-		$this->Installer->File	= "{$this->NameHash}_installer.php";
+		$this->Installer->File	= apply_filters('duplicator_installer_file_path', "{$this->NameHash}_installer.php");
 		$this->Database->File	= "{$this->NameHash}_database.sql";
 		$this->WPUser          = isset($current_user->user_login) ? $current_user->user_login : 'unknown';
 
@@ -382,6 +414,7 @@ class DUP_Package
 		$this->writeLogHeader();
 
 		//CREATE DB RECORD
+        $this->cleanObjectBeforeSave();
 		$packageObj = serialize($this);
 		if (!$packageObj) {
 			DUP_Log::Error("Unable to serialize package object while building record.");
@@ -471,7 +504,7 @@ class DUP_Package
     public function getArchiveSize() {
         $size = 0;
 
-        if ($this->Status >= 100) {
+        if ($this->Status >= DUP_PackageStatus::COMPLETE) {
             $size = $this->Archive->Size;
         } else {
             $tmpSearch = glob(DUPLICATOR_SSDIR_PATH_TMP . "/{$this->NameHash}_*");
@@ -491,16 +524,172 @@ class DUP_Package
      */
     public static function is_active_package_present()
     {
-        $activePakcs = self::get_all_by_status(array(
+        $activePakcs = self::get_ids_by_status(array(
                 array('op' => '>=', 'status' => DUP_PackageStatus::CREATED),
                 array('op' => '<', 'status' => DUP_PackageStatus::COMPLETE)
                 ), true);
 
-        return in_array( DUP_Settings::Get('active_package_id') , $activePakcs);
+        return in_array(DUP_Settings::Get('active_package_id'), $activePakcs);
     }
 
     /**
-     * Get all packages with status conditions
+     *
+     * @param array $conditions es. [
+     *                                  relation = 'AND',
+     *                                  [ 'op' => '>=' ,
+     *                                    'status' =>  DUP_PackageStatus::START ]
+     *                                  [ 'op' => '<' ,
+     *                                    'status' =>  DUP_PackageStatus::COMPLETED ]
+     *                              ]
+     * @return string
+     */
+    protected static function statusContitionsToWhere($conditions = array())
+    {
+        if (empty($conditions)) {
+            return '';
+        } else {
+            $accepted_op = array('<', '>', '=', '<>', '>=', '<=');
+            $relation    = (isset($conditions['relation']) && strtoupper($conditions['relation']) == 'OR') ? ' OR ' : ' AND ';
+            unset($conditions['relation']);
+
+            $str_conds = array();
+
+            foreach ($conditions as $cond) {
+                $op          = (isset($cond['op']) && in_array($cond['op'], $accepted_op)) ? $cond['op'] : '=';
+                $status      = isset($cond['status']) ? (int) $cond['status'] : 0;
+                $str_conds[] = 'status '.$op.' '.$status;
+            }
+
+            return ' WHERE '.implode($relation, $str_conds).' ';
+        }
+    }
+
+    /**
+     * Get packages with status conditions and/or pagination
+     *
+     * @global wpdb $wpdb
+     *
+     * @param array                 //  $conditions es. [
+     *                                      relation = 'AND',
+     *                                      [ 'op' => '>=' ,
+     *                                        'status' =>  DUP_PackageStatus::START ]
+     *                                      [ 'op' => '<' ,
+     *                                        'status' =>  DUP_PackageStatus::COMPLETED ]
+     *                                   ]
+     *                                  if empty get all pacages
+     * @param int $limit            // max row numbers fi false the limit is PHP_INT_MAX
+     * @param int $offset           // offset 0 is at begin
+     * @param string $orderBy       // default `id` ASC if empty no order
+     * @param string $resultType    //  ids => int[]
+     *                                  row => row without backage blob
+     *                                  fullRow => row with package blob
+     *                                  objs => array of DUP_Package objects
+     *
+     * @return DUP_Package[]|array[]|int[]
+     */
+    public static function get_packages_by_status($conditions = array(), $limit = false, $offset = 0, $orderBy = '`id` ASC', $resultType = 'obj')
+    {
+        global $wpdb;
+        $table = $wpdb->base_prefix."duplicator_packages";
+        $where = self::statusContitionsToWhere($conditions);
+
+        $packages   = array();
+        $offsetStr  = ' OFFSET '.(int) $offset;
+        $limitStr   = ' LIMIT '.($limit !== false ? max(0, $limit) : PHP_INT_MAX);
+        $orderByStr = empty($orderBy) ? '' : ' ORDER BY '.$orderBy.' ';
+        switch ($resultType) {
+            case 'ids':
+                $cols = '`id`';
+                break;
+            case 'row':
+                $cols = '`id`,`name`,`hash`,`status`,`created`,`owner`';
+                break;
+            case 'fullRow':
+                $cols = '*';
+                break;
+            case 'objs':
+            default:
+                $cols = '`status`,`package`';
+                break;
+        }
+
+        $rows = $wpdb->get_results('SELECT '.$cols.' FROM `'.$table.'` '.$where.$orderByStr.$limitStr.$offsetStr);
+        if ($rows != null) {
+            switch ($resultType) {
+                case 'ids':
+                    foreach ($rows as $row) {
+                        $packages[] = $row->id;
+                    }
+                    break;
+                case 'row':
+                case 'fullRow':
+                    $packages = $rows;
+                    break;
+                case 'objs':
+                default:
+                    foreach ($rows as $row) {
+                        $Package = unserialize($row->package);
+                        if ($Package) {
+                            // We was not storing Status in Lite 1.2.52, so it is for backward compatibility
+                            if (!isset($Package->Status)) {
+                                $Package->Status = $row->status;
+                            }
+
+                            $packages[] = $Package;
+                        }
+                    }
+            }
+        }
+        return $packages;
+    }
+
+    /**
+     * Get packages row db with status conditions and/or pagination
+     *
+     * @param array             //  $conditions es. [
+     *                                  relation = 'AND',
+     *                                  [ 'op' => '>=' ,
+     *                                    'status' =>  DUP_PackageStatus::START ]
+     *                                  [ 'op' => '<' ,
+     *                                    'status' =>  DUP_PackageStatus::COMPLETED ]
+     *                              ]
+     *                              if empty get all pacages
+     * @param int $limit        // max row numbers
+     * @param int $offset       // offset 0 is at begin
+     * @param string $orderBy   // default `id` ASC if empty no order
+     *
+     * @return array[]      // return row database without package blob
+     */
+    public static function get_row_by_status($conditions = array(), $limit = false, $offset = 0, $orderBy = '`id` ASC')
+    {
+        return self::get_packages_by_status($conditions, $limit, $offset, $orderBy, 'row');
+    }
+
+    /**
+     * Get packages ids with status conditions and/or pagination
+     *
+     * @param array             //  $conditions es. [
+     *                                  relation = 'AND',
+     *                                  [ 'op' => '>=' ,
+     *                                    'status' =>  DUP_PackageStatus::START ]
+     *                                  [ 'op' => '<' ,
+     *                                    'status' =>  DUP_PackageStatus::COMPLETED ]
+     *                              ]
+     *                              if empty get all pacages
+     * @param int $limit        // max row numbers
+     * @param int $offset       // offset 0 is at begin
+     * @param string $orderBy   // default `id` ASC if empty no order
+     *
+     * @return array[]      // return row database without package blob
+     */
+    public static function get_ids_by_status($conditions = array(), $limit = false, $offset = 0, $orderBy = '`id` ASC')
+    {
+        return self::get_packages_by_status($conditions, $limit, $offset, $orderBy, 'ids');
+    }
+
+    /**
+     * count package with status condition
+     *
      * @global wpdb $wpdb
      * @param array $conditions es. [
      *                                  relation = 'AND',
@@ -509,88 +698,91 @@ class DUP_Package
      *                                  [ 'op' => '<' ,
      *                                    'status' =>  DUP_PackageStatus::COMPLETED ]
      *                              ]
-     * @param bool $getIds if true return array of id
-     *
-     * @return DUP_Package[]|int[]
+     * @return int
      */
-    public static function get_all_by_status($conditions = array(),$getIds = false)
+    public static function count_by_status($conditions = array())
     {
         global $wpdb;
-        $result = array();
 
-        $tablePrefix = DUP_Util::getTablePrefix();
-        $table = $tablePrefix . "duplicator_packages";
+        $table = $wpdb->base_prefix."duplicator_packages";
+        $where = self::statusContitionsToWhere($conditions);
 
-        $accepted_op = array('<', '>', '=', '<>', '>=', '<=');
-        $relation    = (isset($conditions['relation']) && strtoupper($conditions['relation']) == 'OR') ? ' OR ' : ' AND ';
-        unset($conditions['relation']);
-
-        $where = '';
-
-        if (!empty($conditions)) {
-            $str_conds = array();
-
-            foreach ($conditions as $cond) {
-                $op        = (isset($cond['op']) && in_array($cond['op'], $accepted_op)) ? $cond['op'] : '=';
-                $status    = isset($cond['status']) ? (int) $cond['status'] : 0;
-                $str_conds[] = 'status '.$op.' '.$status;
-            }
-            $where = ' WHERE '.implode($relation, $str_conds).' ';
-        }
-
-        $cols = $getIds ? 'id' : '*';
-        $rows = $wpdb->get_results("SELECT {$cols} FROM `{$table}` {$where} ORDER BY id DESC", ARRAY_A);
-
-        if ($rows != null) {
-            if ($getIds) {
-                foreach ($rows as $row) {
-                     $result[] = (int) $row['id'];
-                }
-            } else {
-                foreach ($rows as $row) {
-                    $Package = unserialize($row['package']);
-                    if ($Package) {
-                        // We was not storing Status in Lite 1.2.52, so it is for backward compatibility
-                        if (!isset($Package->Status)) {
-                            $Package->Status = $row['status'];
-                        }
-
-                        $result[] = $Package;
-                    }
-                }
-            }
-        }
-
-        return $result;
+        $count = $wpdb->get_var("SELECT count(id) FROM `{$table}` ".$where);
+        return $count;
     }
 
     /**
+     * Execute $callback function foreach package result
+     * For each iteration the memory is released
      *
-     * @global wpdb $wpdb
-     * @return DUP_Package[]
+     * @param callable $callback    // function callback(DUP_Package $package)
+     * @param array             //  $conditions es. [
+     *                                  relation = 'AND',
+     *                                  [ 'op' => '>=' ,
+     *                                    'status' =>  DUP_PackageStatus::START ]
+     *                                  [ 'op' => '<' ,
+     *                                    'status' =>  DUP_PackageStatus::COMPLETED ]
+     *                              ]
+     *                              if empty get all pacages
+     * @param int $limit        // max row numbers
+     * @param int $offset       // offset 0 is at begin
+     * @param string $orderBy   // default `id` ASC if empty no order
+     *
+     * @return void
      */
-    public static function get_all()
+    public static function by_status_callback($callback, $conditions = array(), $limit = false, $offset = 0, $orderBy = '`id` ASC')
     {
-        global $wpdb;
-        $tablePrefix = DUP_Util::getTablePrefix();
-        $table = $tablePrefix."duplicator_packages";
+        if (!is_callable($callback)) {
+            throw new Exception('No callback function passed');
+        }
 
-        $packages = array();
-        $rows     = $wpdb->get_results("SELECT * FROM `{$table}` ORDER BY id DESC", ARRAY_A);
-        if ($rows != null) {
-            foreach ($rows as $row) {
-                $Package = unserialize($row['package']);
+        $offset      = max(0, $offset);
+        $numPackages = self::count_by_status($conditions);
+        $maxLimit    = $offset + ($limit !== false ? max(0, $limit) : PHP_INT_MAX - $offset);
+        $numPackages = min($maxLimit, $numPackages);
+        $orderByStr = empty($orderBy) ? '' : ' ORDER BY '.$orderBy.' ';
+
+        global $wpdb;
+        $table = $wpdb->base_prefix."duplicator_packages";
+        $where = self::statusContitionsToWhere($conditions);
+        $sql   = 'SELECT * FROM `'.$table.'` '.$where.$orderByStr.' LIMIT 1 OFFSET ';
+
+        for (; $offset < $numPackages; $offset ++) {
+            $rows = $wpdb->get_results($sql.$offset);
+            if ($rows != null) {
+                $Package = @unserialize($rows[0]->package);
                 if ($Package) {
+                    if (empty($Package->ID)) {
+                        $Package->ID = $rows[0]->id;
+                    }
                     // We was not storing Status in Lite 1.2.52, so it is for backward compatibility
                     if (!isset($Package->Status)) {
-                        $Package->Status = $row['status'];
+                        $Package->Status = $rows[0]->status;
                     }
+                    call_user_func($callback, $Package);
+                    unset($Package);
+                }
+                unset($rows);
+            }
+        }
+    }
 
-                    $packages[] = $Package;
+    public static function purge_incomplete_package()
+    {
+        $packages = self::get_packages_by_status(array(
+                'relation' => 'AND',
+                array('op' => '>=', 'status' => DUP_PackageStatus::CREATED),
+                array('op' => '<', 'status' => DUP_PackageStatus::COMPLETE)
+                ), 1, 0, '`id` ASC');
+
+
+        if (count($packages) > 0) {
+            foreach ($packages as $package) {
+                if (!$package->isRunning()) {
+                    $package->delete();
                 }
             }
         }
-        return $packages;
     }
 
     /**
@@ -613,23 +805,20 @@ class DUP_Package
         $sql_temp_size = @filesize($sql_temp_path);
         $sql_easy_size = DUP_Util::byteSize($sql_temp_size);
         $sql_done_txt = DUP_Util::tailFile($sql_temp_path, 3);
-        DUP_Log::Trace('rundupa1');
+        DUP_Log::Trace('[DUP ARCHIVE] '.__FUNCTION__.' '.__LINE__);
 
         // Note: Had to add extra size check of 800 since observed bad sql when filter was on 
         if (!strstr($sql_done_txt, 'DUPLICATOR_MYSQLDUMP_EOF') || (!$this->Database->FilterOn && $sql_temp_size < 5120) || ($this->Database->FilterOn && $this->Database->info->tablesFinalCount > 0 && $sql_temp_size < 800)) {
-            DUP_Log::Trace('rundupa2');
+            DUP_Log::Trace('[DUP ARCHIVE] '.__FUNCTION__.' '.__LINE__);
 
             $error_text = "ERROR: SQL file not complete.  The file {$sql_temp_path} looks too small ($sql_temp_size bytes) or the end of file marker was not found.";
             $this->BuildProgress->set_failed($error_text);
-            $this->Status = DUP_PackageStatus::ERROR;
-            $this->update();
-            //$this->setStatus(DUP_PackageStatus::ERROR);
+            $this->setStatus(DUP_PackageStatus::ERROR);
             DUP_Log::Error("$error_text", '', Dup_ErrorBehavior::LogOnly);
-
             return;
         }
 
-        DUP_Log::Trace('rundupa3');
+        DUP_Log::Trace('[DUP ARCHIVE] '.__FUNCTION__.' '.__LINE__);
         DUP_Log::Info("SQL FILE: {$sql_easy_size}");
 
         //------------------------
@@ -663,9 +852,7 @@ class DUP_Package
                 $error_message = "ERROR: The archive file contains no size.";
 
                 $this->BuildProgress->set_failed($error_message);
-                $this->Status = DUP_PackageStatus::ERROR;
-                $this->update();
-                //$this->setStatus(DUP_PackageStatus::ERROR);
+                $this->setStatus(DUP_PackageStatus::ERROR);
                 DUP_Log::error($error_message, "Archive Size: {$zip_easy_size}", Dup_ErrorBehavior::LogOnly);
                 return;
             }
@@ -682,8 +869,7 @@ class DUP_Package
                 //$this->BuildProgress->failed = true;
                 //$this->setStatus(DUP_PackageStatus::ERROR);
                 $this->BuildProgress->set_failed($error_message);
-                $this->Status =  DUP_PackageStatus::ERROR;
-                $this->update();
+                $this->setStatus(DUP_PackageStatus::ERROR);
 
                 DUP_Log::Error($error_message, '', Dup_ErrorBehavior::LogOnly);
                 return;
@@ -714,9 +900,8 @@ class DUP_Package
             if ($expected_filecount > 500) {
                 $straight_ratio = (float) $expected_filecount / (float) $this->Archive->file_count;
 
-				$warning_count = $scanReport->ARC->WarnFileCount + $scanReport->ARC->WarnDirCount + $scanReport->ARC->UnreadableFileCount + $scanReport->ARC->UnreadableDirCount;
+                $warning_count = $scanReport->ARC->WarnFileCount + $scanReport->ARC->WarnDirCount + $scanReport->ARC->UnreadableFileCount + $scanReport->ARC->UnreadableDirCount;
                 DUP_LOG::trace("Warn/unread counts) warnfile:{$scanReport->ARC->WarnFileCount} warndir:{$scanReport->ARC->WarnDirCount} unreadfile:{$scanReport->ARC->UnreadableFileCount} unreaddir:{$scanReport->ARC->UnreadableDirCount}");
-
                 $warning_ratio = ((float) ($expected_filecount + $warning_count)) / (float) $this->Archive->file_count;
                 DUP_LOG::trace("Straight ratio is $straight_ratio and warning ratio is $warning_ratio. # Expected=$expected_filecount # Warning=$warning_count and #Archive File {$this->Archive->file_count}");
 
@@ -726,9 +911,9 @@ class DUP_Package
                     if (($warning_ratio < 0.90) || ($warning_ratio > 1.01)) {
                         $error_message = sprintf('ERROR: File count in archive vs expected suggests a bad archive (%1$d vs %2$d).', $this->Archive->file_count, $expected_filecount);
                         $this->BuildProgress->set_failed($error_message);
-                        $this->Status = DUP_PackageStatus::ERROR;
+                        $this->Status  = DUP_PackageStatus::ERROR;
                         $this->update();
-                        
+
                         DUP_Log::error($error_message, '');
                         return;
                     }
@@ -786,7 +971,7 @@ class DUP_Package
 
         if ($file_type == DUP_PackageFileType::Installer) {
             DUP_Log::Trace("Installer requested");
-            $file_name = $this->getInstallerFilename();
+            $file_name = apply_filters('duplicator_installer_file_path', $this->getInstallerFilename());
         } else if ($file_type == DUP_PackageFileType::Archive) {
             DUP_Log::Trace("Archive requested");
             $file_name = $this->getArchiveFilename();
@@ -851,24 +1036,23 @@ class DUP_Package
 		}
         
         // RUNNING PACKAGES
-        $active_pack = self::get_all_by_status(array(
+        $active_pack = self::get_row_by_status(array(
             'relation' => 'AND',
             array('op' => '>=' , 'status' => DUP_PackageStatus::CREATED ),
             array('op' => '<' , 'status' => DUP_PackageStatus::COMPLETE )
         ));
         $active_files = array();
-
-        foreach($active_pack as $package) {                            
-            $active_files[] = $package->NameHash; // 20181221_dup_c0b2f1198a92f4f6c47a621494adc5cb_20181221173955
+        foreach($active_pack as $row) {
+            $active_files[] = $row->name.'_'.$row->hash;
         }
 
         // ERRORS PACKAGES
-        $err_pack = self::get_all_by_status(array(
+        $err_pack = self::get_row_by_status(array(
             array('op' => '<' , 'status' => DUP_PackageStatus::CREATED )
         ));
         $force_del_files = array();
-        foreach($err_pack as $package) {
-            $force_del_files[] = $package->NameHash;
+        foreach($err_pack as $row) {
+            $force_del_files[] =  $row->name.'_'.$row->hash;
         }
 
         // Don't remove json file;
@@ -968,7 +1152,7 @@ class DUP_Package
         }
 
         if ($this->BuildProgress->initialized == false) {
-            DUP_Log::Trace('Initializing');
+            DUP_Log::Trace('[DUP ARCHIVE] INIZIALIZE');
             $this->BuildProgress->initialized = true;
             $this->TimerStart = Dup_Util::getMicrotime();
             $this->update();
@@ -976,29 +1160,28 @@ class DUP_Package
 
         //START BUILD
         if (!$this->BuildProgress->database_script_built) {
-             DUP_Log::Trace('Building database script');
-
+            DUP_Log::Info('[DUP ARCHIVE] BUILDING DATABASE');
             $this->Database->build($this, Dup_ErrorBehavior::ThrowException);
+            DUP_Log::Info('[DUP ARCHIVE] VALIDATING DATABASE');
+            $this->Database->validateTableWiseRowCounts();
             $this->BuildProgress->database_script_built = true;
             $this->update();
-            DUP_LOG::Trace("Built database script");
+            DUP_Log::Info('[DUP ARCHIVE] DONE DATABASE');
         } else if (!$this->BuildProgress->archive_built) {
-             DUP_Log::Trace('e');
-
+            DUP_Log::Info('[DUP ARCHIVE] BUILDING ARCHIVE');
             $this->Archive->build($this);
             $this->update();
+            DUP_Log::Info('[DUP ARCHIVE] DONE ARCHIVE');
         } else if (!$this->BuildProgress->installer_built) {
-
-             DUP_Log::Trace('f');
-             // Installer being built is stuffed into the archive build phase
+            DUP_Log::Info('[DUP ARCHIVE] BUILDING INSTALLER');
+            // Installer being built is stuffed into the archive build phase
         }
 
         if ($this->BuildProgress->has_completed()) {
-
-            DUP_Log::Trace('c');
+            DUP_Log::Info('[DUP ARCHIVE] HAS COMPLETED CLOSING');
 
             if (!$this->BuildProgress->failed) {
-				DUP_LOG::trace("top of loop build progress not failed");
+				DUP_LOG::Info("[DUP ARCHIVE] DUP ARCHIVE INTEGRITY CHECK");
                 // Only makees sense to perform build integrity check on completed archives
                 $this->runDupArchiveBuildIntegrityCheck();
             } else {
@@ -1020,17 +1203,17 @@ class DUP_Package
             DUP_LOG::trace("Done package building");
 
             if (!$this->BuildProgress->failed) {
-
+                DUP_Log::Trace('[DUP ARCHIVE] HAS COMPLETED DONE');
                 $this->setStatus(DUP_PackageStatus::COMPLETE);
 				DUP_LOG::Trace("Cleaning up duparchive temp files");
                 //File Cleanup
                 $this->buildCleanup();
                 do_action('duplicator_lite_build_completed' , $this);
+            } else {
+                DUP_Log::Trace('[DUP ARCHIVE] HAS COMPLETED ERROR');
             }
         }
-
         DUP_Log::Close();
-
         return $this->BuildProgress->has_completed();
     }
 
@@ -1048,6 +1231,7 @@ class DUP_Package
         //PHPs serialze method will return the object, but the ID above is not passed
         //for one reason or another so passing the object back in seems to do the trick
         $this->Database->build($this);
+        $this->Database->validateTableWiseRowCounts();
         $this->Archive->build($this);
         $this->Installer->build($this);
 
@@ -1163,7 +1347,7 @@ class DUP_Package
             $dbcomments   = is_null($dbcomments) ? '- unknown -' : sanitize_text_field($dbcomments);
 
             //PACKAGE
-            $this->Created    = date("Y-m-d H:i:s");
+            $this->Created    = gmdate("Y-m-d H:i:s");
             $this->Version    = DUPLICATOR_VERSION;
             $this->VersionOS  = defined('PHP_OS') ? PHP_OS : 'unknown';
             $this->VersionWP  = $wp_version;
@@ -1209,6 +1393,8 @@ class DUP_Package
     {
         global $wpdb;
 
+        $this->Status = number_format($this->Status, 1, '.', '');
+        $this->cleanObjectBeforeSave();
         $packageObj = serialize($this);
 
         if (!$packageObj) {
@@ -1222,10 +1408,7 @@ class DUP_Package
         $sql .= "package = '" . esc_sql($packageObj) . "'";
         $sql .= "WHERE ID = {$this->ID}";
 
-        DUP_Log::Trace('-------------------------');
-        DUP_Log::Trace("status = {$this->Status}");
-        DUP_Log::Trace("ID = {$this->ID}");
-        DUP_Log::Trace('-------------------------');
+        DUP_Log::Trace("UPDATE PACKAGE ID = {$this->ID} STATUS = {$this->Status}");
 
         //DUP_Log::Trace('####Executing SQL' . $sql . '-----------');
         $wpdb->query($sql);
@@ -1250,8 +1433,9 @@ class DUP_Package
 
     /**
      * Sets the status to log the state of the build
+     * The status level for where the package is
      *
-     * @param $status The status level for where the package is
+     * @param int $status
      *
      * @return void
      */
@@ -1260,18 +1444,17 @@ class DUP_Package
         if (!isset($status)) {
             DUP_Log::Error("Package SetStatus did not receive a proper code.");
         }
-
         $this->Status = $status;
-
         $this->update();
     }
 
     /**
      * Does a hash already exists
+     * Returns 0 if no hash is found, if found returns the table ID
      *
      * @param string $hash An existing hash value
      *
-     * @return int Returns 0 if no hash is found, if found returns the table ID
+     * @return int 
      */
     public function getHashKey($hash)
     {
@@ -1290,7 +1473,7 @@ class DUP_Package
     /**
      * Makes the hashkey for the package files
      *
-     * @return string A unique hashkey
+     * @return string // A unique hashkey
      */
     public function makeHash()
     {
@@ -1311,7 +1494,7 @@ class DUP_Package
      *
      * @see DUP_Package::saveActive
      *
-     * @return obj  A copy of the DUP_Package object
+     * @return DUP_Package // A copy of the DUP_Package object
      */
     public static function getActive()
     {
@@ -1333,18 +1516,21 @@ class DUP_Package
      *
      * @param int $id A valid package id form the duplicator_packages table
      *
-     * @return DUP_Package A copy of the DUP_Package object
+     * @return DUP_Package  // A copy of the DUP_Package object
      */
     public static function getByID($id)
     {
         global $wpdb;
-        $obj = new DUP_Package();
+        $obj         = new DUP_Package();
         $tablePrefix = DUP_Util::getTablePrefix();
-        $sql = $wpdb->prepare("SELECT * FROM `{$tablePrefix}duplicator_packages` WHERE ID = %d", $id);
-        $row = $wpdb->get_row($sql);
+        $sql         = $wpdb->prepare("SELECT * FROM `{$tablePrefix}duplicator_packages` WHERE ID = %d", $id);
+        $row         = $wpdb->get_row($sql);
         if (is_object($row)) {
-            $obj         = @unserialize($row->package);
-            $obj->Status = $row->status;
+            $obj = @unserialize($row->package);
+            // We was not storing Status in Lite 1.2.52, so it is for backward compatibility
+            if (!isset($obj->Status)) {
+                $obj->Status = $row->status;
+            }
         }
         //Incase unserilaize fails
         $obj = (is_object($obj)) ? $obj : null;
@@ -1354,7 +1540,7 @@ class DUP_Package
     /**
      *  Gets a default name for the package
      *
-     *  @return string   A default package name such as 20170218_blogname
+     *  @return string   // A default package name such as 20170218_blogname
      */
     public static function getDefaultName($preDate = true)
     {
@@ -1398,13 +1584,14 @@ class DUP_Package
     /**
      *  Provides various date formats
      *
-     *  @param $date    The date to format
+     *  @param $utcDate created date in the GMT timezone
      *  @param $format  Various date formats to apply
      *
-     *  @return a formated date based on the $format
+     *  @return string  // a formated date based on the $format
      */
-    public static function getCreatedDateFormat($date, $format = 1)
+    public static function getCreatedDateFormat($utcDate, $format = 1)
     {
+        $date = get_date_from_gmt($utcDate);
         $date = new DateTime($date);
         switch ($format) {
             //YEAR
@@ -1494,8 +1681,12 @@ class DUP_Package
 	
 	private function writeLogHeader()
 	{
-		$php_max_time   = @ini_get("max_execution_time");
-        $php_max_memory = @ini_set('memory_limit', DUPLICATOR_PHP_MAX_MEMORY);
+        $php_max_time   = @ini_get("max_execution_time");
+        if (DupLiteSnapLibUtil::wp_is_ini_value_changeable('memory_limit'))
+            $php_max_memory = @ini_set('memory_limit', DUPLICATOR_PHP_MAX_MEMORY);
+        else
+            $php_max_memory = @ini_get('memory_limit');
+
         $php_max_time   = ($php_max_time == 0) ? "(0) no time limit imposed" : "[{$php_max_time}] not allowed";
         $php_max_memory = ($php_max_memory === false) ? "Unabled to set php memory_limit" : DUPLICATOR_PHP_MAX_MEMORY." ({$php_max_memory} default)";
 

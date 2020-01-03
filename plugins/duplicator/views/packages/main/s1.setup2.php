@@ -1,3 +1,6 @@
+<?php
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
+?>
 <style>
     /* -----------------------------
     PACKAGE OPTS*/
@@ -51,7 +54,7 @@
 	div.secure-pass-area {}
 	label.secure-pass-lbl {display:inline-block; width:125px}
 	div#dup-pass-toggle {position: relative; margin:8px 0 0 0; width:243px}
-	input#secure-pass {border-radius:4px 0 0 4px; width:220px; height: 23px; margin:0}
+	input#secure-pass {border-radius:4px 0 0 4px; width:217px; height: 23px; min-height: auto; margin:0; padding: 0 4px;}
 	button.pass-toggle {height: 23px; width: 27px; position:absolute; top:0px; right:0px; border:1px solid silver; border-radius:0 4px 4px 0; cursor:pointer}
 	
 	/*TABS*/
@@ -86,7 +89,7 @@ $action_nonce_url = wp_nonce_url($action_url, 'new2-package');
 STORAGE -->
 <div class="dup-box">
 	<div class="dup-box-title">
-		<i class="fa fa-database"></i>&nbsp;<?php  esc_html_e("Storage", 'duplicator'); ?> 
+		<i class="fas fa-database fa-sm"></i>&nbsp;<?php  esc_html_e("Storage", 'duplicator'); ?> 
 		<div class="dup-box-arrow"></div>
 	</div>			
 	<div class="dup-box-panel" id="dup-pack-storage-panel" style="<?php echo esc_html($ui_css_storage); ?>">
@@ -115,7 +118,7 @@ STORAGE -->
 							<img src="<?php echo esc_url(DUPLICATOR_PLUGIN_URL."assets/img/ftp-64.png"); ?>" /> 
 							<?php echo sprintf(__('%1$s, %2$s, %3$s, %4$s, %5$s and other storage options available in', 'duplicator'), 'Amazon', 'Dropbox', 'Google Drive', 'OneDrive', 'FTP/SFTP'); ?>
 							<a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_storage&utm_campaign=duplicator_pro" target="_blank"><?php esc_html_e('Duplicator Pro', 'duplicator');?></a> 
-							<i class="fa fa-lightbulb-o" 
+							<i class="far fa-lightbulb" 
 								data-tooltip-title="<?php esc_attr_e("Additional Storage:", 'duplicator'); ?>" 
 								data-tooltip="<?php esc_attr_e('Duplicator Pro allows you to create a package and then store it at a custom location on this server or to a cloud '
 										. 'based location such as Google Drive, Amazon, Dropbox or FTP.', 'duplicator'); ?>">
@@ -134,14 +137,14 @@ STORAGE -->
 ARCHIVE -->
 <div class="dup-box">
     <div class="dup-box-title">
-        <i class="fa fa-file-archive-o"></i>
+        <i class="far fa-file-archive"></i>
 			<?php
 				_e('Archive', 'duplicator');
 				echo "&nbsp;<sup class='archive-ext'>{$archive_build_mode}</sup>";
 			?> &nbsp;
         <span style="font-size:13px">
-            <span id="dup-archive-filter-file" title="<?php esc_attr_e('File filter enabled', 'duplicator') ?>"><i class="fa fa-files-o"></i> <i class="fa fa-filter"></i> &nbsp;&nbsp;</span> 
-            <span id="dup-archive-filter-db" title="<?php esc_attr_e('Database filter enabled', 'duplicator') ?>"><i class="fa fa-table"></i> <i class="fa fa-filter"></i></span>
+            <span id="dup-archive-filter-file" title="<?php esc_attr_e('File filter enabled', 'duplicator') ?>"><i class="far fa-copy fa-sm"></i> <i class="fa fa-filter fa-sm"></i> &nbsp;&nbsp;</span> 
+            <span id="dup-archive-filter-db" title="<?php esc_attr_e('Database filter enabled', 'duplicator') ?>"><i class="fa fa-table fa-sm"></i> <i class="fa fa-filter fa-sm"></i></span>
 			<span id="dup-archive-db-only" title="<?php esc_attr_e('Archive Only the Database', 'duplicator') ?>"> <?php esc_html_e('Database Only', 'duplicator') ?> </span>
         </span>
         <div class="dup-box-arrow"></div>
@@ -172,7 +175,7 @@ ARCHIVE -->
 				<div id="dup-exportdb-items-off" style="<?php echo ($Package->Archive->ExportOnlyDB) ? 'none' : 'block'; ?>">
                     <input type="checkbox" id="filter-on" name="filter-on" onclick="Duplicator.Pack.ToggleFileFilters()" <?php echo ($Package->Archive->FilterOn) ? "checked='checked'" :""; ?> />	
                     <label for="filter-on" id="filter-on-label"><?php esc_html_e("Enable File Filters", 'duplicator') ?></label>
-					<i class="fa fa-question-circle" 
+					<i class="fas fa-question-circle fa-sm" 
 					   data-tooltip-title="<?php esc_attr_e("File Filters:", 'duplicator'); ?>" 
 					   data-tooltip="<?php esc_attr_e('File filters allow you to ignore directories and file extensions.  When creating a package only include the data you '
 					   . 'want and need.  This helps to improve the overall archive build time and keep your backups simple and clean.', 'duplicator'); ?>">
@@ -262,7 +265,7 @@ ARCHIVE -->
 						<td><input type="checkbox" id="dbfilter-on" name="dbfilter-on" onclick="Duplicator.Pack.ToggleDBFilters()" <?php echo ($Package->Database->FilterOn) ? "checked='checked'" :""; ?> /></td>
 						<td>
 							<label for="dbfilter-on"><?php esc_html_e("Enable Table Filters", 'duplicator') ?> &nbsp;</label>
-							<i class="fa fa-question-circle"
+							<i class="fas fa-question-circle fa-sm"
 							   data-tooltip-title="<?php esc_attr_e("Enable Table Filters:", 'duplicator'); ?>"
 							   data-tooltip="<?php esc_attr_e('Checked tables will not be added to the database script.  Excluding certain tables can possibly cause your site or plugins to not work correctly after install!', 'duplicator'); ?>">
 							</i>
@@ -282,29 +285,30 @@ ARCHIVE -->
 
 						echo '<table id="dup-dbtables"><tr><td valign="top">';
 						foreach ($tables as $table) {
+							if (DUP_Util::isTableExists($table[0])) {
+								if (DUP_Util::isWPCoreTable($table[0])) {
+									$core_css = 'core-table';
+									$core_note = '*';
+								} else {
+									$core_css = 'non-core-table';
+									$core_note = '';
+								}
 
-							if (DUP_Util::isWPCoreTable($table[0])) {
-								$core_css = 'core-table';
-								$core_note = '*';
-							} else {
-								$core_css = 'non-core-table';
-								$core_note = '';
-							}
-
-							if (in_array($table[0], $tableList)) {
-								$checked = 'checked="checked"';
-								$css	 = 'text-decoration:line-through';
-							} else {
-								$checked = '';
-								$css	 = '';
-							}
-							echo  "<label for='dbtables-{$table[0]}' style='{$css}' class='{$core_css}'>"
-								. "<input class='checkbox dbtable' $checked type='checkbox' name='dbtables[]' id='dbtables-{$table[0]}' value='{$table[0]}' onclick='Duplicator.Pack.ExcludeTable(this)' />"
-								. "&nbsp;{$table[0]}{$core_note}</label><br />";
-							$counter++;
-							if ($next_row <= $counter) {
-								echo '</td><td valign="top">';
-								$counter = 0;
+								if (in_array($table[0], $tableList)) {
+									$checked = 'checked="checked"';
+									$css	 = 'text-decoration:line-through';
+								} else {
+									$checked = '';
+									$css	 = '';
+								}
+								echo  "<label for='dbtables-{$table[0]}' style='{$css}' class='{$core_css}'>"
+									. "<input class='checkbox dbtable' $checked type='checkbox' name='dbtables[]' id='dbtables-{$table[0]}' value='{$table[0]}' onclick='Duplicator.Pack.ExcludeTable(this)' />"
+									. "&nbsp;{$table[0]}{$core_note}</label><br />";
+								$counter++;
+								if ($next_row <= $counter) {
+									echo '</td><td valign="top">';
+									$counter = 0;
+								}
 							}
 						}
 						echo '</td></tr></table>';
@@ -322,7 +326,7 @@ ARCHIVE -->
 
 				<br/>
 				<?php esc_html_e("Compatibility Mode", 'duplicator') ?> &nbsp;
-				<i class="fa fa-question-circle" 
+				<i class="fas fa-question-circle fa-sm" 
 				   data-tooltip-title="<?php esc_attr_e("Compatibility Mode:", 'duplicator'); ?>" 
 				   data-tooltip="<?php esc_attr_e('This is an advanced database backwards compatibility feature that should ONLY be used if having problems installing packages.'
 						   . ' If the database server version is lower than the version where the package was built then these options may help generate a script that is more compliant'
@@ -374,9 +378,9 @@ ARCHIVE -->
 INSTALLER -->
 <div class="dup-box">
 <div class="dup-box-title">
-	<i class="fa fa-bolt"></i> <?php esc_html_e('Installer', 'duplicator') ?> &nbsp;
-	<span id="dup-installer-secure-lock" title="<?php esc_attr_e('Installer password protection is on', 'duplicator') ?>"><i class="fa fa-lock"></i> </span>
-	<span id="dup-installer-secure-unlock" title="<?php esc_attr_e('Installer password protection is off', 'duplicator') ?>"><i class="fa fa-unlock-alt"></i> </span>
+	<i class="fa fa-bolt fa-sm"></i> <?php esc_html_e('Installer', 'duplicator') ?> &nbsp;
+	<span id="dup-installer-secure-lock" title="<?php esc_attr_e('Installer password protection is on', 'duplicator') ?>"><i class="fa fa-lock fa-xs"></i> </span>
+	<span id="dup-installer-secure-unlock" title="<?php esc_attr_e('Installer password protection is off', 'duplicator') ?>"><i class="fa fa-unlock-alt fa-xs"></i> </span>
 	<div class="dup-box-arrow"></div>
 </div>			
 
@@ -384,7 +388,7 @@ INSTALLER -->
 
 	<div class="dup-installer-panel-optional">
 		<b><?php esc_html_e('All values in this section are', 'duplicator'); ?> <u><?php esc_html_e('optional', 'duplicator'); ?></u></b>
-		<i class="fa fa-question-circle"
+		<i class="fas fa-question-circle fa-sm"
 				data-tooltip-title="<?php esc_attr_e("Setup/Prefills", 'duplicator'); ?>"
 				data-tooltip="<?php esc_attr_e('All values in this section are OPTIONAL! If you know ahead of time the database input fields the installer will use, then you can '
 					. 'optionally enter them here and they will be prefilled at install time.  Otherwise you can just enter them in at install time and ignore all these '
@@ -401,7 +405,7 @@ INSTALLER -->
 			<td>
 				<a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_branding&utm_campaign=duplicator_pro" target="_blank">
 					<span class="dup-pro-text"><?php esc_html_e('Available with Duplicator Pro - Freelancer!', 'duplicator'); ?></span></a> 
-				<i class="fa fa-question-circle"
+				<i class="fas fa-question-circle fa-sm"
 					   data-tooltip-title="<?php esc_attr_e("Branding", 'duplicator'); ?>:"
 					   data-tooltip="<?php esc_attr_e('Branding is a way to customize the installer look and feel.  With branding you can create multiple brands of installers.', 'duplicator'); ?>"></i>
 				<br/><br/>
@@ -416,7 +420,7 @@ INSTALLER -->
 				?>
 				<input type="checkbox" name="secure-on" id="secure-on" onclick="Duplicator.Pack.EnableInstallerPassword()" <?php  echo ($dup_install_secure_on) ? 'checked' : ''; ?> />
 				<label for="secure-on"><?php esc_html_e("Enable Password Protection", 'duplicator') ?></label>
-				<i class="fa fa-question-circle"
+				<i class="fas fa-question-circle fa-sm"
 				   data-tooltip-title="<?php esc_attr_e("Security:", 'duplicator'); ?>"
 				   data-tooltip="<?php esc_attr_e('Enabling this option will allow for basic password protection on the installer. Before running the installer the '
 							   . 'password below must be entered before proceeding with an install.  This password is a general deterrent and should not be substituted for properly '
@@ -424,7 +428,7 @@ INSTALLER -->
 
 				<div id="dup-pass-toggle">
 					<input type="password" name="secure-pass" id="secure-pass" required="required" value="<?php echo esc_attr($dup_install_secure_pass); ?>" />
-					<button type="button" id="secure-btn" class="pass-toggle" onclick="Duplicator.Pack.ToggleInstallerPassword()" title="<?php esc_attr_e('Show/Hide Password', 'duplicator'); ?>"><i class="fa fa-eye"></i></button>
+					<button type="button" id="secure-btn" class="pass-toggle" onclick="Duplicator.Pack.ToggleInstallerPassword()" title="<?php esc_attr_e('Show/Hide Password', 'duplicator'); ?>"><i class="fas fa-eye fa-xs"></i></button>
 				</div>
 				<br/>
 			</td>
@@ -643,10 +647,10 @@ jQuery(document).ready(function ($)
 		var $button =  $('#secure-btn');
 		if (($input).attr('type') == 'text') {
 			$input.attr('type', 'password');
-			$button.html('<i class="fa fa-eye"></i>');
+			$button.html('<i class="fas fa-eye fa-sm"></i>');
 		} else {
 			$input.attr('type', 'text');
-			$button.html('<i class="fa fa-eye-slash"></i>');
+			$button.html('<i class="fas fa-eye-slash fa-sm"></i>');
 		}
 	}
 
@@ -660,5 +664,7 @@ jQuery(document).ready(function ($)
 	Duplicator.Pack.ToggleDBFilters();
 	Duplicator.Pack.ExportOnlyDB();
 	Duplicator.Pack.EnableInstallerPassword();
+	$('input#package-name').focus().select();
+
 });
 </script>

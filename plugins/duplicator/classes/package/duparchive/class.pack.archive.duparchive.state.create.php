@@ -1,5 +1,5 @@
 <?php
-defined("ABSPATH") or die("");
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -7,6 +7,7 @@ defined("ABSPATH") or die("");
  */
 
 require_once (DUPLICATOR_PLUGIN_PATH.'lib/dup_archive/classes/states/class.duparchive.state.create.php');
+require_once (DUPLICATOR_PLUGIN_PATH.'lib/dup_archive/classes/class.duparchive.processing.failure.php');
 
 class DUP_DupArchive_Create_State extends DupArchiveCreateState
 {
@@ -40,9 +41,6 @@ class DUP_DupArchive_Create_State extends DupArchiveCreateState
     {
         $instance = new DUP_DupArchive_Create_State();
 
-        /* @var $buildProgress DUP_Build_Progress */
-        $buildProgress = &$package->BuildProgress;
-
         if ($setArchiveOffsetToEndOfArchive) {
             $instance->archiveOffset = filesize($archivePath);
         } else {
@@ -69,7 +67,7 @@ class DUP_DupArchive_Create_State extends DupArchiveCreateState
 
     public function addFailure($type, $subject, $description, $isCritical = false)
     {
-        $failure = parent::addFailure($type, $subject, $description, $isCritical);
+        parent::addFailure($type, $subject, $description, $isCritical);
     }
 
     public function save()

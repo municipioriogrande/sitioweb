@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 /**
  * Gets the view state of UI elements to remember its viewable state
  *
@@ -48,6 +49,17 @@ class DUP_UI_ViewState
     public static function getArray()
     {
         return get_option(self::$optionsViewStateKey);
+    }
+
+    /**
+     * Sets all the values from the settings array
+     * @param array $view_state states
+     * 
+     * @return boolean Returns whether updated or not
+     */
+    public static function setArray($view_state)
+    {
+        return update_option(self::$optionsViewStateKey, $view_state);
     }
 
     /**

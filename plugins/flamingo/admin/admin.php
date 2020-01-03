@@ -701,6 +701,11 @@ function flamingo_load_inbound_admin() {
 				'flamingo_inbound_consent_meta_box', null, 'normal', 'core' );
 		}
 
+		if ( ! empty( $post->recaptcha ) ) {
+			add_meta_box( 'inboundrecaptchadiv', __( 'reCAPTCHA', 'flamingo' ),
+				'flamingo_inbound_recaptcha_meta_box', null, 'normal', 'core' );
+		}
+
 		if ( ! empty( $post->meta ) ) {
 			add_meta_box( 'inboundmetadiv', __( 'Meta', 'flamingo' ),
 				'flamingo_inbound_meta_meta_box', null, 'normal', 'core' );

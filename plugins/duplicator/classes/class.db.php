@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 /**
  * Lightweight abstraction layer for common simple database routines
  *
@@ -241,4 +242,3 @@ class DUP_DB extends wpdb
 		}
 	}
 }
-DUP_DB::init();

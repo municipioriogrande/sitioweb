@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -21,7 +22,7 @@ class DupArchiveHeaderU
             throw new Exception("Invalid starting element. Was expecting {$expectedStart} but got {$startingElement}");
         }
 
-        //return SnapLibStreamU::streamGetLine($archiveHandle, self::MaxStandardHeaderFieldLength, $expectedEnd);
+        //return DupLiteSnapLibStreamU::streamGetLine($archiveHandle, self::MaxStandardHeaderFieldLength, $expectedEnd);
 
         $headerString = stream_get_line($archiveHandle, self::MaxStandardHeaderFieldLength, $expectedEnd);
 

@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 //Nonce Check
 if (!isset($_POST['dup_form_opts_nonce_field']) || !wp_verify_nonce(sanitize_text_field($_POST['dup_form_opts_nonce_field']), 'dup_form_opts')) {
     DUP_UI_Notice::redirect('admin.php?page=duplicator&tab=new1&_wpnonce='.wp_create_nonce('new1-package'));
@@ -24,7 +25,6 @@ $rand_txt[0] = $atext0;
 ?>
 
 <style>
-    .add-new-h2.disabled {cursor: not-allowed; border-color: #ccc !important; background: #f7f7f7 !important; color: #ccc !important;}
 	a#dup-create-new {margin-left:-5px}
     div#dup-progress-area {text-align:center; max-width:800px; min-height:200px;  border:1px solid silver; border-radius:5px; margin:25px auto 10px auto; padding:0px; box-shadow: 0 8px 6px -6px #999;}
     div.dup-progress-title {font-size:22px;padding:5px 0 20px 0; font-weight: bold}
@@ -43,8 +43,8 @@ $rand_txt[0] = $atext0;
     div#dup-create-area-link {display:none; margin-left: -5px}
     div#dup-progress-area div.dup-panel-panel { border-top: 1px solid silver}
     fieldset.download-area {border:2px dashed #dfdfdf; padding:20px 20px 10px 20px; border-radius:9px; margin: auto; width:400px }
-    fieldset.download-area legend {font-weight: bold; font-size: 16px}
-    button#dup-btn-installer, button#dup-btn-archive {min-width: 150px}
+    fieldset.download-area legend {font-weight: bold; font-size: 16px; margin:auto}
+    button#dup-btn-installer, button#dup-btn-archive { line-height: 28px; min-width: 150px}
     div.one-click-download {margin:15px 0 10px 0; font-size:16px; font-weight: bold}
     div.one-click-download i.fa-bolt{padding-right: 5px}
     div.one-click-download i.fa-file-archive-o{padding-right: 5px}
@@ -85,8 +85,8 @@ TOOL BAR: STEPS -->
             </div>
         </td>
         <td style="padding-bottom:4px">
-            <span><a href="?page=duplicator" class="add-new-h2">
-                    <i class="fa fa-archive"></i> <?php esc_html_e("Packages",'duplicator'); ?>
+            <span><a href="?page=duplicator" class="button">
+                    <i class="fa fa-archive fa-sm"></i> <?php esc_html_e("Packages",'duplicator'); ?>
                 </a></span> 
             <?php
 			$package_url = admin_url('admin.php?page=duplicator&tab=new1');
@@ -95,7 +95,7 @@ TOOL BAR: STEPS -->
 			<a id="dup-create-new"
                onClick="return !jQuery(this).hasClass('disabled');"
                href="<?php echo $package_nonce_url;?>"
-               class="add-new-h2 <?php echo ($active_package_present ? 'disabled' : ''); ?>"
+               class="button <?php echo ($active_package_present ? 'disabled' : ''); ?>"
                >
                 <?php esc_html_e("Create New", 'duplicator'); ?>
             </a>
@@ -125,7 +125,7 @@ TOOL BAR: STEPS -->
 		SUCCESS MESSAGE -->
 		<div id="dup-msg-success" style="display:none">
 			<div class="hdr-pack-complete">
-				<i class="fa fa-check-square-o fa-lg"></i> <?php esc_html_e('Package Completed', 'duplicator'); ?>
+				<i class="far fa-check-square fa-lg"></i> <?php esc_html_e('Package Completed', 'duplicator'); ?>
 			</div>
 
 			<div class="dup-msg-success-stats">
@@ -139,17 +139,18 @@ TOOL BAR: STEPS -->
 					&nbsp; <?php esc_html_e("Download Files", 'duplicator') ?> <i class="fa fa-download"></i> &nbsp;
 				</legend>
 				<button id="dup-btn-installer" class="button button-primary button-large" title="<?php esc_attr_e("Click to download installer file", 'duplicator') ?>">
-					<i class="fa fa-bolt"></i> <?php esc_html_e("Installer", 'duplicator') ?> &nbsp;
+					<i class="fa fa-bolt fa-sm"></i> <?php esc_html_e("Installer", 'duplicator') ?> &nbsp;
 				</button> &nbsp;
 				<button id="dup-btn-archive" class="button button-primary button-large" title="<?php esc_attr_e("Click to download archive file", 'duplicator') ?>">
-					<i class="fa fa-file-archive-o"></i> <?php esc_html_e("Archive", 'duplicator') ?>
+					<i class="far fa-file-archive"></i> <?php esc_html_e("Archive", 'duplicator') ?>
 					<span id="dup-btn-archive-size" class="dup-btn-size"></span> &nbsp;
 				</button>
 				<div class="one-click-download">
+					<i class="fa fa-bolt fa-sm"></i><i class="far fa-file-archive"></i> 
 					<a href="javascript:void(0)" id="dup-link-download-both" title="<?php esc_attr_e("Click to download both files", 'duplicator') ?>">
-						<i class="fa fa-bolt"></i><i class="fa fa-file-archive-o"></i><?php esc_html_e("One-Click Download",   'duplicator') ?>
+						 <?php esc_html_e("One-Click Download",   'duplicator') ?>
 					</a>
-					<sup><i class="fa fa-question-circle" style='font-size:11px'
+					<sup><i class="fas fa-question-circle fa-sm" style='font-size:11px'
 							data-tooltip-title="<?php esc_attr_e("One Click:", 'duplicator'); ?>"
 							data-tooltip="<?php esc_attr_e('Clicking this link will open both the installer and archive download prompts at the same time. '
 								.'On some browsers you may have to disable pop-up warnings on this domain for this to work correctly.', 'duplicator'); ?>">
@@ -179,7 +180,7 @@ TOOL BAR: STEPS -->
 			<!-- OPTION 1: Try DupArchive Engine -->
 			<div class="dup-box">
 				<div class="dup-box-title">
-                    <span style="width:20px; display:inline-block"><i class="fa fa-check-circle-o"></i></span><?php esc_html_e('Option 1: Try DupArchive', 'duplicator'); ?>
+                    <span style="width:20px; display:inline-block"><i class="far fa-check-circle"></i></span><?php esc_html_e('Option 1: Try DupArchive', 'duplicator'); ?>
 					<div class="dup-box-arrow"><i class="fa fa-caret-down"></i></div>
 				</div>
 				<div class="dup-box-panel" id="dup-pack-build-try1" style="display:none">
@@ -198,7 +199,7 @@ TOOL BAR: STEPS -->
                         <?php esc_html_e(' which is capable of migrating sites much larger than 500MB.'); ?>
 					</div><br/>
 
-					<b><i class="fa fa-file-text-o"></i> <?php esc_html_e('Overview', 'duplicator'); ?></b><br/>
+					<b><i class="far fa-file-alt fa-sm"></i> <?php esc_html_e('Overview', 'duplicator'); ?></b><br/>
 					<?php esc_html_e('Please follow these steps:', 'duplicator'); ?>
 					<ol>
 						<li><?php esc_html_e('On the scanner step check to make sure your package is under 500MB. If not see additional options below.', 'duplicator'); ?></li>
@@ -220,7 +221,7 @@ TOOL BAR: STEPS -->
 			<!-- OPTION 2: TRY AGAIN -->
 			<div class="dup-box  no-top">
 				<div class="dup-box-title">
-					<span style="width:20px; display:inline-block"><i class="fa fa-filter"></i></span><?php esc_html_e('Option 2: File Filters', 'duplicator'); ?>
+					<span style="width:20px; display:inline-block"><i class="fa fa-filter fa-sm"></i></span><?php esc_html_e('Option 2: File Filters', 'duplicator'); ?>
 					<div class="dup-box-arrow"><i class="fa fa-caret-down"></i></div>
 				</div>
 				<div class="dup-box-panel" id="dup-pack-build-try2" style="display:none">
@@ -265,7 +266,7 @@ TOOL BAR: STEPS -->
 						.'\'database-only\' archive, manually move the website files, and then run the installer to complete the process.', 'duplicator');
 					?><br/><br/>
 
-					<b><i class="fa fa-file-text-o"></i><?php esc_html_e(' Overview', 'duplicator'); ?></b><br/>
+					<b><i class="far fa-file-alt fa-sm"></i><?php esc_html_e(' Overview', 'duplicator'); ?></b><br/>
 						<?php esc_html_e('Please follow these steps:', 'duplicator'); ?><br/>
 					<ol>
 						<li><?php esc_html_e('Click the button below to go back to Step 1.', 'duplicator'); ?></li>
@@ -398,7 +399,7 @@ jQuery(document).ready(function ($)
 			cache: false,
 			dataType: "text",
 			url: ajaxurl,
-			timeout: 10000000,
+			timeout: 0, // no timeout
 			data: data,
 			beforeSend: function () {
 				startTime = new Date().getTime();
@@ -443,10 +444,10 @@ jQuery(document).ready(function ($)
 		console.log('Duplicator.Pack.CreateDupArchive');
 		var data = {action: 'duplicator_duparchive_package_build', nonce: '<?php echo esc_js($duparchive_build_nonce); ?>'}
 		var statusInterval = setInterval(Duplicator.Pack.GetActivePackageStatus, Duplicator.Pack.StatusFrequency);
-
+        
 		$.ajax({
 			type: "POST",
-			timeout: <?php echo DUP_DupArchive::WorkerTimeInSec * 2000 ?>, // Double worker time and convert to ms
+			timeout: 0, // no timeout
 			dataType: "text",
 			url: ajaxurl,
 			data: data,
@@ -457,8 +458,8 @@ jQuery(document).ready(function ($)
 				try {
 					var data = Duplicator.parseJSON(respData);
 				} catch(err) {
-					console.error(err);
-					console.error('JSON parse failed for response data: ' + respData);
+					console.log(err);
+					console.log('JSON parse failed for response data: ' + respData);
 					console.log('DupArchive AJAX error!');
 					console.log("jqHr:");
 					console.log(xHr);
@@ -500,7 +501,7 @@ jQuery(document).ready(function ($)
 
 								for (var j = 0; j < len; j++) {
 									failure = data.failures[j];
-									errorMessage += failure.subject + ":" + failure.description + "\n";
+									errorMessage += failure + "\n";
 								}
 								alert(errorMessage);
 							}
@@ -557,7 +558,7 @@ jQuery(document).ready(function ($)
 			type: "POST",
 			url: ajaxurl,
 			dataType: "text",
-			timeout: 10000000,
+			timeout: 0, // no timeout
 			data: data,
 			success: function (respData, textStatus, xHr) {
 				try {
