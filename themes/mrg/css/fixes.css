@@ -35,6 +35,10 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: bold;
 }
 
+h4 {
+  margin-top: 1em;
+}
+
 table {
   border: 0;
   border-spacing: 0 0.6em;
@@ -64,8 +68,12 @@ a:hover {
   color: #2ab99e;
 }
 
-h4 {
-  margin-top: 1em;
+ol li {
+  margin: 0.7em 0;
+}
+
+ul li {
+  margin: 0.3em 0;
 }
 
 q {
@@ -1360,7 +1368,7 @@ body.page-espacio-tecnologico .form-edlt-info-wrapper #mauticform_edltinformacio
 }
 
 .tablepress tfoot th, .tablepress thead th {
-  background-color: #e7e7e7 !important;
+  background-color: #2ab99e !important;
   border-bottom: 0 !important;
 }
 

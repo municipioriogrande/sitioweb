@@ -54,6 +54,9 @@ h1,h2,h3,h4,h5,h6 {
 	font-family: $main-font !important;
 	font-weight: bold;
 }
+h4 {
+	margin-top: 1em;
+}
 
 table {
 	border: 0;
@@ -87,8 +90,11 @@ a {
 	}
 }
 
-h4 {
-	margin-top: 1em;
+ol li {
+	margin: 0.7em 0;
+}
+ul li {
+	margin: 0.3em 0;
 }
 
 q {
