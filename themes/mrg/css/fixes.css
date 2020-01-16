@@ -47,6 +47,7 @@ table th {
   color: #fff;
   background-color: #002855;
   padding: 0.8em !important;
+  line-height: 1.3em;
 }
 table td {
   background-color: #f2f2f2;
@@ -54,7 +55,7 @@ table td {
   border-left: 1px solid #f0f0f0;
   border-right: 0;
   border-top: 1px solid #f0f0f0;
-  line-height: 14px;
+  line-height: 1.3em;
   padding: 10px;
   vertical-align: middle;
 }
@@ -1693,6 +1694,27 @@ body.page-gabinete dl blockquote {
   margin-top: 1.6em;
 }
 
+body.page-transparencia dl div {
+  display: flex;
+  margin: 2em 0;
+}
+body.page-transparencia dl dt {
+  min-width: 180px;
+}
+@media screen and (min-width: 801px) {
+  body.page-transparencia dl dt {
+    text-align: right;
+  }
+  body.page-transparencia dl dd {
+    margin-left: 2em;
+  }
+}
+@media screen and (max-width: 800px) {
+  body.page-transparencia dl div {
+    flex-direction: column;
+  }
+}
+
 @font-face {
   font-family: "Humanst 512 BT";
   src: url("../fonts/humanst512-bt.ttf") format("truetype");
@@ -2230,6 +2252,11 @@ body.page-gabinete dl blockquote {
 }
 .mrg-section-boxes .mrg-block-column-spaces-vertical .text {
   padding: 1em 1em 1em 1.6em;
+}
+.mrg-section-boxes .mrg-block-column-spaces-vertical .image {
+  max-height: 214px;
+  overflow: hidden;
+  border-radius: 10px;
 }
 .mrg-section-boxes .mrg-block-column-spaces-vertical .image img {
   width: 100%;

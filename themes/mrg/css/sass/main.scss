@@ -66,6 +66,7 @@ table {
 		color: #fff;
 		background-color: $deep-blue;
 		padding: 0.8em !important;
+		line-height: 1.3em;
 	}
 
 	td {
@@ -74,7 +75,7 @@ table {
 		border-left: 1px solid $light-grey;
 		border-right: 0;
 		border-top: 1px solid $light-grey;
-		line-height: 14px;
+		line-height: 1.3em;
 		padding: 10px;
 		vertical-align: middle;
 	}

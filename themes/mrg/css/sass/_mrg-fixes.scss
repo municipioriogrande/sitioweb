@@ -1663,3 +1663,16 @@ body.page-gabinete {
 		margin-top: 1.6em;
 	}
 }
+
+body.page-transparencia {
+	dl div { display: flex; margin: 2em 0; }
+	dl dt { min-width: 180px;  }
+
+	@media screen and (min-width:801px) {
+		dl dt { text-align: right; }
+		dl dd { margin-left: 2em; }
+	}
+	@media screen and (max-width:800px) {
+		dl div { flex-direction: column; }
+	}
+}
