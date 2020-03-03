@@ -360,6 +360,10 @@ dl.inline-wrapped dt {
   margin: 0 auto;
 }
 
+.slider_wrapper .slides .slide .box {
+  vertical-align: bottom;
+  padding-bottom: 1em;
+}
 .slider_wrapper .slides .slide .box h1, .slider_wrapper .slides .slide .box .button {
   background-color: #14a2db;
   background: linear-gradient(180deg, #14a2db 0%, #2ab99e 100%);

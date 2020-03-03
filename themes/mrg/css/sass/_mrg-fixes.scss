@@ -91,6 +91,10 @@
 .slider_wrapper {
 
 	.slides .slide .box {
+
+		vertical-align: bottom; //overwrite
+		padding-bottom: 1em;
+
 		h1, .button {
 			@include linear-gradient-2020();
 		}
