@@ -1719,6 +1719,10 @@ body.page-transparencia dl dt {
   }
 }
 
+body.home #wrapper .slider_wrapper .slide {
+  margin-bottom: 0;
+}
+
 @font-face {
   font-family: "Humanst 512 BT";
   src: url("../fonts/humanst512-bt.ttf") format("truetype");
