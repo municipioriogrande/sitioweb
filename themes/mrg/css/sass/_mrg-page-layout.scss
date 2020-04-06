@@ -12,11 +12,15 @@
 	font-family: $main-font;
 	line-height: 1.4em;
 
+	h1, h2, h3, h4, h5, h6 {
+		margin: 2em 0;
+	}
+
 	.has-medium-font-size {
 		font-size: 1.2em !important;
 		line-height: 1.3em !important;	
 	}
-	h3 {
+	h2 {
 		margin-top: 2em;
 		margin-bottom: 1em;
 		padding-bottom: 4px;

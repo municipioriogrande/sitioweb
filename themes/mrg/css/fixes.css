@@ -1925,11 +1925,14 @@ body.home #wrapper .slider_wrapper .slide {
   font-family: "Humanst 512 BT", Arial, sans-serif;
   line-height: 1.4em;
 }
+.page-template h1, .page-template h2, .page-template h3, .page-template h4, .page-template h5, .page-template h6 {
+  margin: 2em 0;
+}
 .page-template .has-medium-font-size {
   font-size: 1.2em !important;
   line-height: 1.3em !important;
 }
-.page-template h3 {
+.page-template h2 {
   margin-top: 2em;
   margin-bottom: 1em;
   padding-bottom: 4px;
@@ -2583,9 +2586,6 @@ body.home .slider_wrapper,
   body.page .ppb_module_centros-salud ul .centro-salud .featured-image img {
     max-width: 400px;
   }
-}
-body.home #wrapper .slider_wrapper .slide {
-  background-position-y: 37%;
 }
 
 /*# sourceMappingURL=fixes.css.map */
