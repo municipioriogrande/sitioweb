@@ -1684,3 +1684,53 @@ body.page-transparencia {
 body.home #wrapper .slider_wrapper .slide {
 	margin-bottom: 0;
 }
+
+
+
+#menu_wrapper .button-holder {
+
+	@media screen and (min-width: 800px) {
+		
+		float: left;
+		margin-top: 1em;
+		min-height: 40px;
+	}
+
+	.btn {
+		display: block;
+		background: linear-gradient(90deg, #14a2db 0%, #2ab99e 100%);
+		color: #fff;
+		padding: 0.5em;
+		line-height: 1em;
+		max-width: 300px;
+		@media screen and (min-width: 800px) {
+			padding: 0.5em 1em;
+			min-height: 40px;
+			line-height: 2em;
+		}
+
+		&:hover {
+			background: linear-gradient(90deg, #14a2db 0%, #14a2db 100%) !important;;
+		}
+
+		.icon {
+			background-image: url(https://www.riogrande.gob.ar/wp-content/uploads/global/dispositivos-compus-white.svg);
+			background-repeat: no-repeat;
+			display: inline-block;
+			background-size: contain;
+			width: 30px;
+			height: auto;
+			@media screen and (min-width: 800px) {
+				width: 50px;
+				margin-right: 0.8em;
+			}
+		}
+		.text {
+			@media screen and (min-width: 800px) {
+				font-size: 1.1em;
+			}
+		}
+
+		
+	}
+}

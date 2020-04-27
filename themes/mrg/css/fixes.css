@@ -1723,6 +1723,51 @@ body.home #wrapper .slider_wrapper .slide {
   margin-bottom: 0;
 }
 
+@media screen and (min-width: 800px) {
+  #menu_wrapper .button-holder {
+    float: left;
+    margin-top: 1em;
+    min-height: 40px;
+  }
+}
+#menu_wrapper .button-holder .btn {
+  display: block;
+  background: linear-gradient(90deg, #14a2db 0%, #2ab99e 100%);
+  color: #fff;
+  padding: 0.5em;
+  line-height: 1em;
+  max-width: 300px;
+}
+@media screen and (min-width: 800px) {
+  #menu_wrapper .button-holder .btn {
+    padding: 0.5em 1em;
+    min-height: 40px;
+    line-height: 2em;
+  }
+}
+#menu_wrapper .button-holder .btn:hover {
+  background: linear-gradient(90deg, #14a2db 0%, #14a2db 100%) !important;
+}
+#menu_wrapper .button-holder .btn .icon {
+  background-image: url(https://www.riogrande.gob.ar/wp-content/uploads/global/dispositivos-compus-white.svg);
+  background-repeat: no-repeat;
+  display: inline-block;
+  background-size: contain;
+  width: 30px;
+  height: auto;
+}
+@media screen and (min-width: 800px) {
+  #menu_wrapper .button-holder .btn .icon {
+    width: 50px;
+    margin-right: 0.8em;
+  }
+}
+@media screen and (min-width: 800px) {
+  #menu_wrapper .button-holder .btn .text {
+    font-size: 1.1em;
+  }
+}
+
 @font-face {
   font-family: "Humanst 512 BT";
   src: url("../fonts/humanst512-bt.ttf") format("truetype");
