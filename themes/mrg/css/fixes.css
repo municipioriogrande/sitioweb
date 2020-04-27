@@ -1726,7 +1726,6 @@ body.home #wrapper .slider_wrapper .slide {
 @media screen and (min-width: 800px) {
   #menu_wrapper .button-holder {
     float: left;
-    margin-top: 1em;
     min-height: 40px;
   }
 }

@@ -620,17 +620,13 @@ if ( get_the_excerpt($post) ) {
 									<?php 
 										}
 									?>
-										
-									
-
-									<div class="button-holder">
-										<a href="https://www.riogrande.gob.ar/turnos/" class="btn"><span class="icon"></span><span class="text">Turnos rentas web</span></a>
-									</div>
-
-
-
 				</div>
 
+				<div class="col col-middle">
+					<div class="button-holder">
+						<a href="https://www.riogrande.gob.ar/turnos/" class="btn"><span class="icon"></span><span class="text">Turnos rentas web</span></a>
+					</div>
+				</div>
 				<div class="col col-right">
 
 					
