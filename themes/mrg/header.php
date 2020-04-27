@@ -624,7 +624,7 @@ if ( get_the_excerpt($post) ) {
 									
 
 									<div class="button-holder">
-										<a href="https://rentas.riogrande.gob.ar/ords/f?p=174:1:0:" class="btn"><span class="icon"></span><span class="text">Turnos rentas web</span></a>
+										<a href="https://www.riogrande.gob.ar/turnos/" class="btn"><span class="icon"></span><span class="text">Turnos rentas web</span></a>
 									</div>
 
 
