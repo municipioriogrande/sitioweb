@@ -2583,6 +2583,11 @@ body.page-mis-tramites #tramites-populares .box .title {
   }
 }
 
+body.home .mrg-section-grey-boxes-links:not(.section-featured) .wp-block-column {
+  width: 270px;
+  flex-basis: auto;
+}
+
 @media print {
   .top_bar #searchform,
 .content-weather,

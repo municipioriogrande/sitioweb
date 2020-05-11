@@ -777,3 +777,13 @@ body.page-formularios {
 		}
 	}
 }
+
+
+body.home {
+	.mrg-section-grey-boxes-links:not(.section-featured) .wp-block-column {
+		width: 270px;
+		flex-basis: auto;
+  }
+
+
+}
