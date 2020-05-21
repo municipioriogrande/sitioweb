@@ -624,7 +624,10 @@ if ( get_the_excerpt($post) ) {
 
 				<div class="col col-middle">
 					<div class="button-holder">
-						<a href="https://www.riogrande.gob.ar/turnos/" class="btn"><span class="icon"></span><span class="text">Turnos web</span></a>
+						<a href="https://www.riogrande.gob.ar/turnos/" class="btn">
+							<span><img class="image lazy loaded" data-src="https://www.riogrande.gob.ar/wp-content/uploads/global/turnos-white.svg" data-was-processed="true" src="https://www.riogrande.gob.ar/wp-content/uploads/global/turnos-white.svg" style="vertical-align:bottom;margin-right: 0.5em;" width="50"></span>
+							<span class="text">Turnos web</span>
+						</a>
 					</div>
 				</div>
 				<div class="col col-right">
